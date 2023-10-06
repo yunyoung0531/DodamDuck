@@ -27,7 +27,7 @@ function App() {
             <Nav.Link href="#pricing " className='link-spacing'>채팅</Nav.Link>
           </Nav>
           
-          
+          <Button variant="outline-dark" className='login-btn'>로그인</Button>
         </Container>
       </Navbar>
       

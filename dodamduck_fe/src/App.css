@@ -23,3 +23,15 @@
 .App {
   font-family: '210 옴니고딕OTF 045', sans-serif !important;
 }
+
+.login-btn {
+  color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  background-color: white !important;
+}
+
+.login-btn:hover {
+  background-color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  color: white !important;
+}
