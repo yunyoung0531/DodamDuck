@@ -3,13 +3,16 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Button, Container, Form, Nav, Navbar, NavDropdown, Offcanvas } from 'react-bootstrap';
 import 도담덕로고 from './img/도담덕로고.png'
 import './assets/fonts/fonts.css';
+import Main1 from './Main1';
+import Main2 from './Main2';
+import Main3 from './Main3';
 
 function App() {
   return (
     <>
-    <div className='App'>
+    <div className='App app-main'>
       {['sm'].map((expand) => (
-      <Navbar key={expand} expand={expand} className="bg-body-tertiary mb-3">
+      <Navbar fixed="top" className="bg-body-tertiary mb-3 " key={expand} expand={expand} >
         <Container>
             <Navbar.Brand href="#">
                 <img 
@@ -30,8 +33,11 @@ function App() {
           <Button variant="outline-dark" className='login-btn'>로그인</Button>
         </Container>
       </Navbar>
-      
       ))}
+
+      <Main1/>
+      <Main2/>
+      <Main3/>
       </div>
     </>
   );
