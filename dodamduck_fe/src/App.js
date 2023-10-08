@@ -13,7 +13,7 @@ function App() {
     <>
     <div className='App app-main'>
       {['sm'].map((expand) => (
-      <Navbar fixed="top" className="bg-body-tertiary mb-3 " key={expand} expand={expand} >
+      <Navbar fixed="top" className="nav-color mb-3 " key={expand} expand={expand} >
         <Container>
             <Navbar.Brand href="#">
                 <img 
