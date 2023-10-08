@@ -6,8 +6,9 @@ import './assets/fonts/fonts.css';
 import Main1 from './Main1';
 import Main2 from './Main2';
 import Main3 from './Main3';
+import Main4 from './Main4';
 
-function App() {
+function App() { 
   return (
     <>
     <div className='App app-main'>
@@ -38,6 +39,7 @@ function App() {
       <Main1/>
       <Main2/>
       <Main3/>
+      <Main4/>
       </div>
     </>
   );

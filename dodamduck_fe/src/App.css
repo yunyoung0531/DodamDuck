@@ -76,3 +76,110 @@
 .main1-text {
   margin-top: 30px;
 }
+
+.main2-android-main {
+  transform: rotate(-20deg);
+  transform-origin: left bottom;
+  z-index: 1;
+  margin-left: 90px;
+  position: relative;
+  left: 60px; /* 이 값을 조절하여 안드로이드메인 이미지의 위치를 원하는 대로 조정하세요. */
+  top: -20px;
+  border-radius: 35px; 
+}
+
+.main-android-home {
+  transform: rotate(15deg);
+  transform-origin: left bottom;
+  z-index: 2;
+  position: relative;
+  left: -180px; 
+  top: -10px;
+  border-radius: 35px; 
+}
+
+.main3-android-main {
+  transform: rotate(-20deg);
+  transform-origin: left bottom;
+  z-index: 1;
+  margin-left: 90px;
+  position: relative;
+  left: -70px; 
+  top: -20px;
+  border-radius: 35px; 
+}
+
+.main-android-library {
+  transform: rotate(15deg);
+  transform-origin: left bottom;
+  z-index: 2;
+  position: relative;
+  left: -310px; 
+  top: -10px;
+  border-radius: 30px; 
+}
+
+
+.main3-txt {
+  z-index: 3;
+}
+
+.app-main3 {
+  margin-left: 30px;
+}
+
+.main4-large-container {
+  width: 1000px; /* 직사각형의 너비를 설정하세요. */
+  height: 300px; /* 직사각형의 높이를 설정하세요. */
+  background-color: #ffffff; 
+  border: 1px solid #dfdfdf; /* 테두리 색과 두께를 설정하세요. */
+  border-radius: 10px; /* 모서리를 둥글게 하려면 이 값을 조정하세요. */
+  margin-top: -160px;
+  box-shadow: 1px 1px 1px 1px rgba(220, 220, 220, 0.5); 
+
+}
+
+.app-main4 {
+  /* background-color: #ffffff !important; */
+  background-color: #fffbe4;
+}
+
+.main4-txt {
+  margin-left: 130px;
+  margin-top: 60px;
+  color: #554747;
+  text-shadow: 3px 3px 3px rgba(220, 220, 220, 1); 
+}
+.main4-dodamduck-txt {
+  margin-left: 130px;
+  margin-top: 10px;
+  color: #7C6A6A;
+  text-shadow: 5px 5px 5px rgba(220, 220, 220, 1); 
+}
+
+.main4-hand-img {
+  margin-top: -107px;
+  margin-left: 620px;
+}
+
+.main4-google-container {
+  width: 120px; /* 직사각형의 너비를 설정하세요. */
+  height: 30px; /* 직사각형의 높이를 설정하세요. */
+  background-color: #ffffff; 
+  border: 1px solid #979797; 
+  border-radius: 5px;
+  margin-top: -90px;
+  margin-left: 130px;
+  box-shadow: 1px 1px 1px 1px rgba(232, 232, 232, 0.5); 
+}
+
+.google-play {
+  margin-left: 20px;
+  margin-top: 7px;
+  font-size: 11px;
+}
+
+.main4-dodamduck-img {
+  margin-top: 150px;
+  margin-left: 1020px;
+}
