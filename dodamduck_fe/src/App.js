@@ -10,6 +10,7 @@ import Main4 from './Main4';
 import LoginPage from './LoginPage';
 import { Routes, Route, Link, useNavigate, useParams} from 'react-router-dom';
 import React from 'react';
+import SignupPage from './SignupPage';
 
 function App() { 
 
@@ -56,6 +57,9 @@ function App() {
       
           <Route path='/login' element={<>
           <LoginPage/>
+          </>}/>
+          <Route path='/signup' element={<>
+          <SignupPage/>
           </>}/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
