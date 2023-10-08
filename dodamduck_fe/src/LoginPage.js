@@ -2,11 +2,13 @@ import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button } from 'react-bootstrap';
 import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png'
+import { useNavigate } from 'react-router';
 
 function LoginPage() {
+    let navigate = useNavigate();
     return(
         <>
-            <div className='login-for login-container'>
+            <div className='login-form login-container'>
                 <Form >
                     <Form.Group className="mb-4" controlId="formGroupEmail">
                         <Form.Label>Email address</Form.Label>
@@ -17,7 +19,7 @@ function LoginPage() {
                         <Form.Control type="password" placeholder="비밀번호를 입력하세요。" />
                     </Form.Group>
                     <div className='login-page-already'>
-                    <p style={{ fontSize: '13px', color: '#787878', marginRight: '135px'}}>이미 계정이 있으신가요?</p>
+                    <p onClick={()=>{ navigate('/signup')}}style={{ fontSize: '13px', color: '#787878', marginRight: '135px', cursor: 'pointer'}}>계정이 아직 없으신가요?</p>
                     <Button variant="outline-dark" className='login-btn'
                     // style={{ marginTop: '220px', marginLeft: '30px'}}
                     onClick={()=>{}}
