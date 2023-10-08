@@ -187,3 +187,16 @@
 .nav-color {
   background-color: #ffffff;
 }
+
+/* App.css */
+
+.slide-in {
+  transform: translateX(-100%);
+  transition: transform 1s ease-out;
+  opacity: 0;
+}
+
+.slide-in.active {
+  transform: translateX(0);
+  opacity: 1;
+}
