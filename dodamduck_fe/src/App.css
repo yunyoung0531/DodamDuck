@@ -264,4 +264,20 @@
   border-color: #FFD600 !important;
 }
 
-/* 그외 필요한 스타일을 추가적으로 적용하세요 */
+.library-nav {
+  /* margin: 100px; */
+  padding-top: 100px;
+  /* margin-left: 500px; */
+  text-align: center;
+  background-color: #fffbe4;
+  padding-bottom: 40px;
+}
+
+.library-comment1 {
+  /* margin: 50px; */
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+.library-comment2 {
+  font-size: 22px;
+}
