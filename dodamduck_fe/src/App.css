@@ -276,27 +276,26 @@
 .library-comment1 {
   /* margin: 50px; */
   margin-bottom: 10px;
-  font-size: 18px;
+  font-size: 20px;
 }
 .library-comment2 {
-  font-size: 22px;
+  font-size: 24px;
 }
 
 .lib-container {
   display: flex;
-  /* justify-content: center; */
-  /* align-items: center; */
+  justify-content: center;
+  align-items: start; /* 카드의 상단을 일치시킵니다. */
   text-align: center;
   flex-wrap: wrap;
-  /* justify-content: space-between; */
+  width: 1100px !important;
+  margin: 0 auto;
 }
 
 .lib-container .card {
   padding-top: 30px;
-  flex: 1 0 24%; 
-  margin: 2% 0.5%; /* 카드 사이의 간격 */
-  width: 8rem !important;
-  padding: -30% !important;
+  flex: 1 0 22%; /* 카드의 너비를 22%로 조정 */
+  margin: 2% 1.5%;
 }
 
 .rental-btn {
@@ -313,4 +312,10 @@
 
 .card-compo {
   width: 250px !important;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: 0.3s;
+}
+
+.card-compo:hover {
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
