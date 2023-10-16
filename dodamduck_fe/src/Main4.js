@@ -8,7 +8,7 @@ import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png'
 function Main4() {
     return (
         <>
-            <div className='main1-container app-main4'>
+            <div className='main1-container app-main4 main-section'>
                 <div className='main4-large-container'>
                     <div>
                         <p className='main4-txt'>우리나라 최초 장난감 교환 플랫폼</p>

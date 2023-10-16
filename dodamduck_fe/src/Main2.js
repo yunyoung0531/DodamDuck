@@ -27,7 +27,7 @@ function Main2() {
 
     return (
     <>
-        <div className='main2-container app-main3'>
+        <div className='main2-container app-main3 main-section'>
         <img 
             src={도담덕캐릭터}
             style={{marginLeft: '270px'}}
@@ -36,7 +36,7 @@ function Main2() {
             className="d-inline-block align-top main-dodamduck-img"/>
         
         <div style={{ textAlign: 'center'}} className='main1-txt'> 
-            <div id="animated-text" className="slide-in" style={{ marginLeft: '20px'}}>
+            <div id="animated-text" className="slide-in active " style={{ marginLeft: '20px'}}>
             <h1 style={{ fontSize: '50px' }}>하나의 장난감,</h1>
             <h1 style={{ fontSize: '50px' }}>무수한 웃음</h1>
             </div>

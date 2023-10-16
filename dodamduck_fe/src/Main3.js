@@ -26,7 +26,7 @@ function Main3() {
     //     }, []);
     return (
         <>
-            <div className='main1-container app-main3'>
+            <div className='main1-container app-main3 main-section'>
                 <img 
                     src={도담덕캐릭터}
                     style={{marginLeft: '160px'}}
