@@ -48,12 +48,12 @@ function App() {
       <Routes>
 
         <Route path='/' element={<>
-        <div className=' app-main'>
-          <Main1/>
-          <Main2/>
-          <Main3/>
-          <Main4/>
-          </div>
+        <div className='app-main'>
+            <Main1 className="main-section"/>
+            <Main2 className="main-section"/>
+            <Main3 className="main-section"/>
+            <Main4 className="main-section"/>
+        </div>
         </>}/>
       
           <Route path='/login' element={<>
