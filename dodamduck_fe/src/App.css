@@ -324,3 +324,24 @@
 .card-compo:hover {
   box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
 }
+
+.circle {
+  position: fixed !important;
+  width: 67px; 
+  height: 67px;
+  background-color: rgba(255, 225, 66, 0.7); 
+  border-radius: 50%; 
+  display: inline-block;
+  right: 100px;
+  bottom: 50px;
+  cursor: pointer;
+}
+
+.plus-sign {
+  position: fixed !important;
+  color: rgba(0, 0, 0, 0.8); 
+  font-size: 50px;   /* 원하는 크기로 설정 */
+  /* font-weight: 100; */
+  bottom: 57px;
+  right: 112px; 
+}
