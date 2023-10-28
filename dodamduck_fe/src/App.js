@@ -13,6 +13,7 @@ import React from 'react';
 import SignupPage from './SignupPage';
 import Library from './Library';
 import SharingBoard from './SharingBoard';
+import SharingPost from './SharingPost';
 
 function App() { 
 
@@ -68,6 +69,9 @@ function App() {
           </>}/>
           <Route path='/sharingBoard' element={<>
           <SharingBoard/>
+          </>}/>
+          <Route path='/sharingPost' element={<>
+          <SharingPost/>
           </>}/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
