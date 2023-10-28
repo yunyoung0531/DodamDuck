@@ -12,6 +12,7 @@ import { Routes, Route, Link, useNavigate, useParams} from 'react-router-dom';
 import React from 'react';
 import SignupPage from './SignupPage';
 import Library from './Library';
+import SharingBoard from './SharingBoard';
 
 function App() { 
 
@@ -31,7 +32,7 @@ function App() {
                 <span className='main-logo-dodamduck'>도담덕</span>
             </Navbar.Brand>
           <Nav className="me-auto link-spacing">
-            <Nav.Link className='link-spacing'>장난감 교환</Nav.Link>
+            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/sharingBoard') }}>장난감 교환</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/library') }}>장난감 도서관</Nav.Link>
             <Nav.Link className='link-spacing'>게시판</Nav.Link>
             <Nav.Link className='link-spacing'>내 상점</Nav.Link>
@@ -64,6 +65,9 @@ function App() {
           </>}/>
           <Route path='/library' element={<>
           <Library/>
+          </>}/>
+          <Route path='/sharingBoard' element={<>
+          <SharingBoard/>
           </>}/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
