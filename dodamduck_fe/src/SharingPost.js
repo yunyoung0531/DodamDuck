@@ -20,6 +20,23 @@ function SharingPost() {
             setInputValue('');
         }
     }
+
+    const [selectedImages, setSelectedImages] = useState([]);
+
+    const handleImageChange = (e) => {
+        const file = e.target.files[0];
+        const reader = new FileReader();
+    
+        reader.onloadend = () => {
+            setSelectedImages([...selectedImages, reader.result]);
+        };
+    
+        if (file) {
+            reader.readAsDataURL(file);
+        }
+    }
+    
+
     
     return (
         <>
@@ -30,13 +47,30 @@ function SharingPost() {
                         justifyContent: "center",
                         alignItems: "center"}}>
                 <div className="post-container" style={{flexDirection: 'column'}}>
-                    <div style={{display: "flex"}}>
-                        <div style={{margin: "20px"}}>상품이미지</div>
-                        <Card style={{ width: '10rem', height: "10rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px"}}>
-                        <FontAwesomeIcon icon={faCamera} style={{color: "#bbbbbb", fontSize: "30px", fontWeight: "100 !important"}} />
-                        <div style={{color: "#6c6c6c", fontSize: "11px", marginTop: "10px"}}>이미지 등록</div>
+                <div style={{ display: "flex" }}>
+                    <div style={{ margin: "20px" }}>상품이미지</div>
+                    <Card style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer" }}
+                        onClick={() => document.getElementById('fileInput').click()}
+                    >
+                        <FontAwesomeIcon icon={faCamera} style={{ color: "#bbbbbb", fontSize: "30px", fontWeight: "100 !important" }} />
+                        <div style={{ color: "#6c6c6c", fontSize: "11px", marginTop: "10px" }}>이미지 추가</div>
+                    </Card>
+                    {selectedImages.map((image, index) => (
+                        <Card key={index} style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer" }}
+                            onClick={() => document.getElementById('fileInput').click()}
+                        >
+                            <img src={image} alt={`Selected ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '3%' }} />
                         </Card>
-                    </div>
+                    ))}
+                    
+                    <input 
+                        type="file"
+                        id="fileInput"
+                        style={{ display: 'none' }}
+                        onChange={handleImageChange}
+                        accept="image/*"  // 이미지만 선택할 수 있도록 설정
+                    />
+                </div>
 
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>상품명</div>
