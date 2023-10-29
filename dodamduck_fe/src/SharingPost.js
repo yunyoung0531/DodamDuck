@@ -2,10 +2,12 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import { Container, Card, Button, Form } from "react-bootstrap";
-import React, { useState } from "react";
-
+import React, { useState, useContext } from "react";
+import { PostContext } from './PostContext';
+import { useNavigate } from 'react-router';
 
 function SharingPost() {
+    let navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
@@ -22,6 +24,10 @@ function SharingPost() {
     }
 
     const [selectedImages, setSelectedImages] = useState([]);
+    const [title, setTitle] = useState("");
+    const [description, setDescription] = useState("");
+    const [exchangeOption, setExchangeOption] = useState("");
+
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -35,7 +41,33 @@ function SharingPost() {
             reader.readAsDataURL(file);
         }
     }
+
+    const handleTitleChange = (e) => {
+        setTitle(e.target.value);
+    }
     
+    const handleDescriptionChange = (e) => {
+        setDescription(e.target.value);
+    }
+    const handleRadioChange = (e) => {
+        setExchangeOption(e.target.value);
+    };
+    
+
+    const { setPosts } = useContext(PostContext);
+
+    const handlePostSubmit = () => {
+        // formData는 사용자가 입력한 데이터를 나타냅니다.
+        const formData = {
+            images: selectedImages,
+            title: title,
+            description: description,
+            exchangeOrShare: exchangeOption,
+            tags: tags
+        };
+
+        setPosts(prevPosts => [...prevPosts, formData]);
+    }
 
     
     return (
@@ -74,11 +106,15 @@ function SharingPost() {
 
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>상품명</div>
-                        <Form.Control type="text" placeholder="상품명을 등록해주세요" style={{width: '35rem', height: "3rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "57px"}}/>
+                        <Form.Control type="text" placeholder="상품명을 등록해주세요"
+                        onChange={handleTitleChange}
+                        style={{width: '35rem', height: "3rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "57px"}}/>
                     </div>
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>상품설명</div>
-                        <Form.Control as="textarea" placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요.                 서로가 믿고 거래할 수 있도록, 자세한 정보을 올려주세요." style={{width: '38rem', height: "10rem", textAlign: "left", verticalAlign: "top", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "37px"}}/>
+                        <Form.Control as="textarea" placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요.                 서로가 믿고 거래할 수 있도록, 자세한 정보을 올려주세요." 
+                        onChange={handleDescriptionChange}
+                        style={{width: '38rem', height: "10rem", textAlign: "left", verticalAlign: "top", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "37px"}}/>
                     </div>
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>교환/나눔</div>
@@ -91,6 +127,8 @@ function SharingPost() {
                                     label="교환"
                                     name="group1"
                                     type={type}
+                                    value="교환"
+                                    onChange={handleRadioChange}
                                     id={`inline-${type}-1`}
                                 />
                                 <Form.Check
@@ -99,12 +137,14 @@ function SharingPost() {
                                     label="나눔"
                                     name="group1"
                                     type={type}
+                                    value="나눔"
+                                    onChange={handleRadioChange}
                                     id={`inline-${type}-2`}
                                 />
                                 </div>
                             ))}
                         </Form>
-                        </div>
+                    </div>
                     <div style={{display: "flex"}}>
                     <div style={{ margin: "20px" }}>해시태그</div>
                         <div style={{ marginLeft: '13px'}}>
@@ -137,7 +177,7 @@ function SharingPost() {
 
                         <div style={{display: "flex"}}>
                         <div >
-                            <Button variant="outline-dark" className='register-btn'  
+                            <Button variant="outline-dark" className='register-btn' onClick={()=> {handlePostSubmit(); navigate('/sharingBoard')}}
                             >등록</Button>
                         </div>
                         </div>                                

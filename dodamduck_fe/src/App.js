@@ -14,12 +14,14 @@ import SignupPage from './SignupPage';
 import Library from './Library';
 import SharingBoard from './SharingBoard';
 import SharingPost from './SharingPost';
+import { PostProvider } from './PostContext';
 
 function App() { 
 
   let navigate = useNavigate();
   return (
     <>
+    <PostProvider>
     <div className='App'>
       {['sm'].map((expand) => (
       <Navbar fixed="top" className="nav-color mb-3 " key={expand} expand={expand} >
@@ -76,6 +78,7 @@ function App() {
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
       </div>
+      </PostProvider>
     </>
   );
 }
