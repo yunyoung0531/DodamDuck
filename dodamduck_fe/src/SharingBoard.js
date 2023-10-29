@@ -16,7 +16,7 @@ function SharingBoard() {
                 나눔을 통해 행복을 나누다 
             </div>
             <div className='library-comment2'>
-                교환&나눔
+                교환 & 나눔
             </div>
             </div>
 
