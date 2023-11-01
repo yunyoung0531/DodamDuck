@@ -27,6 +27,7 @@ function SharingPost() {
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
     const [exchangeOption, setExchangeOption] = useState("");
+    const [wishedLocation, setWishedLocation] = useState("");
 
 
     const handleImageChange = (e) => {
@@ -52,6 +53,10 @@ function SharingPost() {
     const handleRadioChange = (e) => {
         setExchangeOption(e.target.value);
     };
+
+    const handleWishedLocationChange = (e) => {
+        setWishedLocation(e.target.value); 
+    }
     
 
     const { setPosts } = useContext(PostContext);
@@ -63,7 +68,8 @@ function SharingPost() {
             title: title,
             description: description,
             exchangeOrShare: exchangeOption,
-            tags: tags
+            tags: tags,
+            wishedLocation: wishedLocation
         };
 
         setPosts(prevPosts => [...prevPosts, formData]);
@@ -77,11 +83,12 @@ function SharingPost() {
             </div>
             <div style={{display: "flex",
                         justifyContent: "center",
-                        alignItems: "center"}}>
+                        alignItems: "center",
+                        }}>
                 <div className="post-container" style={{flexDirection: 'column'}}>
                 <div style={{ display: "flex" }}>
                     <div style={{ margin: "20px" }}>상품이미지</div>
-                    <Card style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer" }}
+                    <Card style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer", marginLeft:'40px' }}
                         onClick={() => document.getElementById('fileInput').click()}
                     >
                         <FontAwesomeIcon icon={faCamera} style={{ color: "#bbbbbb", fontSize: "30px", fontWeight: "100 !important" }} />
@@ -108,13 +115,19 @@ function SharingPost() {
                         <div style={{margin: "20px"}}>상품명</div>
                         <Form.Control type="text" placeholder="상품명을 등록해주세요"
                         onChange={handleTitleChange}
-                        style={{width: '35rem', height: "3rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "57px"}}/>
+                        style={{width: '35rem', height: "3rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "77px"}}/>
                     </div>
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>상품설명</div>
                         <Form.Control as="textarea" placeholder="구매시기, 브랜드/모델명, 제품의 상태 (사용감, 하자 유무) 등을 입력해 주세요.                 서로가 믿고 거래할 수 있도록, 자세한 정보을 올려주세요." 
                         onChange={handleDescriptionChange}
-                        style={{width: '38rem', height: "10rem", textAlign: "left", verticalAlign: "top", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "37px"}}/>
+                        style={{width: '38rem', height: "10rem", textAlign: "left", verticalAlign: "top", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "57px"}}/>
+                    </div>
+                    <div style={{display: "flex"}}>
+                        <div style={{margin: "20px"}}>거래 희망 장소</div>
+                        <Form.Control type="text" placeholder="거래 희망 장소를 입력해주세요." 
+                        onChange={handleWishedLocationChange}
+                        style={{width: '38rem', height: "3rem", display: "flex",justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "4px"}}/>
                     </div>
                     <div style={{display: "flex"}}>
                         <div style={{margin: "20px"}}>교환/나눔</div>
@@ -155,7 +168,7 @@ function SharingPost() {
                                     // margin: '3px',
                                     borderRadius: '20px', // 타원 형태를 위한 값 설정
                                     border: '0.7px solid #a9a9a9', 
-                                    marginLeft: '20px',
+                                    marginLeft: '40px',
                                     color: '#424242',
                                     fontSize: '17px'
                                                         }}>
@@ -171,7 +184,7 @@ function SharingPost() {
                             value={inputValue}
                             onChange={handleInputChange}
                             onKeyPress={handleKeyPress}
-                            style={{ width: '30rem', height: "3rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "150px", marginTop: "-30px" }}
+                            style={{ width: '30rem', height: "3rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", marginLeft: "170px", marginTop: "-34px" }}
                         />
                         </div>
 

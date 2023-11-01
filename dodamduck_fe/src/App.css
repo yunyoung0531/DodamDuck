@@ -364,7 +364,7 @@
 
 .post-container {
   width: 1140px;
-  height: 760px;
+  height: 810px;
   margin-bottom: 50px;
   background-color: #ffffff; 
   border: 1px solid #ced4da;
@@ -389,7 +389,7 @@
 .post-radio {
   margin: 23px;
   box-shadow: none !important;
-  /* border-color: #ced4da !important;   */
+  margin-left: 45px;
 }
 
 /* .post-radio .custom-control-input:checked ~ .custom-control-label::before {
@@ -417,11 +417,38 @@
   color: #FFD600 !important;
   border-color: #FFD600 !important;
   background-color: white !important;
-  margin-top: -10px;
+  margin-top: -55px;
   margin-left: 1000px;
 }
 .register-btn:hover {
   background-color: #FFD600 !important;
   border-color: #FFD600 !important;
   color: white !important;
+}
+
+.sharing-card {
+  margin-left: 48px;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 5px 10px rgba(0,0,0,0.07), 0 4px 4px rgba(0,0,0,0.07);
+  transition: 0.4s;
+}
+.sharing-card:hover {
+  box-shadow: 0 7px 13px rgba(0, 0, 0, 0.1), 0 7px 22px rgba(0, 0, 0, 0.1);
+}
+
+.sharing-card .card-img-top {
+  width: 100%; 
+  height: 100%;   
+  /* padding-bottom: 100%;  */
+  background-size: cover; 
+  background-position: center; 
+  background-repeat: no-repeat;
+}
+
+/* CSS */
+.sharing-card img {
+  object-fit: cover;
+  height: 200px; /* 또는 원하는 높이를 설정하세요 */
+  width: 100%;
 }
