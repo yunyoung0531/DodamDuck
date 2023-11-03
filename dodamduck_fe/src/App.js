@@ -15,6 +15,7 @@ import Library from './Library';
 import SharingBoard from './SharingBoard';
 import SharingPost from './SharingPost';
 import { PostProvider } from './PostContext';
+import Board from './Board';
 
 function App() { 
 
@@ -37,7 +38,7 @@ function App() {
           <Nav className="me-auto link-spacing">
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/sharingBoard') }}>장난감 교환</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/library') }}>장난감 도서관</Nav.Link>
-            <Nav.Link className='link-spacing'>게시판</Nav.Link>
+            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/board')}}>게시판</Nav.Link>
             <Nav.Link className='link-spacing'>내 상점</Nav.Link>
             <Nav.Link className='link-spacing'>채팅</Nav.Link>
           </Nav>
@@ -74,6 +75,9 @@ function App() {
           </>}/>
           <Route path='/sharingPost' element={<>
           <SharingPost/>
+          </>}/>
+          <Route path='/Board' element={<>
+          <Board/>
           </>}/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
