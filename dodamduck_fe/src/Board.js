@@ -21,6 +21,16 @@ function Board() {
                 도담덕 정보 나눔
             </div>
         </div>
+
+        <div className='board-container'>
+            <div className='board-deco'>
+
+            </div>
+        </div>
+
+        <div className='circle' onClick={()=> {navigate('/BoardPost')}}>
+            <FontAwesomeIcon icon={faPlus} className='plus-sign' />
+        </div>
         </>
     )
 }

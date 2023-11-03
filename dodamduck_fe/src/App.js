@@ -16,6 +16,7 @@ import SharingBoard from './SharingBoard';
 import SharingPost from './SharingPost';
 import { PostProvider } from './PostContext';
 import Board from './Board';
+import BoardPost from './BoardPost';
 
 function App() { 
 
@@ -78,6 +79,9 @@ function App() {
           </>}/>
           <Route path='/Board' element={<>
           <Board/>
+          </>}/>
+          <Route path='/BoardPost' element={<>
+          <BoardPost/>
           </>}/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>

@@ -79,7 +79,7 @@ function SharingPost() {
     return (
         <>
             <div className='sharing-post-comment'>
-                교환 & 나눔 글 올리기
+                교환 & 나눔 글 올리기 🖤
             </div>
             <div style={{display: "flex",
                         justifyContent: "center",
