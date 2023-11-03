@@ -364,7 +364,7 @@
 
 .post-container {
   width: 1140px;
-  height: 810px;
+  height: 650px;
   margin-bottom: 50px;
   background-color: #ffffff; 
   border: 1px solid #ced4da;
@@ -451,4 +451,67 @@
   object-fit: cover;
   height: 200px; /* 또는 원하는 높이를 설정하세요 */
   width: 100%;
+}
+
+
+.board-container {
+  width: 1340px;
+  height: 160px;
+  /* margin-bottom: 50px;
+  background-color: #ffffff; 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 20px;
+  font-weight: 100 !important; 
+  padding: 10px; */
+  /* display: flex;
+  justify-content: center;
+  align-items: center; */
+  margin-top: 200px;
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 5px;
+  margin-left: 90px;
+  box-shadow: rgb(224, 224, 224) 0.5px 2px 4px 0.4px;
+}
+
+/* .post-title-container {
+  width: 1138px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-left: -10px;
+  margin-top: 7px;
+} */
+
+.post-title-container {
+  width: 1140px !important;
+  height: 50px !important;
+  font-size: large !important;
+  display: flex;
+  /* margin: -10px; */
+  margin-top: -11px;
+  margin-left: -11px;
+  border-bottom-left-radius: 0 !important;
+  border-bottom-right-radius: 0 !important;
+}
+
+.board-textarea::placeholder {
+  color: #858585 !important;
+  /* font-weight: lighter !important; */
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+}
+
+.board-register-btn {
+  color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  background-color: white !important;
+  margin-top: -105px;
+  margin-left: 1040px;
+}
+.board-register-btn:hover {
+  background-color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  color: white !important;
 }

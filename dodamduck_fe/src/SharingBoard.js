@@ -65,9 +65,7 @@ function SharingBoard() {
             </div>
 
 
-            <div className='circle' onClick={()=> {navigate('/sharingPost')}}>
-                <FontAwesomeIcon icon={faPlus} className='plus-sign' />
-            </div>
+            
             {/* <div style={{margin: '100px'}}>
             {posts.map((post, index) => (
                 // <div key={post.id}>
