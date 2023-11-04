@@ -455,7 +455,7 @@
 
 
 .board-container {
-  width: 1340px;
+  width: 1070px;
   height: 160px;
   /* margin-bottom: 50px;
   background-color: #ffffff; 
@@ -468,22 +468,14 @@
   /* display: flex;
   justify-content: center;
   align-items: center; */
-  margin-top: 200px;
+  margin-top: 10px;
   border-radius: 10px;
   padding: 20px;
-  margin-bottom: 5px;
-  margin-left: 90px;
+  /* margin-bottom: 5px; */
+  margin-left: 220px;
   box-shadow: rgb(224, 224, 224) 0.5px 2px 4px 0.4px;
 }
 
-/* .post-title-container {
-  width: 1138px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin-left: -10px;
-  margin-top: 7px;
-} */
 
 .post-title-container {
   width: 1140px !important;
@@ -514,4 +506,8 @@
   background-color: #FFD600 !important;
   border-color: #FFD600 !important;
   color: white !important;
+}
+
+.board-post-content {
+  margin-left: 30px;
 }
