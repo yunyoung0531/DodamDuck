@@ -85,7 +85,7 @@ function SharingPost() {
                         justifyContent: "center",
                         alignItems: "center",
                         }}>
-                <div className="post-container" style={{flexDirection: 'column'}}>
+                <div className="sharing-post-container" style={{flexDirection: 'column'}}>
                 <div style={{ display: "flex" }}>
                     <div style={{ margin: "20px" }}>상품이미지</div>
                     <Card style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer", marginLeft:'40px' }}
