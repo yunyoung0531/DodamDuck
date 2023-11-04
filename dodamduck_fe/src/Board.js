@@ -41,7 +41,7 @@ function Board() {
                 </div>
                 <div className='board-post-content'>
                 <h4>{post.title}</h4>
-                <p>{post.content}</p>
+                <p>{post.content || post.description}</p>
                 </div>
             </div>
         ))}

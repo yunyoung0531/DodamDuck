@@ -17,18 +17,11 @@ function BoardPost() {
         setInputValue(e.target.value);
     }
 
-    const handleKeyPress = (e) => {
-        if (e.key === ' ') {
-            setTags([...tags, inputValue]);
-            setInputValue('');
-        }
-    }
+
 
     const [selectedImages, setSelectedImages] = useState([]);
     const [title, setTitle] = useState("");
     const [description, setDescription] = useState("");
-    const [exchangeOption, setExchangeOption] = useState("");
-    const [wishedLocation, setWishedLocation] = useState("");
 
 
     const handleImageChange = (e) => {
@@ -51,13 +44,6 @@ function BoardPost() {
     const handleDescriptionChange = (e) => {
         setDescription(e.target.value);
     }
-    const handleRadioChange = (e) => {
-        setExchangeOption(e.target.value);
-    };
-
-    const handleWishedLocationChange = (e) => {
-        setWishedLocation(e.target.value); 
-    }
     
 
     const { setPosts } = useContext(PostContext);
@@ -68,9 +54,6 @@ function BoardPost() {
             images: selectedImages,
             title: title,
             description: description,
-            exchangeOrShare: exchangeOption,
-            tags: tags,
-            wishedLocation: wishedLocation
         };
 
         setPosts(prevPosts => [...prevPosts, formData]);
@@ -87,7 +70,7 @@ function BoardPost() {
                         alignItems: "center",
                         }}>
                 <div className="post-container" style={{flexDirection: 'column', color: ''}}>
-                    <Form.Control className='post-title-container' type="text" placeholder="ㅤ글 제목"></Form.Control>
+                    <Form.Control className='post-title-container' type="text" placeholder="ㅤ글 제목" onChange={handleTitleChange}></Form.Control>
                 {/* <hr className='post-title-container'/> */}
                 <div style={{ display: "flex" }}>
                     <Card style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "13px", cursor: "pointer", marginLeft:'18px' }}
