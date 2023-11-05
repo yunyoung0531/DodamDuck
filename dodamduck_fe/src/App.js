@@ -8,7 +8,7 @@ import Main2 from './Main2';
 import Main3 from './Main3';
 import Main4 from './Main4';
 import LoginPage from './LoginPage';
-import { Routes, Route, Link, useNavigate, useParams} from 'react-router-dom';
+import { Link, useNavigate, useParams} from 'react-router-dom';
 import React from 'react';
 import SignupPage from './SignupPage';
 import Library from './Library';
@@ -17,6 +17,12 @@ import SharingPost from './SharingPost';
 import { PostProvider } from './PostContext';
 import Board from './Board';
 import BoardPost from './BoardPost';
+import SharingDetail from './SharingDetail';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import MyShop from './MyShop';
+
+//const SharingDetail = lazy(() => import('./SharingDetail.js'));
+
 
 function App() { 
 
@@ -40,7 +46,7 @@ function App() {
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/sharingBoard') }}>장난감 교환</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/library') }}>장난감 도서관</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/board')}}>게시판</Nav.Link>
-            <Nav.Link className='link-spacing'>내 상점</Nav.Link>
+            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/MyShop')}}>내 상점</Nav.Link>
             <Nav.Link className='link-spacing'>채팅</Nav.Link>
           </Nav>
           
@@ -83,6 +89,14 @@ function App() {
           <Route path='/BoardPost' element={<>
           <BoardPost/>
           </>}/>
+          <Route path='/MyShop' element={<>
+          <MyShop/>
+          </>}/>
+          <Route path='/sharingDetail/:id' element={
+          //<Suspense fallback={<div>로딩중</div>}>
+            <SharingDetail/>
+          //</Suspense>
+        }/>
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
       </div>

@@ -6,7 +6,7 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import { PostContext } from './PostContext';
 import {Button, Card, placeholder} from 'react-bootstrap';
-
+import SharingDetail from './SharingDetail';
 
 function SharingBoard() {
 
@@ -21,6 +21,11 @@ function SharingBoard() {
     ]
 
     const allPosts = [...cardItemData, ...posts];
+
+    const handleCardClick = (sharingDetialId) => {
+        navigate(`/sharingDetial/${sharingDetialId}`);
+    }
+
     return (
         <>
             <div className='library-nav'>
@@ -35,7 +40,7 @@ function SharingBoard() {
             <div className='container'>
                 <div className='row' style={{margin: '10px', width: '75rem', display: 'flex', alignItems: 'center'}}>
                     {allPosts.map((post, index) => (
-                        <div className="col-md-3 ">
+                        <div className="col-md-3 " onClick={() => handleCardClick(post.id)}>
                             <Card className="sharing-card" key={index}  >
                                 <div style={{
                                     overflow: 'hidden', 
