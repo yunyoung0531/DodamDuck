@@ -20,6 +20,7 @@ import BoardPost from './BoardPost';
 import SharingDetail from './SharingDetail';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyShop from './MyShop';
+import Chatting from './Chatting';
 
 //const SharingDetail = lazy(() => import('./SharingDetail.js'));
 
@@ -46,8 +47,8 @@ function App() {
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/sharingBoard') }}>장난감 교환</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/library') }}>장난감 도서관</Nav.Link>
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/board')}}>게시판</Nav.Link>
-            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/MyShop')}}>내 상점</Nav.Link>
-            <Nav.Link className='link-spacing'>채팅</Nav.Link>
+            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/myShop')}}>내 상점</Nav.Link>
+            <Nav.Link className='link-spacing' onClick={()=>{ navigate('/chatting') }}>채팅</Nav.Link>
           </Nav>
           
           <Button variant="outline-dark" className='login-btn'
@@ -89,8 +90,11 @@ function App() {
           <Route path='/BoardPost' element={<>
           <BoardPost/>
           </>}/>
-          <Route path='/MyShop' element={<>
+          <Route path='/myShop' element={<>
           <MyShop/>
+          </>}/>
+          <Route path='/chatting' element={<>
+          <Chatting/>
           </>}/>
           <Route path='/sharingDetail/:id' element={
           //<Suspense fallback={<div>로딩중</div>}>
