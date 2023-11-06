@@ -553,3 +553,62 @@
 .nav-tabs .nav-link.active {
   color: #FFD600 !important; /* 활성 탭의 색상을 변경하고 싶을 때 */
 }
+
+
+.post-container {
+  width: 1140px;
+  height: 650px;
+  margin-bottom: 50px;
+  background-color: #ffffff; 
+  border: 1px solid #ced4da;
+  border-radius: 10px;
+  box-shadow: 1px 1px 1px 1px rgba(239, 239, 239, 0.5); 
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  font-size: 20px;
+  /* font-weight: 100 !important; */
+  padding: 10px;
+}
+
+.chat-container {
+  width: 1140px;
+  height: 590px;
+  /* margin-bottom: 50px; */
+  margin: 100px;
+  margin-left: 195px;
+  /* background-color: #464646;  */
+  border: 1px solid #ced4da;
+  border-radius: 3px;
+  /* box-shadow: 1px 1px 1px 1px rgba(239, 239, 239, 0.5);  */
+  display: flex;
+  /* justify-content: center; */
+  /* align-items: center; */
+  font-size: 20px;
+  /* font-weight: 100 !important; */
+  padding: 10px;
+}
+
+.chat-line {
+  border-left : thin solid #ced4da;
+  height : 589px;
+  /* margin-left: 310px; */
+  margin-top: -10px;
+  /* margin-bottom: 50px; */
+}
+
+.chat-user-line {
+  border-top : thin solid #ced4da;
+  width : 400px;
+  /* margin-left: 2px; */
+  margin-right: 5px;
+  margin-top: 2px;
+  /* margin-left: 310px; */
+  /* margin-top: -10px; */
+}
+
+.recent-chat-comment {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: small;
+  color: #9d9d9d;
+}
