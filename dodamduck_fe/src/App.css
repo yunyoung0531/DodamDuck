@@ -612,3 +612,90 @@
   font-size: small;
   color: #9d9d9d;
 }
+
+.chat2-user-line {
+  border-top : thin solid #ced4da;
+  width : 640px;
+  margin-right: 5px;
+  margin-top: 2px;
+}
+
+.chat-date {
+  /* margin: 5px; */
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: x-small;
+  color: #767676;
+  border: #767676 solid 1px;
+  border-radius: 13px;
+  display: flex;
+  justify-content: center;
+  width: 18%; /* 예를 들어 전체 길이의 50%로 설정 */
+  margin: auto; 
+  padding: 3px;
+}
+
+.chat-radio {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: x-small;
+  /* color: #FFD600; */
+  border: solid 1px;
+  border-radius: 7px;
+  display: flex;
+  justify-content: center;
+  width: 35%;
+  margin: auto;
+}
+
+.real-chat {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  border: #f1f1f1 solid 1px;
+  background-color: #f1f1f1;
+  border-radius: 5px 50px 50px 60px;
+  display: flex;
+  justify-content: center;
+  width: 100%; /* 예를 들어 전체 길이의 50%로 설정 */
+  margin: auto; 
+  padding: 5px;
+}
+
+/* .real-chat-me {
+  display: flex;
+  position: relative;
+  left: 60%;
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  border: #f1f1f1 solid 1px;
+  background-color: #f1f1f1;
+  border-radius: 50px 5px 50px 60px;
+  justify-content: flex-end;
+  width:5%; 
+  margin: auto; 
+  margin-left: auto;
+  padding: 5px;
+} */
+
+.real-chat-me {
+  display: flex;
+  align-items: center; /* 텍스트를 말풍선 내에서 수직 중앙에 정렬 */
+  justify-content: center; /* 텍스트를 말풍선 내에서 수평 중앙에 정렬 */
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  border: #FFD600 solid 1px;
+  background-color: #FFD600;
+  border-radius: 50px 5px 50px 60px;
+  padding: 5px 10px; /* padding을 좀 더 적절하게 조정 */
+  margin-left: auto; /* 이것은 오른쪽 정렬을 위해 */
+  font-size: small;
+}
+
+.chat-ready {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: small  !important;
+  width: 37rem;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+  margin: 10px 10px 10px 10px;
+  margin-top: 80px;
+  margin-left: -5px;
+}
