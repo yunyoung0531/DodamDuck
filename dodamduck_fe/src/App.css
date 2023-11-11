@@ -699,3 +699,31 @@
   margin-top: 80px;
   margin-left: -5px;
 }
+
+.shring-detail-card {
+  margin: 100px;
+  margin-left: 400px;
+  margin-right: 400px;
+}
+
+.chatting-btn {
+  background-color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  color: white !important;
+  display: flex;
+  width: 89px !important ;
+  height: 33px !important ;
+  margin-left: 410px;
+}
+
+.upload-date {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  margin-left: 17px;
+  color: #4e4e4e;
+  font-size: small;
+}
+
+.sharing-detail-content {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: medium;
+}

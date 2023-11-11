@@ -22,7 +22,7 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyShop from './MyShop';
 import Chatting from './Chatting';
 import ChattingDetail from './ChattingDetail';
-
+import sharingDetail from './SharingDetail';
 //const SharingDetail = lazy(() => import('./SharingDetail.js'));
 
 
@@ -100,7 +100,7 @@ function App() {
           <Route path='/chattingDetail' element={<>
           <ChattingDetail/>
           </>}/>
-          <Route path='/sharingDetail/:id' element={
+          <Route path='/sharingDetail' element={
           //<Suspense fallback={<div>로딩중</div>}>
             <SharingDetail/>
           //</Suspense>
