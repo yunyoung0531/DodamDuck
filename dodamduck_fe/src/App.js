@@ -22,7 +22,9 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import MyShop from './MyShop';
 import Chatting from './Chatting';
 import ChattingDetail from './ChattingDetail';
+import BoardDetail from './BoardDetail';
 import sharingDetail from './SharingDetail';
+
 //const SharingDetail = lazy(() => import('./SharingDetail.js'));
 
 
@@ -100,11 +102,15 @@ function App() {
           <Route path='/chattingDetail' element={<>
           <ChattingDetail/>
           </>}/>
+          <Route path='/boardDetail' element={<>
+          <BoardDetail/>
+          </>}/>
           <Route path='/sharingDetail' element={
           //<Suspense fallback={<div>로딩중</div>}>
             <SharingDetail/>
           //</Suspense>
-        }/>
+          }/>
+
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
       </div>
@@ -114,4 +120,3 @@ function App() {
 }
 
 export default App;
-
