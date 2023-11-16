@@ -66,7 +66,8 @@ function SharingBoard() {
                                     height: '200px', /* 또는 원하는 높이를 설정하세요 */
                                     }}>
                                     {/* <Card.Img variant="top" src={post.images ? post.images[0] : "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788964130193.jpg"}/> */}
-                                    <Card.Img variant="top" src={`http://sy2978.dothome.co.kr/${post.image_url}`} />
+                                    {/* <Card.Img variant="top" src={`http://sy2978.dothome.co.kr/${post.image_url}`} /> */}
+                                    <Card.Img variant="top" src={'https://media.bunjang.co.kr/product/97455685_1_1689016134_w360.jpg'} />
 
                                 </div>
                                 <Card.Body>
