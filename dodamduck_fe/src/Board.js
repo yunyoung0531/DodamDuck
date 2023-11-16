@@ -83,13 +83,12 @@ function Board() {
             <div className='board-container' key = {post.post_id} onClick={() => handleCardClick(post.post_id)} style={{ display: 'flex', alignItems: 'center' }}>
                 <div className='board-deco'>
                     {/* <img variant="top" src={post.images ? post.images[0] : "https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on"} width={'180px'} height={'130px'} style={{borderRadius: '3px'}}/> */}
-                    <img variant="top" src={`http://sy2978.dothome.co.kr/${post.image_url}`} />
-                
-
+                    {/* <img variant="top" src={`http://sy2978.dothome.co.kr/${post.ImageURL}`} /> */}
+                    <img variant="top" src={'https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on'}width={'180px'} height={'130px'} style={{borderRadius: '3px'}} />
                 </div>
                 <div className='board-post-content'>
-                <h4>{post.title}</h4>
-                <p>{post.content || post.description}</p>
+                <h4>{post.Title}</h4>
+                <p>{post.Content || post.description}</p>
                 </div>
             </div>
         ))}
