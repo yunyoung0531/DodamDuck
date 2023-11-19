@@ -12,7 +12,6 @@ function SharingDetail() {
     useEffect(() => {
         const fetchPostDetail = async () => {
             try {
-                // 여기서 URLSearchParams를 사용하여 POST 데이터 형식을 설정합니다.
                 const postData = new URLSearchParams();
                 postData.append('post_id', id);
 
