@@ -80,7 +80,7 @@ function Board() {
         {/* {renderPosts} */}
         {/* <div style={{display: 'flex', justifyContent: 'center', alignItems: 'center'}}> */}
         {allPosts.map((post) => (
-            <div className='board-container' key = {post.post_id} onClick={() => handleCardClick(post.post_id)} style={{ display: 'flex', alignItems: 'center' }}>
+            <div className='board-container' key = {post.ShareID} onClick={() => handleCardClick(post.ShareID)} style={{ display: 'flex', alignItems: 'center' }}>
                 <div className='board-deco'>
                     {/* <img variant="top" src={post.images ? post.images[0] : "https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on"} width={'180px'} height={'130px'} style={{borderRadius: '3px'}}/> */}
                     {/* <img variant="top" src={`http://sy2978.dothome.co.kr/${post.ImageURL}`} /> */}

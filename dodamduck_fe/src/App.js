@@ -102,10 +102,10 @@ function App() {
           <Route path='/chattingDetail' element={<>
           <ChattingDetail/>
           </>}/>
-          <Route path='/boardDetail' element={<>
+          <Route path='/boardDetail/:postId' element={<>
           <BoardDetail/>
           </>}/>
-          <Route path='/sharingDetail' element={
+          <Route path='/sharingDetail/:id' element={
           //<Suspense fallback={<div>로딩중</div>}>
             <SharingDetail/>
           //</Suspense>

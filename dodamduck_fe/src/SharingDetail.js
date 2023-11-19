@@ -1,9 +1,36 @@
 import { useParams } from "react-router-dom";
 import { Button, Card, ListGroup } from "react-bootstrap";
+import axios from 'axios';
+import {React, useState, useEffect } from 'react';
+
 
 function SharingDetail() {
 
-    // let {id} = useParams();
+    let { id } = useParams();
+    const [postDetail, setPostDetail] = useState(null);
+
+    useEffect(() => {
+        const fetchPostDetail = async () => {
+            try {
+                // 여기서 URLSearchParams를 사용하여 POST 데이터 형식을 설정합니다.
+                const postData = new URLSearchParams();
+                postData.append('post_id', id);
+
+                const response = await axios.post('http://sy2978.dothome.co.kr/PostDetail.php', postData);
+                setPostDetail(response.data);
+            } catch (error) {
+                console.error('실패함', error);
+            }
+        };
+
+        fetchPostDetail();
+    }, [id]);
+
+    if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
+        return <div>로딩중입니다.</div>
+    }
+    const { title, content } = postDetail.post;
+
     return (
         <>
         {/* Post ID: {id} */}
@@ -33,8 +60,8 @@ function SharingDetail() {
                     <ListGroup.Item></ListGroup.Item>
                     <ListGroup.Item>
                         <div style={{display: 'flex', alignItems: 'start', flexDirection: 'column'}}>
-                        <h5>뽀로로 장난감 헝겊책</h5> 
-                        <h5 className="sharing-detail-content">뽀로로 장난감 다른 거랑 교환 원해요!!
+                        <h5>{title}</h5> 
+                        {/* <h5 className="sharing-detail-content">뽀로로 장난감 다른 거랑 교환 원해요!!
                         아무말이란 아무말 입니다. ←이런 게 아무말이다.
                         뜻 풀이
                         특별한 의도가 없이 머릿속에서 생각난 채로 정제하지 않고 바로바로 쏟아내는 말.
@@ -45,10 +72,19 @@ function SharingDetail() {
                         특정 글이나 댓글의 내용이 정연하지 않고 다수가 엉뚱한 말을 하고 있음을 표현함.
                         의식의 흐름
                         원래는 문학 용어 중 하나인데 그건 상관없고 그냥 아무말이랑 비슷한 뉘앙스로 쓰인다. 아무말아무말아무말아무말아무말아
+                        </h5> */}
+                        <h5 className="sharing-detail-content">
+                        {content}
                         </h5>
                         </div>
                     </ListGroup.Item>
-                    <ListGroup.Item></ListGroup.Item>
+                    <ListGroup.Item>
+                        {postDetail.comments.map((comment, index) => (
+                        <ListGroup.Item key={index}>
+                            <p>{comment.content}</p>
+                        </ListGroup.Item>
+                        ))}
+                    </ListGroup.Item>
                 </ListGroup>
                 <Card.Text style={{display: 'flex', alignItems: 'flex-start', marginLeft: '15px'}}>
                 #해시태그 #교환
