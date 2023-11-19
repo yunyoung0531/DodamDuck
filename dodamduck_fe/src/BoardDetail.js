@@ -1,6 +1,29 @@
-import { Button, Card, ListGroup } from "react-bootstrap";
+import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
+import { Button, Card, ListGroup } from 'react-bootstrap';
+import axios from 'axios';
 
 function BoardDetail() {
+    let { id } = useParams();
+    const [detail, setDetail] = useState(null);
+    useEffect(() => {
+        const fetchDetail = async () => {
+        try {
+        // 게시물 상세 정보를 불러오는 API 호출
+        const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_ID.php?share_id=${id}`);
+        setDetail(response.data); // 상태 업데이트
+        } catch (error) {
+        console.error('Detail fetch failed:', error);
+        }
+    };
+
+    fetchDetail();
+    }, [id]); 
+
+    if (!detail) {
+        return <div>로딩중...</div>; // 데이터 로딩 중 표시
+    }
+
     return (
         <>
         {/* Post ID: {id} */}
@@ -30,7 +53,7 @@ function BoardDetail() {
                     <ListGroup.Item></ListGroup.Item>
                     <ListGroup.Item>
                         <div style={{display: 'flex', alignItems: 'start', flexDirection: 'column'}}>
-                        <h5>아이 놀이방</h5> 
+                        <h5>글제목</h5> 
                         <h5 className="sharing-detail-content">아이놀이방 추천합니다. 3세부터 이용가능해요.
                         아무말이란 아무말 입니다. ←이런 게 아무말이다.
                         뜻 풀이

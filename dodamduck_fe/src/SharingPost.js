@@ -5,6 +5,7 @@ import { Container, Card, Button, Form } from "react-bootstrap";
 import React, { useState, useContext } from "react";
 import { PostContext } from './PostContext';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 function SharingPost() {
     let navigate = useNavigate();
@@ -61,18 +62,54 @@ function SharingPost() {
 
     const { setPosts } = useContext(PostContext);
 
-    const handlePostSubmit = () => {
+    const handlePostSubmit = async  () => {
         // formData는 사용자가 입력한 데이터를 나타냅니다.
-        const formData = {
-            images: selectedImages,
-            title: title,
-            description: description,
-            exchangeOrShare: exchangeOption,
-            tags: tags,
-            wishedLocation: wishedLocation
-        };
+        // const formData = {
+        //     images: selectedImages,
+        //     title: title,
+        //     description: description,
+        //     exchangeOrShare: exchangeOption,
+        //     tags: tags,
+        //     wishedLocation: wishedLocation
+        // };
 
-        setPosts(prevPosts => [...prevPosts, formData]);
+        // setPosts(prevPosts => [...prevPosts, formData]);
+        const formData = new FormData();
+
+    // 각 입력 필드의 값을 FormData에 추가
+    formData.append('user_id', 'userId'); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
+    formData.append('category_id', '1'); // 카테고리 ID도 마찬가지로 동적으로 설정해야 합니다.
+    formData.append('title', title);
+    formData.append('content', description);
+    formData.append('location', wishedLocation);
+    selectedImages.forEach((image, index) => {
+        formData.append(`image${index}`, image); // 여기서 image는 실제 파일이어야 합니다. base64로 인코딩된 문자열이 아닙니다.
+    });
+
+    // 나머지 입력 필드를 formData에 추가...
+    
+    try {
+        // POST 요청으로 formData 전송
+        const response = await axios({
+            method: 'post',
+            url: 'http://sy2978.dothome.co.kr/PostWrite.php',
+            data: formData,
+            headers: { 'Content-Type': 'multipart/form-data' },
+        });
+
+        if(response.data.success) {
+            // 게시글 등록 성공 시
+            console.log('게시글이 성공적으로 등록되었습니다.');
+            navigate('/sharingBoard');
+        } else {
+            // 서버에서 실패 응답을 받았을 때
+            console.error('게시글 등록에 실패했습니다.');
+        }
+    } catch (error) {
+        // 요청 실패 시
+        console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
+    }
+
     }
 
     
