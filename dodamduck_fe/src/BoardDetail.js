@@ -1,13 +1,15 @@
-import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
-import { Button, Card, ListGroup } from 'react-bootstrap';
+import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { Button, Card, ListGroup, Form } from "react-bootstrap";
 import axios from 'axios';
+import {React, useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 
 function BoardDetail() {
     let { id } = useParams();
 
     const [contentShare, setContentShare] = useState(null); // 게시물 데이터 상태
-    const [contentComments, setContentComments] = useState([]); // 댓글 데이터 상태
+    const [ContentComments, setContentComments] = useState([]); // 댓글 데이터 상태
 
     useEffect(() => {
         const fetchDetail = async () => {
@@ -49,7 +51,7 @@ function BoardDetail() {
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
-                            <h6 className="upload-date">글 올린 시간</h6>
+                            <h6 className="upload-date">{contentShare?.CreatedAt}</h6>
                             <Button className="chatting-btn">채팅하기</Button>
                             </div>
                         </div>
@@ -58,20 +60,38 @@ function BoardDetail() {
                 <ListGroup className="list-group-flush">
                     <ListGroup.Item></ListGroup.Item>
                     <ListGroup.Item>
-                        <div style={{display: 'flex', alignItems: 'start', flexDirection: 'column'}}>
-                        <h5>{contentShare?.Title}</h5> 
+                        <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
+                        <h4>{contentShare?.Title}</h4> 
+                        <div className="sharing-views">조회수: {contentShare?.Views}</div>
+                        </div>
                         <h5 className="sharing-detail-content">
                             {contentShare?.Content}
                         </h5>
-                        </div>
+                        
                     </ListGroup.Item>
                     {/* <ListGroup.Item></ListGroup.Item> */}
                 </ListGroup>
-                <ListGroup className="list-group-flush">
+                {/* <ListGroup className="list-group-flush">
                     {contentComments.map((comment, index) => (
                         <ListGroup.Item key={index}>{comment.Comment}</ListGroup.Item>
                     ))}
-                </ListGroup>
+                </ListGroup> */}
+
+                <ListGroup.Item  className="comment-section">
+                    <div className="comment-radio">댓글</div>
+                    <div className="comment-content">
+                        {ContentComments.map((comment, index) => (
+                            <div key={index} style={{ marginLeft: '10px'}}>
+                                <p className="sharing-comment">포로리님: {comment.Comment}</p>
+                            </div>
+                        ))}
+                    </div>
+                                        
+                <div style={{ display: 'flex'}}>
+                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"/> 
+                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} />
+                </div>
+                </ListGroup.Item>
             </Card.Body>
             <Card.Footer className="text-muted">게시글 목록 보기</Card.Footer>
             </Card>

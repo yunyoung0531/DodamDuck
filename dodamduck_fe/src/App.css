@@ -713,7 +713,7 @@
   display: flex;
   width: 89px !important ;
   height: 33px !important ;
-  margin-left: 410px;
+  margin-left: 350px;
 }
 
 .upload-date {
@@ -765,7 +765,7 @@
   flex-direction: column; 
   align-items: flex-start;
   width: 100%;
-  
+  margin-left: 10px;
 }
 
 .comment-content {
@@ -777,7 +777,7 @@
 .comment-ready {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
   font-size: small  !important;
-  width: 38rem;
+  width: 36rem;
   height: 30px;
   display: flex;
   justify-content: center;
@@ -785,5 +785,6 @@
   background-color: #f8f8f8;
   /* margin: 10px 10px 10px 10px; */
   margin-top: 30px;
-  margin-left: 1px;
+  margin-left: -10px;
+  margin-right: 25px;
 }
