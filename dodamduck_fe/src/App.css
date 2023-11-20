@@ -726,4 +726,64 @@
 .sharing-detail-content {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
   font-size: medium;
+  display: flex;
+  margin-top: 10px;
+}
+
+.sharing-views {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: small;
+  color: #4e4e4e;
+}
+
+.sharing-comment {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  display: flex;
+  font-size: medium;
+  flex-direction: column; 
+  align-items: flex-start;
+  margin-left: -6px;
+}
+
+.comment-radio {
+  /* font-family: '210 옴니고딕OTF 035', sans-serif !important; */
+  font-size: medium;
+  /* color: #FFD600; */
+  border: solid 1px;
+  border-radius: 20px;
+  display: flex;
+  justify-content: center;
+  width: 10%;
+  align-self: flex-start;
+  margin-bottom: 15px;
+  /* margin: auto; */
+  /* flex-direction: column; */
+}
+
+.comment-section {
+  display: flex;
+  flex-direction: column; 
+  align-items: flex-start;
+  width: 100%;
+  
+}
+
+.comment-content {
+  display: flex;
+  flex-direction: column; 
+  width: 100%; 
+}
+
+.comment-ready {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: small  !important;
+  width: 38rem;
+  height: 30px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #f8f8f8;
+  /* margin: 10px 10px 10px 10px; */
+  margin-top: 30px;
+  margin-left: 1px;
 }
