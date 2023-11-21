@@ -67,22 +67,24 @@ function SharingBoard() {
                                     }}>
                                     {/* <Card.Img variant="top" src={post.images ? post.images[0] : "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788964130193.jpg"}/> */}
                                     {/* <Card.Img variant="top" src={`http://sy2978.dothome.co.kr/${post.image_url}`} /> */}
-                                    <Card.Img variant="top" src={'https://media.bunjang.co.kr/product/97455685_1_1689016134_w360.jpg'} />
+                                    <div className="sharing-card-image-container" style={{ height: '200px', overflow: 'hidden' }}>
+                                        <Card.Img variant="top" src={post.image_url} className="sharing-custom-card-img"/>
+                                    </div>
 
                                 </div>
-                                <Card.Body>
-                                            <Card.Title>{post.title}</Card.Title>
-                                            <Card.Text>{post.content || post.description}</Card.Text>
-                                            <Card.Text>{post.exchangeOrShare}</Card.Text>
-                                            <Card.Text>{post.wishedLocation}</Card.Text>
-                                            <Card.Text>
-                                                {post.tags && post.tags.map((tag, tagIndex) => (
-                                                    <span key={tagIndex}>
-                                                        #{tag}
-                                                    </span>
-                                                ))}
-                                                {post.tag && <span>{post.tag}</span>}
-                                            </Card.Text>
+                                <Card.Body className='sharing-card-body'>
+                                    <Card.Title>{post.title}</Card.Title>
+                                    <Card.Text className='sharing-card-content'>{post.content || post.description}</Card.Text>
+                                    <Card.Text>{post.exchangeOrShare}</Card.Text>
+                                    <Card.Text>{post.wishedLocation}</Card.Text>
+                                    <Card.Text>
+                                        {post.tags && post.tags.map((tag, tagIndex) => (
+                                            <span key={tagIndex}>
+                                                #{tag}
+                                            </span>
+                                        ))}
+                                        {post.tag && <span>{post.tag}</span>}
+                                    </Card.Text>
                                 </Card.Body>
                             </Card>
                         </div>

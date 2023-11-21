@@ -30,7 +30,7 @@ function SharingDetail() {
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
     }
-    const { title, content, views, location, userName } = postDetail.post;
+    const { title, content, views, location, userName, image_url } = postDetail.post;
 
     return (
         <>
@@ -41,7 +41,7 @@ function SharingDetail() {
 
             </Card.Header>
             <Card.Body>
-            <Card.Img variant="top" src="https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788964130193.jpg" width={'100px'} height={'460px'} />
+            <Card.Img variant="top" src={image_url} width={'100px'} height={'460px'} />
                 <Card.Title style={{marginTop: '20px'}}>
                     <div style={{display: 'flex', marginLeft: '15px'}}>
                         <img src="https://i1.sndcdn.com/avatars-000773808259-oqqdgp-t240x240.jpg" width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
@@ -52,7 +52,7 @@ function SharingDetail() {
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
                             <h6 className="upload-date">{location}</h6>
-                            <Button className="chatting-btn">채팅하기</Button>
+                            <Button className="sharing-chatting-btn">채팅하기</Button>
                             </div>
                         </div>
                     </div>
