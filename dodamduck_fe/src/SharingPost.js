@@ -32,15 +32,19 @@ function SharingPost() {
 
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        // const file = e.target.files[0];
+        // const reader = new FileReader();
     
-        reader.onloadend = () => {
-            setSelectedImages([...selectedImages, reader.result]);
-        };
+        // reader.onloadend = () => {
+        //     setSelectedImages([...selectedImages, reader.result]);
+        // };
     
-        if (file) {
-            reader.readAsDataURL(file);
+        // if (file) {
+        //     reader.readAsDataURL(file);
+        // }
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setSelectedImages([file]); // Set the File object directly
         }
     }
 
@@ -74,43 +78,64 @@ function SharingPost() {
         // };
 
         // setPosts(prevPosts => [...prevPosts, formData]);
-        const formData = new FormData();
+    const formData = new FormData();
 
     // 각 입력 필드의 값을 FormData에 추가
-    formData.append('user_id', 'userId'); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
+    formData.append('user_id', 'admin'); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
     formData.append('category_id', '1'); // 카테고리 ID도 마찬가지로 동적으로 설정해야 합니다.
     formData.append('title', title);
     formData.append('content', description);
     formData.append('location', wishedLocation);
-    selectedImages.forEach((image, index) => {
-        formData.append(`image${index}`, image); // 여기서 image는 실제 파일이어야 합니다. base64로 인코딩된 문자열이 아닙니다.
-    });
+    // selectedImages.forEach((image, index) => {
+    //     formData.append(`image${index}`, image); 
+    // });
 
-    // 나머지 입력 필드를 formData에 추가...
-    
+    if (selectedImages.length > 0) {
+        // Assuming selectedImages state is an array of File objects
+        formData.append('image', selectedImages[0]); // Append the first image
+    }
+
+    // try {
+    //     // POST 요청으로 formData 전송
+    //     const response = await axios({
+    //         method: 'post',
+    //         url: 'http://sy2978.dothome.co.kr/PostWrite.php',
+    //         data: formData,
+    //         headers: { 'Content-Type': 'multipart/form-data' },
+    //     });
+
+    //     if(response.data.success) {
+    //         // 게시글 등록 성공 시
+    //         console.log('게시글이 성공적으로 등록되었습니다.');
+    //         navigate('/sharingBoard');
+    //     } else {
+    //         // 서버에서 실패 응답을 받았을 때
+    //         console.error('게시글 등록에 실패했습니다.');
+    //     }
+    // } catch (error) {
+    //     // 요청 실패 시
+    //     console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
+    // }
     try {
-        // POST 요청으로 formData 전송
-        const response = await axios({
-            method: 'post',
-            url: 'http://sy2978.dothome.co.kr/PostWrite.php',
-            data: formData,
-            headers: { 'Content-Type': 'multipart/form-data' },
+        // Make the HTTP request
+        const response = await axios.post('http://sy2978.dothome.co.kr/PostWrite.php', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data', // This will allow axios to set the correct boundary
+            },
         });
 
-        if(response.data.success) {
-            // 게시글 등록 성공 시
+        // Check the response from the server
+        if (response.data.error === false) {
             console.log('게시글이 성공적으로 등록되었습니다.');
             navigate('/sharingBoard');
         } else {
-            // 서버에서 실패 응답을 받았을 때
             console.error('게시글 등록에 실패했습니다.');
         }
     } catch (error) {
-        // 요청 실패 시
         console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
     }
 
-    }
+}
 
     
     return (
@@ -135,7 +160,7 @@ function SharingPost() {
                         <Card key={index} style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "20px", cursor: "pointer" }}
                             onClick={() => document.getElementById('fileInput').click()}
                         >
-                            <img src={image} alt={`Selected ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '3%' }} />
+                            <img src={URL.createObjectURL(image)}  style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '3%' }} />
                         </Card>
                     ))}
                     

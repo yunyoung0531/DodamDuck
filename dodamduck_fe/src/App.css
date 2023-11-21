@@ -465,7 +465,7 @@
 /* CSS */
 .sharing-card img {
   object-fit: cover;
-  height: 200px; /* 또는 원하는 높이를 설정하세요 */
+  height: 200px;
   width: 100%;
 }
 
@@ -787,4 +787,34 @@
   margin-top: 30px;
   margin-left: -10px;
   margin-right: 25px;
+}
+
+.sharing-chatting-btn {
+  background-color: #FFD600 !important;
+  border-color: #FFD600 !important;
+  color: white !important;
+  display: flex;
+  width: 89px !important ;
+  height: 33px !important ;
+  margin-left: 410px;
+}
+
+.sharing-custom-card-img {
+  width: 100%; /* 이미지의 너비를 컨테이너 너비에 맞춥니다. */
+  height: 100%; /* 이미지의 높이를 컨테이너 높이에 맞춥니다. */
+  object-fit: cover; 
+}
+
+.sharing-card-image-container {
+  height: 200px; /* 이미지를 감싸는 컨테이너의 높이를 고정합니다. */
+  overflow: hidden;
+}
+
+.sharing-card-body {
+  height: 145px;
+}
+
+.sharing-card-content {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+
 }
