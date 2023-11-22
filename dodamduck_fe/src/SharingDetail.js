@@ -30,7 +30,7 @@ function SharingDetail() {
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
     }
-    const { title, content, views, location, userName, image_url } = postDetail.post;
+    const { title, content, views, location, userName, image_url, created_at } = postDetail.post;
 
     return (
         <>
@@ -51,7 +51,10 @@ function SharingDetail() {
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
-                            <h6 className="upload-date">{location}</h6>
+                            <div style={{display: 'flex'}}>
+                                <h6 className="upload-date">{location}</h6>
+                                <p className="sharing-comment-created" style={{marginTop: '3px'}}>{created_at}</p>
+                            </div>
                             <Button className="sharing-chatting-btn">채팅하기</Button>
                             </div>
                         </div>
@@ -75,9 +78,15 @@ function SharingDetail() {
                         <div className="comment-radio">댓글</div>
                         <div className="comment-content">
                             {postDetail.comments.map((comment, index) => (
-                                <div key={index} style={{ marginLeft: '10px'}}>
-                                    <p className="sharing-comment">{userName}님: {comment.content}</p>
+                                <>
+                                <div className="sharing-comment-style">
+                                    <p className="sharing-comment">{comment.userName}님</p>
+                                    <p className="sharing-comment-created">{comment.created_at}</p>
                                 </div>
+                                <div key={index} style={{ marginLeft: '10px'}}>
+                                    <p className="sharing-comment-content">{comment.content}</p>
+                                </div>
+                                </>
                             ))}
                         </div>
                                             

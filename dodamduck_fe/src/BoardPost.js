@@ -5,6 +5,7 @@ import { Container, Card, Button, Form } from "react-bootstrap";
 import React, { useState, useContext } from "react";
 import { PostContext } from './PostContext';
 import { useNavigate } from 'react-router';
+import axios from 'axios';
 
 function BoardPost() {
     
@@ -25,15 +26,19 @@ function BoardPost() {
 
 
     const handleImageChange = (e) => {
-        const file = e.target.files[0];
-        const reader = new FileReader();
+        // const file = e.target.files[0];
+        // const reader = new FileReader();
     
-        reader.onloadend = () => {
-            setSelectedImages([...selectedImages, reader.result]);
-        };
+        // reader.onloadend = () => {
+        //     setSelectedImages([...selectedImages, reader.result]);
+        // };
     
-        if (file) {
-            reader.readAsDataURL(file);
+        // if (file) {
+        //     reader.readAsDataURL(file);
+        // }
+        if (e.target.files && e.target.files[0]) {
+            const file = e.target.files[0];
+            setSelectedImages([file]); // Set the File object directly
         }
     }
 
@@ -48,15 +53,42 @@ function BoardPost() {
 
     const { setPosts } = useContext(PostContext);
 
-    const handlePostSubmit = () => {
-        // formData는 사용자가 입력한 데이터를 나타냅니다.
-        const formData = {
-            images: selectedImages,
-            title: title,
-            description: description,
-        };
+    const handlePostSubmit = async () => {
+        const formData = new FormData();
 
-        setPosts(prevPosts => [...prevPosts, formData]);
+        formData.append('user_id', 'admin'); 
+        formData.append('category_id', '1');
+        formData.append('title', title);
+        formData.append('content', description);
+
+          // 이미지 파일이 있다면 FormData에 추가
+        if (selectedImages.length > 0) {
+            // 이미지 파일은 File 객체이므로, reader로 읽지 않고 직접 추가합니다.
+            formData.append('image', selectedImages[0]);
+        }
+        //setPosts(prevPosts => [...prevPosts, formData]);
+        try {
+            // 서버로 POST 요청을 보냅니다.
+            const response = await axios.post('http://sy2978.dothome.co.kr/upload_content_share.php', formData, {
+                headers: {
+                'Content-Type': 'multipart/form-data',
+                },
+            });
+        
+            if (response.data && response.data.success) {
+                console.log('게시글이 성공적으로 등록되었습니다.');
+                navigate('/Board'); // 게시판 페이지로 이동
+            } else {
+                console.error('게시글 등록에 실패했습니다.', response.data);
+            }
+        } catch (error) {
+            // 오류가 발생했을 때 오류 내용을 출력합니다.
+            console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
+            if (error.response) {
+                // 서버에서 응답한 오류 내용도 출력합니다.
+                console.error(error.response.data);
+            }
+        }
     }
 
     
@@ -83,7 +115,7 @@ function BoardPost() {
                         <Card key={index} style={{ width: '10rem', height: "10rem", display: "flex", justifyContent: "center", alignItems: "center", backgroundColor: "#f8f8f8", margin: "13px", cursor: "pointer" }}
                             onClick={() => document.getElementById('fileInput').click()}
                         >
-                            <img src={image} alt={`Selected ${index}`} style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '3%' }} />
+                            <img src={URL.createObjectURL(image)} style={{ width: '100%', height: '100%', objectFit: 'cover',borderRadius: '3%' }} />
                         </Card>
                     ))}
                     

@@ -8,6 +8,8 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 function BoardDetail() {
     let { id } = useParams();
 
+    let navigate = useNavigate();
+
     const [contentShare, setContentShare] = useState(null); // 게시물 데이터 상태
     const [ContentComments, setContentComments] = useState([]); // 댓글 데이터 상태
 
@@ -41,7 +43,7 @@ function BoardDetail() {
 
             </Card.Header>
             <Card.Body>
-            <Card.Img variant="top" src="https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on" width={'100px'} height={'460px'} />
+            <Card.Img variant="top" src={contentShare?.ImageURL} width={'100px'} height={'460px'} />
                 <Card.Title style={{marginTop: '20px'}}>
                     <div style={{display: 'flex', marginLeft: '15px'}}>
                         <img src="https://i1.sndcdn.com/avatars-000773808259-oqqdgp-t240x240.jpg" width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
@@ -93,7 +95,7 @@ function BoardDetail() {
                 </div>
                 </ListGroup.Item>
             </Card.Body>
-            <Card.Footer className="text-muted">게시글 목록 보기</Card.Footer>
+            <Card.Footer className="text-muted" style={{cursor: 'pointer'}} onClick={()=>{navigate('/board')}}>게시글 목록 보기</Card.Footer>
             </Card>
         </div>
         </>
