@@ -84,7 +84,7 @@ function Board() {
                 <div className='board-deco'>
                     {/* <img variant="top" src={post.images ? post.images[0] : "https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on"} width={'180px'} height={'130px'} style={{borderRadius: '3px'}}/> */}
                     {/* <img variant="top" src={`http://sy2978.dothome.co.kr/${post.ImageURL}`} /> */}
-                    <img variant="top" src={'https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on'}width={'180px'} height={'130px'} style={{borderRadius: '3px'}} />
+                    <img variant="top" src={post.ImageURL} width={'180px'} height={'130px'} style={{borderRadius: '3px'}} />
                 </div>
                 <div className='board-post-content'>
                 <h4>{post.Title}</h4>

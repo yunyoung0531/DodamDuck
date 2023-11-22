@@ -66,7 +66,7 @@ function SharingPost() {
 
     const { setPosts } = useContext(PostContext);
 
-    const handlePostSubmit = async  () => {
+    const handlePostSubmit = async () => {
         // formData는 사용자가 입력한 데이터를 나타냅니다.
         // const formData = {
         //     images: selectedImages,

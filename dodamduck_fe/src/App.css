@@ -796,7 +796,7 @@
   display: flex;
   width: 89px !important ;
   height: 33px !important ;
-  margin-left: 410px;
+  margin-left: 310px;
 }
 
 .sharing-custom-card-img {
@@ -817,4 +817,30 @@
 .sharing-card-content {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
 
+}
+
+.sharing-comment-created {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  display: flex;
+  font-size: xx-small;
+  flex-direction: column; 
+  align-items: flex-start;
+  margin-left: -6px;
+  color: #8a8a8a;
+  margin-left: 4px;
+  margin-top: 6px;
+}
+
+.sharing-comment-style {
+  display: flex;
+}
+
+.sharing-comment-content {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  display: flex;
+  font-size: medium;
+  flex-direction: column; 
+  align-items: flex-start;
+  margin-left: -15px;
+  margin-top: -10px;
 }
