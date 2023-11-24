@@ -12,13 +12,49 @@ function SignupPage() {
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
     const [address, setAddress] = useState('');
+    const [isChecked, setIsChecked] = useState(false);
+    const [isIdAvailable, setIsIdAvailable] = useState(true);
 
-    const handleIdChange = (e) => setId(e.target.value);
+    const handleIdChange = (e) => { setId(e.target.value); setIsIdAvailable(true);}
     const handlePasswordChange = (e) => setPassword(e.target.value);
     const handleAddressChange = (e) => setAddress(e.target.value);
+    const handleCheckboxChange = (e) => setIsChecked(e.target.checked); 
+
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault(); 
+
+        if (!id) {
+            alert('아이디를 입력해주세요.');
+            return;
+        }
+        else if (!password) {
+            alert('비밀번호를 입력해주세요.');
+            return;
+        }
+        else if (!address) {
+            alert('주소를 입력해주세요.');
+            return;
+        }
+        else if (password.length < 8) {
+            alert('비밀번호는 8자 이상이어야 합니다。');
+            return;
+        }
+        else if (!/[ `!@#$%^&*()_+\-=[\]{};':"\\|,.<>/?~]/.test(password)) {
+            alert('특수문자 하나 이상을 포함해야 합니다.');
+            return;
+        }
+        if (!isChecked) {
+            alert('약관에 동의해주세요.');
+            return;
+        }
+        // if (!isIdAvailable) {
+        //     alert('중복된 아이디입니다. 다른 아이디를 입력해주세요.');
+        //     return;
+        // }
+
 
         const formData = new FormData();
         formData.append('userID', id);
@@ -30,9 +66,13 @@ function SignupPage() {
 
             if (response.data.success || response.data.message === "Registration successful") {
                 console.log('회원가입 성공:', response.data);
+                alert('회원가입 성공하였습니다! 로그인페이지로 이동합니다.');
                 navigate('/login'); // 성공 시 로그인 페이지로 이동
             } else {
                 console.error('회원가입 실패:', response.data.message);
+                if (response.data.message === "User already exists") {
+                    alert('이미 사용중인 아이디입니다. 다른 아이디를 입력해주세요.');
+                }
             }
         } catch (error) {
             console.error('회원가입 중 오류 발생:', error);
@@ -48,6 +88,7 @@ function SignupPage() {
                     <Form.Control type="id" placeholder="아이디를 입력하세요。" style={{width: '350px'}} className='signup-placeholder' 
                     value={id}
                     onChange={handleIdChange}
+                    onBlur={checkIdAvailability}
                     />
                     </Form.Group>
 
@@ -85,7 +126,9 @@ function SignupPage() {
                 </Row> */}
 
                 <Form.Group className="mb-3 custom-checkbox" id="formGridCheckbox" style={{marginLeft: '-50px'}}>
-                    <Form.Check type="checkbox" label="Check me out" className="custom-checkbox" />
+                    <Form.Check type="checkbox" label="Check me out" className="custom-checkbox" 
+                    checked={isChecked} 
+                    onChange={handleCheckboxChange}/>
                 </Form.Group>
 
                 <div className='login-page-already' style={{marginLeft: '-50px'}}>
