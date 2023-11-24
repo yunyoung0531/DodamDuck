@@ -16,10 +16,9 @@ function BoardDetail() {
     useEffect(() => {
         const fetchDetail = async () => {
         try {
-            // 게시물 상세 정보를 불러오는 API 호출
-            const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_ID.php?share_id=${id}`);
-            setContentShare(response.data.ContentShare); // 상태 업데이트
-            setContentComments(response.data.ContentComments);  
+            const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_Detail.php?share_id=${id}`);
+            setContentShare(response.data.postDetails); 
+            setContentComments(response.data.comments);  
             console.log(id);
             console.log(response.data);
         } catch (error) {
@@ -31,7 +30,7 @@ function BoardDetail() {
     }, [id]); 
 
     if (!contentShare) {
-        return <div>로딩중...</div>; // 데이터 로딩 중 표시
+        return <div>로딩중...</div>;
     }
 
     return (
@@ -43,17 +42,17 @@ function BoardDetail() {
 
             </Card.Header>
             <Card.Body>
-            <Card.Img variant="top" src={contentShare?.ImageURL} width={'100px'} height={'460px'} />
+            <Card.Img variant="top" src={contentShare?.imageUrl} width={'100px'} height={'460px'} />
                 <Card.Title style={{marginTop: '20px'}}>
                     <div style={{display: 'flex', marginLeft: '15px'}}>
                         <img src="https://i1.sndcdn.com/avatars-000773808259-oqqdgp-t240x240.jpg" width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {/* <div style={{display: 'flex'}}> */}
-                            <h5 style={{marginLeft: '-456px'}}>보노보노맘</h5>
+                            <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5>
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
-                            <h6 className="upload-date">{contentShare?.CreatedAt}</h6>
+                            <h6 className="upload-date">{contentShare?.createAt}</h6>
                             <Button className="chatting-btn">채팅하기</Button>
                             </div>
                         </div>
@@ -63,11 +62,11 @@ function BoardDetail() {
                     <ListGroup.Item></ListGroup.Item>
                     <ListGroup.Item>
                         <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
-                        <h4>{contentShare?.Title}</h4> 
-                        <div className="sharing-views">조회수: {contentShare?.Views}</div>
+                        <h4>{contentShare?.title}</h4> 
+                        <div className="sharing-views">조회수: {contentShare?.views}</div>
                         </div>
                         <h5 className="sharing-detail-content">
-                            {contentShare?.Content}
+                            {contentShare?.content}
                         </h5>
                         
                     </ListGroup.Item>
@@ -84,7 +83,7 @@ function BoardDetail() {
                     <div className="comment-content">
                         {ContentComments.map((comment, index) => (
                             <div key={index} style={{ marginLeft: '10px'}}>
-                                <p className="sharing-comment">포로리님: {comment.Comment}</p>
+                                <p className="sharing-comment">{comment.userName}님: {comment.comment}</p>
                             </div>
                         ))}
                     </div>

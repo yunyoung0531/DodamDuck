@@ -3,31 +3,68 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Col, Row } from 'react-bootstrap';
 import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png'
 import { useNavigate } from 'react-router';
+import axios from 'axios';
+import React, { useState } from 'react';
 
 function SignupPage() {
     let navigate = useNavigate();
+
+    const [id, setId] = useState('');
+    const [password, setPassword] = useState('');
+    const [address, setAddress] = useState('');
+
+    const handleIdChange = (e) => setId(e.target.value);
+    const handlePasswordChange = (e) => setPassword(e.target.value);
+    const handleAddressChange = (e) => setAddress(e.target.value);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault(); 
+
+        const formData = new FormData();
+        formData.append('userID', id);
+        formData.append('userPassword', password);
+        formData.append('location', address);
+
+        try {
+            const response = await axios.post('http://sy2978.dothome.co.kr/Register.php', formData);
+
+            if (response.data.success || response.data.message === "Registration successful") {
+                console.log('회원가입 성공:', response.data);
+                navigate('/login'); // 성공 시 로그인 페이지로 이동
+            } else {
+                console.error('회원가입 실패:', response.data.message);
+            }
+        } catch (error) {
+            console.error('회원가입 중 오류 발생:', error);
+        }
+    };
     return(
         <>
             <div className='login-form signup-container'>
-            <Form style={{marginLeft: '100px'}}>
+            <Form onSubmit={handleSubmit} style={{marginLeft: '100px'}}>
                 <Row className="mb-3">
-                    <Form.Group as={Col} controlId="formGridEmail" style={{marginLeft: '-50px'}}>
-                    <Form.Label>Email</Form.Label>
-                    <Form.Control type="email" placeholder="이메일을 입력하세요。" style={{width: '350px'}} />
+                    <Form.Group as={Col} controlId="formGridId" style={{marginLeft: '-50px'}}>
+                    <Form.Label>아이디</Form.Label>
+                    <Form.Control type="id" placeholder="아이디를 입력하세요。" style={{width: '350px'}} className='signup-placeholder' 
+                    value={id}
+                    onChange={handleIdChange}
+                    />
                     </Form.Group>
 
                     <Form.Group as={Col} controlId="formGridPassword" style={{marginLeft: '0px'}}>
-                    <Form.Label>Password</Form.Label>
-                    <Form.Control type="password" placeholder="비밀번호를 입력하세요。" style={{width: '350px'}}/>
+                    <Form.Label>비밀번호</Form.Label>
+                    <Form.Control type="password" placeholder="비밀번호를 입력하세요。" style={{width: '350px'}} className='signup-placeholder'
+                    value={password} onChange={handlePasswordChange}/>
                     </Form.Group>
                 </Row>
 
                 <Form.Group className="mb-3" controlId="formGridAddress1" style={{marginLeft: '-50px'}}>
-                    <Form.Label>Address</Form.Label>
-                    <Form.Control placeholder="1234 Main St" style={{width: '350px'}} />
+                    <Form.Label>주소</Form.Label>
+                    <Form.Control type="address" placeholder="광주광역시 동구 필문대로 309" style={{width: '350px'}} className='signup-placeholder'
+                    value={address} onChange={handleAddressChange}/>
                 </Form.Group>
 
-                <Form.Group className="mb-3" controlId="formGridAddress2" style={{marginLeft: '-50px'}}>
+                {/* <Form.Group className="mb-3" controlId="formGridAddress2" style={{marginLeft: '-50px'}}>
                     <Form.Label>Address 2</Form.Label>
                     <Form.Control placeholder="Apartment, studio, or floor" style={{width: '350px'}}/>
                 </Form.Group>
@@ -45,12 +82,7 @@ function SignupPage() {
                         <option>...</option>
                     </Form.Select>
                     </Form.Group>
-
-                    {/* <Form.Group as={Col} controlId="formGridZip">
-                    <Form.Label>Zip</Form.Label>
-                    <Form.Control />
-                    </Form.Group> */}
-                </Row>
+                </Row> */}
 
                 <Form.Group className="mb-3 custom-checkbox" id="formGridCheckbox" style={{marginLeft: '-50px'}}>
                     <Form.Check type="checkbox" label="Check me out" className="custom-checkbox" />
@@ -60,7 +92,7 @@ function SignupPage() {
                 <p style={{ fontSize: '13px', color: '#787878', marginRight: '500px', cursor: 'pointer'}}
                     onClick={()=>{ navigate('/login') }}
                 >이미 계정이 있으신가요?</p>
-                    <Button variant="outline-dark" className='login-btn'
+                    <Button variant="outline-dark" type="submit" className='login-btn'
                     >회원가입</Button>
                     </div>
                 </Form>
