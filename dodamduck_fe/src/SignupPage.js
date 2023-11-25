@@ -27,14 +27,13 @@ function SignupPage() {
         }
         try {
             const response = await axios.post('http://sy2978.dothome.co.kr/UserValidate.php', { userID: id });
-            // API 응답에 따른 상태 처리
-            if (response.data.isAvailable) {
-                setIsIdAvailable(true);
-                alert('사용 가능한 아이디입니다.');
-            } else {
-                setIsIdAvailable(false);
-                alert('이미 사용중인 아이디입니다.');
-            }
+            // if (response.data.isAvailable) {
+            //     setIsIdAvailable(true);
+            //     alert('사용 가능한 아이디입니다.');
+            // } else {
+            //     setIsIdAvailable(false);
+            //     alert('이미 사용중인 아이디입니다.');
+            // }
         } catch (error) {
             console.error('아이디 중복 검사 중 오류 발생:', error);
             alert('아이디 중복 검사 중 오류가 발생했습니다. 다시 시도해주세요.');

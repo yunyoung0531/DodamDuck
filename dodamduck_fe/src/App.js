@@ -24,16 +24,36 @@ import Chatting from './Chatting';
 import ChattingDetail from './ChattingDetail';
 import BoardDetail from './BoardDetail';
 import sharingDetail from './SharingDetail';
-
+// import { AuthProvider } from './AuthContext';
+import { useAuth } from './AuthContext';
+import { useEffect } from 'react';
 //const SharingDetail = lazy(() => import('./SharingDetail.js'));
 
 
 function App() { 
-
+  const { user, logout } = useAuth();
   let navigate = useNavigate();
+
+  useEffect(() => {
+    console.log('유저는? ', user);
+  }, [user])
+  // const handleLogout = () => {
+  //   logout();
+  //   console.log('로그아웃 됨 (아마)');
+  //   navigate('/login'); // 로그아웃 후 로그인 페이지로 이동
+  // };
+  const handleLogout = async () => {
+    try {
+      await logout(); // 서버에 로그아웃 요청을 보내고, 완료될 때까지 기다립니다.
+      console.log('로그아웃 되었습니다.');
+      navigate('/login'); // 로그아웃 후 로그인 페이지로 이동합니다.
+    } catch (error) {
+      console.error('로그아웃 중 문제가 발생했습니다.', error);
+    }
+  };
+
   return (
     <>
-    <PostProvider>
     <div className='App'>
       {['sm'].map((expand) => (
       <Navbar fixed="top" className="nav-color mb-3 " key={expand} expand={expand} >
@@ -54,9 +74,16 @@ function App() {
             <Nav.Link className='link-spacing' onClick={()=>{ navigate('/chatting') }}>채팅</Nav.Link>
           </Nav>
           
-          <Button variant="outline-dark" className='login-btn'
+          {/* <Button variant="outline-dark" className='login-btn'
             onClick={()=>{ navigate('/login') }}
-          >로그인</Button>
+          >로그인</Button> */}
+
+          {user ? (
+                <Button variant="outline-dark" className='login-btn' onClick={handleLogout}>로그아웃</Button>
+              ) : (
+                <Button variant="outline-dark" className='login-btn' onClick={() => navigate('/login')}>로그인</Button>
+              )}
+
         </Container>
       </Navbar>
       ))}
@@ -114,7 +141,6 @@ function App() {
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
       </div>
-      </PostProvider>
     </>
   );
 }
