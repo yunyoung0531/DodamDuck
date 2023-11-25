@@ -6,13 +6,14 @@ import React, { useState, useContext } from "react";
 import { PostContext } from './PostContext';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
-
+import { useAuth } from './AuthContext';
 function BoardPost() {
     
     let navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
+    const { user } = useAuth(); 
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -54,9 +55,14 @@ function BoardPost() {
     const { setPosts } = useContext(PostContext);
 
     const handlePostSubmit = async () => {
+          // 로그인한 유저의 정보가 있는지 확인
+        // if (!user || !user.userName) {
+        //     console.error('유저 정보가 없습니다. 로그인이 필요합니다.');
+        //     return;
+        // }
         const formData = new FormData();
 
-        formData.append('user_id', 'admin'); 
+        formData.append('user_id', user); 
         formData.append('category_id', '1');
         formData.append('title', title);
         formData.append('content', description);

@@ -83,7 +83,7 @@ function SharingDetail() {
                                     <p className="sharing-comment">{comment.userName}님</p>
                                     <p className="sharing-comment-created">{comment.created_at}</p>
                                 </div>
-                                <div key={index} style={{ marginLeft: '10px'}}>
+                                <div key={comment.id} style={{ marginLeft: '10px'}}>
                                     <p className="sharing-comment-content">{comment.content}</p>
                                 </div>
                                 </>
