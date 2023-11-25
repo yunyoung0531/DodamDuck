@@ -41,11 +41,11 @@ function BoardDetail() {
             <Card.Header>도담덕 자유 게시판
 
             </Card.Header>
-            <Card.Body>
+            <Card.Body>  
             <Card.Img variant="top" src={contentShare?.image_url} width={'100px'} height={'460px'} />
                 <Card.Title style={{marginTop: '20px'}}>
                     <div style={{display: 'flex', marginLeft: '15px'}}>
-                        <img src={contentShare?.profile_url} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
+                        <img src={contentShare?.profile_url ? contentShare.profile_url : 'https://www.lab2050.org/common/img/default_profile.png'}  width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {/* <div style={{display: 'flex'}}> */}
                             {/* <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5> */}
