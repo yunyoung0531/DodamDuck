@@ -1,8 +1,15 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from './AuthContext';
 
 
 function Chatting() {
+    const { user } = useAuth();
+
+    if (!user) {
+        return <div>로딩 중...</div>;
+    }
+
     return (
         <>
         <div className="chat-container">
@@ -10,9 +17,9 @@ function Chatting() {
                     
                 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img src="https://i1.sndcdn.com/avatars-000773808259-oqqdgp-t240x240.jpg" width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
-                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px'}}>보노보노맘</h4>
-                    <h7 style={{marginTop: '20px'}} className="myshop-level">위치</h7>
+                <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"}  width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
+                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userName} 님</h4>
+                    <h7 style={{marginTop: '24px'}} className="chat-user-level">level.{user.level}</h7>
                 </div>
 
                 <h6 style={{marginTop: '30px', color: '#303030'}}>
@@ -22,7 +29,7 @@ function Chatting() {
                     <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
                         <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px' }}>포로리파파</h6>
+                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>포로리파파</h6>
                             <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용입니다람쥐🐿️</h6>
                         </div>
                     </div>
@@ -31,7 +38,7 @@ function Chatting() {
                     <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
                         <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px' }}>포로리파파</h6>
+                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>포로리파파</h6>
                             <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용</h6>
                         </div>
                     </div>
@@ -40,7 +47,7 @@ function Chatting() {
                     <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
                     <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
                         <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px' }}>포로리파파</h6>
+                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>포로리파파</h6>
                             <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용</h6>
                         </div>
                     </div>

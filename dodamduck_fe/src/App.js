@@ -35,7 +35,13 @@ function App() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    console.log('유저는? ', user);
+    console.log('유저는? ', user.location);
+    console.log('(App.js)userID는? ', localStorage.getItem('userID'));
+    console.log('(App.js)userName는? ', localStorage.getItem('userName'));
+    console.log('(App.js)level는? ', localStorage.getItem('level'));
+    console.log('(App.js)verification_count는 ? ', localStorage.getItem('verification_count'));
+    console.log('(App.js)location는? ', localStorage.getItem('location'));
+    // console.log('(App.js)user.level은? ', user.level);
   }, [user])
   // const handleLogout = () => {
   //   logout();

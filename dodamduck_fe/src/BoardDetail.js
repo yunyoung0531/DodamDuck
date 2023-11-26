@@ -49,7 +49,7 @@ function BoardDetail() {
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {/* <div style={{display: 'flex'}}> */}
                             {/* <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5> */}
-                            <h5 style={{marginLeft: '-480px'}}>{contentShare?.UserID}님</h5>
+                            <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5>
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
@@ -83,8 +83,9 @@ function BoardDetail() {
                     <div className="comment-radio">댓글</div>
                     <div className="comment-content">
                         {ContentComments.map((comment, index) => (
-                            <div key={comment.id} style={{ marginLeft: '10px'}}>
+                            <div key={comment.id} style={{ marginLeft: '10px', display: 'flex'}}>
                                 <p className="sharing-comment">{comment.userName}님: {comment.content}</p>
+                                <p className="sharing-comment-created">{comment.created_at}</p>
                             </div>
                         ))}
                     </div>

@@ -849,3 +849,28 @@
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
 
 }
+
+.board-comment-created {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  display: flex;
+  font-size:xx-small;
+  flex-direction: column; 
+  align-items: flex-start;
+  margin-left: -6px;
+  color: #bebebe;
+  margin-left: 10px;
+  /* margin-top: 6px; */
+}
+
+.myshop-information {
+  /* font-family: '210 옴니고딕OTF 035', sans-serif !important; */
+  font-size: medium;
+
+}
+
+.chat-user-level {
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: medium;
+  color: #303030;
+
+}
