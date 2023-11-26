@@ -30,7 +30,7 @@ function SharingDetail() {
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
     }
-    const { title, content, views, location, userName, image_url, created_at } = postDetail.post;
+    const { title, content, views, location, userName, image_url, created_at, profile_url, user_id } = postDetail.post;
 
     return (
         <>
@@ -44,10 +44,10 @@ function SharingDetail() {
             <Card.Img variant="top" src={image_url} width={'100px'} height={'460px'} />
                 <Card.Title style={{marginTop: '20px'}}>
                     <div style={{display: 'flex', marginLeft: '15px'}}>
-                        <img src="https://i1.sndcdn.com/avatars-000773808259-oqqdgp-t240x240.jpg" width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
+                        <img src={profile_url ? profile_url : 'https://www.lab2050.org/common/img/default_profile.png'} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {/* <div style={{display: 'flex'}}> */}
-                            <h5 style={{marginLeft: '-456px'}}>보노보노맘</h5>
+                            <h5 style={{marginLeft: '-500px'}}>{user_id}님</h5>
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>

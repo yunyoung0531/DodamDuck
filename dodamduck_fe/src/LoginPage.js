@@ -22,6 +22,7 @@ function LoginPage() {
     useEffect(() => {
         if (user) {
             console.log('user는 ?:', user);
+            // console.log('user.level는 (Loginpage)?:', user.level);
             // 로그인 상태에 따른 추가 작업을 여기에 수행
         }
     }, [user]);
@@ -32,6 +33,7 @@ function LoginPage() {
         const formData = new FormData();
         formData.append('userID', id);
         formData.append('userPassword', password);
+        // formData.append('userPassword', password);
         // formData.append('location', address);
 
         try {
@@ -42,7 +44,11 @@ function LoginPage() {
             const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', formData);
 
             if (response.data.login_success) {
-                await login(response.data.userID);
+                // await login(response.data.userID, response.data.userName, response.data.level);
+                await login(response.data);
+                // await login(response.data.userName);
+                // await login(response.data.level);
+                // await login(response.data.level);
                 console.log('로그인 성공', response.data);
                 console.log('유저는??', user);
                 navigate('/');
