@@ -49,7 +49,7 @@ function BoardDetail() {
                         <div style={{display: 'flex', flexDirection: 'column'}}>
                             {/* <div style={{display: 'flex'}}> */}
                             {/* <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5> */}
-                            <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5>
+                            <h5 style={{marginLeft: '-480px'}}>{contentShare?.UserID}님</h5>
                             {/* </div> */}
                             {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>

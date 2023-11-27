@@ -6,12 +6,15 @@ import React, { useState, useContext } from "react";
 import { PostContext } from './PostContext';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
+
 
 function SharingPost() {
     let navigate = useNavigate();
 
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
+    const { user } = useAuth(); 
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -81,7 +84,7 @@ function SharingPost() {
     const formData = new FormData();
 
     // 각 입력 필드의 값을 FormData에 추가
-    formData.append('user_id', 'admin'); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
+    formData.append('user_id', user.userID); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
     formData.append('category_id', '1'); // 카테고리 ID도 마찬가지로 동적으로 설정해야 합니다.
     formData.append('title', title);
     formData.append('content', description);
