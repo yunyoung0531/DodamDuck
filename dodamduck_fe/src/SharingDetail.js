@@ -27,6 +27,22 @@ function SharingDetail() {
         fetchPostDetail();
     }, [id]);
 
+    // useEffect(() => {
+    //     const fetchPostDetailAndUpdateViews = async () => {
+    //         try {
+    //                 const viewUpData = new URLSearchParams();
+    //                 viewUpData.append('post_id', id);
+    //                 const viewResponse = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', viewUpData);
+    //                 console.log("조회수 증가 응답", viewResponse.data);
+                
+    //         } catch (error) {
+    //             console.error('조회수 API 불러오기 실패함', error);
+    //         }
+    //     };
+    
+    //     fetchPostDetailAndUpdateViews();
+    // }, [id]);
+
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
     }

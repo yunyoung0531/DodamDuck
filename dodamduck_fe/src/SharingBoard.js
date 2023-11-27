@@ -8,40 +8,51 @@ import { PostContext } from './PostContext';
 import {Button, Card, placeholder} from 'react-bootstrap';
 import SharingDetail from './SharingDetail';
 import React, { useEffect, useState } from 'react';
+import axios from 'axios';
 
 function SharingBoard() {
 
     let navigate = useNavigate();
-    const { posts } = useContext(PostContext);
-    const cardItemData = [
-        { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" },
-        { title: "뽀로로장난감", content: "뽀로로 다른 거랑 교환해요.", wishedLocation: "광주광역시", exchangeOrShare: "교환", tag: "#뽀로로" },
-        { title: "핑크퐁", content: "핑크퐁 교환합니다.", wishedLocation: "광주광역시", exchangeOrShare: "교환", tag: "#핑크퐁" },
-        { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" },
-        { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" }
-    ]
+    // const { posts } = useContext(PostContext);
+    // const cardItemData = [
+    //     { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" },
+    //     { title: "뽀로로장난감", content: "뽀로로 다른 거랑 교환해요.", wishedLocation: "광주광역시", exchangeOrShare: "교환", tag: "#뽀로로" },
+    //     { title: "핑크퐁", content: "핑크퐁 교환합니다.", wishedLocation: "광주광역시", exchangeOrShare: "교환", tag: "#핑크퐁" },
+    //     { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" },
+    //     { title: "딸랑이", content: "3세 장난감 나눔해요.", wishedLocation: "광주광역시", exchangeOrShare: "나눔", tag: "#무료나눔" }
+    // ]
 
     //const allPosts = [...cardItemData, ...posts];
 
     const [serverPosts, setServerPosts] = useState([]);
     useEffect(() => {
-        // 컴포넌트가 마운트되면 서버로부터 데이터를 가져옵니다.
         fetch('http://sy2978.dothome.co.kr/Post.php')
             .then((response) => response.json())
             .then((data) => {
-            // 데이터를 상태에 저장합니다.
             console.log("data는? ", data);
             setServerPosts(data);
             })
             .catch((error) => {
-            // 에러가 발생했을 경우 콘솔에 로깅합니다.
             console.error('오류뜸: ', error);
             });
         }, []);
 
     const allPosts = serverPosts;
 
+    const incrementViewCount = async (postId) => {
+        try {
+            const postData = new URLSearchParams();
+            postData.append('post_id', postId);
+            const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData);
+            console.log("조회수 증가 응답", response.data);
+
+        } catch (error) {
+            console.error('조회수 증가 API 호출 실패', error);
+        }
+    }
+
     const handleCardClick = (postId) => {
+        incrementViewCount(postId); 
         navigate(`/sharingDetail/${postId}`);
     }
 

@@ -62,7 +62,7 @@ function BoardPost() {
         // }
         const formData = new FormData();
 
-        formData.append('user_id', user); 
+        formData.append('user_id', user.userID); 
         formData.append('category_id', '1');
         formData.append('title', title);
         formData.append('content', description);
