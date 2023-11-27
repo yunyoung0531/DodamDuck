@@ -18,7 +18,7 @@ function Chatting() {
                 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                 <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"}  width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
-                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userName} 님</h4>
+                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userID} 님</h4>
                     <h7 style={{marginTop: '24px'}} className="chat-user-level">level.{user.level}</h7>
                 </div>
 

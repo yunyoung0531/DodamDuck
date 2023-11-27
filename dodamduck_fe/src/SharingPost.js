@@ -15,6 +15,7 @@ function SharingPost() {
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
     const { user } = useAuth(); 
+    
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);

@@ -4,13 +4,54 @@ import axios from 'axios';
 import {React, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from './AuthContext';
 
 function SharingDetail() {
+
+    const { user } = useAuth();
 
     let { id } = useParams();
     const [postDetail, setPostDetail] = useState(null);
     let navigate = useNavigate();
+    const [comment, setComment] = useState(""); 
 
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const submitComment = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('post_id', id);
+            formData.append('user_id', user.userID);
+            formData.append('content', comment);
+    
+            const response = await axios.post('http://sy2978.dothome.co.kr/upload_comments.php', formData);
+    
+            if (response.data.error === false) {
+                console.log('댓글이 성공적으로 등록되었습니다.', response.data);
+                console.log('response.data.userID? ', response.data.comment_id)
+
+                const newComment = {
+                    id: response.data.comment_id, 
+                    userName: user.username, 
+                    content: comment, 
+                    created_at: created_at
+                };
+                
+                setPostDetail(prevDetail => ({
+                    ...prevDetail,
+                    comments: [...prevDetail.comments, newComment]
+                }));
+                setComment(""); 
+            } else {
+                console.error('댓글 등록에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
+        }
+    };
+    
     useEffect(() => {
         const fetchPostDetail = async () => {
             try {
@@ -27,22 +68,6 @@ function SharingDetail() {
         fetchPostDetail();
     }, [id]);
 
-    // useEffect(() => {
-    //     const fetchPostDetailAndUpdateViews = async () => {
-    //         try {
-    //                 const viewUpData = new URLSearchParams();
-    //                 viewUpData.append('post_id', id);
-    //                 const viewResponse = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', viewUpData);
-    //                 console.log("조회수 증가 응답", viewResponse.data);
-                
-    //         } catch (error) {
-    //             console.error('조회수 API 불러오기 실패함', error);
-    //         }
-    //     };
-    
-    //     fetchPostDetailAndUpdateViews();
-    // }, [id]);
-
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
     }
@@ -50,7 +75,6 @@ function SharingDetail() {
 
     return (
         <>
-        {/* Post ID: {id} */}
         <div className="shring-detail-card">
             <Card className="text-center">
             <Card.Header>교환 & 나눔 게시판
@@ -107,8 +131,13 @@ function SharingDetail() {
                         </div>
                                             
                     <div style={{ display: 'flex'}}>
-                    <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"/> 
-                        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginLeft: '10px', cursor: 'pointer'}} />
+                    <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                    value={comment}
+                    onChange={handleCommentChange}
+                    /> 
+                        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginLeft: '10px', cursor: 'pointer'}} 
+                        onClick={submitComment} 
+                        />
                     </div>
                     </ListGroup.Item>
                 </ListGroup>
