@@ -22,7 +22,7 @@ function Library() {
                         "accept": "*/*"
                     }
                 });
-                setLibraries(response.data.data); // 'data' 필드에 따라 조정이 필요할 수 있습니다.
+                setLibraries(response.data.data);
             } catch (error) {
                 console.error("오류 뜸!! 다시 해보자", error);
             }

@@ -56,6 +56,21 @@ function SharingBoard() {
         navigate(`/sharingDetail/${postId}`);
     }
 
+    const timeSince = (date) => {
+        const postDate = new Date(date);
+        const today = new Date();
+        const differenceInTime = today.getTime() - postDate.getTime();
+        const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+        
+        if (differenceInDays === 0) {
+        return '오늘';
+        } else if (differenceInDays === 1) {
+        return '1일 전';
+        } else {
+        return `${differenceInDays}일 전`;
+        }
+    }
+
     return (
         <>
             <div className='library-nav'>
@@ -84,10 +99,12 @@ function SharingBoard() {
 
                                 </div>
                                 <Card.Body className='sharing-card-body'>
-                                    <Card.Title>{post.title}</Card.Title>
-                                    <Card.Text className='sharing-card-content'>{post.content || post.description}</Card.Text>
-                                    <Card.Text>{post.exchangeOrShare}</Card.Text>
-                                    <Card.Text>{post.wishedLocation}</Card.Text>
+                                    <Card.Title className='sharing-card-title'>{post.title}</Card.Title>
+                                    <Card.Text className='sharing-card-info'>{post.location}ㆍ{timeSince(post.created_at)}ㆍ조회 {post.views}</Card.Text>
+                                    {/* <Card.Text className='sharing-card-content'>{post.content || post.description}</Card.Text> */}
+                                    <Card.Text className='sharing-card-content'>{post.category_name}</Card.Text>
+                                    {/* <Card.Text>{post.exchangeOrShare}</Card.Text> */}
+                                    {/* <Card.Text>{post.wishedLocation}</Card.Text> */}
                                     <Card.Text>
                                         {post.tags && post.tags.map((tag, tagIndex) => (
                                             <span key={tagIndex}>
