@@ -85,7 +85,10 @@ function App() {
           >로그인</Button> */}
 
           {user ? (
+                <>
+                <div className='navbar-username'>{user.userID} 님 안녕하세요 :) 💛ㅤ</div>
                 <Button variant="outline-dark" className='login-btn' onClick={handleLogout}>로그아웃</Button>
+                </>
               ) : (
                 <Button variant="outline-dark" className='login-btn' onClick={() => navigate('/login')}>로그인</Button>
               )}
