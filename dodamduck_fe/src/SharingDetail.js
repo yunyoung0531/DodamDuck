@@ -34,7 +34,7 @@ function SharingDetail() {
 
                 const newComment = {
                     id: response.data.comment_id, 
-                    userName: user.username, 
+                    userName: user.userName, 
                     content: comment, 
                     created_at: created_at
                 };

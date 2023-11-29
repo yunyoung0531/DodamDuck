@@ -4,21 +4,66 @@ import axios from 'axios';
 import {React, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { useAuth } from './AuthContext';
 
 function BoardDetail() {
     let { id } = useParams();
+    const { user } = useAuth();
 
     let navigate = useNavigate();
 
     const [contentShare, setContentShare] = useState(null); // 게시물 데이터 상태
     const [ContentComments, setContentComments] = useState([]); // 댓글 데이터 상태
 
+    const [comment, setComment] = useState(""); 
+
+    const handleCommentChange = (e) => {
+        setComment(e.target.value);
+    };
+
+    const submitComment = async () => {
+        try {
+            const formData = new FormData();
+            formData.append('share_id', id);
+            formData.append('user_id', user.userID);
+            formData.append('comment', comment);
+    
+            const response = await axios.post('http://sy2978.dothome.co.kr/upload_share_comment.php', formData);
+            if (response.data.error === false) {
+                console.log('댓글이 성공적으로 등록되었습니다.', response.data);
+                console.log('response.data.userID? ', response.data.comment_id)
+
+                const newComment = {
+                    id: response.data.comment_id, 
+                    userName: user.userName, 
+                    content: comment,
+                    created_at:  response.data.created_at
+                    // created_at: new Date().toISOString()
+                };
+                
+            setContentComments(prevComments => [newComment, ...prevComments]);
+
+
+                setComment("");
+            } else {
+                console.error('댓글 등록에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
+        }
+    };
+    
+
     useEffect(() => {
         const fetchDetail = async () => {
         try {
             const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_Detail.php?share_id=${id}`);
-            setContentShare(response.data.post); 
-            setContentComments(response.data.comments);  
+            // const sortedComments = response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            const sortedComments = Array.isArray(response.data.comments) 
+            ? response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+            : [];
+            setContentShare(response.data.post);
+            setContentComments(sortedComments);
             console.log(id);
             console.log(response.data);
         } catch (error) {
@@ -83,16 +128,29 @@ function BoardDetail() {
                     <div className="comment-radio">댓글</div>
                     <div className="comment-content">
                         {ContentComments.map((comment, index) => (
-                            <div key={comment.id} style={{ marginLeft: '10px', display: 'flex'}}>
-                                <p className="sharing-comment">{comment.userName}님: {comment.content}</p>
+                            // <div key={comment.id} style={{ marginLeft: '10px', display: 'flex'}}>
+                            //     <p className="sharing-comment">{comment.userName}님: {comment.content}</p>
+                            //     <p className="sharing-comment-created">{comment.created_at}</p>
+                            // </div>
+                            <>
+                            <div className="sharing-comment-style">
+                                <p className="sharing-comment">{comment.userName}님</p>
                                 <p className="sharing-comment-created">{comment.created_at}</p>
                             </div>
+                            <div key={comment.id} style={{ marginLeft: '10px'}}>
+                                <p className="sharing-comment-content">{comment.content}</p>
+                            </div>
+                            </>
                         ))}
                     </div>
                                         
                 <div style={{ display: 'flex'}}>
-                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"/> 
-                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} />
+                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                value={comment}
+                onChange={handleCommentChange}/> 
+                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} 
+                    onClick={submitComment} 
+                    />
                 </div>
                 </ListGroup.Item>
             </Card.Body>
