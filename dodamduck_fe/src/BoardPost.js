@@ -83,8 +83,21 @@ function BoardPost() {
         
             if (response.data && response.data.success) {
                 console.log('게시글이 성공적으로 등록되었습니다.');
-                navigate('/Board'); // 게시판 페이지로 이동
+                const newPost = {
+                    id: response.data.post.id, // 서버로부터 반환된 ID
+                    title: title,
+                    content: description,
+                    image_url: response.data.post.image_url, // 가정: 서버가 image_url을 반환
+                    // 서버로부터 받은 나머지 데이터를 여기에 추가합니다.
+                };
+    
+                // PostContext의 setPosts 함수를 사용하여 게시글 목록 상태를 업데이트합니다.
+                setPosts(prevPosts => [...prevPosts, newPost]);
+    
+                // 게시판 페이지로 이동합니다.
+                navigate('/Board');
             } else {
+                // 게시글 등록 실패에 대한 처리
                 console.error('게시글 등록에 실패했습니다.', response.data);
             }
         } catch (error) {

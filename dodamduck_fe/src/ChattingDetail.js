@@ -1,11 +1,21 @@
 import { Container, Card, Button, Form } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import React, { useState, useEffect } from 'react';
+import axios from "axios";
 import { useAuth } from './AuthContext';
 
 
 function ChattingDetail() {
     const { user } = useAuth();
+
+    // useEffect(() => {
+    //     // 로그인한 사용자의 userID를 확인하고
+    //     // 채팅방 목록을 가져오거나 생성하는 로직을 작성합니다.
+    //     if (user) {
+    //         createChatRoom(user.userID);
+    //     }
+    // }, [user]);
 
     if (!user) {
         return <div>로딩 중...</div>;
@@ -36,7 +46,7 @@ function ChattingDetail() {
                 </div>
                 <div className="chat-user-line">
                     <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
+                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDJ_tbBsiXFnYMD07uO0q4ES7_KlK8o_o-uQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
                         <div style={{ flexDirection: 'column'}}>
                             <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px' }}>포로리파파</h6>
                             <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용</h6>

@@ -71,17 +71,6 @@ function SharingPost() {
     const { setPosts } = useContext(PostContext);
 
     const handlePostSubmit = async () => {
-        // formData는 사용자가 입력한 데이터를 나타냅니다.
-        // const formData = {
-        //     images: selectedImages,
-        //     title: title,
-        //     description: description,
-        //     exchangeOrShare: exchangeOption,
-        //     tags: tags,
-        //     wishedLocation: wishedLocation
-        // };
-
-        // setPosts(prevPosts => [...prevPosts, formData]);
     const formData = new FormData();
 
     // 각 입력 필드의 값을 FormData에 추가
@@ -99,27 +88,6 @@ function SharingPost() {
         formData.append('image', selectedImages[0]); // Append the first image
     }
 
-    // try {
-    //     // POST 요청으로 formData 전송
-    //     const response = await axios({
-    //         method: 'post',
-    //         url: 'http://sy2978.dothome.co.kr/PostWrite.php',
-    //         data: formData,
-    //         headers: { 'Content-Type': 'multipart/form-data' },
-    //     });
-
-    //     if(response.data.success) {
-    //         // 게시글 등록 성공 시
-    //         console.log('게시글이 성공적으로 등록되었습니다.');
-    //         navigate('/sharingBoard');
-    //     } else {
-    //         // 서버에서 실패 응답을 받았을 때
-    //         console.error('게시글 등록에 실패했습니다.');
-    //     }
-    // } catch (error) {
-    //     // 요청 실패 시
-    //     console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
-    // }
     try {
         // Make the HTTP request
         const response = await axios.post('http://sy2978.dothome.co.kr/PostWrite.php', formData, {
@@ -131,6 +99,8 @@ function SharingPost() {
         // Check the response from the server
         if (response.data.error === false) {
             console.log('게시글이 성공적으로 등록되었습니다.');
+            const newPost = response.data.post;
+            setPosts(prevPosts => [...prevPosts, newPost]);
             navigate('/sharingBoard');
         } else {
             console.error('게시글 등록에 실패했습니다.');
