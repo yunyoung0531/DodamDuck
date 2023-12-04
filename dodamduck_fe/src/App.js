@@ -28,6 +28,7 @@ import sharingDetail from './SharingDetail';
 import { useAuth } from './AuthContext';
 import { useEffect } from 'react';
 //const SharingDetail = lazy(() => import('./SharingDetail.js'));
+import { ChatProvider } from './ChatContext';
 
 
 function App() { 
@@ -86,7 +87,7 @@ function App() {
 
           {user ? (
                 <>
-                <div className='navbar-username'>{user.userID} 님 안녕하세요 :) 💛ㅤ</div>
+                <div className='navbar-username'>{user.userName} 님 안녕하세요 :) 💛ㅤ</div>
                 <Button variant="outline-dark" className='login-btn' onClick={handleLogout}>로그아웃</Button>
                 </>
               ) : (
@@ -97,6 +98,7 @@ function App() {
       </Navbar>
       ))}
 
+{/* <ChatProvider> */}
       <Routes>
 
         <Route path='/' element={<>
@@ -132,6 +134,7 @@ function App() {
           <Route path='/myShop' element={<>
           <MyShop/>
           </>}/>
+          
           <Route path='/chatting' element={<>
           <Chatting/>
           </>}/>
@@ -149,6 +152,7 @@ function App() {
 
           <Route path='*' element={<div style={{ margin: '200px'}}>404</div>}/>
       </Routes>
+      {/* </ChatProvider> */}
       </div>
     </>
   );
