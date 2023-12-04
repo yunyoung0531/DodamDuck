@@ -1,40 +1,74 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from './AuthContext';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { useChat } from './ChatContext';
 
 function Chatting() {
     const { user } = useAuth();
+    const [chatList, setChatList] = useState([]);
+    const [isLoading, setIsLoading] = useState(true);
+    const [error, setError] = useState(null);
+    // const { chatList, fetchChatList } = useChat();
 
-    if (!user) {
-        return <div>로딩 중...</div>;
-    }
 
-    const createChatRoom = async (postId, userId) => {
-        try {
-            const response = await axios.post('http://sy2978.dothome.co.kr/create_chat_room.php', new URLSearchParams({
-                post_id: postId,
-                user_id: userId
-            }));
-
-            if (response.data.error) {
-                // 에러 처리
-                console.error('채팅방 생성 중 에러 발생:', response.data.message);
-            } else {
-                // 채팅방 생성 성공, 채팅방으로 이동하거나 상태 업데이트
-                console.log('채팅방 생성 성공:', response.data.message);
-                // 여기에서 채팅방으로 사용자를 이동시키거나,
-                // 채팅방 목록을 업데이트하는 로직을 추가하세요.
-            }
-        } catch (error) {
-            console.error('채팅방 생성 요청 실패:', error);
+    useEffect(() => {
+        if (!user) {
+            console.log("User is not defined, skipping API call.");
+            setIsLoading(false);
+            return;
         }
-    };
+        setIsLoading(true);
+        axios.get(`http://sy2978.dothome.co.kr/get_chat_list.php?user_id=${user.userID}`)
+            .then(response => {
+                console.log(response.data);
+                if (response.data && Array.isArray(response.data.chat_list)) {
+                    setChatList(response.data.chat_list);
+                } else {
+                    console.log('No chat list available');
+                }
+            })
+            .catch(error => {
+                console.error('채팅 목록 요청 실패:', error);
+                setError(error);
+            })
+            .finally(() => setIsLoading(false));
+    }, [user]);
 
-    const onUserClick = (userId) => {
-        // 임시로 postId를 '19'로 설정
-        createChatRoom('19', userId);
-    };
+
+
+
+    useEffect(() => {
+        console.log('chatList가 업데이트 되었습니다: ', chatList);
+    }, [chatList]);
+
+
+
+    // useEffect(() => {
+    //     if (user) {
+    //         setIsLoading(true);
+    //         fetchChatList(user.userID)
+    //             .catch((error) => {
+    //                 setError(error);
+    //             })
+    //             .finally(() => {
+    //                 setIsLoading(false);
+    //             });
+    //     }
+    // }, [user, fetchChatList]);
+
+    // if (!user) {
+    //     return <div>Loading...</div>;
+    // }
+
+    // if (isLoading) {
+    //     return <div>Loading chat list...</div>;
+    // }
+
+    // if (error) {
+    //     return <div>Error fetching chat list: {error.message}</div>;
+    // }
 
     return (
         <>
@@ -44,40 +78,29 @@ function Chatting() {
                 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                 <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"}  width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
-                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userID} 님</h4>
+                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userName} 님</h4>
                     <h7 style={{marginTop: '24px'}} className="chat-user-level">level.{user.level}</h7>
                 </div>
 
                 <h6 style={{marginTop: '30px', color: '#303030'}}>
                     채팅 중인 이웃
                 </h6>
-                <div className="chat-user-line">
-                    <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
-                        <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>포로리파파</h6>
-                            <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용입니다람쥐🐿️</h6>
+                {chatList.map((chat, index) => (
+                <div className="chat-user-line" key={chat.chat_id || index}>
+                    <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
+                        <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${chat.user1_id === user.userID ? chat.user2_id : chat.user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />
+                        <div style={{ flexDirection: 'column' }}>
+                            <h6 style={{ marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>
+                                {chat.user1_id === user.userID ? chat.user2_name : chat.user1_name}     
+                            </h6>
+                            <h6 className='myshop-level' style={{ marginTop: '0px', marginLeft: '10px', color: '#464646', fontSize: 'small' }}>
+                                {chat.last_message}
+                            </h6>
                         </div>
                     </div>
                 </div>
-                <div className="chat-user-line">
-                    <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                    <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDJ_tbBsiXFnYMD07uO0q4ES7_KlK8o_o-uQ&usqp=CAU" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
-                        <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>홍길동</h6>
-                            <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용</h6>
-                        </div>
-                    </div>
-                </div>
-                <div className="chat-user-line">
-                    <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                    <img src="https://i1.sndcdn.com/artworks-Z5SLEGyINrvdjrkz-CQbgFA-t500x500.jpg" width={'72px'} height={'72px'} style={{borderRadius: '50%'}}/>
-                        <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>김태희</h6>
-                            <h6 className='myshop-level' style={{marginTop: '0px', marginLeft: '10px' ,color: '#464646', fontSize: 'small'}}>최근 대화 내용</h6>
-                        </div>
-                    </div>
-                </div>
+            ))}
+
             </div>
 
             <div className="chat-line" >
@@ -89,7 +112,7 @@ function Chatting() {
                 </div>
         </div>
         </>
-    )
+    );
 }
 
 export default Chatting;

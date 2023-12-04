@@ -7,13 +7,16 @@
     import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
     import { faPen } from '@fortawesome/free-solid-svg-icons';
     import { useAuth } from './AuthContext';
+    import { useChat } from './ChatContext';
 
     function SharingDetail() {
 
         const { user } = useAuth();
+        // const { createChatRoom } = useChat();
 
         let { id } = useParams();
         const [postDetail, setPostDetail] = useState(null);
+        // const [chatList, setChatList] = useState([]);
         let navigate = useNavigate();
         const [comment, setComment] = useState(""); 
 
@@ -70,6 +73,44 @@
             fetchPostDetail();
         }, [id]);
 
+        const deletePost = async () => {
+            console.log(`post_id는? ${id}, user_id는?? ${user.userID}`); 
+            try {
+                const response = await axios.delete(`http://sy2978.dothome.co.kr/PostDelete.php`, {
+                    params: {
+                        post_id: id,
+                        user_id: user.userID
+                    }
+                });
+        
+                console.log('Response from server:', response.data); 
+        
+                if (response.data.error === false) {
+                    console.log('게시물이 성공적으로 삭제되었습니다.');
+                    navigate('/sharingBoard');
+                } else {
+                    console.error('게시물 삭제에 실패했습니다.', response.data.message);
+                }
+            } catch (error) {
+                console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error);
+            }
+        };
+        // const getChatList = async () => {
+        //     try {
+        //         // user 객체에 접근하기 위해 useAuth 훅을 사용해야 합니다.
+        //         const response = await axios.get(`http://sy2978.dothome.co.kr/get_chat_list.php?user_id=${user.userID}`);
+        //         console.log('API 호출 결과는 ?? ', response.data);
+        //         if (response.data.error) {
+        //             console.error('채팅 목록 가져오기 실패:', response.data.message);
+        //         } else {
+        //             setChatList(response.data.chatList); 
+        //         }
+        //     } catch (error) {
+        //         console.error('채팅 목록 요청 실패:', error);
+        //     }
+        // };
+
+
 
         const createChatRoom = async () => {
             console.log('채팅방 생성 함수 호출됨');
@@ -84,14 +125,22 @@
             
                 if (response.data.error === false) {
                 console.log('채팅방이 성공적으로 생성되었습니다.', response.data);
+                // getChatList();
                 } else {
                 console.error('채팅방 생성에 실패했습니다.', response.data.message);
                 }
             } catch (error) {
                 console.error('채팅방을 생성하는 동안 오류가 발생했습니다.', error);
-            //  /   console.log("호출")
+            //    console.log("호출")
             }
             };
+
+        //채팅방 생성 로직
+        // const handleCreateChatRoom = async () => {
+        //     await createChatRoom(id, user.userID); // 채팅방 생성 함수 호출
+        //     // createChatRoom 함수 내부에서 채팅 목록을 업데이트하는 로직이 있어야 합니다.
+        // };
+
 
         if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
             return <div>로딩중입니다.</div>
@@ -142,7 +191,7 @@
                             {content}
                             <div className="sharing-delete">
                                 <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
-                                <FontAwesomeIcon icon={faTrashCan} style={{color: "#4d4d4d", cursor: 'pointer'}} />
+                                <FontAwesomeIcon icon={faTrashCan} style={{color: "#4d4d4d", cursor: 'pointer'}} onClick={deletePost}/>
                             </div>
                             </h5>
                             
