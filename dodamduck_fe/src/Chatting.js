@@ -13,8 +13,8 @@ function Chatting() {
     const [error, setError] = useState(null);
     const navigate = useNavigate();
 
-    const goToChatDetail = (ChatID, partnerID, partnerName) => {
-        navigate(`/chattingDetail/${ChatID}/${partnerID}/${partnerName}/`);
+    const goToChatDetail = (ChatID, partnerID, partnerName, myID) => {
+        navigate(`/chattingDetail/${ChatID}/${partnerID}/${partnerName}/${myID}`);
     };
 
     useEffect(() => {
@@ -62,7 +62,7 @@ function Chatting() {
                     채팅 중인 이웃
                 </h6>
                 {chatList.map((chat, index) => (
-                <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name)}>
+                <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name, user.userID)}>
                     <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
                         <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${chat.user1_id === user.userID ? chat.user2_id : chat.user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />
                         <div style={{ flexDirection: 'column' }}>

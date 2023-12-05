@@ -13,7 +13,10 @@ function ChattingDetail() {
     const { id } = useParams();
     const { partnerID } = useParams();
     const { partnerName } = useParams();
+    const { myID } = useParams();
     const { user } = useAuth();
+    const [newMessage, setNewMessage] = useState(''); // 메세지 보내기 API 연동용
+    
 
     const mostRecentMessage = messages[messages.length - 1];
 
@@ -25,6 +28,8 @@ function ChattingDetail() {
         console.log("id는 ", id);
         console.log("partnerID는 ", partnerID);
         console.log("partnerName는 ", partnerName);
+        console.log("user.userID는? ", user.userID);
+        console.log("myID는? ", myID);
         axios.get(`http://sy2978.dothome.co.kr/get_chat_list.php?user_id=${user.userID}`)
         
             .then(response => {
@@ -48,7 +53,7 @@ function ChattingDetail() {
         axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
             .then(response => {
                 console.log('response.data는 ? ', response.data);
-                console.log('response.data는 ? ', response.data[0].receiverID);
+                // console.log('response.data는 ? ', response.data[0].receiverID);
                 if (response.data) {
                 console.log('response.data는 ?? ', response.data);
                     setMessages(response.data);
@@ -61,7 +66,45 @@ function ChattingDetail() {
             });
     }, [user, id]);
 
+    const sendMessage = async (e) => {
+        e.preventDefault();
+        console.log("myID: ", myID);
+        if (!newMessage.trim() || !user?.userID) {
+            console.error('메시지가 비어있거나 사용자 정보가 불충분합니다.');
+            return;
+        }
     
+        // FormData 객체를 생성하여 데이터를 인코딩합니다.
+        const formData = new URLSearchParams();
+        formData.append('senderID', myID);
+        formData.append('receiverID', partnerID);
+        formData.append('message', newMessage);
+    
+        try {
+            const response = await axios.post('http://sy2978.dothome.co.kr/sendMessage.php', formData, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
+            });
+            console.log('메시지보내기response.data', response.data);
+    
+            setMessages(prevMessages => [
+                ...prevMessages,
+                {
+                    senderID: myID,
+                    receiverID: partnerID,
+                    message: newMessage,
+                    timestamp: new Date().toISOString()
+                }
+            ]);
+    
+            setNewMessage('');
+        } catch (error) {
+            console.error('메시지 전송 실패:', error);
+        }
+    };
+    
+
     if (!user) {
         return <div>로딩 중...</div>;
     }
@@ -130,11 +173,13 @@ function ChattingDetail() {
                     {/* <p className='chat-date' style={{marginTop: '15px'}}>2023년 11월 07일</p> */}
                     {/* {messages.map((message, index) => ( */}
                         {/* <> */}
-                    <p className='chat-date' style={{marginTop: '15px'}}>{new Date(mostRecentMessage?.timestamp).toLocaleDateString('ko-KR', {
-                        year: 'numeric',
-                        month: 'long',
-                        day: 'numeric'
-                    })}</p>
+                        <p className='chat-date' style={{marginTop: '15px'}}>
+                        {mostRecentMessage?.timestamp ? new Date(mostRecentMessage.timestamp).toLocaleDateString('ko-KR', {
+                            year: 'numeric',
+                            month: 'long',
+                            day: 'numeric'
+                        }) : '날짜 정보 없음'}
+                        </p>
                     {/* <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
                         <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'47px'} height={'47px'} style={{borderRadius: '50%'}}/>
                         <div style={{ flexDirection: 'column'}}>
@@ -177,10 +222,31 @@ function ChattingDetail() {
                             <h6 className='real-chat-me' >내일도 됩니다~</h6>
                     </div>
                      */}
-                    <div style={{ display: 'flex'}}>
-                    <Form.Control type="text" placeholder="메시지를 입력해주세요." className="chat-ready"/> 
+
+                    
+                    {/* <div style={{ display: 'flex'}}> */}
+                    {/* <form onSubmit={sendMessage}>
+                    <Form.Control type="text" placeholder="메시지를 입력해주세요." className="chat-ready"
+                    value={newMessage}
+                    onChange={(e) => setNewMessage(e.target.value)}
+                    /> 
+                    <FontAwesomeIcon type="submit" icon={faPaperPlane} className="chat-paper-plane" style={{color: "#dcdcdc"}} />
+                    </form>  */}
+                    {/* </div>s */}
+                    <form onSubmit={sendMessage} style={{ display: 'flex' }}>
+                    <Form.Control 
+                        type="text" 
+                        placeholder="메시지를 입력해주세요." 
+                        className="chat-ready"
+                        value={newMessage}
+                        onChange={(e) => setNewMessage(e.target.value)}
+                    />
+                    <button type="submit" className="chat-send-button" style={{ border: 'none', background: 'none' }}>
                         <FontAwesomeIcon icon={faPaperPlane} className="chat-paper-plane" style={{color: "#dcdcdc"}} />
-                    </div>
+                    </button>
+                    </form>
+
+
                 </div>
 
             </div>

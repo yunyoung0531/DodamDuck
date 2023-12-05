@@ -138,7 +138,7 @@ function App() {
           <Route path='/chatting' element={<>
           <Chatting/>
           </>}/>
-          <Route path='/chattingDetail/:id/:partnerID/:partnerName' element={<>
+          <Route path='/chattingDetail/:id/:partnerID/:partnerName/:myID' element={<>
           <ChattingDetail/>
           </>}/>
           <Route path='/boardDetail/:id' element={<>
