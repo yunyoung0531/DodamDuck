@@ -4,14 +4,18 @@ import { useAuth } from './AuthContext';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useChat } from './ChatContext';
+import { useNavigate } from 'react-router-dom';
 
 function Chatting() {
     const { user } = useAuth();
     const [chatList, setChatList] = useState([]);
     const [isLoading, setIsLoading] = useState(true);
     const [error, setError] = useState(null);
-    // const { chatList, fetchChatList } = useChat();
+    const navigate = useNavigate();
 
+    const goToChatDetail = (ChatID, partnerID, partnerName) => {
+        navigate(`/chattingDetail/${ChatID}/${partnerID}/${partnerName}/`);
+    };
 
     useEffect(() => {
         if (!user) {
@@ -25,6 +29,7 @@ function Chatting() {
                 console.log(response.data);
                 if (response.data && Array.isArray(response.data.chat_list)) {
                     setChatList(response.data.chat_list);
+
                 } else {
                     console.log('No chat list available');
                 }
@@ -36,39 +41,10 @@ function Chatting() {
             .finally(() => setIsLoading(false));
     }, [user]);
 
-
-
-
     useEffect(() => {
         console.log('chatList가 업데이트 되었습니다: ', chatList);
     }, [chatList]);
 
-
-
-    // useEffect(() => {
-    //     if (user) {
-    //         setIsLoading(true);
-    //         fetchChatList(user.userID)
-    //             .catch((error) => {
-    //                 setError(error);
-    //             })
-    //             .finally(() => {
-    //                 setIsLoading(false);
-    //             });
-    //     }
-    // }, [user, fetchChatList]);
-
-    // if (!user) {
-    //     return <div>Loading...</div>;
-    // }
-
-    // if (isLoading) {
-    //     return <div>Loading chat list...</div>;
-    // }
-
-    // if (error) {
-    //     return <div>Error fetching chat list: {error.message}</div>;
-    // }
 
     return (
         <>
@@ -86,7 +62,7 @@ function Chatting() {
                     채팅 중인 이웃
                 </h6>
                 {chatList.map((chat, index) => (
-                <div className="chat-user-line" key={chat.chat_id || index}>
+                <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name)}>
                     <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
                         <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${chat.user1_id === user.userID ? chat.user2_id : chat.user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />
                         <div style={{ flexDirection: 'column' }}>
