@@ -5,6 +5,8 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useAuth } from './AuthContext';
 import { useParams } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
+import { useRef } from "react";
 
 
 function ChattingDetail() {
@@ -16,9 +18,19 @@ function ChattingDetail() {
     const { myID } = useParams();
     const { user } = useAuth();
     const [newMessage, setNewMessage] = useState(''); // 메세지 보내기 API 연동용
-    
+    const location = useLocation();
 
     const mostRecentMessage = messages[messages.length - 1];
+    
+    const messagesEndRef = useRef(null);
+    const previousMessagesRef = useRef([]);
+
+    useEffect(() => {
+        if (messages.length > previousMessagesRef.current.length) {
+            messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+        }
+        previousMessagesRef.current = messages;
+    }, [messages]);
 
     useEffect(() => {
         if (!user) {
@@ -49,22 +61,29 @@ function ChattingDetail() {
             console.log("User is not defined, skipping API call.");
             return;
         }
-        // axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
-        axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
-            .then(response => {
-                console.log('response.data는 ? ', response.data);
-                // console.log('response.data는 ? ', response.data[0].receiverID);
-                if (response.data) {
-                console.log('response.data는 ?? ', response.data);
-                    setMessages(response.data);
-                } else {
-                    console.log('No messages available');
-                }
-            })
-            .catch(error => {
-                console.error('메시지 목록 요청 실패:', error);
-            });
-    }, [user, id]);
+    
+        const fetchMessages = () => {
+            console.log('Fetching messages...');
+            axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
+                .then(response => {
+                    if (response.data) {
+                        setMessages(response.data);
+                    } else {
+                        console.log('No messages available');
+                    }
+                })
+                .catch(error => {
+                    console.error('메시지 목록 요청 실패:', error);
+                });
+        };
+    
+        const intervalId = setInterval(() => {
+            fetchMessages();
+        }, 1000); // 1초마다 메시지를 불러옵니다.
+    
+        return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+    }, [user, partnerID]);
+    
 
     const sendMessage = async (e) => {
         e.preventDefault();
@@ -108,6 +127,9 @@ function ChattingDetail() {
     if (!user) {
         return <div>로딩 중...</div>;
     }
+
+
+
     return (
         <>
         <div className="chat-container">
@@ -214,25 +236,8 @@ function ChattingDetail() {
                         )}
                         </div>
                 ))}
+                <div ref={messagesEndRef} />
                     
-                    {/* <div style={{display: 'flex', marginTop: '9px', marginBottom: '9px'}}>
-                            <h6 className='real-chat-me' >네 됩니다.</h6>
-                    </div>
-                    <div style={{display: 'flex', marginTop: '9px', marginBottom: '9px'}}>
-                            <h6 className='real-chat-me' >내일도 됩니다~</h6>
-                    </div>
-                     */}
-
-                    
-                    {/* <div style={{ display: 'flex'}}> */}
-                    {/* <form onSubmit={sendMessage}>
-                    <Form.Control type="text" placeholder="메시지를 입력해주세요." className="chat-ready"
-                    value={newMessage}
-                    onChange={(e) => setNewMessage(e.target.value)}
-                    /> 
-                    <FontAwesomeIcon type="submit" icon={faPaperPlane} className="chat-paper-plane" style={{color: "#dcdcdc"}} />
-                    </form>  */}
-                    {/* </div>s */}
                     <form onSubmit={sendMessage} style={{ display: 'flex' }}>
                     <Form.Control 
                         type="text" 
