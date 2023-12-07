@@ -19,8 +19,8 @@ function Main4() {
 
                     <img 
                     src={안드로이드손}
-                    width="250"                    
-                    height="250"                  
+                    width="233"                    
+                    height="233"                  
                     className="d-inline-block align-top main4-hand-img"/>
 
                     <div className='main4-google-container'>

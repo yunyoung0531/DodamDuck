@@ -61,6 +61,7 @@ function Chatting() {
                 <h6 style={{marginTop: '30px', color: '#303030'}}>
                     채팅 중인 이웃
                 </h6>
+                <div className='chat-user-scroll'>
                 {chatList.map((chat, index) => (
                 <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name, user.userID)}>
                     <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
@@ -76,6 +77,7 @@ function Chatting() {
                     </div>
                 </div>
             ))}
+            </div>
 
             </div>
 

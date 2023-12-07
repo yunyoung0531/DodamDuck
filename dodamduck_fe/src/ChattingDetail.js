@@ -133,7 +133,7 @@ function ChattingDetail() {
     return (
         <>
         <div className="chat-container">
-            <div style={{margin: '20px', display: 'flex', flexDirection: 'column'}}>
+            <div  style={{margin: '20px', display: 'flex', flexDirection: 'column'}}>
                     
                 
                 <div style={{display: 'flex', justifyContent: 'center'}}>
@@ -142,9 +142,11 @@ function ChattingDetail() {
                     <h7 style={{marginTop: '20px'}} className="chat-user-level">level.{user.level}</h7>
                 </div>
 
+                
                 <h6 style={{marginTop: '30px', color: '#303030'}}>
                     채팅 중인 이웃
                 </h6>
+                <div className='chat-user-scroll'>
                 {chatList.map((chat, index) => (
                     <div className="chat-user-line" key={chat.chat_id || index}>
                         <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
@@ -160,6 +162,7 @@ function ChattingDetail() {
                         </div>
                     </div>
                 ))}
+                </div>
 
             </div>
 
