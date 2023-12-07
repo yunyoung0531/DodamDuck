@@ -198,6 +198,8 @@
   margin-top: 10px;
   color: #7C6A6A;
   text-shadow: 5px 5px 5px rgba(220, 220, 220, 1); 
+  font-family: 'Gugi', sans-serif !important;
+  font-size: 340%;
 }
 
 .main4-hand-img {
@@ -611,11 +613,12 @@
 
 .chat-container {
   position: relative;
-  width: 1140px;
+  width: 1150px;
   height: 590px;
   /* margin-bottom: 50px; */
   margin: 100px;
   margin-left: 195px;
+  /* margin-right: 10px; */
   /* background-color: #464646;  */
   border: 1px solid #ced4da;
   border-radius: 3px;
@@ -630,6 +633,7 @@
 .chat-line {
   border-left : thin solid #ced4da;
   height : 589px;
+  /* margin-right: 10px; */
   /* margin-left: 310px; */
   /* margin-top: -1px; */
   /* margin-bottom: 50px; */
@@ -639,7 +643,7 @@
   border-top : thin solid #ced4da;
   width : 400px;
   /* margin-left: 2px; */
-  margin-right: 5px;
+  padding-right: 20px;
   margin-top: 2px;
   /* margin-left: 310px; */
   /* margin-top: -10px; */
@@ -651,6 +655,20 @@
   color: #9d9d9d;
 }
 
+.chat2-user-line::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+.chat2-user-line::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #ffeb87; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+.chat2-user-line::-webkit-scrollbar-track {
+  background: #fffdf0;  /* 스크롤바 뒷 배경 색상 */
+}
+
 .chat2-user-line {
   border-top : thin solid #ced4da;
   width : 660px;
@@ -660,7 +678,29 @@
   overflow-y: auto;
   padding: 10px;
   padding-right: 15px;
+  /* overflow-x: hidden; */
 }
+
+.chat-user-scroll {
+  overflow-y: auto;
+  overflow-x: hidden;
+  padding-right: 5px;
+}
+
+.chat-user-scroll::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+.chat-user-scroll::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #cdcdcd; /* 스크롤바의 색상 */
+  border-radius: 10px;
+}
+
+.chat-user-scroll::-webkit-scrollbar-track {
+  background: #f0f0f0;  /* 스크롤바 뒷 배경 색상 */
+}
+
 
 .chat-date {
   /* margin: 5px; */
