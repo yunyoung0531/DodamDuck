@@ -156,29 +156,24 @@
                 </Card.Header>
                 <Card.Body>
                 <Card.Img variant="top" src={image_url} width={'100px'} height={'460px'} />
-                    <Card.Title style={{marginTop: '20px'}}>
-                        <div style={{display: 'flex', marginLeft: '15px'}}>
-                            <img src={profile_url ? profile_url : 'https://www.lab2050.org/common/img/default_profile.png'} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
-                            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                                {/* <div style={{display: 'flex'}}> */}
-                                <h5 style={{marginLeft: '-500px'}}>{user_id}님</h5>
-                                {/* </div> */}
-                                {/* <div style={{display: 'flex'}}> */}
-                                <div style={{ display: 'flex',justifyContent: 'space-between'}}>
-                                <div style={{display: 'flex',justifyContent: 'space-between'}}>
-                                    <h6 className="upload-date">{location}</h6>
-                                    <p className="sharing-comment-created" style={{marginTop: '3px'}}>{created_at}</p>
-                                </div>
-                                
-                                <Button className="sharing-chatting-btn" onClick={()=>{
-                                    createChatRoom();
-                                    console.log('채팅하기 버튼 클릭');
-                                }}
-                                
-                                >채팅하기</Button>
-                                </div>
+                <Card.Title style={{marginTop: '20px'}}>
+                    <div style={{display: 'flex', marginLeft: '15px', justifyContent: 'space-between', alignItems: 'center'}}>
+                        <div style={{display: 'flex'}}>
+                        <img src={profile_url ? profile_url : 'https://www.lab2050.org/common/img/default_profile.png'} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
+                        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                            <h5 style={{display: 'flex', marginLeft: '15px'}}>{userName}님</h5>
+                            <div style={{display: 'flex'}}>
+                            <h6 className="upload-date">{location}</h6>
+                            <p className="sharing-comment-created" style={{marginTop: '3px', marginLeft: '8px'}}>{created_at}</p>
                             </div>
                         </div>
+                        </div>
+                        {/* 버튼을 여기에 바로 추가합니다 */}
+                        <Button className="sharing-chatting-btn" onClick={()=>{
+                        createChatRoom();
+                        console.log('채팅하기 버튼 클릭');
+                        }}>채팅하기</Button>
+                    </div>
                     </Card.Title>
                     <ListGroup className="list-group-flush">
                         <ListGroup.Item></ListGroup.Item>
