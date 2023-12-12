@@ -1,6 +1,8 @@
 import {Tab, Tabs} from 'react-bootstrap';
 import { useAuth } from './AuthContext';
-import React from 'react';
+import React, { useEffect, useState } from 'react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
 function MyShop() {
     const { user } = useAuth();
@@ -8,6 +10,24 @@ function MyShop() {
     // console.log('myshop-지금 로그인된 사람은? ', user.userName);
     // console.log('myshop-지금 로그인된 사람은? ', user.userID);
     // console.log('myshop-지금 로그인된 사람은? ', user.level);
+
+    const [products, setProducts] = useState([]);
+    let navigate = useNavigate();
+
+    useEffect(() => {
+        if(user) {
+            axios.get('http://sy2978.dothome.co.kr/Post.php')
+                .then(response => {
+                    // 서버에서 특정 사용자의 상품만 반환하는 API가 있다면 이 부분은 필요 없습니다.
+                    // 서버에서 모든 상품을 반환하고 여기에서 필터링합니다.
+                    const userProducts = response.data.filter(product => product.user_id === user.userID);
+                    setProducts(userProducts);
+                })
+                .catch(error => {
+                    console.error("상품 로딩 중 에러 발생", error);
+                });
+        }
+    }, [user]);
 
     if (!user) {
         return <div>로딩 중...</div>;
@@ -35,19 +55,19 @@ function MyShop() {
             className="mb-3"
             >
             <Tab eventKey="home" title="상품">
-                <div style={{display: 'flex'}}>
+            <div style={{ display: 'flex', flexWrap: 'wrap' }}>
+            {products.map(product => (
+                <div key={product.id}style={{ margin: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px' }} >
                     <div style={{margin: '20px' }}>
-                        <img src='https://img1.tmon.kr/cdn3/deals/2019/06/20/2187486298/front_07afa_gxvub.jpg' width={'140px'} height={'140px'} style={{borderRadius: '5%'}}/>
-                        <h6 style={{display: 'flex', textAlign:'center'}}>뽀로로 오뚜기</h6>
+                        <img src={`http://sy2978.dothome.co.kr/uploads/post_id${product.post_id}.jpg`} width={'140px'} height={'140px'} style={{borderRadius: '5%', display: 'flex', alignItems:'center', justifyContent: 'center', marginBottom: '6px'}}/>
+                        <h6 style={{display: 'flex', textAlign:'center', justifyContent: 'center'}} className='myshop-product'>{product.title}</h6>
                     </div>
-                    <div style={{margin: '20px'}}>
-                        <img src='https://cdn.011st.com/11dims/resize/600x600/quality/75/11src/product/4957671460/B.jpg?751000000' width={'140px'} height={'140px'} style={{borderRadius: '5%'}}/>
-                        <h6 style={{display: 'flex', textAlign:'center'}}>포로리 인형</h6>
-                    </div>
+                </div>
+                ))}
                 </div>
             </Tab>
             <Tab eventKey="profile" title="하트목록">
-                내가 하트 누른거 나옴
+                (준비중😭)
             </Tab>
             </Tabs>
         </div>

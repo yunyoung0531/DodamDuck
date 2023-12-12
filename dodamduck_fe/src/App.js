@@ -87,7 +87,7 @@ function App() {
 
           {user ? (
                 <>
-                <div className='navbar-username'>{user.userName} 님 안녕하세요 :) 💛ㅤ</div>
+                <div className='navbar-username'>{user.userName}님 안녕하세요 :) 💛ㅤ</div>
                 <Button variant="outline-dark" className='login-btn' onClick={handleLogout}>로그아웃</Button>
                 </>
               ) : (
