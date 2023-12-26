@@ -11,7 +11,7 @@
 
 
 
-__도담덕__
+__도담덕__ = 
 
 
 
@@ -36,11 +36,20 @@ ___도담도담 + Duck___
 ## 🔍주요 기능
 
 
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="400" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="400" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="400" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="400" height="200"/></td>
+  </tr>
+    <td align="center"><b>메인 화면1</b></td>
+    <td align="center"><b>메인 화면2</b></td>
+    <td align="center"><b>메인 화면3</b></td>
+    <td align="center"><b>메인 화면4</b></td>
+</table>
 
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="400" height="200"/>
+
 
 - **도담덕 메인화면**
 
@@ -57,9 +66,11 @@ ___도담도담 + Duck___
 
 <img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af3d4a67-7320-4d96-8d21-a70e5b04ea85"  width="400" height="200"/>
 <img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="400" height="200"/>
+![image](https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/3a40173d-36cb-4b74-9f2a-839320782d59)
 
 
-- **교환/나눔 및 글 올리기**
+
+- **교환/나눔 및 글 올리기, 게시**
 
 
 
