@@ -54,27 +54,35 @@ ___도담도담 + Duck___
     <td align="center"><b>메인 화면4</b></td>
 </table>
 
+----
 
 
 
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af942687-a32a-4b72-ab7c-e8054282239b"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/8412f24a-78eb-4ce5-b135-33f74e1bee76"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>로그인</b></td>
+    <td align="center"><b>회원가입</b></td>
+</table>
 
 
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af942687-a32a-4b72-ab7c-e8054282239b"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/8412f24a-78eb-4ce5-b135-33f74e1bee76"  width="400" height="200"/>
+----
 
 
-- **로그인 및 회원가입**
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af3d4a67-7320-4d96-8d21-a70e5b04ea85"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>교환/나눔 게시판</b></td>
+    <td align="center"><b>교환/나눔 글 올리기</b></td>
+</table>
 
 
+----
 
-
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af3d4a67-7320-4d96-8d21-a70e5b04ea85"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="400" height="200"/>
-![image](https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/3a40173d-36cb-4b74-9f2a-839320782d59)
-
-
-
-- **교환/나눔 및 글 올리기, 게시**
 
 
 
