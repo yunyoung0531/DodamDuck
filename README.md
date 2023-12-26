@@ -96,7 +96,7 @@ ___도담도담 + Duck___
 
 <table>
   <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="400" height="200"/></td>
   </tr>
     <td align="center"><b>장난감 도서관</b></td>
 </table>
@@ -128,7 +128,7 @@ ___도담도담 + Duck___
 
 <table>
   <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="400" height="200"/></td>
   </tr>
     <td align="center"><b>내 상점</b></td>
 </table>
