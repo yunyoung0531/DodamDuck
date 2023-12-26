@@ -38,10 +38,10 @@ ___도담도담 + Duck___
 
 <table>
   <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="350" height="100"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="350" height="100"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="350" height="100"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="350" height="100"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="400" height="100"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="400" height="100"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="400" height="100"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="400" height="100"/></td>
   </tr>
     <td align="center"><b>메인 화면1</b></td>
     <td align="center"><b>메인 화면2</b></td>
