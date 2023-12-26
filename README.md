@@ -54,7 +54,7 @@ ___도담도담 + Duck___
     <td align="center"><b>메인 화면4</b></td>
 </table>
 
-----
+---
 
 
 
@@ -68,7 +68,7 @@ ___도담도담 + Duck___
 </table>
 
 
-----
+---
 
 
 <table>
@@ -79,27 +79,53 @@ ___도담도담 + Duck___
     <td align="center"><b>교환/나눔 게시판</b></td>
     <td align="center"><b>교환/나눔 글 올리기</b></td>
 </table>
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/be27f163-dc5d-4a53-9eaf-2135ea5455a4"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c32d04af-cc64-4f10-a730-c2fcd44ec382"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>교환/나눔 게시글 (상세)</b></td>
+    <td align="center"><b>교환/나눔 게시글 (상세)2</b></td>
+</table>
 
 
-----
+
+---
 
 
 
 
 <img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="400" height="200"/>
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>장난감 도서관</b></td>
+</table>
 
 
-- **장난감 도서관**
+---
 
 
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/b9c4e298-a3f6-425a-a9b0-cfb5bf6b1ccb"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6bfa3116-709e-4556-ab88-be9dea9c6997"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>도담덕 게시판</b></td>
+    <td align="center"><b>게시판 글 올리기</b></td>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/27b4ed48-70de-498c-8dfe-465f65d08bb4"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/851bdb78-deb6-4ef3-a858-16f30bea5977"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>게시판 게시글 (상세)</b></td>
+    <td align="center"><b>게시 게시글 (상세)2</b></td>
+</table>
 
 
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/b9c4e298-a3f6-425a-a9b0-cfb5bf6b1ccb"  width="400" height="200"/>
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6bfa3116-709e-4556-ab88-be9dea9c6997"  width="400" height="200"/>
-
-
-- **게시판 및 글 올리기**
-
+---
 
 
 <img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="400" height="200"/>
