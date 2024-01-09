@@ -159,6 +159,19 @@ ___도담도담 + Duck___
 - Axios
 
 
+## ✨페이지 주소
+
+
+http://yunyoung0531.dothome.co.kr/
+
+
+반응협 웹 아닌점, 아직 기능이 완성되지 않은 점 양해 부탁드립니다🙏
+
+
++ 배포 후 새로고침 오류 -> 추후 수정 예정입니다!
+
+
+
 ## 📷시연 영상
 
 https://youtu.be/TNb7-WiAxxI?si=5_l3ZsKeJe_xxM6i
