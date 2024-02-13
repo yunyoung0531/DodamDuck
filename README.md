@@ -153,9 +153,7 @@ ___도담도담 + Duck___
 ## 💫기술 스택
 
 - React
-- React Bootstrap
 - Context API
-- react-router-dom
 - Axios
 
 
