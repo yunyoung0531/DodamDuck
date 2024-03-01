@@ -3,7 +3,6 @@ import { faComments } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from './AuthContext';
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
-import { useChat } from './ChatContext';
 import { useNavigate } from 'react-router-dom';
 
 function Chatting() {
@@ -47,49 +46,42 @@ function Chatting() {
 
 
     return (
-        <>
         <div className="chat-container">
             <div style={{margin: '20px', display: 'flex', flexDirection: 'column'}}>
-                    
-                
                 <div style={{display: 'flex', justifyContent: 'center'}}>
-                <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"}  width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
-                    <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userName} 님</h4>
-                    <h7 style={{marginTop: '24px'}} className="chat-user-level">level.{user.level}</h7>
-                </div>
-
-                <h6 style={{marginTop: '30px', color: '#303030'}}>
-                    채팅 중인 이웃
-                </h6>
-                <div className='chat-user-scroll'>
-                {chatList.map((chat, index) => (
-                <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name, user.userID)}>
-                    <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
-                        <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${chat.user1_id === user.userID ? chat.user2_id : chat.user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />
-                        <div style={{ flexDirection: 'column' }}>
-                            <h6 style={{ marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>
-                                {chat.user1_id === user.userID ? chat.user2_name : chat.user1_name}     
-                            </h6>
-                            <h6 className='myshop-level' style={{ marginTop: '0px', marginLeft: '10px', color: '#464646', fontSize: 'small' }}>
-                                {chat.last_message}
-                            </h6>
-                        </div>
+                    <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"}  width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
+                        <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '18px'}}>{user.userName} 님</h4>
+                        <h7 style={{marginTop: '24px'}} className="chat-user-level">level.{user.level}</h7>
                     </div>
+
+                    <h6 style={{marginTop: '30px', color: '#303030'}}>
+                        채팅 중인 이웃
+                    </h6>
+                    <div className='chat-user-scroll'>
+                    {chatList.map((chat, index) => (
+                        <div className="chat-user-line" key={chat.chat_id || index} onClick={() => goToChatDetail(chat.chat_id, chat.user1_id === user.userID ? chat.user2_id : chat.user1_id, chat.user1_id === user.userID ? chat.user2_name : chat.user1_name, user.userID)}>
+                            <div style={{ display: 'flex', marginTop: '7px', marginBottom: '7px' }}>
+                                <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${chat.user1_id === user.userID ? chat.user2_id : chat.user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />
+                                <div style={{ flexDirection: 'column' }}>
+                                    <h6 style={{ marginRight: '15px', marginTop: '20px', marginLeft: '10px', cursor: 'pointer' }}>
+                                        {chat.user1_id === user.userID ? chat.user2_name : chat.user1_name}     
+                                    </h6>
+                                    <h6 className='myshop-level' style={{ marginTop: '0px', marginLeft: '10px', color: '#464646', fontSize: 'small' }}>
+                                        {chat.last_message}
+                                    </h6>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
                 </div>
-            ))}
             </div>
 
-            </div>
-
-            <div className="chat-line" >
-
-            </div>
+            <div className="chat-line" ></div>
                 <div style={{flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesomeIcon icon={faComments}  style={{color: "#d6d6d6", fontSize: "95px", marginLeft: '275px' }} />
+                    <FontAwesomeIcon icon={faComments}  style={{color: "#d6d6d6", fontSize: "95px", marginLeft: '275px' }} />
                     <p className="recent-chat-comment" style={{display: 'flex', justifyContent: 'center', textAlign: 'center', alignItems: 'center', marginLeft: '270px', marginTop: '15px'}}>채팅할 상대를 선택해주세요</p>
                 </div>
         </div>
-        </>
     );
 }
 

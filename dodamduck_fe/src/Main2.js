@@ -6,23 +6,22 @@ import 안드로이드메인 from './img/안드로이드_메인.png';
 
 function Main2() {
     useEffect(() => {
-    const handleScroll = () => {
-        const targetElement = document.getElementById('animated-text');
-        const scrollPosition = window.scrollY;
+        const handleScroll = () => {
+            const targetElement = document.getElementById('animated-text');
+            const scrollPosition = window.scrollY;
+            // 스크롤 위치에 따라 'active' 클래스를 추가 또는 제거
+            if (scrollPosition >= 300) { 
+                targetElement.classList.add('active');
+            } else {
+                targetElement.classList.remove('active');
+            }
+        };
 
-        // 스크롤 위치에 따라 'active' 클래스를 추가 또는 제거합니다
-        if (scrollPosition >= 300) { // 조건을 원하는 대로 조정하세요
-        targetElement.classList.add('active');
-        } else {
-        targetElement.classList.remove('active');
-        }
-    };
+        window.addEventListener('scroll', handleScroll);
 
-    window.addEventListener('scroll', handleScroll);
-
-    return () => {
-        window.removeEventListener('scroll', handleScroll);
-    };
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
     }, []);
 
     return (

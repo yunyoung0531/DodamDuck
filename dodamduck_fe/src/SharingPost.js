@@ -33,14 +33,12 @@ function SharingPost() {
     const [exchangeOption, setExchangeOption] = useState("");
     const [wishedLocation, setWishedLocation] = useState("");
 
-
     const handleImageChange = (e) => {
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
             setSelectedImages([file]); 
         }
     }
-
     const handleTitleChange = (e) => {
         setTitle(e.target.value);
     }
@@ -60,7 +58,7 @@ function SharingPost() {
     const { setPosts } = useContext(PostContext);
     const handlePostSubmit = async () => {
     const formData = new FormData();
-    // 각 입력 필드의 값을 FormData에 추가
+    
     formData.append('user_id', user.userID); 
     formData.append('category_id', '1');
     formData.append('title', title);

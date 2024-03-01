@@ -3,7 +3,6 @@ import ReactDOM from "react-dom";
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png';
-import { useRef } from "react";
 
 function Main1() {
 

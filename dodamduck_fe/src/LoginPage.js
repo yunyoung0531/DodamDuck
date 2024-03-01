@@ -13,7 +13,6 @@ function LoginPage() {
 
     const [id, setId] = useState('');
     const [password, setPassword] = useState('');
-    const auth = useAuth();
     const { user, login } = useAuth();
 
     const handleIdChange = (e) => setId(e.target.value);
@@ -22,8 +21,6 @@ function LoginPage() {
     useEffect(() => {
         if (user) {
             console.log('user는 ?:', user);
-            // console.log('user.level는 (Loginpage)?:', user.level);
-            // 로그인 상태에 따른 추가 작업을 여기에 수행
         }
     }, [user]);
 
@@ -33,22 +30,12 @@ function LoginPage() {
         const formData = new FormData();
         formData.append('userID', id);
         formData.append('userPassword', password);
-        // formData.append('userPassword', password);
-        // formData.append('location', address);
 
         try {
-            // const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', {
-            //     id: id,
-            //     password: password
-            // });
             const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', formData);
 
             if (response.data.login_success) {
-                // await login(response.data.userID, response.data.userName, response.data.level);
                 await login(response.data);
-                // await login(response.data.userName);
-                // await login(response.data.level);
-                // await login(response.data.level);
                 console.log('로그인 성공', response.data);
                 console.log('유저는??', user);
                 navigate('/');
@@ -79,11 +66,10 @@ function LoginPage() {
                         onChange={handlePasswordChange}/>
                     </Form.Group>
                     <div className='login-page-already'>
-                    <p onClick={()=>{ navigate('/signup')}}style={{ fontSize: '13px', color: '#787878', marginRight: '135px', cursor: 'pointer'}}>계정이 아직 없으신가요?</p>
-                    <Button variant="outline-dark" type="submit" className='login-btn'
-                    // style={{ marginTop: '220px', marginLeft: '30px'}}
-                    onClick={()=>{}}
-                    >로그인</Button>
+                        <p onClick={()=>{ navigate('/signup')}}style={{ fontSize: '13px', color: '#787878', marginRight: '135px', cursor: 'pointer'}}>계정이 아직 없으신가요?</p>
+                        <Button variant="outline-dark" type="submit" className='login-btn'
+                        onClick={()=>{}}
+                        >로그인</Button>
                     </div>
                 </Form>
                 
