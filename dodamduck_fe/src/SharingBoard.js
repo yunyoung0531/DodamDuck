@@ -1,12 +1,10 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import { useContext } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
-import { PostContext } from './PostContext';
-import {Button, Card, placeholder} from 'react-bootstrap';
-import SharingDetail from './SharingDetail';
+// import { PostContext } from './PostContext';
+import { Card } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -16,18 +14,16 @@ function SharingBoard() {
 
     const [serverPosts, setServerPosts] = useState([]);
     useEffect(() => {
-        fetch('http://sy2978.dothome.co.kr/Post.php')
-            .then((response) => response.json())
-            .then((data) => {
-            console.log("data는? ", data);
-            setServerPosts(data);
+            fetch('http://sy2978.dothome.co.kr/Post.php')
+                .then((response) => response.json())
+                .then((data) => {
+                console.log("data는? ", data);
+                setServerPosts(data);
             })
             .catch((error) => {
             console.error('오류뜸: ', error);
             });
         }, []);
-
-    const allPosts = serverPosts;
 
     const incrementViewCount = async (postId) => {
         try {
@@ -47,10 +43,10 @@ function SharingBoard() {
     }
 
     const timeSince = (date) => {
-        const postDate = new Date(date);
-        const today = new Date();
+        const postDate = new Date(date); //과거 시간
+        const today = new Date(); //현재 시간
         const differenceInTime = today.getTime() - postDate.getTime();
-        const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24));
+        const differenceInDays = Math.floor(differenceInTime / (1000 * 3600 * 24)); //1000 -> 밀리초를 초로 변환 3600 -> 한시간을 초로 24-> 하루를 시간으로
         
         if (differenceInDays === 0) {
         return '오늘';
@@ -71,35 +67,23 @@ function SharingBoard() {
                 교환 & 나눔
             </div>
             </div>
-            {/* React JSX */}
             <div className='container'>
                 <div className='row' style={{margin: '10px', width: '75rem', display: 'flex', alignItems: 'center'}}>
-                    {allPosts.map((post) => (
+                    {serverPosts.map((post) => (
                         <div className="col-md-3 " key = {post.post_id} onClick={() => handleCardClick(post.post_id)}>
                             <Card className="sharing-card">
-                                <div style={{
-                                    overflow: 'hidden', 
-                                    height: '200px', /* 또는 원하는 높이를 설정하세요 */
-                                    }}>
-                                    {/* <Card.Img variant="top" src={post.images ? post.images[0] : "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788964130193.jpg"}/> */}
-                                    {/* <Card.Img variant="top" src={`http://sy2978.dothome.co.kr/${post.image_url}`} /> */}
+                                <div style={{ overflow: 'hidden', height: '200px' }}>
                                     <div className="sharing-card-image-container" style={{ height: '200px', overflow: 'hidden' }}>
                                         <Card.Img variant="top" src={post.image_url} className="sharing-custom-card-img"/>
                                     </div>
-
                                 </div>
                                 <Card.Body className='sharing-card-body'>
                                     <Card.Title className='sharing-card-title'>{post.title}</Card.Title>
                                     <Card.Text className='sharing-card-info'>{post.location}ㆍ{timeSince(post.created_at)}ㆍ조회 {post.views}</Card.Text>
-                                    {/* <Card.Text className='sharing-card-content'>{post.content || post.description}</Card.Text> */}
                                     <Card.Text className='sharing-card-content'>{post.category_name}</Card.Text>
-                                    {/* <Card.Text>{post.exchangeOrShare}</Card.Text> */}
-                                    {/* <Card.Text>{post.wishedLocation}</Card.Text> */}
                                     <Card.Text>
                                         {post.tags && post.tags.map((tag, tagIndex) => (
-                                            <span key={tagIndex}>
-                                                #{tag}
-                                            </span>
+                                            <span key={tagIndex}>#{tag}</span>
                                         ))}
                                         {post.tag && <span>{post.tag}</span>}
                                     </Card.Text>
