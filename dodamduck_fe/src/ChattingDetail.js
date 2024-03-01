@@ -1,4 +1,4 @@
-import { Container, Card, Button, Form } from "react-bootstrap";
+import { Form } from "react-bootstrap";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
@@ -18,7 +18,6 @@ function ChattingDetail() {
     const { myID } = useParams();
     const { user } = useAuth();
     const [newMessage, setNewMessage] = useState(''); // 메세지 보내기 API 연동용
-    const location = useLocation();
 
     const mostRecentMessage = messages[messages.length - 1];
     
@@ -35,7 +34,7 @@ function ChattingDetail() {
     useEffect(() => {
         if (!user) {
             console.log("User is not defined, skipping API call.");
-            return; // isLoading 상태를 관리할 필요가 없다면 이 줄을 생략할 수 있습니다.
+            return; 
         }
         console.log("id는 ", id);
         console.log("partnerID는 ", partnerID);
@@ -62,6 +61,7 @@ function ChattingDetail() {
             return;
         }
     
+        //1:1채팅내역 가져오기
         const fetchMessages = () => {
             console.log('Fetching messages...');
             axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
@@ -79,9 +79,9 @@ function ChattingDetail() {
     
         const intervalId = setInterval(() => {
             fetchMessages();
-        }, 1000); // 1초마다 메시지를 불러옵니다.
+        }, 1000); // 1초마다 메시지 불러옴
     
-        return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거합니다.
+        return () => clearInterval(intervalId); // 컴포넌트가 언마운트될 때 인터벌을 제거
     }, [user, partnerID]);
     
 
@@ -93,7 +93,6 @@ function ChattingDetail() {
             return;
         }
     
-        // FormData 객체를 생성하여 데이터를 인코딩합니다.
         const formData = new URLSearchParams();
         formData.append('senderID', myID);
         formData.append('receiverID', partnerID);
@@ -134,15 +133,11 @@ function ChattingDetail() {
         <>
         <div className="chat-container">
             <div  style={{margin: '20px', display: 'flex', flexDirection: 'column'}}>
-                    
-                
                 <div style={{display: 'flex', justifyContent: 'center'}}>
                 <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"} width={'80px'} height={'80px'} style={{borderRadius: '50%'}}/>
                     <h4 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px'}}>{user.userName} 님</h4>
                     <h7 style={{marginTop: '20px'}} className="chat-user-level">level.{user.level}</h7>
                 </div>
-
-                
                 <h6 style={{marginTop: '30px', color: '#303030'}}>
                     채팅 중인 이웃
                 </h6>
@@ -163,84 +158,50 @@ function ChattingDetail() {
                     </div>
                 ))}
                 </div>
-
             </div>
 
-            <div className="chat-line" >
+            <div className="chat-line" ></div>
 
-            </div>
-                {/* <div style={{flexDirection: 'column', display: 'flex', justifyContent: 'center', alignItems: 'center' }}>
-                <FontAwesomeIcon icon={faComments}  style={{color: "#d6d6d6", fontSize: "95px", marginLeft: '275px' }} />
-                    <p className="recent-chat-comment" style={{display: 'flex', justifyContent: 'center', textAlign: 'center', alignItems: 'center', marginLeft: '270px', marginTop: '15px'}}>채팅할 상대를 선택해주세요</p>
-                </div> */}
-            
             <div style={{margin: '20px', display: 'flex', flexDirection: 'column'}}>
                 <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                {/* <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${user1_id === user.userID ? user2_id : user1_id}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />                 */}
                 <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${partnerID}.jpg`} width={'72px'} height={'72px'} style={{ borderRadius: '50%' }} />                
                     <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px'}}>{partnerName}</h6>
                     <h6 style={{marginTop: '20px', color: '#FFD600'}} className="myshop-level">level.4</h6>
                 </div>
-            
-                {/* <div className="chat2-user-line">
-                    <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                    <img src="https://wafuu.com/cdn/shop/products/sanrio-official-cinnamoroll-baby-care-set-512991-plush-toy-doll-185313.jpg?v=1695256528" width={'72px'} height={'72px'} style={{borderRadius: '5%'}}/>
-                        <div style={{ flexDirection: 'column'}}>
-                            <h6 style={{marginRight: '15px', marginTop: '20px', marginLeft: '10px', fontSize: 'small' }}>시나모롤 인형세트</h6>
-                            <h6 className='myshop-level chat-radio' style={{marginTop: '0px', marginLeft: '10px' , fontSize: 'small'}}>교환</h6>
-                        </div>
-                    </div>
-                </div> */}
-            
-                
-                
                 <div className="chat2-user-line">
-                    {/* <p className='chat-date' style={{marginTop: '15px'}}>2023년 11월 07일</p> */}
-                    {/* {messages.map((message, index) => ( */}
-                        {/* <> */}
-                        <p className='chat-date' style={{marginTop: '15px'}}>
-                        {mostRecentMessage?.timestamp ? new Date(mostRecentMessage.timestamp).toLocaleDateString('ko-KR', {
-                            year: 'numeric',
-                            month: 'long',
-                            day: 'numeric'
-                        }) : '날짜 정보 없음'}
-                        </p>
-                    {/* <div style={{display: 'flex', marginTop: '7px', marginBottom: '7px'}}>
-                        <img src="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQqIArEc23xr8KUpAm1yS6vPXjtg__1D5RvSQ&usqp=CAU" width={'47px'} height={'47px'} style={{borderRadius: '50%'}}/>
-                        <div style={{ flexDirection: 'column'}}>
-                            <h6 className='real-chat' style={{marginRight: '15px', marginTop: '24px', marginLeft: '10px', fontSize: 'small' }}>{mostRecentMessage?.message}</h6>
+                    <p className='chat-date' style={{marginTop: '15px'}}>
+                    {mostRecentMessage?.timestamp ? new Date(mostRecentMessage.timestamp).toLocaleDateString('ko-KR', {
+                        year: 'numeric',
+                        month: 'long',
+                        day: 'numeric'
+                    }) : '날짜 정보 없음'}
+                    </p>
+                    {messages.map((message, index) => (
+                        <div key={message.id} style={{ display: 'flex', justifyContent: message.senderID === user.userID ? 'flex-end' : 'flex-start', marginTop: '7px', marginBottom: '7px' }}>
+                        {message.senderID === user.userID ? (
+                                <>
+                                {/* 사용자 본인의 메시지 표시 */}
+                                <div style={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'flex-end' }}>
+                                    <h6 className='real-chat-me' style={{ fontSize: 'small' }}>
+                                    {message.message}
+                                    </h6>
+                                </div>
+                                </>
+                            ) : (
+                                <>
+                                {/* 상대방에 의해 보내진 메시지 표시 */}
+                                <div style={{ display: 'flex', alignItems: 'center' }}>
+                                    <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${message.senderID}.jpg`} width={'47px'} height={'47px'} style={{ borderRadius: '50%', marginRight: '10px' }} />
+                                    <h6 className='real-chat' style={{ fontSize: 'small' }}>
+                                    {message.message}
+                                    </h6>
+                                </div>
+                                </>
+                            )}
                         </div>
-                        
-                    </div> */}
-                    {/* </> */}
-                {/* ))} */}
-                {messages.map((message, index) => (
-                    <div key={message.id} style={{ display: 'flex', justifyContent: message.senderID === user.userID ? 'flex-end' : 'flex-start', marginTop: '7px', marginBottom: '7px' }}>
-                    {message.senderID === user.userID ? (
-                            <>
-                            {/* 사용자 본인의 메시지 표시 */}
-                            <div style={{ display: 'flex', flexDirection: 'row-reverse', alignItems: 'center', justifyContent: 'flex-end' }}>
-                                <h6 className='real-chat-me' style={{ fontSize: 'small' }}>
-                                {message.message}
-                                </h6>
-                                {/* <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${user.userID}.jpg`} width={'47px'} height={'47px'} style={{ borderRadius: '50%', marginLeft: '10px' }} /> */}
-                            </div>
-                            </>
-                        ) : (
-                            <>
-                            {/* 상대방에 의해 보내진 메시지 표시 */}
-                            <div style={{ display: 'flex', alignItems: 'center' }}>
-                                <img src={`http://sy2978.dothome.co.kr/userProfile/user_id_${message.senderID}.jpg`} width={'47px'} height={'47px'} style={{ borderRadius: '50%', marginRight: '10px' }} />
-                                <h6 className='real-chat' style={{ fontSize: 'small' }}>
-                                {message.message}
-                                </h6>
-                            </div>
-                            </>
-                        )}
-                        </div>
-                ))}
+                    ))}
                 <div ref={messagesEndRef} />
-                    
+
                     <form onSubmit={sendMessage} style={{ display: 'flex' }}>
                     <Form.Control 
                         type="text" 
@@ -253,12 +214,8 @@ function ChattingDetail() {
                         <FontAwesomeIcon icon={faPaperPlane} className="chat-paper-plane" style={{color: "#dcdcdc"}} />
                     </button>
                     </form>
-
-
                 </div>
-
             </div>
-            
         </div>
         </>
     )

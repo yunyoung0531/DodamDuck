@@ -7,9 +7,6 @@ import { useNavigate } from 'react-router-dom';
 function MyShop() {
     const { user } = useAuth();
     console.log('myshop-지금 로그인된 사람은? ', user);
-    // console.log('myshop-지금 로그인된 사람은? ', user.userName);
-    // console.log('myshop-지금 로그인된 사람은? ', user.userID);
-    // console.log('myshop-지금 로그인된 사람은? ', user.level);
 
     const [products, setProducts] = useState([]);
     let navigate = useNavigate();
@@ -18,8 +15,6 @@ function MyShop() {
         if(user) {
             axios.get('http://sy2978.dothome.co.kr/Post.php')
                 .then(response => {
-                    // 서버에서 특정 사용자의 상품만 반환하는 API가 있다면 이 부분은 필요 없습니다.
-                    // 서버에서 모든 상품을 반환하고 여기에서 필터링합니다.
                     const userProducts = response.data.filter(product => product.user_id === user.userID);
                     setProducts(userProducts);
                 })

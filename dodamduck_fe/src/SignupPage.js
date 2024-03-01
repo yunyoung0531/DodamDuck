@@ -1,7 +1,6 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { Form, Button, Col, Row } from 'react-bootstrap';
-import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png'
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import React, { useState } from 'react';
@@ -27,13 +26,6 @@ function SignupPage() {
         }
         try {
             const response = await axios.post('http://sy2978.dothome.co.kr/UserValidate.php', { userID: id });
-            // if (response.data.isAvailable) {
-            //     setIsIdAvailable(true);
-            //     alert('사용 가능한 아이디입니다.');
-            // } else {
-            //     setIsIdAvailable(false);
-            //     alert('이미 사용중인 아이디입니다.');
-            // }
         } catch (error) {
             console.error('아이디 중복 검사 중 오류 발생:', error);
             alert('아이디 중복 검사 중 오류가 발생했습니다. 다시 시도해주세요.');
@@ -67,12 +59,6 @@ function SignupPage() {
             alert('약관에 동의해주세요.');
             return;
         }
-        // if (!isIdAvailable) {
-        //     alert('중복된 아이디입니다. 다른 아이디를 입력해주세요.');
-        //     return;
-        // }
-
-
         const formData = new FormData();
         formData.append('userID', id);
         formData.append('userPassword', password);
@@ -84,7 +70,7 @@ function SignupPage() {
             if (response.data.success || response.data.message === "Registration successful") {
                 console.log('회원가입 성공:', response.data);
                 alert('회원가입 성공하였습니다! 로그인페이지로 이동합니다.');
-                navigate('/login'); // 성공 시 로그인 페이지로 이동
+                navigate('/login');
             } else {
                 console.error('회원가입 실패:', response.data.message);
                 if (response.data.message === "User already exists") {
@@ -149,26 +135,14 @@ function SignupPage() {
                 </Form.Group>
 
                 <div className='login-page-already' style={{marginLeft: '-50px'}}>
-                <p style={{ fontSize: '13px', color: '#787878', marginRight: '500px', cursor: 'pointer'}}
-                    onClick={()=>{ navigate('/login') }}
-                >이미 계정이 있으신가요?</p>
+                    <p style={{ fontSize: '13px', color: '#787878', marginRight: '500px', cursor: 'pointer'}}
+                        onClick={()=>{ navigate('/login') }}
+                    >이미 계정이 있으신가요?</p>
                     <Button variant="outline-dark" type="submit" className='login-btn'
                     >회원가입</Button>
                     </div>
                 </Form>
             </div>
-
-
-            {/* <img 
-                    src={도담덕캐릭터}
-                    width="150"                    
-                    height="150"                  
-                    className="d-inline-block align-top login-dodamduck1-img"/>
-            <img 
-                    src={도담덕캐릭터}
-                    width="150"                    
-                    height="150"                  
-                    className="d-inline-block align-top login-dodamduck2-img"/> */}
         </>
     )
 }

@@ -104,9 +104,10 @@ function SharingDetail() {
             console.log('API 호출 후');
         
             if (response.data.error === false) {
-            console.log('채팅방이 성공적으로 생성되었습니다.', response.data);
+                console.log('채팅방이 성공적으로 생성되었습니다.', response.data);
+                // navigate(`/chattingDetail/${user.chat_id}/${user.partnerID}/${user.partnerName}/${user.userID}`);
             } else {
-            console.error('채팅방 생성에 실패했습니다.', response.data.message);
+                console.error('채팅방 생성에 실패했습니다.', response.data.message);
             }
         } catch (error) {
             console.error('채팅방을 생성하는 동안 오류가 발생했습니다.', error);
@@ -139,6 +140,7 @@ function SharingDetail() {
                             <Button className="sharing-chatting-btn" onClick={()=>{
                                 createChatRoom();
                                 console.log('채팅하기 버튼 클릭');
+                                navigate('/chatting') // 채팅 상세로 페이지 리다이렉트 필요1!!!
                             }}>채팅하기</Button>
                         </div>
                         </Card.Title>
@@ -166,17 +168,16 @@ function SharingDetail() {
                                 <div className="comment-content">
                                     {postDetail.comments.map((comment, index) => (
                                         <>
-                                        <div className="sharing-comment-style">
-                                            <p className="sharing-comment">{comment.userName}님</p>
-                                            <p className="sharing-comment-created">{comment.created_at}</p>
-                                        </div>
-                                        <div key={comment.id} style={{ marginLeft: '10px'}}>
-                                            <p className="sharing-comment-content">{comment.content}</p>
-                                        </div>
+                                            <div className="sharing-comment-style">
+                                                <p className="sharing-comment">{comment.userName}님</p>
+                                                <p className="sharing-comment-created">{comment.created_at}</p>
+                                            </div>
+                                            <div key={comment.id} style={{ marginLeft: '10px'}}>
+                                                <p className="sharing-comment-content">{comment.content}</p>
+                                            </div>
                                         </>
                                     ))}
                                 </div>
-                                                    
                             <div style={{ display: 'flex'}}>
                             <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
                             value={comment}

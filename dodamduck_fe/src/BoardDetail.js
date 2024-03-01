@@ -12,8 +12,8 @@ function BoardDetail() {
 
     let navigate = useNavigate();
 
-    const [contentShare, setContentShare] = useState(null); // 게시물 데이터 상태
-    const [ContentComments, setContentComments] = useState([]); // 댓글 데이터 상태
+    const [contentShare, setContentShare] = useState(null);
+    const [ContentComments, setContentComments] = useState([]); 
 
     const [comment, setComment] = useState(""); 
 
@@ -38,7 +38,6 @@ function BoardDetail() {
                     userName: user.userName, 
                     content: comment,
                     created_at:  response.data.created_at
-                    // created_at: new Date().toISOString()
                 };
                 
             setContentComments(prevComments => [newComment, ...prevComments]);
@@ -58,7 +57,6 @@ function BoardDetail() {
         const fetchDetail = async () => {
         try {
             const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_Detail.php?share_id=${id}`);
-            // const sortedComments = response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
             const sortedComments = Array.isArray(response.data.comments) 
             ? response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
             : [];
@@ -80,7 +78,6 @@ function BoardDetail() {
 
     return (
         <>
-        {/* Post ID: {id} */}
         <div className="shring-detail-card">
             <Card className="text-center">
             <Card.Header>도담덕 자유 게시판
@@ -112,30 +109,20 @@ function BoardDetail() {
                         </h5>
                         
                     </ListGroup.Item>
-                    {/* <ListGroup.Item></ListGroup.Item> */}
                 </ListGroup>
-                {/* <ListGroup className="list-group-flush">
-                    {contentComments.map((comment, index) => (
-                        <ListGroup.Item key={index}>{comment.Comment}</ListGroup.Item>
-                    ))}
-                </ListGroup> */}
 
                 <ListGroup.Item  className="comment-section">
                     <div className="comment-radio">댓글</div>
                     <div className="comment-content">
                         {ContentComments.map((comment, index) => (
-                            // <div key={comment.id} style={{ marginLeft: '10px', display: 'flex'}}>
-                            //     <p className="sharing-comment">{comment.userName}님: {comment.content}</p>
-                            //     <p className="sharing-comment-created">{comment.created_at}</p>
-                            // </div>
                             <>
-                            <div className="sharing-comment-style">
-                                <p className="sharing-comment">{comment.userName}님</p>
-                                <p className="sharing-comment-created">{comment.created_at}</p>
-                            </div>
-                            <div key={comment.id} style={{ marginLeft: '10px'}}>
-                                <p className="sharing-comment-content">{comment.content}</p>
-                            </div>
+                                <div className="sharing-comment-style">
+                                    <p className="sharing-comment">{comment.userName}님</p>
+                                    <p className="sharing-comment-created">{comment.created_at}</p>
+                                </div>
+                                <div key={comment.id} style={{ marginLeft: '10px'}}>
+                                    <p className="sharing-comment-content">{comment.content}</p>
+                                </div>
                             </>
                         ))}
                     </div>
