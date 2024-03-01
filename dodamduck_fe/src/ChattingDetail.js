@@ -5,7 +5,6 @@ import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useAuth } from './AuthContext';
 import { useParams } from 'react-router-dom';
-import { useLocation } from 'react-router-dom';
 import { useRef } from "react";
 
 
