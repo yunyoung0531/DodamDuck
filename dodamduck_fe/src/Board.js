@@ -33,23 +33,10 @@ function Board() {
         setPhpPosts(data);
         })
         .catch((error) => {
-        // 에러가 발생했을 경우 콘솔에 로깅합니다.
         console.error('오류뜸: ', error);
         });
     }, []);
     const allPosts = PhpPosts;
-
-    // const renderPosts = PhpPosts.map((phppost, index) => (
-    //     <div className='board-container' key={index} style={{ display: 'flex', alignItems: 'center' }}>
-    //         <div className='board-deco'>
-    //             <img variant="top" src={phppost.image || "https://static.hyundailivart.co.kr/upload_mall/board/ME00000044/B200025249/B200025249_mnImgPathFile_20210520150319893.jpeg/dims/autorotate/on"} width={'180px'} height={'130px'} style={{borderRadius: '3px'}}/>
-    //         </div>
-    //         <div className='board-post-content'>
-    //             <h4>{phppost.title}</h4>
-    //             <p>{phppost.content}</p>
-    //         </div>
-    //     </div>
-    // ));
 
     const incrementViewCount = async (ShareID) => {
         try {

@@ -7,7 +7,6 @@ import 도담덕캐릭터 from './img/도담덕캐릭텨(누끼).png'
 
 function Main4() {
     return (
-        <>
             <div className='main1-container app-main4 main-section'>
                 <div className='main4-large-container'>
                     <div>
@@ -37,9 +36,6 @@ function Main4() {
                     className="d-inline-block align-top main4-dodamduck-img"/>
                 </div>
             </div>
-            
-
-        </>
     )
 }
 

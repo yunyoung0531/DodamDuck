@@ -1,7 +1,7 @@
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faCamera } from '@fortawesome/free-solid-svg-icons';
-import { Container, Card, Button, Form } from "react-bootstrap";
+import { Card, Button, Form } from "react-bootstrap";
 import React, { useState, useContext } from "react";
 import { PostContext } from './PostContext';
 import { useNavigate } from 'react-router';
@@ -15,7 +15,6 @@ function SharingPost() {
     const [inputValue, setInputValue] = useState("");
     const [tags, setTags] = useState([]);
     const { user } = useAuth(); 
-    
 
     const handleInputChange = (e) => {
         setInputValue(e.target.value);
@@ -36,19 +35,9 @@ function SharingPost() {
 
 
     const handleImageChange = (e) => {
-        // const file = e.target.files[0];
-        // const reader = new FileReader();
-    
-        // reader.onloadend = () => {
-        //     setSelectedImages([...selectedImages, reader.result]);
-        // };
-    
-        // if (file) {
-        //     reader.readAsDataURL(file);
-        // }
         if (e.target.files && e.target.files[0]) {
             const file = e.target.files[0];
-            setSelectedImages([file]); // Set the File object directly
+            setSelectedImages([file]); 
         }
     }
 
@@ -69,34 +58,25 @@ function SharingPost() {
     
 
     const { setPosts } = useContext(PostContext);
-
     const handlePostSubmit = async () => {
     const formData = new FormData();
-
     // 각 입력 필드의 값을 FormData에 추가
-    formData.append('user_id', user.userID); // 사용자 ID는 현재 하드코딩되어 있습니다. 실제 앱에서는 동적으로 설정해야 합니다.
-    formData.append('category_id', '1'); // 카테고리 ID도 마찬가지로 동적으로 설정해야 합니다.
+    formData.append('user_id', user.userID); 
+    formData.append('category_id', '1');
     formData.append('title', title);
     formData.append('content', description);
     formData.append('location', wishedLocation);
-    // selectedImages.forEach((image, index) => {
-    //     formData.append(`image${index}`, image); 
-    // });
 
     if (selectedImages.length > 0) {
-        // Assuming selectedImages state is an array of File objects
-        formData.append('image', selectedImages[0]); // Append the first image
+        formData.append('image', selectedImages[0]); 
     }
 
     try {
-        // Make the HTTP request
         const response = await axios.post('http://sy2978.dothome.co.kr/PostWrite.php', formData, {
             headers: {
-                'Content-Type': 'multipart/form-data', // This will allow axios to set the correct boundary
+                'Content-Type': 'multipart/form-data',
             },
         });
-
-        // Check the response from the server
         if (response.data.error === false) {
             console.log('게시글이 성공적으로 등록되었습니다.');
             const newPost = response.data.post;
@@ -108,9 +88,7 @@ function SharingPost() {
     } catch (error) {
         console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
     }
-
 }
-
     
     return (
         <>
@@ -143,7 +121,7 @@ function SharingPost() {
                         id="fileInput"
                         style={{ display: 'none' }}
                         onChange={handleImageChange}
-                        accept="image/*"  // 이미지만 선택할 수 있도록 설정
+                        accept="image/*"
                     />
                 </div>
 
@@ -200,9 +178,8 @@ function SharingPost() {
                             {tags.map((tag, index) => (
                                 <span key={index} style={{ 
                                     backgroundColor: 'white', 
-                                    padding: '6px 11px', // 상하좌우 패딩을 다르게 조정
-                                    // margin: '3px',
-                                    borderRadius: '20px', // 타원 형태를 위한 값 설정
+                                    padding: '6px 11px',
+                                    borderRadius: '20px',
                                     border: '0.7px solid #a9a9a9', 
                                     marginLeft: '40px',
                                     color: '#424242',

@@ -92,11 +92,7 @@ function BoardDetail() {
                     <div style={{display: 'flex', marginLeft: '15px'}}>
                         <img src={contentShare?.profile_url ? contentShare.profile_url : 'https://www.lab2050.org/common/img/default_profile.png'}  width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
-                            {/* <div style={{display: 'flex'}}> */}
-                            {/* <h5 style={{marginLeft: '-480px'}}>{contentShare?.userName}님</h5> */}
                             <h5 style={{marginLeft: '-485px'}}>{contentShare?.userName}님</h5>
-                            {/* </div> */}
-                            {/* <div style={{display: 'flex'}}> */}
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
                             <h6 className="upload-date">{contentShare?.created_at}</h6>
                             <Button className="chatting-btn">채팅하기</Button>
