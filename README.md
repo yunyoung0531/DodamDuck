@@ -149,7 +149,7 @@ __도담덕__ =  ___도담도담 + Duck___
 ### Figma로 직접 디자인
 
 
-<img src="https://github.com/DodamDuck/DodamDuck/assets/68066598/70f3bdc7-5324-47ab-8c8b-e9535fe9ef49" width="450" height="100"/>
+<img src="https://github.com/DodamDuck/DodamDuck/assets/68066598/70f3bdc7-5324-47ab-8c8b-e9535fe9ef49" width="200" height="400"/>
 
 
 
