@@ -69,17 +69,18 @@ function SharingDetail() {
         fetchPostDetail();
     }, [id]);
 
-    //작업 중 입니다 🙏
+    // 작업 중 입니다 🙏
     const deletePost = async () => {
-        console.log(`post_id는? ${id}, user_id는?? ${user.userID}`); 
+        console.log(`post_id는? ${id}, user_id는?? ${user.userID}`);
         try {
             const response = await axios.delete(`http://sy2978.dothome.co.kr/PostDelete.php`, {
                 params: {
-                    post_id: id,
+                    post_id: id, 
                     user_id: user.userID
                 }
             });
-            console.log('Response from server:', response.data); 
+    
+            console.log('Response from server:', response.data);
             if (response.data.error === false) {
                 console.log('게시물이 성공적으로 삭제되었습니다.');
                 navigate('/sharingBoard');
@@ -87,10 +88,10 @@ function SharingDetail() {
                 console.error('게시물 삭제에 실패했습니다.', response.data.message);
             }
         } catch (error) {
-            console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error);
+            console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);
         }
     };
-
+    
 
     const createChatRoom = async () => {
         console.log('채팅방 생성 함수 호출됨');
@@ -154,8 +155,19 @@ function SharingDetail() {
                                 <h5 className="sharing-detail-content">
                                 {content}
                                 <div className="sharing-delete">
-                                    <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
-                                    <FontAwesomeIcon icon={faTrashCan} style={{color: "#4d4d4d", cursor: 'pointer'}} onClick={deletePost}/>
+                                    
+                                    {
+                                        user && postDetail && user.userName === postDetail.post.userName &&
+                                        <>
+                                        <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
+                                        <FontAwesomeIcon 
+                                            icon={faTrashCan} 
+                                            style={{color: "#4d4d4d", cursor: 'pointer'}} 
+                                            onClick={deletePost}
+                                        />
+                                        </>
+                                    }
+
                                 </div>
                                 </h5>
                                 
