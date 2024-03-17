@@ -27,6 +27,23 @@ function MyShop() {
     if (!user) {
         return <div>로딩 중...</div>;
     }
+
+    const incrementViewCount = async (postId) => {
+        try {
+            const postData = new URLSearchParams();
+            postData.append('post_id', postId);
+            const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData);
+            console.log("조회수 증가 응답", response.data);
+
+        } catch (error) {
+            console.error('조회수 증가 API 호출 실패', error);
+        }
+    }
+    const handleCardClick = (postId) => {
+        incrementViewCount(postId); 
+        navigate(`/sharingDetail/${postId}`);
+    }
+
     return (
         <>
         <div className="myshop-container " style={{ display: 'flex', alignItems: 'center' }}>
@@ -54,7 +71,9 @@ function MyShop() {
             {products.map(product => (
                 <div key={product.id}style={{ margin: '20px', display: 'flex', flexDirection: 'column', alignItems: 'center', width: '140px' }} >
                     <div style={{margin: '20px' }}>
-                        <img src={`http://sy2978.dothome.co.kr/uploads/post_id${product.post_id}.jpg`} width={'140px'} height={'140px'} style={{borderRadius: '5%', display: 'flex', alignItems:'center', justifyContent: 'center', marginBottom: '6px'}}/>
+                        <img src={`http://sy2978.dothome.co.kr/uploads/post_id${product.post_id}.jpg`} width={'140px'} height={'140px'} style={{borderRadius: '5%', display: 'flex', alignItems:'center', justifyContent: 'center', marginBottom: '6px', cursor: 'pointer'}}
+                            onClick={() => handleCardClick(product.post_id)}
+                        />
                         <h6 style={{display: 'flex', textAlign:'center', justifyContent: 'center'}} className='myshop-product'>{product.title}</h6>
                     </div>
                 </div>
