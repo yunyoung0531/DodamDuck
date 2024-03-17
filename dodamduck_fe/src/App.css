@@ -1011,3 +1011,29 @@
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
 
 }
+.search-bar { 
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 10px;
+  margin-top: 30px;
+}
+.search-form {
+  border-radius: 30px !important;
+  max-width: 600px;
+  height: 55px !important;
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;
+  font-size: medium !important;
+}
+
+.search-form::placeholder {
+  color: rgb(148, 148, 148) !important;
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;  
+  font-size: medium;
+}
+
+.search-icon {
+  margin-left: 10px;
+  color: #494949;
+  cursor: pointer;
+}

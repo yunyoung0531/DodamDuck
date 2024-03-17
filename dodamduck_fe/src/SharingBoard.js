@@ -1,10 +1,10 @@
 import './App.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faMagnifyingGlass } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 // import { PostContext } from './PostContext';
-import { Card } from 'react-bootstrap';
+import { Card, Form } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 
@@ -60,12 +60,16 @@ function SharingBoard() {
     return (
         <>
             <div className='library-nav'>
-            <div className='library-comment1'>
-                나눔을 통해 행복을 나누다 
-            </div>
-            <div className='library-comment2'>
-                교환 & 나눔
-            </div>
+                <div className='library-comment1'>
+                    나눔을 통해 행복을 나누다 
+                </div>
+                <div className='library-comment2'>
+                    교환 & 나눔
+                </div>
+                <div className='search-bar'>
+                    <Form.Control size="lg" type="text" placeholder="어떤 제품을 찾으세요?" className='search-form' />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" className='search-icon'/>
+                </div>
             </div>
             <div className='container'>
                 <div className='row' style={{margin: '10px', width: '75rem', display: 'flex', alignItems: 'center'}}>
