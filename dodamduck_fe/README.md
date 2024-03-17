@@ -1,70 +1,167 @@
-# Getting Started with Create React App
+# 유아용품 교환&나눔 플랫폼 - 도담덕 DodamDuck
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
-## Available Scripts
 
-In the project directory, you can run:
 
-### `npm start`
+## 🦆 소개 및 프로젝트 목적 🧸
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
 
-### `npm test`
+<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0655a0e0-25c9-4087-84a9-8545c77e9d5d"  width="100" height="100"/>
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+__도담덕__ =  ___도담도담 + Duck___
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+어린아이가 탈 없이 잘 놀며 자라는 마음의 뜻과 아이들이 좋아하는 귀여운 오리를 합쳐 지어진 '도담덕'
 
-### `npm run eject`
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+일회성으로 사용되고 버려지는 장난감들. 전세계 플라스틱 폐기물의 30%가 장난감인 실태.
+이를 해결하고자 유아용품 교환&나눔 플랫폼인 도담덕을 생각하게 되었습니다.
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
 
-## Learn More
+## 📆기간
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+2023.09. ~ 
 
-To learn React, check out the [React documentation](https://reactjs.org/).
 
-### Code Splitting
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
 
-### Analyzing the Bundle Size
+## 🔍주요 기능
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
 
-### Making a Progressive Web App
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>메인 화면1</b></td>
+    <td align="center"><b>메인 화면2</b></td>
+</table>
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>메인 화면3</b></td>
+    <td align="center"><b>메인 화면4</b></td>
+</table>
 
-### Advanced Configuration
+---
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
 
-### Deployment
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af942687-a32a-4b72-ab7c-e8054282239b"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/8412f24a-78eb-4ce5-b135-33f74e1bee76"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>로그인</b></td>
+    <td align="center"><b>회원가입</b></td>
+</table>
 
-### `npm run build` fails to minify
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+---
+
+
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af3d4a67-7320-4d96-8d21-a70e5b04ea85"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>교환/나눔 게시판</b></td>
+    <td align="center"><b>교환/나눔 글 올리기</b></td>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/be27f163-dc5d-4a53-9eaf-2135ea5455a4"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c32d04af-cc64-4f10-a730-c2fcd44ec382"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>교환/나눔 게시글 (상세)</b></td>
+    <td align="center"><b>교환/나눔 게시글 (상세)2</b></td>
+</table>
+
+
+
+---
+
+
+
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="400" height="200"/></td>
+  </tr>
+    <td align="center"><b>장난감 도서관</b></td>
+</table>
+
+
+---
+
+
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/b9c4e298-a3f6-425a-a9b0-cfb5bf6b1ccb"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6bfa3116-709e-4556-ab88-be9dea9c6997"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>도담덕 게시판</b></td>
+    <td align="center"><b>게시판 글 올리기</b></td>
+</table>
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/27b4ed48-70de-498c-8dfe-465f65d08bb4"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/851bdb78-deb6-4ef3-a858-16f30bea5977"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>게시판 게시글 (상세)</b></td>
+    <td align="center"><b>게시 게시글 (상세)2</b></td>
+</table>
+
+
+---
+
+
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="400" height="200"/></td>
+  </tr>
+    <td align="center"><b>내 상점</b></td>
+</table>
+
+
+---
+
+
+<table>
+  <tr>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/769d688d-7afc-45c6-abe6-2fccad94a487"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/30985172-26f2-4eaa-86fa-cebb43d3c17e"  width="500" height="200"/></td>
+  </tr>
+    <td align="center"><b>채팅</b></td>
+    <td align="center"><b>채팅 상세</b></td>
+</table>
+
+
+
+## 🎨디자인 
+### Figma로 직접 디자인
+
+
+<img src="https://github.com/DodamDuck/DodamDuck/assets/68066598/70f3bdc7-5324-47ab-8c8b-e9535fe9ef49" width="350" height="400"/>
+
+
+
+## 💫기술 스택
+
+- React
+- Context API
+
+
+
+## 📷시연 영상
+
+https://youtu.be/TNb7-WiAxxI?si=5_l3ZsKeJe_xxM6i
+
+
