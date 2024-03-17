@@ -77,7 +77,6 @@ function BoardDetail() {
     }
 
     return (
-        <>
         <div className="shring-detail-card">
             <Card className="text-center">
             <Card.Header>도담덕 자유 게시판
@@ -140,7 +139,6 @@ function BoardDetail() {
             <Card.Footer className="text-muted" style={{cursor: 'pointer'}} onClick={()=>{navigate('/board')}}>게시글 목록 보기</Card.Footer>
             </Card>
         </div>
-        </>
     )
 }
 

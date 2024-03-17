@@ -11,8 +11,9 @@ import axios from 'axios';
 function SharingBoard() {
 
     let navigate = useNavigate();
-
     const [serverPosts, setServerPosts] = useState([]);
+    const [searchQuery, setSearchQuery] = useState("");
+
     useEffect(() => {
             fetch('http://sy2978.dothome.co.kr/Post.php')
                 .then((response) => response.json())
@@ -57,6 +58,32 @@ function SharingBoard() {
         }
     }
 
+    const fetchPosts = async (query = "") => {
+        const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
+        try {
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log("data는? ", data);
+            setServerPosts(data);
+        } catch (error) {
+            console.error('오류뜸: ', error);
+        }
+    };
+
+    useEffect(() => {
+        fetchPosts();
+    }, []);
+
+    const handleSearchChange = (event) => {
+        setSearchQuery(event.target.value);
+    };
+
+    // 검색 실행 함수
+    const executeSearch = (event) => {
+        event.preventDefault(); // 폼 제출 방지
+        fetchPosts(searchQuery);
+    };
+
     return (
         <>
             <div className='library-nav'>
@@ -66,10 +93,19 @@ function SharingBoard() {
                 <div className='library-comment2'>
                     교환 & 나눔
                 </div>
+                <Form onSubmit={executeSearch}>
                 <div className='search-bar'>
-                    <Form.Control size="lg" type="text" placeholder="어떤 제품을 찾으세요?" className='search-form' />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" className='search-icon'/>
+                    <Form.Control 
+                        size="lg" 
+                        type="text" 
+                        placeholder="어떤 제품을 찾으세요?" 
+                        className='search-form' 
+                        value={searchQuery} 
+                        onChange={handleSearchChange}
+                    />
+                    <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" className='search-icon' onClick={executeSearch}/>
                 </div>
+                </Form>
             </div>
             <div className='container'>
                 <div className='row' style={{margin: '10px', width: '75rem', display: 'flex', alignItems: 'center'}}>
