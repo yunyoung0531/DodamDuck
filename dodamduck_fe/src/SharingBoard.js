@@ -7,9 +7,10 @@ import { useNavigate } from 'react-router-dom';
 import { Card, Form } from 'react-bootstrap';
 import React, { useEffect, useState } from 'react';
 import axios from 'axios';
+import { useAuth } from './AuthContext';
 
 function SharingBoard() {
-
+    const { user } = useAuth();
     let navigate = useNavigate();
     const [serverPosts, setServerPosts] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
@@ -24,7 +25,10 @@ function SharingBoard() {
             .catch((error) => {
             console.error('오류뜸: ', error);
             });
-        }, []);
+            
+    }, []);
+
+
 
     const incrementViewCount = async (postId) => {
         try {
@@ -38,9 +42,22 @@ function SharingBoard() {
         }
     }
 
+    // useEffect(() => {
+    //     if (!user) {
+    //         alert('먼저 로그인 해주세요 !');
+    //         navigate('/login');
+    //     }
+    // }, [user]);
+    
+
     const handleCardClick = (postId) => {
-        incrementViewCount(postId); 
-        navigate(`/sharingDetail/${postId}`);
+        if (user) {
+            incrementViewCount(postId); 
+            navigate(`/sharingDetail/${postId}`);
+        } else {
+            navigate('/login');
+            alert('로그인 후 이용해주세요 :)');
+        }
     }
 
     const timeSince = (date) => {

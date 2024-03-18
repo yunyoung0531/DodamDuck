@@ -1,4 +1,4 @@
-import { Navigate, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Button, Card, ListGroup, Form } from "react-bootstrap";
 import axios from 'axios';
 import {React, useState, useEffect } from 'react';
@@ -9,8 +9,8 @@ import { useAuth } from './AuthContext';
 function BoardDetail() {
     let { id } = useParams();
     const { user } = useAuth();
-
     let navigate = useNavigate();
+    
 
     const [contentShare, setContentShare] = useState(null);
     const [ContentComments, setContentComments] = useState([]); 

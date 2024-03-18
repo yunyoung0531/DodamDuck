@@ -70,7 +70,7 @@ __도담덕__ =  ___도담도담 + Duck___
 
 <table>
   <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af3d4a67-7320-4d96-8d21-a70e5b04ea85"  width="500" height="200"/></td>
+    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/f0d4a542-0040-4363-a02b-3dc97a632c6b"  width="500" height="200"/></td>
     <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="500" height="200"/></td>
   </tr>
     <td align="center"><b>교환/나눔 게시판</b></td>
