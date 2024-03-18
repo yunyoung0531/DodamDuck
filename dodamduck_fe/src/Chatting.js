@@ -15,11 +15,13 @@ function Chatting() {
     const goToChatDetail = (ChatID, partnerID, partnerName, myID) => {
         navigate(`/chattingDetail/${ChatID}/${partnerID}/${partnerName}/${myID}`);
     };
-
+    
     useEffect(() => {
         if (!user) {
             console.log("User is not defined, skipping API call.");
             setIsLoading(false);
+            alert('로그인 후 이용해주세요');
+            navigate('/login');
             return;
         }
         setIsLoading(true);

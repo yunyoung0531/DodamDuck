@@ -6,11 +6,18 @@ import { useNavigate } from 'react-router-dom';
 
 function MyShop() {
     const { user } = useAuth();
+    let navigate = useNavigate();
     console.log('myshop-지금 로그인된 사람은? ', user);
 
+    useEffect(() => {
+        if (!user) {
+            alert('로그인 후 이용해주세요');
+            navigate('/login');
+        }
+    }, [navigate, user]);
+    
     const [products, setProducts] = useState([]);
-    let navigate = useNavigate();
-
+    
     useEffect(() => {
         if(user) {
             axios.get('http://sy2978.dothome.co.kr/Post.php')
@@ -23,10 +30,6 @@ function MyShop() {
                 });
         }
     }, [user]);
-
-    // if (!user) {
-    //     return <div>로딩 중...</div>;
-    // }
 
 
     const incrementViewCount = async (postId) => {
