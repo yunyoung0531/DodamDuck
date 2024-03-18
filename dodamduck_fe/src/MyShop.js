@@ -24,9 +24,10 @@ function MyShop() {
         }
     }, [user]);
 
-    if (!user) {
-        return <div>로딩 중...</div>;
-    }
+    // if (!user) {
+    //     return <div>로딩 중...</div>;
+    // }
+
 
     const incrementViewCount = async (postId) => {
         try {

@@ -113,7 +113,7 @@ function SharingDetail() {
         } catch (error) {
             console.error('채팅방을 생성하는 동안 오류가 발생했습니다.', error);
         }
-        };
+        }; 
 
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>
