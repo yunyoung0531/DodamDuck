@@ -5,9 +5,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
-
+import { useAuth } from './AuthContext';
 
 function Board() {
+    const { user } = useAuth();
     let navigate = useNavigate();
 
     const [PhpPosts, setPhpPosts] = useState([]);
@@ -78,9 +79,11 @@ function Board() {
                     </div>
                 </div>
             ))}
-            <div className='circle' onClick={()=> {navigate('/BoardPost')}}>
-                <FontAwesomeIcon icon={faPlus} className='plus-sign' />
-            </div>
+            { user && 
+                <div className='circle' onClick={()=> {navigate('/BoardPost')}}>
+                    <FontAwesomeIcon icon={faPlus} className='plus-sign' />
+                </div>
+            }
         </>
     )
 }

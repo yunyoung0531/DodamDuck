@@ -150,10 +150,11 @@ function SharingBoard() {
                     ))}
                 </div>
             </div>
-
-            <div className='circle' onClick={()=> {navigate('/sharingPost')}}>
-                <FontAwesomeIcon icon={faPlus} className='plus-sign' />
-            </div>
+            { user && 
+                <div className='circle' onClick={()=> {navigate('/sharingPost')}}>
+                    <FontAwesomeIcon icon={faPlus} className='plus-sign' />
+                </div>
+            }
         </>
     )
 }
