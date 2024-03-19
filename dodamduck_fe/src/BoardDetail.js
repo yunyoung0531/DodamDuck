@@ -4,6 +4,8 @@ import axios from 'axios';
 import {React, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
+import { faTrashCan } from '@fortawesome/free-solid-svg-icons';
+import { faPen } from '@fortawesome/free-solid-svg-icons';
 import { useAuth } from './AuthContext';
 
 function BoardDetail() {
@@ -88,12 +90,15 @@ function BoardDetail() {
                     <div style={{display: 'flex', marginLeft: '15px'}}>
                         <img src={contentShare?.profile_url ? contentShare.profile_url : 'https://www.lab2050.org/common/img/default_profile.png'}  width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
                         <div style={{display: 'flex', flexDirection: 'column'}}>
-                            <h5 style={{marginLeft: '-485px'}}>{contentShare?.userName}님</h5>
+                            <h5 style={{ marginLeft: '-30%'}}>{contentShare?.userName}님</h5>
                             <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
                             <h6 className="upload-date">{contentShare?.created_at}</h6>
-                            <Button className="chatting-btn">채팅하기</Button>
                             </div>
                         </div>
+                        {/* <Button className="chatting-btn">채팅하기</Button> */}
+                        { user && user.userName !== contentShare.userName &&
+                            <Button className="chatting-btn">채팅하기</Button> 
+                        }
                     </div>
                 </Card.Title>
                 <ListGroup className="list-group-flush">
@@ -105,9 +110,22 @@ function BoardDetail() {
                         </div>
                         <h5 className="sharing-detail-content">
                             {contentShare?.content}
+                            <div className="sharing-delete">
+                            {
+                                user && user.userName === contentShare.userName &&
+                                <>
+                                <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
+                                <FontAwesomeIcon 
+                                    icon={faTrashCan} 
+                                    style={{color: "#4d4d4d", cursor: 'pointer'}} 
+                                    // onClick={deletePost}
+                                />
+                                </>
+                            }
+                        </div>
                         </h5>
-                        
                     </ListGroup.Item>
+                    <ListGroup.Item></ListGroup.Item>
                 </ListGroup>
 
                 <ListGroup.Item  className="comment-section">
@@ -125,15 +143,16 @@ function BoardDetail() {
                             </>
                         ))}
                     </div>
-                                        
-                <div style={{ display: 'flex'}}>
-                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
-                value={comment}
-                onChange={handleCommentChange}/> 
-                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} 
-                    onClick={submitComment} 
-                    />
-                </div>
+                { user && 
+                    <div style={{ display: 'flex'}}>
+                    <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                    value={comment}
+                    onChange={handleCommentChange}/> 
+                        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} 
+                        onClick={submitComment} 
+                        />
+                    </div>
+                }
                 </ListGroup.Item>
             </Card.Body>
             <Card.Footer className="text-muted" style={{cursor: 'pointer'}} onClick={()=>{navigate('/board')}}>게시글 목록 보기</Card.Footer>
