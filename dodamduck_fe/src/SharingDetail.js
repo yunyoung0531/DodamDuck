@@ -138,11 +138,13 @@ function SharingDetail() {
                                 </div>
                             </div>
                             </div>
-                            <Button className="sharing-chatting-btn" onClick={()=>{
-                                createChatRoom();
-                                console.log('채팅하기 버튼 클릭');
-                                navigate('/chatting') // 채팅 상세로 페이지 리다이렉트 필요1!!!
-                            }}>채팅하기</Button>
+                            { user && user.userName !== userName &&
+                                <Button className="sharing-chatting-btn" onClick={()=>{
+                                    createChatRoom();
+                                    console.log('채팅하기 버튼 클릭');
+                                    navigate('/chatting') // 채팅 상세로 페이지 리다이렉트 필요1!!!
+                                }}>채팅하기</Button>
+                            }   
                         </div>
                         </Card.Title>
                         <ListGroup className="list-group-flush">
