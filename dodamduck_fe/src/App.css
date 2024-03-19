@@ -801,10 +801,11 @@
   background-color: #FFD600 !important;
   border-color: #FFD600 !important;
   color: white !important;
-  display: flex;
+  /* display: flex; */
   width: 89px !important ;
   height: 33px !important ;
   margin-left: 350px;
+  margin-top: 30px;
 }
 
 .upload-date {
@@ -936,6 +937,7 @@
 
 .sharing-comment-style {
   display: flex;
+  margin-left: 15px;
 }
 
 .sharing-comment-content {
@@ -944,7 +946,7 @@
   font-size: medium;
   flex-direction: column; 
   align-items: flex-start;
-  margin-left: -15px;
+  /* margin-left: -15px; */
   margin-top: -10px;
 }
 
