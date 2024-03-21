@@ -69,15 +69,18 @@ function SharingDetail() {
         fetchPostDetail();
     }, [id]);
 
-    // 작업 중 입니다 🙏
+    // 게시글 삭제
     const deletePost = async () => {
         console.log(`post_id는? ${id}, user_id는?? ${user.userID}`);
         try {
             const response = await axios.delete(`http://sy2978.dothome.co.kr/PostDelete.php`, {
-                params: {
-                    post_id: id, 
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: new URLSearchParams({
+                    post_id: id,
                     user_id: user.userID
-                }
+                }).toString()
             });
     
             console.log('Response from server:', response.data);
@@ -86,14 +89,11 @@ function SharingDetail() {
                 navigate('/sharingBoard');
             } else {
                 console.error('게시물 삭제에 실패했습니다.', response.data.message);
-                console.log(user, postDetail, user.userName, postDetail.post.userName);
-
             }
         } catch (error) {
             console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);
         }
     };
-    
 
     const createChatRoom = async () => {
         console.log('채팅방 생성 함수 호출됨');
