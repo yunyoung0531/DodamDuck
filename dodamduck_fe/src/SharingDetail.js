@@ -81,11 +81,13 @@ function SharingDetail() {
             });
     
             console.log('Response from server:', response.data);
-            if (response.data.error === false) {
+            if (response.data.error === "false") {
                 console.log('게시물이 성공적으로 삭제되었습니다.');
                 navigate('/sharingBoard');
             } else {
                 console.error('게시물 삭제에 실패했습니다.', response.data.message);
+                console.log(user, postDetail, user.userName, postDetail.post.userName);
+
             }
         } catch (error) {
             console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);

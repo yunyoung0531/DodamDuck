@@ -14,6 +14,7 @@ function SharingBoard() {
     let navigate = useNavigate();
     const [serverPosts, setServerPosts] = useState([]);
     const [searchQuery, setSearchQuery] = useState("");
+    const [popularSearches, setPopularSearches] = useState([]); 
 
     useEffect(() => {
             fetch('http://sy2978.dothome.co.kr/Post.php')
@@ -28,7 +29,10 @@ function SharingBoard() {
             
     }, []);
 
-
+    useEffect(() => {
+        // 컴포넌트가 마운트될 때 인기 검색어를 조회
+        fetchPopularSearches();
+    }, []);
 
     const incrementViewCount = async (postId) => {
         try {
@@ -75,17 +79,32 @@ function SharingBoard() {
         }
     }
 
+    /**
+     * 검색어 
+     * @param {*} query 
+     */
+    // const fetchPosts = async (query = "") => {
+    //     const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
+    //     try {
+    //         const response = await fetch(url);
+    //         const data = await response.json();
+    //         console.log("data는? ", data);
+    //         setServerPosts(data);
+    //     } catch (error) {
+    //         console.error('오류뜸: ', error);
+    //     }
+    // };
     const fetchPosts = async (query = "") => {
         const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
         try {
-            const response = await fetch(url);
-            const data = await response.json();
-            console.log("data는? ", data);
-            setServerPosts(data);
+            const response = await axios.get(url);
+            console.log("검색어는? ", response.data);
+            setServerPosts(response.data); 
         } catch (error) {
             console.error('오류뜸: ', error);
         }
     };
+    
 
     useEffect(() => {
         fetchPosts();
@@ -101,6 +120,16 @@ function SharingBoard() {
         fetchPosts(searchQuery);
     };
 
+    const fetchPopularSearches = async () => {
+        try {
+            const response = await axios.get('http://sy2978.dothome.co.kr/PopularPostSearch.php');
+            setPopularSearches(response.data); // API로부터 받은 데이터를 상태에 저장
+            console.log("인기 검색어 조회 성공:", response);
+        } catch (error) {
+            console.error('인기 검색어 조회 실패:', error);
+        }
+    };
+
     return (
         <>
             <div className='library-nav'>
@@ -111,17 +140,22 @@ function SharingBoard() {
                     교환 & 나눔
                 </div>
                 <Form onSubmit={executeSearch}>
-                <div className='search-bar'>
-                    <Form.Control 
-                        size="lg" 
-                        type="text" 
-                        placeholder="어떤 제품을 찾으세요?" 
-                        className='search-form' 
-                        value={searchQuery} 
-                        onChange={handleSearchChange}
-                    />
-                    <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" className='search-icon' onClick={executeSearch}/>
-                </div>
+                    <div className='search-bar'>
+                        <Form.Control 
+                            size="lg" 
+                            type="text" 
+                            placeholder="어떤 제품을 찾으세요?" 
+                            className='search-form' 
+                            value={searchQuery} 
+                            onChange={handleSearchChange}
+                        />
+                        <FontAwesomeIcon icon={faMagnifyingGlass} size="lg" className='search-icon' onClick={executeSearch}/>
+                    </div>
+                    <div>
+                        {popularSearches.slice(0, 5).map((search, index) => (
+                                <span key={index}>#{search.query} </span> 
+                        ))}
+                    </div>
                 </Form>
             </div>
             <div className='container'>
