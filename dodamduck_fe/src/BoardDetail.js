@@ -74,6 +74,33 @@ function BoardDetail() {
     fetchDetail();
     }, [id]); 
 
+    // 게시글 삭제
+    const deletePost = async () => {
+        console.log(`share_id는? ${id}, user_id는?? ${user.userID}`);
+        try {
+            const response = await axios.delete(`http://sy2978.dothome.co.kr/ShareContentDelete.php`, {
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                data: new URLSearchParams({
+                    share_id: id,
+                    user_id: user.userID
+                }).toString()
+            });
+
+            console.log('Response from server:', response.data);
+            if (response.data.error === "false") {
+                console.log('게시물이 성공적으로 삭제되었습니다.');
+                navigate('/board');
+            } else {
+                console.error('게시물 삭제에 실패했습니다.', response.data.message);
+            }
+        } catch (error) {
+            console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);
+        }
+    };
+
+    
     if (!contentShare) {
         return <div>로딩중...</div>;
     }
@@ -118,7 +145,7 @@ function BoardDetail() {
                                 <FontAwesomeIcon 
                                     icon={faTrashCan} 
                                     style={{color: "#4d4d4d", cursor: 'pointer'}} 
-                                    // onClick={deletePost}
+                                    onClick={deletePost}
                                 />
                                 </>
                             }
