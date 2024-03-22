@@ -1034,3 +1034,9 @@
   color: #494949;
   cursor: pointer;
 }
+
+.popular-searching {
+  color: #2f2f2f;
+  font-family: '210 옴니고딕OTF 035', sans-serif !important;  
+  margin: 2px;
+}

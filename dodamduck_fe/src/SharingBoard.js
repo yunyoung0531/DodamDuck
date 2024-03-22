@@ -153,7 +153,7 @@ function SharingBoard() {
                     </div>
                     <div>
                         {popularSearches.slice(0, 5).map((search, index) => (
-                                <span key={index}>#{search.query} </span> 
+                                <span key={index} className='popular-searching'>#{search.query} </span> 
                         ))}
                     </div>
                 </Form>
