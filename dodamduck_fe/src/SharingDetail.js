@@ -69,7 +69,9 @@ function SharingDetail() {
         fetchPostDetail();
     }, [id]);
 
-    // 게시글 삭제
+    /**
+     * 게시글 삭제
+     */
     const deletePost = async () => {
         console.log(`post_id는? ${id}, user_id는?? ${user.userID}`);
         try {
@@ -123,93 +125,104 @@ function SharingDetail() {
     const { title, content, views, location, userName, image_url, created_at, profile_url } = postDetail.post;
 
     return (
-        <div className="shring-detail-card">
+        <div className="sharing-detail-card">
             <Card className="text-center">
                 <Card.Header>교환 & 나눔 게시판</Card.Header>
-                    <Card.Body>
-                    <Card.Img variant="top" src={image_url} width={'100px'} height={'460px'} />
-                    <Card.Title style={{marginTop: '20px'}}>
-                        <div style={{display: 'flex', marginLeft: '15px', justifyContent: 'space-between', alignItems: 'center'}}>
-                            <div style={{display: 'flex'}}>
-                            <img src={profile_url ? profile_url : 'https://www.lab2050.org/common/img/default_profile.png'} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
-                            <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
-                                <h5 style={{display: 'flex', marginLeft: '15px'}}>{userName}님</h5>
-                                <div style={{display: 'flex'}}>
-                                <h6 className="upload-date">{location}</h6>
-                                <p className="sharing-comment-created" style={{marginTop: '3px', marginLeft: '8px'}}>{created_at}</p>
-                                </div>
-                            </div>
-                            </div>
-                            { user && user.userName !== userName &&
-                                <Button className="sharing-chatting-btn" onClick={()=>{
-                                    createChatRoom();
-                                    console.log('채팅하기 버튼 클릭');
-                                    navigate('/chatting') // 채팅 상세로 페이지 리다이렉트 필요1!!!
-                                }}>채팅하기</Button>
-                            }   
-                        </div>
-                        </Card.Title>
-                        <ListGroup className="list-group-flush">
-                            <ListGroup.Item></ListGroup.Item>
-                            <ListGroup.Item>
-                                <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
-                                <h5>{title}</h5> 
-                                <div className="sharing-views">조회수: {views}</div>
-                                </div>
-                                <h5 className="sharing-detail-content">
-                                {content}
-                                <div className="sharing-delete">
-                                    
-                                    {
-                                        user && postDetail && user.userName === postDetail.post.userName &&
-                                        <>
-                                        <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
-                                        <FontAwesomeIcon 
-                                            icon={faTrashCan} 
-                                            style={{color: "#4d4d4d", cursor: 'pointer'}} 
-                                            onClick={deletePost}
-                                        />
-                                        </>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                    <div style={{flex: 1}}> 
+                        <Card.Body>
+                            <Card.Img variant="top" src={image_url} width={'100px'} height={'460px'} />
+                            <Card.Title style={{marginTop: '20px'}}>
+                                <div style={{display: 'flex', marginLeft: '15px', justifyContent: 'space-between', alignItems: 'center'}}>
+                                    <div style={{display: 'flex'}}>
+                                        <img src={profile_url ? profile_url : 'https://www.lab2050.org/common/img/default_profile.png'} width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
+                                        <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                                            <h5 style={{display: 'flex', marginLeft: '15px'}}>{userName}님</h5>
+                                            <div style={{display: 'flex'}}>
+                                                <h6 className="upload-date">{location}</h6>
+                                                <p className="sharing-comment-created" style={{marginTop: '3px', marginLeft: '8px'}}>{created_at}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    { user && user.userName !== userName &&
+                                        <Button className="sharing-chatting-btn" onClick={()=>{
+                                            createChatRoom();
+                                            console.log('채팅하기 버튼 클릭');
+                                            navigate('/chatting')
+                                        }}>채팅하기</Button>
                                     }
-
                                 </div>
-                                </h5>
-                                
-                            </ListGroup.Item>
-                            <Card.Text style={{display: 'flex', alignItems: 'flex-start', marginLeft: '15px', marginTop: '10px'}}>
-                                #해시태그 #나눔
-                            </Card.Text>    
-                            <ListGroup.Item  className="comment-section">
-                                <div className="comment-radio">댓글</div>
-                                <div className="comment-content">
-                                    {postDetail.comments.map((comment, index) => (
-                                        <>
-                                            <div className="sharing-comment-style">
-                                                <p className="sharing-comment">{comment.userName}님</p>
-                                                <p className="sharing-comment-created">{comment.created_at}</p>
+                            </Card.Title>
+                        </Card.Body>
+                    </div>
+                    <div className="board-detail-line" ></div>
+                    <div style={{flex: 1, padding: '20px'}}> {/* 두번째 섹션 */}
+                    <ListGroup className="list-group-flush">
+                                {/* <ListGroup.Item></ListGroup.Item> */}
+                                <ListGroup.Item>
+                                    <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
+                                        <h5 className="font-border">{title}</h5> 
+                                        <div className="sharing-views">조회수: {views}</div>
+                                    </div>
+                                    <h5 className="sharing-detail-content">
+                                        {content}
+                                        <div className="sharing-delete">
+                                            {
+                                                user && postDetail && user.userName === postDetail.post.userName &&
+                                                <>
+                                                    <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
+                                                    <FontAwesomeIcon 
+                                                        icon={faTrashCan} 
+                                                        style={{color: "#4d4d4d", cursor: 'pointer'}} 
+                                                        onClick={deletePost}
+                                                    />
+                                                </>
+                                            }
+                                        </div>
+                                    </h5>
+                                </ListGroup.Item>
+                                <Card.Text style={{display: 'flex', alignItems: 'flex-start', marginLeft: '15px', marginTop: '10px'}} className="font-border">
+                                    #해시태그 #나눔
+                                </Card.Text>    
+                            </ListGroup>
+                        <ListGroup.Item className="comment-section">
+                        <div className="page-container"> 
+                            <div className="content-wrapper">
+                                <ListGroup.Item className="comment-section"  >
+                                    <div className="comment-radio font-border">댓글</div>
+                                    <div className="comment-content" style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                                        {postDetail.comments.map((comment, index) => (
+                                            <div key={comment.id}>
+                                                <div className="sharing-comment-style">
+                                                    <p className="sharing-comment">{comment.userName}님</p>
+                                                    <p className="sharing-comment-created">{comment.created_at}</p>
+                                                </div>  
+                                                <div style={{ marginLeft: '10px'}}>
+                                                    <p className="sharing-comment-content">{comment.content}</p>
+                                                </div>
                                             </div>
-                                            <div key={comment.id} style={{ marginLeft: '10px'}}>
-                                                <p className="sharing-comment-content">{comment.content}</p>
-                                            </div>
-                                        </>
-                                    ))}
-                                </div>
-                            <div style={{ display: 'flex'}}>
-                            <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
-                            value={comment}
-                            onChange={handleCommentChange}
-                            /> 
-                                <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginLeft: '10px', cursor: 'pointer'}} 
-                                onClick={submitComment} 
+                                        ))}
+                                    </div>
+                                </ListGroup.Item>
+                            </div>
+                            <div className="comment-section"> 
+                                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                                value={comment}
+                                onChange={handleCommentChange}
+                                /> 
+                                <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginLeft: '10px', cursor: 'pointer', marginTop: '-22px'}} 
+                                    onClick={submitComment} 
                                 />
                             </div>
+                        </div>  
                             </ListGroup.Item>
-                        </ListGroup>
-                        
-                    </Card.Body>
-                <Card.Footer className="text-muted" onClick={()=>{navigate('/sharingBoard')}} style={{cursor: 'pointer'}}>교환/나눔 게시글 목록보기</Card.Footer>
-            </Card>
-        </div>
+                        </div>
+                    </div>
+                    <Card.Footer className="text-muted" onClick={()=>{navigate('/sharingBoard')}} style={{cursor: 'pointer'}}>
+                교환/나눔 게시글 목록보기
+            </Card.Footer>
+        </Card>
+    </div>
     )
 }
 
