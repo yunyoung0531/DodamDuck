@@ -628,10 +628,11 @@
 .chat-line {
   border-left : thin solid #ced4da;
   height : 589px;
-  /* margin-right: 10px; */
-  /* margin-left: 310px; */
-  /* margin-top: -1px; */
-  /* margin-bottom: 50px; */
+}
+.board-detail-line {
+  border-left : thin solid #e4e4e4;
+  height : 560px;
+  margin-top: 15px;
 }
 
 .chat-user-line {
@@ -730,36 +731,25 @@
   border-radius: 5px 50px 50px 60px;
   display: flex;
   justify-content: center;
-  width: 100%; /* 예를 들어 전체 길이의 50%로 설정 */
+  width: 100%; 
   margin: auto; 
   padding: 5px 10px;
 }
 
-/* .real-chat-me {
-  display: flex;
-  position: relative;
-  left: 60%;
+.font-border {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
-  border: #f1f1f1 solid 1px;
-  background-color: #f1f1f1;
-  border-radius: 50px 5px 50px 60px;
-  justify-content: flex-end;
-  width:5%; 
-  margin: auto; 
-  margin-left: auto;
-  padding: 5px;
-} */
+}
 
 .real-chat-me {
   display: flex;
-  align-items: center; /* 텍스트를 말풍선 내에서 수직 중앙에 정렬 */
-  justify-content: center; /* 텍스트를 말풍선 내에서 수평 중앙에 정렬 */
+  align-items: center; 
+  justify-content: center; 
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
   border: #FFD600 solid 1px;
   background-color: #FFD600;
   border-radius: 50px 5px 50px 60px;
-  padding: 5px 10px; /* padding을 좀 더 적절하게 조정 */
-  margin-left: auto; /* 이것은 오른쪽 정렬을 위해 */
+  padding: 5px 10px;
+  margin-left: auto; 
   font-size: small;
 }
 
@@ -791,10 +781,10 @@
   margin-bottom: 13px;
   margin-right: 10px;
 }
-.shring-detail-card {
-  margin: 100px;
-  margin-left: 400px;
-  margin-right: 400px;
+.sharing-detail-card {
+  margin: 70px;
+  margin-left: 195px;
+  margin-right: 195px;
 }
 
 .chatting-btn {
@@ -857,30 +847,41 @@
 .comment-section {
   display: flex;
   flex-direction: column; 
-  align-items: flex-start;
-  width: 100%;
-  margin-left: 10px;
+  align-items: flex-end;
+  width: 97%;
+  margin-left: 10px; 
 }
 
 .comment-content {
-  display: flex;
-  flex-direction: column; 
-  width: 100%; 
+  /* position: relative; */
+  /* flex-direction: column;  */
+  /* width: 100%;  */
 }
 
 .comment-ready {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
   font-size: small  !important;
-  width: 36rem;
+  max-width: 31rem;
   height: 30px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: center; */
   background-color: #f8f8f8;
-  /* margin: 10px 10px 10px 10px; */
-  margin-top: 30px;
-  margin-left: -10px;
+  margin-top: 20px;
+  /* margin-left: 20px; */
   margin-right: 25px;
+  /* position: absolute; */
+  /* bottom: 0; */
+}
+.page-container {
+  display: flex;
+  flex-direction: column;
+  min-height: 55vh; /* 전체 화면 높이 */
+}
+
+.content-wrapper {
+  flex: 1; /* 나머지 공간을 모두 차지하도록 함 */
+  overflow-y: auto; /* 필요시 스크롤 */
 }
 
 .sharing-chatting-btn {
@@ -1039,4 +1040,18 @@
   color: #2f2f2f;
   font-family: '210 옴니고딕OTF 035', sans-serif !important;  
   margin: 2px;
+}
+
+.comment-content::-webkit-scrollbar {
+  width: 8px;  /* 스크롤바의 너비 */
+}
+
+.comment-content::-webkit-scrollbar-thumb {
+  height: 30%; /* 스크롤바의 길이 */
+  background: #cdcdcd;
+  border-radius: 10px;
+}
+
+.comment-content::-webkit-scrollbar-track {
+  background: #f6f6f6;  /* 스크롤바 뒷 배경 색상 */
 }
