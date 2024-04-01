@@ -24,30 +24,60 @@ function LoginPage() {
         }
     }, [user]);
 
+
     const handleLogin = async (e) => {
         e.preventDefault();
+    
+        //JWT토큰
+        const existingToken = localStorage.getItem('token');
+    
+        if (existingToken !== null) {
+            try {
+                const headers = {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${localStorage.getItem('token')}`
+                };
+        
+                const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', {}, {headers});
 
-        const formData = new FormData();
-        formData.append('userID', id);
-        formData.append('userPassword', password);
-
-        try {
-            const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', formData);
-
-            if (response.data.login_success) {
-                await login(response.data);
-                console.log('로그인 성공', response.data);
-                console.log('유저는??', user);
-                navigate('/');
-            } else {
-                console.error('로그인 실패', response.data.message);
-                alert('로그인에 실패했습니다: ' + response.data.message);
+                if (response.status === 200 ) {
+                    // 토큰이 유효하다면, 사용자 데이터를 상태에 설정하고 홈으로 리다이렉트합니다.
+                    console.log('성공:', response.data);
+                    await login(existingToken, response.data);
+                    navigate('/');
+                } else if (response.status === 401 || response.status === 400) {
+                    localStorage.removeItem('token');
+                    alert('로그인 세션이 만료되었습니다. 다시 로그인해주세요.');
+                }
+            } catch (error) {
+                console.error('토큰 검증 중 오류 발생', error);
+                alert('토큰 검증 중 오류가 발생했습니다.');
             }
-        } catch (error) {
-            console.error('로그인 중 오류 발생', error);
-            alert('로그인 중 오류가 발생했습니다.');
+        } 
+        else {
+            // 처음에 토큰이 없는 경우
+            const formData = new FormData();
+            formData.append('userID', id);
+            formData.append('userPassword', password);
+    
+            try {
+                const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', formData);
+    
+                if (response.data.login_success) {
+                    const jwtToken = response.data.token;
+                    await login(jwtToken, response.data);
+                    navigate('/');
+                } else {
+                    console.error('로그인 실패', response.data.message);
+                    alert('로그인에 실패했습니다: ' + response.data.message);
+                }
+            } catch (error) {
+                console.error('로그인 중 오류 발생', error);
+                alert('로그인 중 오류가 발생했습니다.');
+            }
         }
     };
+    
     return(
         <>
             <div className='login-form login-container'>

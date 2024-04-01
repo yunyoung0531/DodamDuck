@@ -31,12 +31,13 @@ function App() {
   let navigate = useNavigate();
 
   useEffect(() => {
-    console.log('유저는? ', user.location);
-    console.log('(App.js)userID는? ', localStorage.getItem('userID'));
-    console.log('(App.js)userName는? ', localStorage.getItem('userName'));
-    console.log('(App.js)level는? ', localStorage.getItem('level'));
-    console.log('(App.js)verification_count는 ? ', localStorage.getItem('verification_count'));
-    console.log('(App.js)location는? ', localStorage.getItem('location'));
+    // console.log('유저는? ', user.location);
+    console.log('(App.js)userID는? ', sessionStorage.getItem('userID'));
+    console.log('(App.js)userName는? ', sessionStorage.getItem('userName'));
+    console.log('(App.js)level는? ', sessionStorage.getItem('level'));
+    console.log('(App.js)verification_count는 ? ', sessionStorage.getItem('verification_count'));
+    console.log('(App.js)location는? ', sessionStorage.getItem('location'));
+    console.log('(App.js)토큰은? ', localStorage.getItem('token'));
   }, [user])
 
   const handleLogout = async () => {
