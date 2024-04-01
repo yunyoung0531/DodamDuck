@@ -7,16 +7,30 @@ import { useNavigate } from 'react-router-dom';
 function MyShop() {
     const { user } = useAuth();
     let navigate = useNavigate();
+    const [loading, setLoading] = useState(true); // 로딩 상태 추가
+
     console.log('myshop-지금 로그인된 사람은? ', user);
 
     useEffect(() => {
+        //비동기로 체크
         if (!user) {
-            alert('로그인 후 이용해주세요');
-            navigate('/login');
+            const checkUser = setTimeout(() => {
+                if (!user) {
+                    alert('로그인 후 이용해주세요');
+                    navigate('/login');
+                } else {
+                    setLoading(false);
+                }
+            }, 1000); // 1초 후에 체크
+            return () => clearTimeout(checkUser);
+        } else {
+            setLoading(false);
         }
     }, [navigate, user]);
     
     const [products, setProducts] = useState([]);
+
+
     
     useEffect(() => {
         const fetchProducts = async () => {
@@ -72,15 +86,15 @@ function MyShop() {
         <>
         <div className="myshop-container " style={{ display: 'flex', alignItems: 'center' }}>
             <div style={{margin: '60px'}}>
-                <img src={user.profile_url || "https://www.lab2050.org/common/img/default_profile.png"} width={'140px'} height={'140px'} style={{ borderRadius: '50%' }}/>
+            <img src={user?.profile_url || "https://as2.ftcdn.net/v2/jpg/00/64/67/63/1000_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"} width={'140px'} height={'140px'} style={{ borderRadius: '50%' }}/>
             </div>
             <div style={{display: 'flex', justifyContent: 'center'}}>
-                <h4 style={{marginRight: '30px'}}>{user.userName}({user.userID}) 님</h4>
+                <h4 style={{marginRight: '30px'}}>{user?.userName}({user?.userID}) 님</h4>
             
                 <div style={{ display: 'flex', flexDirection: 'column', marginTop: '40px', marginLeft: '-218px' }} className='myshop-information'>
-                    <p className="myshop-level">level.{user.level}</p>
-                    <p className="myshop-level"> 인증 횟수: {user.verification_count}</p>
-                    <p className="myshop-level"> 위치: {user.location}</p>
+                    <p className="myshop-level">level.{user?.level}</p>
+                    <p className="myshop-level"> 인증 횟수: {user?.verification_count}</p>
+                    <p className="myshop-level"> 위치: {user?.location}</p>
                 </div>
             </div>
         </div>

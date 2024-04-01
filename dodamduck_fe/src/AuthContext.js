@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
+import axios from 'axios';
 
 export const AuthContext = createContext({
     user: null,
@@ -25,7 +26,6 @@ export const AuthProvider = ({ children }) => {
                 setUser(JSON.parse(storedUser));
             }
         };
-
         loadUserFromStorage();
     }, []); //useEffect로 새로고침시에도 로그인 유지
 
@@ -38,8 +38,8 @@ export const AuthProvider = ({ children }) => {
 
     const logout = () => {
         localStorage.removeItem('token'); //토큰 제거
-        localStorage.removeItem('user');
-        setUser('');
+        sessionStorage.removeItem('user');
+        setUser(null);
     };
 
     return (
