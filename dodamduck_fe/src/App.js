@@ -77,7 +77,9 @@ function App() {
                   <Button variant="outline-dark" className='login-btn' onClick={handleLogout}>로그아웃</Button>
                 </>
               ) : (
-                <Button variant="outline-dark" className='login-btn' onClick={() => navigate('/login')}>로그인</Button>
+                <Button variant="outline-dark" className='login-btn' onClick={() => 
+                  navigate('/login')
+                }>로그인</Button>
               )}
 
         </Container>
