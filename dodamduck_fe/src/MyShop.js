@@ -19,26 +19,46 @@ function MyShop() {
     const [products, setProducts] = useState([]);
     
     useEffect(() => {
-        if(user) {
-            axios.get('http://sy2978.dothome.co.kr/Post.php')
-                .then(response => {
-                    const userProducts = response.data.filter(product => product.user_id === user.userID);
-                    setProducts(userProducts);
-                })
-                .catch(error => {
+        const fetchProducts = async () => {
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get('http://sy2978.dothome.co.kr/Post.php', { headers });
+                    if (response.status === 200) {
+                        const userProducts = response.data.filter(product => product.user_id === user.userID);
+                        setProducts(userProducts);
+                    } else {
+                        console.error('불러오기 실패', response.data.message);
+                    }
+                } catch (error) {
                     console.error("상품 로딩 중 에러 발생", error);
-                });
-        }
+                }
+            }
+        };
+    
+        fetchProducts();
     }, [user]);
 
 
+    //아직 안됨 상세페이지 먼저 sharingDetail
     const incrementViewCount = async (postId) => {
         try {
-            const postData = new URLSearchParams();
-            postData.append('post_id', postId);
-            const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData);
-            console.log("조회수 증가 응답", response.data);
-
+            const existingToken = localStorage.getItem('token');
+            if (existingToken){
+                const postData = new URLSearchParams();
+                postData.append('post_id', postId);
+                const headers = {
+                    "Authorization": `Bearer ${existingToken}`
+                };
+                const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData, { headers });
+                console.log("조회수 증가 응답", response.data);
+            } else {
+                console.error('토큰이 없어 조회수를 증가시킬 수 없습니다.');
+            }
         } catch (error) {
             console.error('조회수 증가 API 호출 실패', error);
         }
