@@ -4,11 +4,12 @@ import { faPaperPlane } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import axios from "axios";
 import { useAuth } from './AuthContext';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useRef } from "react";
 
 
 function ChattingDetail() {
+    let navigate = useNavigate();
     const [chatList, setChatList] = useState([]);
     const [messages, setMessages] = useState([]);
     const { id } = useParams();
@@ -31,28 +32,34 @@ function ChattingDetail() {
     }, [messages]);
 
     useEffect(() => {
-        if (!user) {
-            console.log("User is not defined, skipping API call.");
-            return; 
-        }
-        console.log("id는 ", id);
-        console.log("partnerID는 ", partnerID);
-        console.log("partnerName는 ", partnerName);
-        console.log("user.userID는? ", user.userID);
-        console.log("myID는? ", myID);
-        axios.get(`http://sy2978.dothome.co.kr/get_chat_list.php?user_id=${user.userID}`)
-        
-            .then(response => {
-                if (response.data && Array.isArray(response.data.chat_list)) {
-                    setChatList(response.data.chat_list);
-                } else {
-                    console.log('No chat list available');
+        // 채팅 리스트 (채팅하는 사람들) 보여줌
+        const fetchChatList = async () => {
+            // setIsLoading(true);
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get(`http://sy2978.dothome.co.kr/get_chat_list.php?user_id=${user.userID}`, { headers })
+                    console.log('response.data입니다, ', response.data);
+                    if (response.status === 200 && response.data && Array.isArray(response.data.chat_list)) {
+                        setChatList(response.data.chat_list);
+                    } else {
+                        console.log('No chat list available');
+                    }
+                } catch(error) {
+                    console.error('채팅 목록 요청 실패:', error);
+                    // setError(error);
+                } finally {
+                    // setIsLoading(false)
                 }
-            })
-            .catch(error => {
-                console.error('채팅 목록 요청 실패:', error);
-            });
-    }, [user]);
+            }
+        }
+        fetchChatList();
+    }, [user, navigate]);
+    
 
     useEffect(() => {
         if (!user) {
@@ -61,21 +68,26 @@ function ChattingDetail() {
         }
     
         //1:1채팅내역 가져오기
-        const fetchMessages = () => {
+        const fetchMessages = async () => {
             console.log('Fetching messages...');
-            axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}`)
-                .then(response => {
-                    if (response.data) {
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get(`http://sy2978.dothome.co.kr/getMessage.php?user1=${user.userID}&user2=${partnerID}` , { headers })
+                    if (response.status === 200 && response.data) {
                         setMessages(response.data);
                     } else {
-                        console.log('No messages available');
+                        console.log('No 채팅내역');
                     }
-                })
-                .catch(error => {
-                    console.error('메시지 목록 요청 실패:', error);
-                });
+                } catch (error) {
+                    console.error('채팅 목록 요청 실패:', error);
+                }
+            }
         };
-    
         const intervalId = setInterval(() => {
             fetchMessages();
         }, 1000); // 1초마다 메시지 불러옴
@@ -85,6 +97,7 @@ function ChattingDetail() {
     
 
     const sendMessage = async (e) => {
+        //메시지 보내기
         e.preventDefault();
         console.log("myID: ", myID);
         if (!newMessage.trim() || !user?.userID) {
@@ -97,27 +110,31 @@ function ChattingDetail() {
         formData.append('receiverID', partnerID);
         formData.append('message', newMessage);
     
-        try {
-            const response = await axios.post('http://sy2978.dothome.co.kr/sendMessage.php', formData, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const response = await axios.post('http://sy2978.dothome.co.kr/sendMessage.php', formData, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        "Authorization": `Bearer ${existingToken}`
+                    }
+                });
+                console.log('메시지보내기response.data', response.data);
+                if (response.status === 200) {
+                    setMessages(prevMessages => [
+                        ...prevMessages,
+                        {
+                            senderID: myID,
+                            receiverID: partnerID,
+                            message: newMessage,
+                            timestamp: new Date().toISOString()
+                        }
+                    ]);
+                    setNewMessage('');
                 }
-            });
-            console.log('메시지보내기response.data', response.data);
-    
-            setMessages(prevMessages => [
-                ...prevMessages,
-                {
-                    senderID: myID,
-                    receiverID: partnerID,
-                    message: newMessage,
-                    timestamp: new Date().toISOString()
-                }
-            ]);
-    
-            setNewMessage('');
-        } catch (error) {
-            console.error('메시지 전송 실패:', error);
+            } catch (error) {
+                console.error('메시지 전송 실패:', error);
+            }
         }
     };
     
@@ -125,8 +142,6 @@ function ChattingDetail() {
     if (!user) {
         return <div>로딩 중...</div>;
     }
-
-
 
     return (
         <>
