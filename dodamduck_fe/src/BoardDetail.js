@@ -24,79 +24,94 @@ function BoardDetail() {
     };
 
     const submitComment = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('share_id', id);
-            formData.append('user_id', user.userID);
-            formData.append('comment', comment);
-    
-            const response = await axios.post('http://sy2978.dothome.co.kr/upload_share_comment.php', formData);
-            if (response.data.error === false) {
-                console.log('댓글이 성공적으로 등록되었습니다.', response.data);
-                console.log('response.data.userID? ', response.data.comment_id)
-
-                const newComment = {
-                    id: response.data.comment_id, 
-                    userName: user.userName, 
-                    content: comment,
-                    created_at:  response.data.created_at
-                };
-                
-            setContentComments(prevComments => [newComment, ...prevComments]);
-
-
-                setComment("");
-            } else {
-                console.error('댓글 등록에 실패했습니다.');
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const formData = new FormData();
+                formData.append('share_id', id);
+                formData.append('user_id', user.userID);
+                formData.append('comment', comment);
+        
+                const response = await axios.post('http://sy2978.dothome.co.kr/upload_share_comment.php', formData, {
+                    headers: { "Authorization": `Bearer ${existingToken}` }
+                });
+                if (response.status === 200 && response.data.error === false) {
+                    console.log('댓글이 성공적으로 등록되었습니다.', response.data);
+                    console.log('response.data.userID? ', response.data.comment_id);
+                    const newComment = {
+                        id: response.data.comment_id, 
+                        userName: user.userName, 
+                        content: comment,
+                        created_at:  response.data.created_at
+                    };
+                    
+                    setContentComments(prevComments => [newComment, ...prevComments]);
+                    setComment("");
+                } else {
+                    console.error('댓글 등록에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
             }
-        } catch (error) {
-            console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
         }
     };
     
 
     useEffect(() => {
         const fetchDetail = async () => {
-        try {
-            const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_Detail.php?share_id=${id}`);
-            const sortedComments = Array.isArray(response.data.comments) 
-            ? response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
-            : [];
-            setContentShare(response.data.post);
-            setContentComments(sortedComments);
-            console.log(id);
-            console.log(response.data);
-        } catch (error) {
-        console.error('실패함', error);
-        }
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get(`http://sy2978.dothome.co.kr/ContentShare_Detail.php?share_id=${id}`, { headers });
+                    const sortedComments = Array.isArray(response.data.comments) 
+                    ? response.data.comments.sort((a, b) => new Date(a.created_at) - new Date(b.created_at))
+                    : [];
+                    if (response.status === 200 && response.data) {
+                        setContentShare(response.data.post);
+                        setContentComments(sortedComments);
+                        console.log(id);
+                        console.log(response.data);
+                    }
+                } catch (error) {
+                    console.error('실패함', error);
+                }
+            }
     };
 
     fetchDetail();
-    }, [id]); 
+    }, [user, id]); 
 
     // 게시글 삭제
     const deletePost = async () => {
         console.log(`share_id는? ${id}, user_id는?? ${user.userID}`);
-        try {
-            const response = await axios.delete(`http://sy2978.dothome.co.kr/ShareContentDelete.php`, {
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                },
-                data: new URLSearchParams({
-                    share_id: id,
-                    user_id: user.userID
-                }).toString()
-            });
-
-            console.log('Response from server:', response.data);
-            if (response.data.error === "false") {
-                console.log('게시물이 성공적으로 삭제되었습니다.');
-                navigate('/board');
-            } else {
-                console.error('게시물 삭제에 실패했습니다.', response.data.message);
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const response = await axios.delete(`http://sy2978.dothome.co.kr/ShareContentDelete.php`, {
+                    headers: {
+                        'Content-Type': 'application/x-www-form-urlencoded',
+                        "Authorization": `Bearer ${existingToken}`
+                    },
+                    data: new URLSearchParams({
+                        share_id: id,
+                        user_id: user.userID
+                    }).toString()
+                });
+    
+                console.log('Response from server:', response.data);
+                if (response.status === 200 && response.data.error === "false") {
+                    console.log('게시물이 성공적으로 삭제되었습니다.');
+                    navigate('/board');
+                } else {
+                    console.error('게시물 삭제에 실패했습니다.', response.data.message);
+                }
+            } catch (error) {
+                console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);
             }
-        } catch (error) {
-            console.error('게시물을 삭제하는 동안 오류가 발생했습니다.', error.response || error);
         }
     };
 
