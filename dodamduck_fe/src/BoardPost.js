@@ -47,30 +47,34 @@ function BoardPost() {
         if (selectedImages.length > 0) {
             formData.append('image', selectedImages[0]);
         }
-        try {
-            const response = await axios.post('http://sy2978.dothome.co.kr/upload_content_share.php', formData, {
-                headers: {
-                'Content-Type': 'multipart/form-data',
-                },
-            });
-        
-            if (response.data && response.data.success) {
-                console.log('게시글이 성공적으로 등록되었습니다.');
-                const newPost = {
-                    id: response.data.post.id, 
-                    title: title,
-                    content: description,
-                    image_url: response.data.post.image_url,
-                };
-                setPosts(prevPosts => [...prevPosts, newPost]);
-                navigate('/Board');
-            } else {
-                console.error('게시글 등록에 실패했습니다.', response.data);
-            }
-        } catch (error) {
-            console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
-            if (error.response) {
-                console.error(error.response.data);
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const response = await axios.post('http://sy2978.dothome.co.kr/upload_content_share.php', formData, {
+                    headers: {
+                        'Content-Type': 'multipart/form-data',
+                        "Authorization": `Bearer ${existingToken}`
+                    },
+                });
+            
+                if (response.status === 200 && response.data && response.data.success ) {
+                    console.log('게시글이 성공적으로 등록되었습니다.');
+                    const newPost = {
+                        id: response.data.post.id, 
+                        title: title,
+                        content: description,
+                        image_url: response.data.post.image_url,
+                    };
+                    setPosts(prevPosts => [...prevPosts, newPost]);
+                    navigate('/Board');
+                } else {
+                    console.error('게시글 등록에 실패했습니다.', response.data);
+                }
+            } catch (error) {
+                console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
+                if (error.response) {
+                    console.error(error.response.data);
+                }
             }
         }
     }

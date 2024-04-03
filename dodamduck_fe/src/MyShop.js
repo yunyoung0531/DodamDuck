@@ -58,7 +58,7 @@ function MyShop() {
     }, [user]);
 
 
-    //아직 안됨 상세페이지 먼저 sharingDetail
+    //아직 안됨 상세페이지 먼저 sharingDetail -> 수정필요
     const incrementViewCount = async (postId) => {
         try {
             const existingToken = localStorage.getItem('token');

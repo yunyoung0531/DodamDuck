@@ -35,7 +35,7 @@ function LoginPage() {
                         "Authorization": `Bearer ${existingToken}`
                     };
                     const response = await axios.post('http://sy2978.dothome.co.kr/Login.php', {}, { headers });
-                    if (response.status == 200) {
+                    if (response.status === 200) {
                         console.log('성공:', response.data);
                         await login(existingToken, response.data);
                         navigate('/');

@@ -14,25 +14,44 @@ function Board() {
     const [PhpPosts, setPhpPosts] = useState([]);
     
     useEffect(() => {
-        fetch('http://sy2978.dothome.co.kr/ContentShare.php')
-        .then((response) => response.json())
-        .then((data) => {
-        console.log("data는? ", data);
-        setPhpPosts(data);
-        })
-        .catch((error) => {
-        console.error('오류뜸: ', error);
-        });
-    }, []);
+        const fetchBoardList = async () => {
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get('http://sy2978.dothome.co.kr/ContentShare.php', { headers })
+                    console.log('response.data입니다, ', response.data);
+                    if (response.status === 200 && response.data) {
+                        // setPhpPosts(Array.isArray(response.data) ? response.data : []);
+                        setPhpPosts(response.data);
+                    } else {
+                        console.log('No Board');
+                    }
+                } catch(error) {
+                    console.error('게시판 불러오기 실패:', error);
+                }
+            }
+        }
+        fetchBoardList();
+    }, [user]);
+
     const allPosts = PhpPosts;
 
     const incrementViewCount = async (ShareID) => {
         try {
-            const postData = new URLSearchParams();
-            postData.append('share_id', ShareID);
-            const response = await axios.post('http://sy2978.dothome.co.kr/content_share_view_up.php', postData);
-            console.log("조회수 증가 응답", response.data);
-
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                const postData = new URLSearchParams();
+                postData.append('share_id', ShareID);
+                const headers = {
+                    "Authorization": `Bearer ${existingToken}`
+                };
+                const response = await axios.post('http://sy2978.dothome.co.kr/content_share_view_up.php', postData, { headers });
+                console.log("조회수 증가 응답", response.data);
+            }
         } catch (error) {
             console.error('조회수 증가 API 호출 실패', error);
         }
@@ -71,7 +90,7 @@ function Board() {
                 <div className='board-container' key = {post.ShareID}  onClick={() => handleCardClick(post.ShareID)} style={{ display: 'flex', alignItems: 'center' }}>
                     <div className='board-deco'>
                         <img variant="top" src={post.ImageURL}  width={'180px'} height={'130px'} style={{borderRadius: '3px' , cursor: 'pointer'}} />
-                    </div>
+                    </div>          
                     <div className='board-post-content' >
                         <h4 style={{cursor: 'pointer'}}>{post.Title}</h4>
                         <p className='sharing-card-info'>댓글 {post.CommentCount}개 ㆍ{timeSince(post.CreatedAt)}ㆍ조회 {post.Views}</p>
