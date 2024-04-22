@@ -17,16 +17,35 @@ function SharingBoard() {
     const [popularSearches, setPopularSearches] = useState([]); 
 
     useEffect(() => {
-            fetch('http://sy2978.dothome.co.kr/Post.php')
-                .then((response) => response.json())
-                .then((data) => {
-                console.log("data는? ", data);
-                setServerPosts(data);
-            })
-            .catch((error) => {
-            console.error('오류뜸: ', error);
-            });
-            
+        // fetch('http://sy2978.dothome.co.kr/Post.php')
+        //     .then((response) => response.json())
+        //     .then((data) => {
+        //     console.log("data는? ", data);
+        //     setServerPosts(data);
+        // })
+        // .catch((error) => {
+        // console.error('오류뜸: ', error);
+        // });
+        const fetchSharingList = async () => {
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Content-Type": "application/json",
+                        "Authorization": `Bearer ${existingToken}`
+                    };
+                    const response = await axios.get('http://sy2978.dothome.co.kr/Post.php', { headers })
+                    if (response.status === 200 && response.data) {
+                        setServerPosts(response.data);
+                    } else {
+                        console.log('No SharingBoard!!');
+                    }
+                } catch(e) {
+                    console.log('교환/나눔 불러오기 실패', e);
+                }
+            }
+        }
+        fetchSharingList();
     }, []);
 
     useEffect(() => {
@@ -36,16 +55,20 @@ function SharingBoard() {
 
     const incrementViewCount = async (postId) => {
         try {
-            const postData = new URLSearchParams();
-            postData.append('post_id', postId);
-            const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData);
-            console.log("조회수 증가 응답", response.data);
-
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                const postData = new URLSearchParams();
+                postData.append('post_id', postId);
+                const headers = { "Authorization": `Bearer ${existingToken}`};
+                const response = await axios.post('http://sy2978.dothome.co.kr/upload_post_view_up.php', postData, { headers });
+                console.log("조회수 증가 응답", response.data);
+            }
+            
         } catch (error) {
             console.error('조회수 증가 API 호출 실패', error);
         }
     }
-    
+
     const handleCardClick = (postId) => {
         if (user) {
             incrementViewCount(postId); 
@@ -75,12 +98,31 @@ function SharingBoard() {
      * 검색어 
      * @param {*} query 
      */
+    // const fetchPosts = async (query = "") => {
+    //     const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
+    //     try {
+    //         const response = await fetch(url);
+    //         const data = await response.json();
+    //         console.log("data는? ", data);
+    //         setServerPosts(data);
+    //     } catch (error) {
+    //         console.error('오류뜸: ', error);
+    //     }
+    // };
     const fetchPosts = async (query = "") => {
         const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
         try {
-            const response = await axios.get(url);
-            console.log("검색어는? ", response.data);
-            setServerPosts(response.data); 
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                const headers = { 
+                    "Content-Type": "application/json", 
+                    "Authorization": `Bearer ${existingToken}` 
+                }
+                const response = await axios.get(url, { headers });
+                console.log("검색어는? ", response.data);
+                setServerPosts(response.data); 
+            }
+            
         } catch (error) {
             console.error('오류뜸: ', error);
         }
@@ -103,9 +145,18 @@ function SharingBoard() {
 
     const fetchPopularSearches = async () => {
         try {
-            const response = await axios.get('http://sy2978.dothome.co.kr/PopularPostSearch.php');
-            setPopularSearches(response.data); // API로부터 받은 데이터를 상태에 저장
-            console.log("인기 검색어 조회 성공:", response);
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                const headers = {
+                    "Content-Type": "application/json", 
+                    "Authorization": `Bearer ${existingToken}` 
+                };
+                const response = await axios.get('http://sy2978.dothome.co.kr/PopularPostSearch.php', { headers });
+                if (response.status === 200 && response.data) {
+                    setPopularSearches(response.data);
+                }
+                console.log("인기 검색어 조회 성공:", response);
+            }
         } catch (error) {
             console.error('인기 검색어 조회 실패:', error);
         }

@@ -127,7 +127,7 @@ __도담덕__ =  ___도담도담 + Duck___
   <tr>
     <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="400" height="200"/></td>
   </tr>
-    <td align="center"><b>내 상점</b></td>
+    <td align="center"><b>내 상점(마이페이지)</b></td>
 </table>
 
 
