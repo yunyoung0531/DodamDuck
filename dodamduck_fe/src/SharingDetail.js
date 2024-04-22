@@ -22,48 +22,60 @@ function SharingDetail() {
 
     //댓글 달기
     const submitComment = async () => {
-        try {
-            const formData = new FormData();
-            formData.append('post_id', id);
-            formData.append('user_id', user.userID);
-            formData.append('content', comment);
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const formData = new FormData();
+                formData.append('post_id', id);
+                formData.append('user_id', user.userID);
+                formData.append('content', comment);
+        
+                const response = await axios.post('http://sy2978.dothome.co.kr/upload_comments.php', formData, {
+                    headers: { "Authorization": `Bearer ${existingToken}` }
+                });
+        
+                if (response.status === 200 && response.data.error === false) {
+                    console.log('댓글이 성공적으로 등록되었습니다.', response.data);
+                    console.log('response.data.userID? ', response.data.comment_id);
     
-            const response = await axios.post('http://sy2978.dothome.co.kr/upload_comments.php', formData);
-    
-            if (response.data.error === false) {
-                console.log('댓글이 성공적으로 등록되었습니다.', response.data);
-                console.log('response.data.userID? ', response.data.comment_id)
-
-                const newComment = {
-                    id: response.data.comment_id, 
-                    userName: user.userName, 
-                    content: comment, 
-                    created_at: created_at
-                };
-                
-                setPostDetail(prevDetail => ({
-                    ...prevDetail,
-                    comments: [...prevDetail.comments, newComment]
-                }));
-                setComment(""); 
-            } else {
-                console.error('댓글 등록에 실패했습니다.');
+                    const newComment = {
+                        id: response.data.comment_id, 
+                        userName: user.userName, 
+                        content: comment, 
+                        created_at: created_at
+                    };
+                    
+                    setPostDetail(prevDetail => ({
+                        ...prevDetail,
+                        comments: [...prevDetail.comments, newComment]
+                    }));
+                    setComment(""); 
+                } else {
+                    console.error('댓글 등록에 실패했습니다.');
+                }
+            } catch (error) {
+                console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
             }
-        } catch (error) {
-            console.error('댓글을 등록하는 동안 오류가 발생했습니다.', error);
         }
     };
     
     useEffect(() => {
         const fetchPostDetail = async () => {
-            try {
-                const postData = new URLSearchParams();
-                postData.append('post_id', id);
-
-                const response = await axios.post('http://sy2978.dothome.co.kr/PostDetail.php', postData);
-                setPostDetail(response.data);
-            } catch (error) {
-                console.error('실패함', error);
+            const existingToken = localStorage.getItem('token');
+            if (existingToken) {
+                try {
+                    const headers = {
+                        "Authorization": `Bearer ${existingToken}`
+                    }
+                    const postData = new URLSearchParams();
+                    postData.append('post_id', id);
+                    const response = await axios.post('http://sy2978.dothome.co.kr/PostDetail.php', postData, { headers });
+                    if (response.status === 200 && response.data) {
+                        setPostDetail(response.data);
+                    }
+                } catch (error) {
+                    console.error('실패함', error);
+                }
             }
         };
         fetchPostDetail();
@@ -74,10 +86,12 @@ function SharingDetail() {
      */
     const deletePost = async () => {
         console.log(`post_id는? ${id}, user_id는?? ${user.userID}`);
+        const existingToken = localStorage.getItem('token');
         try {
             const response = await axios.delete(`http://sy2978.dothome.co.kr/PostDelete.php`, {
                 headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
+                    'Content-Type': 'application/x-www-form-urlencoded',
+                    "Authorization": `Bearer ${existingToken}`
                 },
                 data: new URLSearchParams({
                     post_id: id,
@@ -86,7 +100,7 @@ function SharingDetail() {
             });
     
             console.log('Response from server:', response.data);
-            if (response.data.error === "false") {
+            if (response.status === 200 && response.data.error === "false") {
                 console.log('게시물이 성공적으로 삭제되었습니다.');
                 navigate('/sharingBoard');
             } else {
@@ -99,25 +113,31 @@ function SharingDetail() {
 
     const createChatRoom = async () => {
         console.log('채팅방 생성 함수 호출됨');
-        try {
-            const formData = new FormData();
-            formData.append('post_id', id); 
-            formData.append('user_id', user.userID);
-        
-            console.log('API 호출 전');
-            const response = await axios.post('http://sy2978.dothome.co.kr/create_chat_room.php', formData);
-            console.log('API 호출 후');
-        
-            if (response.data.error === false) {
-                console.log('채팅방이 성공적으로 생성되었습니다.', response.data);
-                // navigate(`/chattingDetail/${user.chat_id}/${user.partnerID}/${user.partnerName}/${user.userID}`);
-            } else {
-                console.error('채팅방 생성에 실패했습니다.', response.data.message);
+        const existingToken = localStorage.getItem('token');
+        if (existingToken) {
+            try {
+                const formData = new FormData();
+                formData.append('post_id', id); 
+                formData.append('user_id', user.userID);
+            
+                console.log('API 호출 전');
+                const response = await axios.post('http://sy2978.dothome.co.kr/create_chat_room.php', formData, {
+                    headers: { "Authorization": `Bearer ${existingToken}` }
+                });
+                console.log('API 호출 후');
+            
+                if (response.status === 200 && response.data.error === false) {
+                    console.log('채팅방이 성공적으로 생성되었습니다.', response.data);
+                    // navigate(`/chattingDetail/${user.chat_id}/${user.partnerID}/${user.partnerName}/${user.userID}`);
+                } else {
+                    console.error('채팅방 생성에 실패했습니다.', response.data.message);
+                }
+            } catch (error) {
+                console.error('채팅방을 생성하는 동안 오류가 발생했습니다.', error);
             }
-        } catch (error) {
-            console.error('채팅방을 생성하는 동안 오류가 발생했습니다.', error);
         }
-        }; 
+
+    }; 
 
     if (!postDetail || !postDetail.post || postDetail.post.length === 0) {
         return <div>로딩중입니다.</div>

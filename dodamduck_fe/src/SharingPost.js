@@ -68,23 +68,26 @@ function SharingPost() {
     if (selectedImages.length > 0) {
         formData.append('image', selectedImages[0]); 
     }
-
-    try {
-        const response = await axios.post('http://sy2978.dothome.co.kr/PostWrite.php', formData, {
-            headers: {
-                'Content-Type': 'multipart/form-data',
-            },
-        });
-        if (response.data.error === false) {
-            console.log('게시글이 성공적으로 등록되었습니다.');
-            const newPost = response.data.post;
-            setPosts(prevPosts => [...prevPosts, newPost]);
-            navigate('/sharingBoard');
-        } else {
-            console.error('게시글 등록에 실패했습니다.');
+    const existingToken = localStorage.getItem('token');
+    if (existingToken) {
+        try {
+            const response = await axios.post('http://sy2978.dothome.co.kr/PostWrite.php', formData, {
+                headers: {
+                    'Content-Type': 'multipart/form-data',
+                    "Authorization": `Bearer ${existingToken}`
+                },
+            });
+            if (response.status === 200 && response.data.error === false) {
+                console.log('게시글이 성공적으로 등록되었습니다.');
+                const newPost = response.data.post;
+                setPosts(prevPosts => [...prevPosts, newPost]);
+                navigate('/sharingBoard');
+            } else {
+                console.error('게시글 등록에 실패했습니다.');
+            }
+        } catch (error) {
+            console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
         }
-    } catch (error) {
-        console.error('게시글을 등록하는 동안 오류가 발생했습니다.', error);
     }
 }
     
