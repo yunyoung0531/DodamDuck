@@ -45,15 +45,7 @@ function SharingBoard() {
             console.error('조회수 증가 API 호출 실패', error);
         }
     }
-
-    // useEffect(() => {
-    //     if (!user) {
-    //         alert('먼저 로그인 해주세요 !');
-    //         navigate('/login');
-    //     }
-    // }, [user]);
     
-
     const handleCardClick = (postId) => {
         if (user) {
             incrementViewCount(postId); 
@@ -83,17 +75,6 @@ function SharingBoard() {
      * 검색어 
      * @param {*} query 
      */
-    // const fetchPosts = async (query = "") => {
-    //     const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
-    //     try {
-    //         const response = await fetch(url);
-    //         const data = await response.json();
-    //         console.log("data는? ", data);
-    //         setServerPosts(data);
-    //     } catch (error) {
-    //         console.error('오류뜸: ', error);
-    //     }
-    // };
     const fetchPosts = async (query = "") => {
         const url = query ? `http://sy2978.dothome.co.kr/SearchQuery.php?query=${query}` : 'http://sy2978.dothome.co.kr/Post.php';
         try {
