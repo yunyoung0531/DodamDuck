@@ -205,6 +205,7 @@ function SharingDetail() {
                                     #해시태그 #나눔
                                 </Card.Text>    
                             </ListGroup>
+                            
                         <ListGroup.Item className="comment-section">
                         <div className="page-container"> 
                             <div className="content-wrapper">
@@ -225,15 +226,17 @@ function SharingDetail() {
                                     </div>
                                 </ListGroup.Item>
                             </div>
-                            <div className="comment-section"> 
-                                <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
-                                value={comment}
-                                onChange={handleCommentChange}
-                                /> 
-                                <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginLeft: '10px', cursor: 'pointer', marginTop: '-22px'}} 
-                                    onClick={submitComment} 
-                                />
-                            </div>
+                            {
+                                <div className="comment-section"> 
+                                    <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                                    value={comment}
+                                    onChange={handleCommentChange}
+                                    /> 
+                                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginLeft: '10px', cursor: 'pointer', marginTop: '-22px'}} 
+                                        onClick={submitComment} 
+                                    />
+                                </div>
+                            }
                         </div>  
                             </ListGroup.Item>
                         </div>
