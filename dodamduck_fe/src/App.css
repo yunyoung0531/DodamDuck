@@ -786,17 +786,19 @@
   flex-direction: column; 
   align-items: flex-end;
   width: 97%;
-  margin-left: 10px; 
+  margin-left: 15px; 
+  margin-bottom: 10px;
 }
 
 .comment-ready {
   font-family: '210 옴니고딕OTF 035', sans-serif !important;
   font-size: small  !important;
-  max-width: 31rem;
+  width: 20rem;
   height: 30px;
   background-color: #f8f8f8;
-  margin-top: 20px;
+  /* margin-left: 20px; */
   margin-right: 25px;
+  
 }
 .page-container {
   display: flex;

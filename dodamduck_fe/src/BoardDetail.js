@@ -121,83 +121,97 @@ function BoardDetail() {
     }
 
     return (
-        <div className="shring-detail-card">
+        <div className="shring-detail-card" style={{ padding: '100px'}}>
             <Card className="text-center">
-            <Card.Header>도담덕 자유 게시판
-
-            </Card.Header>
-            <Card.Body>  
-            <Card.Img variant="top" src={contentShare?.image_url} width={'100px'} height={'460px'} />
-                <Card.Title style={{marginTop: '20px'}}>
-                    <div style={{display: 'flex', marginLeft: '15px'}}>
-                        <img src={contentShare?.profile_url ? contentShare.profile_url : 'https://www.lab2050.org/common/img/default_profile.png'}  width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
-                        <div style={{display: 'flex', flexDirection: 'column'}}>
-                            <h5 style={{ marginLeft: '-30%'}}>{contentShare?.userName}님</h5>
-                            <div style={{ display: 'flex',justifyContent: 'flex-end'}}>
-                            <h6 className="upload-date">{contentShare?.created_at}</h6>
+                <Card.Header>도담덕 자유 게시판</Card.Header>
+                <div style={{display: 'flex', flexDirection: 'row'}}>
+                <div style={{flex: 1}}> 
+                    <Card.Body>  
+                        <Card.Img variant="top" src={contentShare?.image_url} width={'100px'} height={'460px'} />
+                        <Card.Title style={{marginTop: '20px'}}>
+                        <div style={{display: 'flex', marginLeft: '15px', justifyContent: 'space-between', alignItems: 'center'}}>
+                            <div style={{display: 'flex'}}>
+                                <img src={contentShare?.profile_url ? contentShare.profile_url : 'https://www.lab2050.org/common/img/default_profile.png'}  width={'65px'} height={'65px'} style={{borderRadius: '50%'}}/>
+                                <div style={{display: 'flex', flexDirection: 'column', justifyContent: 'space-between'}}>
+                                    <h5 style={{ display: 'flex', marginLeft: '15px '}}>{contentShare?.userName}님</h5>
+                                    <div style={{ display: 'flex' }}>
+                                        <h6 className="upload-date">{contentShare?.created_at}</h6>
+                                    </div>
+                                </div>
                             </div>
+                                {/* <Button className="chatting-btn">채팅하기</Button> */}
+                                { user && user.userName !== contentShare.userName &&
+                                    <Button className="chatting-btn">채팅하기</Button> 
+                                }
+                            </div>
+                        </Card.Title>
+                        </Card.Body>
                         </div>
-                        {/* <Button className="chatting-btn">채팅하기</Button> */}
-                        { user && user.userName !== contentShare.userName &&
-                            <Button className="chatting-btn">채팅하기</Button> 
-                        }
-                    </div>
-                </Card.Title>
-                <ListGroup className="list-group-flush">
-                    <ListGroup.Item></ListGroup.Item>
-                    <ListGroup.Item>
-                        <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
-                        <h4>{contentShare?.title}</h4> 
-                        <div className="sharing-views">조회수: {contentShare?.views}</div>
-                        </div>
-                        <h5 className="sharing-detail-content">
-                            {contentShare?.content}
-                            <div className="sharing-delete">
-                            {
-                                user && user.userName === contentShare.userName &&
-                                <>
-                                <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
-                                <FontAwesomeIcon 
-                                    icon={faTrashCan} 
-                                    style={{color: "#4d4d4d", cursor: 'pointer'}} 
-                                    onClick={deletePost}
-                                />
-                                </>
-                            }
-                        </div>
-                        </h5>
-                    </ListGroup.Item>
-                    <ListGroup.Item></ListGroup.Item>
-                </ListGroup>
+                        <div className="board-detail-line" ></div>
+                        {/* 두번째 섹션 */}
+                        <div style={{flex: 1, padding: '20px'}}>
+                        <ListGroup className="list-group-flush">
+                            {/* <ListGroup.Item></ListGroup.Item> */}
+                            <ListGroup.Item>
+                                <div style={{display: 'flex', justifyContent: "space-between", alignItems: 'center'}}>
+                                <h4>{contentShare?.title}</h4> 
+                                <div className="sharing-views">조회수: {contentShare?.views}</div>
+                                </div>
+                                <h5 className="sharing-detail-content">
+                                    {contentShare?.content}
+                                    <div className="sharing-delete">
+                                    {
+                                        user && user.userName === contentShare.userName &&
+                                        <>
+                                        <FontAwesomeIcon icon={faPen} style={{color: "#4d4d4d", marginRight: '7px', cursor: 'pointer'}} />
+                                        <FontAwesomeIcon 
+                                            icon={faTrashCan} 
+                                            style={{color: "#4d4d4d", cursor: 'pointer'}} 
+                                            onClick={deletePost}
+                                        />
+                                        </>
+                                    }
+                                </div>
+                                </h5>
+                            </ListGroup.Item>
+                            <ListGroup.Item></ListGroup.Item>
+                        </ListGroup>
 
-                <ListGroup.Item  className="comment-section">
-                    <div className="comment-radio">댓글</div>
-                    <div className="comment-content">
-                        {ContentComments.map((comment, index) => (
-                            <>
-                                <div className="sharing-comment-style">
-                                    <p className="sharing-comment">{comment.userName}님</p>
-                                    <p className="sharing-comment-created">{comment.created_at}</p>
-                                </div>
-                                <div key={comment.id} style={{ marginLeft: '10px'}}>
-                                    <p className="sharing-comment-content">{comment.content}</p>
-                                </div>
-                            </>
-                        ))}
+                        <ListGroup.Item  className="comment-section">
+                        <div className="page-container"> 
+                        <div className="content-wrapper">
+                        <ListGroup.Item className="comment-section"  >
+                            <div className="comment-radio font-border">댓글</div>
+                            <div className="comment-content"  style={{ maxHeight: '350px', overflowY: 'auto' }}>
+                                {ContentComments.map((comment, index) => (
+                                    <>
+                                        <div className="sharing-comment-style">
+                                            <p className="sharing-comment">{comment.userName}님</p>
+                                            <p className="sharing-comment-created">{comment.created_at}</p>
+                                        </div>
+                                        <div key={comment.id} style={{ marginLeft: '10px'}}>
+                                            <p className="sharing-comment-content">{comment.content}</p>
+                                        </div>
+                                    </>
+                                ))}
+                            </div>
+                            </ListGroup.Item>
+                            </div>
+                        { user && 
+                            <div className="comment-section"> 
+                            <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
+                            value={comment}
+                            onChange={handleCommentChange}/> 
+                                    <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginLeft: '10px', cursor: 'pointer', marginTop: '-22px'}} 
+                                onClick={submitComment} 
+                                />
+                            </div>
+                        }
+                        </div>
+                        </ListGroup.Item>
                     </div>
-                { user && 
-                    <div style={{ display: 'flex'}}>
-                    <Form.Control type="text" placeholder="댓글을 입력해주세요." className="comment-ready"
-                    value={comment}
-                    onChange={handleCommentChange}/> 
-                        <FontAwesomeIcon icon={faPaperPlane} style={{color: "#dcdcdc", marginTop: '37px', marginRight: '15rpx', cursor: 'pointer'}} 
-                        onClick={submitComment} 
-                        />
                     </div>
-                }
-                </ListGroup.Item>
-            </Card.Body>
-            <Card.Footer className="text-muted" style={{cursor: 'pointer'}} onClick={()=>{navigate('/board')}}>게시글 목록 보기</Card.Footer>
+                <Card.Footer className="text-muted" style={{cursor: 'pointer'}} onClick={()=>{navigate('/board')}}>게시글 목록 보기</Card.Footer>
             </Card>
         </div>
     )
