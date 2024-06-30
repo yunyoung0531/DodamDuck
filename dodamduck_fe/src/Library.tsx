@@ -49,7 +49,7 @@ const Library: React.FC = () => {
 
         console.log(uniqueData);
       } catch (error) {
-        console.error("오류 뜸!! 다시 해보자", error);
+        console.error("오류 뜸", error);
       }
     };
     fetchData();
