@@ -156,6 +156,7 @@ __도담덕__ =  ___도담도담 + Duck___
 ## 💫기술 스택
 
 - React
+- TypeScript
 - Context API
 
 
