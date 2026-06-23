@@ -1,0 +1,83 @@
+@import 'tailwind-preset-mantine';
+
+@font-face {
+  font-family: '210OmniGothic035';
+  src: url('/fonts/210 옴니고딕OTF 035.otf') format('opentype');
+}
+
+@font-face {
+  font-family: '210OmniGothic045';
+  src: url('/fonts/210 옴니고딕OTF 045.otf') format('opentype');
+}
+
+@theme inline {
+  --font-sans: '210OmniGothic035', sans-serif;
+  --color-dodam-yellow: #FFD600;
+  --color-dodam-light: #fffbe4;
+  --color-dodam-beige: #fffdf0;
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #cdcdcd;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f6f6f6;
+}
+
+.scrollbar-brand::-webkit-scrollbar-thumb {
+  background: #ffeb87;
+}
+
+.scrollbar-brand::-webkit-scrollbar-track {
+  background: #fffdf0;
+}
+
+/* Chat bubbles */
+.chat-bubble-partner {
+  border-radius: 5px 20px 20px 20px;
+}
+
+.chat-bubble-me {
+  border-radius: 20px 5px 20px 20px;
+}
+
+/* Scroll-snap for landing */
+.snap-container {
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
+  height: calc(100vh - 3.5rem);
+}
+
+.snap-section {
+  scroll-snap-align: start;
+  min-height: calc(100vh - 3.5rem);
+}
+
+/* Slide-in animation */
+.slide-in {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+}
+
+.slide-in.visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Fade-in animation */
+.fade-in {
+  opacity: 0;
+  transition: opacity 1s ease-out;
+}
+
+.fade-in.visible {
+  opacity: 1;
+}
