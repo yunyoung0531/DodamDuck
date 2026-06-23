@@ -1,5 +1,7 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/libs/supabase/client';
 import { uploadImage } from '@/libs/supabase/storage';
+import type { Database } from '@/types/supabase';
 import type {
   SharingPost,
   SharingDetailResponse,
@@ -9,8 +11,10 @@ import type {
   PopularSearch,
 } from './sharing.types';
 
-export async function servFetchSharingPosts(): Promise<SharingPost[]> {
-  const supabase = createClient();
+export async function servFetchSharingPosts(
+  client?: SupabaseClient<Database>
+): Promise<SharingPost[]> {
+  const supabase = client ?? createClient();
 
   const { data, error } = await supabase
     .from('sharing_posts')
@@ -22,9 +26,10 @@ export async function servFetchSharingPosts(): Promise<SharingPost[]> {
 }
 
 export async function servFetchSharingDetail(
-  postId: number
+  postId: number,
+  client?: SupabaseClient<Database>
 ): Promise<SharingDetailResponse> {
-  const supabase = createClient();
+  const supabase = client ?? createClient();
 
   const { data: post, error: postError } = await supabase
     .from('sharing_posts')
@@ -120,9 +125,10 @@ export async function servAddSharingComment(
 }
 
 export async function servSearchSharingPosts(
-  query: string
+  query: string,
+  client?: SupabaseClient<Database>
 ): Promise<SharingPost[]> {
-  const supabase = createClient();
+  const supabase = client ?? createClient();
 
   const { data, error } = await supabase.rpc('search_sharing_posts', {
     search_query: query,
@@ -146,8 +152,10 @@ export async function servSearchSharingPosts(
   return posts as SharingPost[];
 }
 
-export async function servFetchPopularSearches(): Promise<PopularSearch[]> {
-  const supabase = createClient();
+export async function servFetchPopularSearches(
+  client?: SupabaseClient<Database>
+): Promise<PopularSearch[]> {
+  const supabase = client ?? createClient();
 
   const { data, error } = await supabase.rpc('get_popular_searches', {
     limit_count: 5,

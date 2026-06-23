@@ -10,7 +10,7 @@ export const sharingQueries = {
   all: () =>
     queryOptions({
       queryKey: ['sharing', 'list'] as const,
-      queryFn: servFetchSharingPosts,
+      queryFn: () => servFetchSharingPosts(),
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
     }),
@@ -35,7 +35,7 @@ export const sharingQueries = {
   popularSearches: () =>
     queryOptions({
       queryKey: ['sharing', 'popularSearches'] as const,
-      queryFn: servFetchPopularSearches,
+      queryFn: () => servFetchPopularSearches(),
       staleTime: 10 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
     }),

@@ -8,7 +8,7 @@ export const boardQueries = {
   all: () =>
     queryOptions({
       queryKey: ['board', 'list'] as const,
-      queryFn: servFetchBoardPosts,
+      queryFn: () => servFetchBoardPosts(),
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
     }),

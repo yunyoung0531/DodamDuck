@@ -1,5 +1,7 @@
+import type { SupabaseClient } from '@supabase/supabase-js';
 import { createClient } from '@/libs/supabase/client';
 import { uploadImage } from '@/libs/supabase/storage';
+import type { Database } from '@/types/supabase';
 import type {
   BoardPost,
   BoardDetailResponse,
@@ -8,8 +10,10 @@ import type {
   BoardComment,
 } from './board.types';
 
-export async function servFetchBoardPosts(): Promise<BoardPost[]> {
-  const supabase = createClient();
+export async function servFetchBoardPosts(
+  client?: SupabaseClient<Database>
+): Promise<BoardPost[]> {
+  const supabase = client ?? createClient();
 
   const { data, error } = await supabase
     .from('board_posts')
@@ -21,9 +25,10 @@ export async function servFetchBoardPosts(): Promise<BoardPost[]> {
 }
 
 export async function servFetchBoardDetail(
-  postId: number
+  postId: number,
+  client?: SupabaseClient<Database>
 ): Promise<BoardDetailResponse> {
-  const supabase = createClient();
+  const supabase = client ?? createClient();
 
   const { data: post, error: postError } = await supabase
     .from('board_posts')
