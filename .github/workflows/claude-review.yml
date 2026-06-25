@@ -24,3 +24,7 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
+          direct_prompt: |
+            이 PR의 변경사항을 리뷰해주세요.
+            코드 품질, 버그 가능성, 보안 문제를 중심으로 검토하고,
+            개선 사항이 있으면 인라인 코멘트로 남겨주세요.
