@@ -2,19 +2,12 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import {
-  Card,
-  Text,
-  Title,
-  Stack,
-  Group,
-  Avatar,
-  Badge,
-  SimpleGrid,
-  Tabs,
-  Center,
-  Loader,
-} from '@mantine/core';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Card, CardContent } from '@/components/ui/card';
+import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { LoadingState } from '@/components/common/LoadingState';
+import { EmptyState } from '@/components/common/EmptyState';
 import { useSharingList, useIncrementSharingViewCount } from '@/services/sharing/useSharing';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
@@ -38,43 +31,42 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <Card shadow="sm" padding="xl" radius="md" withBorder className="mb-8">
-        <Group>
-          <Avatar
-            src={profile.profile_url || undefined}
-            size={120}
-            radius="xl"
-          />
-          <Stack gap="xs">
-            <Title order={3}>
+      <Card className="mb-8">
+        <CardContent className="flex items-center gap-4 p-6">
+          <Avatar className="h-[120px] w-[120px]">
+            <AvatarImage src={profile.profile_url || undefined} />
+            <AvatarFallback className="text-2xl">
+              {profile.display_name?.[0] ?? '?'}
+            </AvatarFallback>
+          </Avatar>
+          <div className="flex flex-col gap-1">
+            <h3 className="font-heading text-xl font-bold">
               {profile.display_name}({profile.username}) 님
-            </Title>
-            <Badge variant="light">level.{profile.level}</Badge>
-            <Text size="sm" c="dimmed">
+            </h3>
+            <Badge variant="secondary" className="w-fit">
+              level.{profile.level}
+            </Badge>
+            <p className="text-sm text-muted-foreground">
               인증 횟수: {profile.verification_count}
-            </Text>
-            <Text size="sm" c="dimmed">
+            </p>
+            <p className="text-sm text-muted-foreground">
               위치: {profile.location}
-            </Text>
-          </Stack>
-        </Group>
+            </p>
+          </div>
+        </CardContent>
       </Card>
 
       <Tabs defaultValue="products">
-        <Tabs.List>
-          <Tabs.Tab value="products">상품</Tabs.Tab>
-          <Tabs.Tab value="wishlist">하트목록</Tabs.Tab>
-        </Tabs.List>
+        <TabsList>
+          <TabsTrigger value="products">상품</TabsTrigger>
+          <TabsTrigger value="wishlist">하트목록</TabsTrigger>
+        </TabsList>
 
-        <Tabs.Panel value="products" className="pt-6">
-          {isLoading && (
-            <Center className="min-h-[20vh]">
-              <Loader size="md" />
-            </Center>
-          )}
+        <TabsContent value="products" className="pt-6">
+          {isLoading && <LoadingState height="sm" />}
 
           {myPosts && myPosts.length > 0 ? (
-            <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="md">
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
               {myPosts.map((post) => (
                 <div
                   key={post.id}
@@ -90,26 +82,20 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
                       unoptimized
                     />
                   </div>
-                  <Text size="sm" className="mt-2" lineClamp={1}>
-                    {post.title}
-                  </Text>
+                  <p className="mt-2 truncate text-sm">{post.title}</p>
                 </div>
               ))}
-            </SimpleGrid>
+            </div>
           ) : (
             !isLoading && (
-              <Text c="dimmed" className="text-center">
-                등록한 상품이 없습니다.
-              </Text>
+              <EmptyState message="등록한 상품이 없습니다." className="py-8" />
             )
           )}
-        </Tabs.Panel>
+        </TabsContent>
 
-        <Tabs.Panel value="wishlist" className="pt-6">
-          <Text c="dimmed" className="text-center">
-            준비중입니다.
-          </Text>
-        </Tabs.Panel>
+        <TabsContent value="wishlist" className="pt-6">
+          <EmptyState message="준비중입니다." className="py-8" />
+        </TabsContent>
       </Tabs>
     </div>
   );

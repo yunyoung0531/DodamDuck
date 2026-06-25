@@ -3,18 +3,12 @@
 import { useState, useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  Text,
-  Stack,
-  Group,
-  Avatar,
-  Badge,
-  TextInput,
-  ActionIcon,
-  Center,
-  ScrollArea,
-} from '@mantine/core';
-import { IconSend, IconMessageCircle } from '@tabler/icons-react';
+import { Send, MessageCircle } from 'lucide-react';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
+import { Input } from '@/components/ui/input';
+import { LoadingButton } from '@/components/common/LoadingButton';
+import { EmptyState } from '@/components/common/EmptyState';
 import { useChatList, useChatMessages, useSendMessage } from '@/services/chat/useChat';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
@@ -65,21 +59,20 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
     <div className="mx-auto max-w-4xl px-4 py-10">
       <div className="flex flex-col gap-6 md:flex-row">
         <div className="w-full md:w-80">
-          <Stack align="center" className="mb-6 rounded-md border border-gray-200 bg-white p-4">
-            <Avatar
-              src={profile.profile_url || undefined}
-              size={80}
-              radius="xl"
-            />
-            <Text fw={600}>{profile.display_name}</Text>
-            <Badge variant="light">level.{profile.level}</Badge>
-          </Stack>
+          <div className="mb-6 flex flex-col items-center rounded-md border border-gray-200 bg-white p-4">
+            <Avatar className="h-20 w-20">
+              <AvatarImage src={profile.profile_url || undefined} />
+              <AvatarFallback>{profile.display_name?.[0] ?? '?'}</AvatarFallback>
+            </Avatar>
+            <p className="mt-3 font-semibold">{profile.display_name}</p>
+            <Badge variant="secondary" className="mt-1">
+              level.{profile.level}
+            </Badge>
+          </div>
 
-          <Text fw={600} size="sm" className="mb-3">
-            채팅 중인 이웃
-          </Text>
+          <p className="mb-3 text-sm font-semibold">채팅 중인 이웃</p>
 
-          <Stack gap="xs">
+          <div className="flex flex-col gap-2">
             {rooms.map((chat) => {
               const chatIsUser1 = chat.user1_id === user.id;
               const pProfile = chatIsUser1
@@ -93,50 +86,50 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
                   href={`/chat/${chat.id}`}
                   className="no-underline"
                 >
-                  <Group
-                    className={`cursor-pointer rounded-md border p-3 transition-colors ${
+                  <div
+                    className={`flex cursor-pointer items-center gap-3 rounded-md border p-3 transition-colors ${
                       isActive
                         ? 'border-dodam-yellow bg-dodam-light'
                         : 'border-gray-200 bg-white hover:bg-gray-50'
                     }`}
-                    wrap="nowrap"
                   >
-                    <Avatar
-                      src={pProfile.profile_url || undefined}
-                      size="md"
-                      radius="xl"
-                    />
-                    <Stack gap={2} className="min-w-0 flex-1">
-                      <Text size="sm" fw={600} truncate>
+                    <Avatar className="h-10 w-10">
+                      <AvatarImage src={pProfile.profile_url || undefined} />
+                      <AvatarFallback>
+                        {pProfile.display_name?.[0] ?? '?'}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="min-w-0 flex-1">
+                      <p className="truncate text-sm font-semibold">
                         {pProfile.display_name}
-                      </Text>
-                      <Text size="xs" c="dimmed" truncate>
+                      </p>
+                      <p className="truncate text-xs text-muted-foreground">
                         {chat.last_message}
-                      </Text>
-                    </Stack>
-                  </Group>
+                      </p>
+                    </div>
+                  </div>
                 </Link>
               );
             })}
-          </Stack>
+          </div>
         </div>
 
         <div className="flex flex-1 flex-col rounded-md border border-gray-200 bg-white">
-          <Group className="border-b border-gray-200 p-4">
-            <Avatar
-              src={partnerProfile?.profile_url || undefined}
-              size="md"
-              radius="xl"
-            />
-            <Text fw={600}>{partnerProfile?.display_name ?? ''}</Text>
-          </Group>
+          <div className="flex items-center gap-3 border-b border-gray-200 p-4">
+            <Avatar className="h-10 w-10">
+              <AvatarImage src={partnerProfile?.profile_url || undefined} />
+              <AvatarFallback>
+                {partnerProfile?.display_name?.[0] ?? '?'}
+              </AvatarFallback>
+            </Avatar>
+            <p className="font-semibold">{partnerProfile?.display_name ?? ''}</p>
+          </div>
 
-          <ScrollArea
-            viewportRef={viewport}
-            className="scrollbar-brand flex-1 p-4"
-            h={400}
+          <div
+            ref={viewport}
+            className="scrollbar-brand h-[400px] flex-1 overflow-y-auto p-4"
           >
-            <Stack gap="sm">
+            <div className="flex flex-col gap-3">
               {messages?.map((msg) => {
                 const isMe = msg.sender_id === user.id;
                 return (
@@ -144,7 +137,11 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
                     key={msg.id}
                     className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
                   >
-                    {!isMe && <Avatar size="sm" radius="xl" className="mr-2" />}
+                    {!isMe && (
+                      <Avatar className="mr-2 h-8 w-8">
+                        <AvatarFallback>?</AvatarFallback>
+                      </Avatar>
+                    )}
                     <div
                       className={`max-w-[70%] px-4 py-2 ${
                         isMe
@@ -152,42 +149,40 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
                           : 'chat-bubble-partner bg-gray-100 text-gray-800'
                       }`}
                     >
-                      <Text size="sm">{msg.message}</Text>
+                      <p className="text-sm">{msg.message}</p>
                     </div>
                   </div>
                 );
               })}
               {(!messages || messages.length === 0) && (
-                <Center className="py-10">
-                  <Stack align="center" gap="xs">
-                    <IconMessageCircle size={40} color="#d6d6d6" />
-                    <Text c="dimmed" size="sm">
-                      대화를 시작해보세요
-                    </Text>
-                  </Stack>
-                </Center>
+                <EmptyState
+                  icon={MessageCircle}
+                  iconSize={40}
+                  message="대화를 시작해보세요"
+                  className="py-10"
+                />
               )}
-            </Stack>
-          </ScrollArea>
+            </div>
+          </div>
 
-          <Group className="border-t border-gray-200 p-3" wrap="nowrap">
-            <TextInput
+          <div className="flex items-center gap-2 border-t border-gray-200 p-3">
+            <Input
               placeholder="메시지를 입력하세요"
               value={message}
-              onChange={(e) => setMessage(e.currentTarget.value)}
+              onChange={(e) => setMessage(e.target.value)}
               className="flex-1"
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleSend();
               }}
             />
-            <ActionIcon
+            <LoadingButton
+              size="icon"
               onClick={handleSend}
               loading={sendMessage.isPending}
-              variant="filled"
             >
-              <IconSend size={16} />
-            </ActionIcon>
-          </Group>
+              <Send size={16} />
+            </LoadingButton>
+          </div>
         </div>
       </div>
     </div>
