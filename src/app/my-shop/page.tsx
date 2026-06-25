@@ -14,7 +14,7 @@ export default async function MyShopPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login?callbackUrl=/my-shop');
+    redirect('/signin?callbackUrl=/my-shop');
   }
 
   const queryClient = getQueryClient();

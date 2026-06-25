@@ -22,7 +22,7 @@ export default async function ChatDetailPage({
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect(`/login?callbackUrl=/chat/${id}`);
+    redirect(`/signin?callbackUrl=/chat/${id}`);
   }
 
   const queryClient = getQueryClient();

@@ -59,7 +59,7 @@ describe('AuthGuard', () => {
     );
 
     await waitFor(() => {
-      expect(pushMock).toHaveBeenCalledWith('/login?callbackUrl=%2F');
+      expect(pushMock).toHaveBeenCalledWith('/signin?callbackUrl=%2F');
     });
 
     expect(screen.queryByText('보호된 콘텐츠')).not.toBeInTheDocument();

@@ -41,7 +41,7 @@ export async function updateSession(request: NextRequest) {
 
   if (isProtected && !user) {
     const url = request.nextUrl.clone();
-    url.pathname = '/login';
+    url.pathname = '/signin';
     url.searchParams.set('callbackUrl', request.nextUrl.pathname);
     return NextResponse.redirect(url);
   }

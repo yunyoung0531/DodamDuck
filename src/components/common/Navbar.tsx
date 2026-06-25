@@ -88,7 +88,7 @@ export function Navbar() {
             </>
           ) : (
             !isLoading && (
-              <Button size="xs" render={<Link href="/login" />}>
+              <Button size="xs" render={<Link href="/signin" />}>
                 <LogIn size={16} />
                 로그인
               </Button>
@@ -152,7 +152,7 @@ export function Navbar() {
               ) : (
                 !isLoading && (
                   <Button
-                    render={<Link href="/login" />}
+                    render={<Link href="/signin" />}
                     onClick={() => setDrawerOpened(false)}
                   >
                     <LogIn size={16} />

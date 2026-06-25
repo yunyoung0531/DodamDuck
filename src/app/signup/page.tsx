@@ -71,7 +71,7 @@ export default function SignupPage() {
         location: values.location,
       });
 
-      router.push('/login');
+      router.push('/signin');
     } catch {
       setError('회원가입 중 오류가 발생했습니다.');
     } finally {
@@ -183,7 +183,7 @@ export default function SignupPage() {
 
           <p className="text-sm text-muted-foreground">
             이미 계정이 있으신가요?{' '}
-            <Link href="/login" className="font-semibold text-dodam-500">
+            <Link href="/signin" className="font-semibold text-dodam-500">
               로그인
             </Link>
           </p>

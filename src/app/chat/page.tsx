@@ -14,7 +14,7 @@ export default async function ChatPage() {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    redirect('/login?callbackUrl=/chat');
+    redirect('/signin?callbackUrl=/chat');
   }
 
   const [queryClient, { data: profile }] = await Promise.all([

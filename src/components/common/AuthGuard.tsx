@@ -16,7 +16,7 @@ export function AuthGuard({ children }: AuthGuardProps) {
 
   useEffect(() => {
     if (!isLoading && !user) {
-      router.push(`/login?callbackUrl=${encodeURIComponent(pathname)}`);
+      router.push(`/signin?callbackUrl=${encodeURIComponent(pathname)}`);
     }
   }, [isLoading, user, router, pathname]);
 
