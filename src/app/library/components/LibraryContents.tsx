@@ -7,7 +7,7 @@ import { Button } from '@/components/ui/button';
 import { LoadingState } from '@/components/common/LoadingState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { useLibraryItems } from '@/services/library/useLibrary';
-import { getCategoryConfig } from '@/services/library/library-services';
+import { getCategoryConfig } from '@/constants/toy-categories';
 import type { LibraryItem } from '@/services/library/library.types';
 
 function ToyCard({ item }: { item: LibraryItem }) {
