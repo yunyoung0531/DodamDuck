@@ -1,20 +1,11 @@
 'use client';
 
-import {
-  Badge,
-  Box,
-  Button,
-  Card,
-  Center,
-  Loader,
-  SimpleGrid,
-  Stack,
-  Text,
-  Title,
-  Alert,
-} from '@mantine/core';
-import { IconPhone } from '@tabler/icons-react';
-
+import { Phone } from 'lucide-react';
+import { Badge } from '@/components/ui/badge';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { LoadingState } from '@/components/common/LoadingState';
+import { PageHeader } from '@/components/common/PageHeader';
 import { useLibraryItems } from '@/services/library/useLibrary';
 import { getCategoryConfig } from '@/services/library/library-services';
 import type { LibraryItem } from '@/services/library/library.types';
@@ -24,63 +15,52 @@ function ToyCard({ item }: { item: LibraryItem }) {
   const Icon = config.icon;
 
   return (
-    <Card
-      shadow="sm"
-      padding={0}
-      radius="md"
-      withBorder
-      className="transition-all hover:-translate-y-1 hover:shadow-lg"
-    >
-      <Card.Section>
-        <Box
-          className="flex items-center justify-center"
-          style={{ background: config.gradient, height: 140 }}
-        >
-          <Icon size={56} color="white" stroke={1.5} />
-        </Box>
-      </Card.Section>
+    <div className="overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
+      <div
+        className="flex h-[140px] items-center justify-center"
+        style={{ background: config.gradient }}
+      >
+        <Icon size={56} color="white" strokeWidth={1.5} />
+      </div>
 
-      <Stack gap="xs" className="p-4">
-        <Text fw={600} size="md" lineClamp={1}>
-          {item.장난감명}
-        </Text>
+      <div className="flex flex-col gap-2 p-4">
+        <p className="truncate text-base font-semibold">{item.장난감명}</p>
 
-        <Badge color={config.color} variant="light" size="sm" className="w-fit">
+        <Badge variant="secondary" className="w-fit">
           {item['영 역']}
         </Badge>
 
-        <Stack gap={4}>
-          <Text size="sm" c="dimmed">
+        <div className="flex flex-col gap-1">
+          <p className="text-sm text-muted-foreground">
             사용연령: {item.사용연령}
-          </Text>
-          <Text size="sm" c="dimmed">
+          </p>
+          <p className="text-sm text-muted-foreground">
             대여료: {item.대여료}
-          </Text>
+          </p>
           {item.제조사 && (
-            <Text size="sm" c="dimmed">
+            <p className="text-sm text-muted-foreground">
               제조사: {item.제조사}
-            </Text>
+            </p>
           )}
-        </Stack>
+        </div>
 
         {item.관리기관전화번호 ? (
           <Button
-            component="a"
-            href={`tel:${item.관리기관전화번호}`}
             variant="outline"
-            fullWidth
             size="sm"
-            leftSection={<IconPhone size={16} />}
+            className="w-full"
+            render={<a href={`tel:${item.관리기관전화번호}`} />}
           >
+            <Phone size={16} />
             대여 문의
           </Button>
         ) : (
-          <Button variant="outline" fullWidth size="sm" disabled>
+          <Button variant="outline" size="sm" className="w-full" disabled>
             대여 문의
           </Button>
         )}
-      </Stack>
-    </Card>
+      </div>
+    </div>
   );
 }
 
@@ -89,31 +69,28 @@ export default function LibraryContents() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <Stack align="center" gap="xs" className="mb-10">
-        <Text c="dimmed" size="lg">
-          원하는 장난감을 빌릴 수 있는
-        </Text>
-        <Title order={1}>장난감 도서관</Title>
-      </Stack>
+      <PageHeader
+        subtitle="원하는 장난감을 빌릴 수 있는"
+        title="장난감 도서관"
+        className="mb-10"
+      />
 
-      {isLoading && (
-        <Center className="min-h-[40vh]">
-          <Loader size="lg" />
-        </Center>
-      )}
+      {isLoading && <LoadingState />}
 
       {error && (
-        <Alert color="red" className="mx-auto max-w-md">
-          장난감 목록을 불러오는 데 실패했습니다.
+        <Alert variant="destructive" className="mx-auto max-w-md">
+          <AlertDescription>
+            장난감 목록을 불러오는 데 실패했습니다.
+          </AlertDescription>
         </Alert>
       )}
 
       {items && (
-        <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 4 }} spacing="lg">
+        <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
           {items.map((item) => (
             <ToyCard key={item.순번} item={item} />
           ))}
-        </SimpleGrid>
+        </div>
       )}
     </div>
   );

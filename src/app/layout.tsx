@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
-import { ColorSchemeScript, mantineHtmlProps } from '@mantine/core';
 import { Providers } from '@/providers/Providers';
 import { Navbar } from '@/components/common/Navbar';
+import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 export const metadata: Metadata = {
@@ -16,14 +16,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko" {...mantineHtmlProps}>
-      <head>
-        <ColorSchemeScript />
-      </head>
+    <html lang="ko">
+      <head />
       <body>
         <Providers>
           <Navbar />
           <main className="pt-14">{children}</main>
+          <Toaster />
         </Providers>
       </body>
     </html>

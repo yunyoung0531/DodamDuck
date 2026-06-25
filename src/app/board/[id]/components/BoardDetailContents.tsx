@@ -1,25 +1,17 @@
 'use client';
 
-import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Card,
-  Text,
-  Title,
-  Stack,
-  Group,
-  Avatar,
-  TextInput,
-  Divider,
-  Center,
-  Loader,
-  Alert,
-  ActionIcon,
-  ScrollArea,
-} from '@mantine/core';
-import { IconTrash, IconSend } from '@tabler/icons-react';
+import { Trash2 } from 'lucide-react';
+import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Separator } from '@/components/ui/separator';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Button } from '@/components/ui/button';
+import { LoadingState } from '@/components/common/LoadingState';
+import { CommentSection } from '@/components/common/CommentSection';
+import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import {
   useBoardDetail,
   useDeleteBoardPost,
@@ -32,24 +24,19 @@ export default function BoardDetailContents() {
   const postId = Number(id);
   const router = useRouter();
   const { user } = useUser();
-  const [comment, setComment] = useState('');
 
   const { data, isLoading } = useBoardDetail(postId);
   const deleteMutation = useDeleteBoardPost();
   const commentMutation = useAddBoardComment();
 
   if (isLoading) {
-    return (
-      <Center className="min-h-[60vh]">
-        <Loader size="lg" />
-      </Center>
-    );
+    return <LoadingState height="lg" />;
   }
 
   if (!data) {
     return (
-      <Alert color="red" className="mx-auto mt-10 max-w-md">
-        게시글을 찾을 수 없습니다.
+      <Alert variant="destructive" className="mx-auto mt-10 max-w-md">
+        <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
       </Alert>
     );
   }
@@ -64,134 +51,94 @@ export default function BoardDetailContents() {
     });
   }
 
-  function handleComment() {
-    if (!comment.trim() || !user) return;
-    commentMutation.mutate(
-      { postId, content: comment },
-      { onSuccess: () => setComment('') }
-    );
+  function handleComment(content: string) {
+    if (!user) return;
+    commentMutation.mutate({ postId, content });
   }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <Card shadow="sm" radius="md" withBorder>
-        <Card.Section className="border-b border-gray-200 p-4">
-          <Text fw={600}>도담덕 정보 나눔 게시판</Text>
-        </Card.Section>
+      <Card>
+        <CardHeader className="border-b border-gray-200 p-4">
+          <p className="font-semibold">도담덕 정보 나눔 게시판</p>
+        </CardHeader>
 
-        <div className="flex flex-col gap-6 p-6 md:flex-row">
-          <div className="flex flex-col gap-4 md:w-1/2">
-            <div className="relative aspect-square overflow-hidden rounded-md">
-              <Image
-                src={post.image_url || '/images/도담덕로고.png'}
-                alt={post.title}
-                fill
-                className="object-cover"
-                unoptimized
-              />
+        <CardContent className="p-6">
+          <div className="flex flex-col gap-6 md:flex-row">
+            <div className="flex flex-col gap-4 md:w-1/2">
+              <div className="relative aspect-square overflow-hidden rounded-md">
+                <Image
+                  src={post.image_url || '/images/도담덕로고.png'}
+                  alt={post.title}
+                  fill
+                  className="object-cover"
+                  unoptimized
+                />
+              </div>
+
+              <div className="flex items-center gap-3">
+                <Avatar className="h-12 w-12">
+                  <AvatarImage src={post.profiles.profile_url || undefined} />
+                  <AvatarFallback>
+                    {post.profiles.display_name?.[0] ?? '?'}
+                  </AvatarFallback>
+                </Avatar>
+                <div className="flex flex-col gap-0.5">
+                  <p className="font-semibold">{post.profiles.display_name} 님</p>
+                  <p className="text-xs text-muted-foreground">{post.created_at}</p>
+                </div>
+              </div>
             </div>
 
-            <Group>
-              <Avatar
-                src={post.profiles.profile_url || undefined}
-                size="lg"
-                radius="xl"
-              />
-              <Stack gap={2}>
-                <Text fw={600}>{post.profiles.display_name} 님</Text>
-                <Text size="xs" c="dimmed">
-                  {post.created_at}
-                </Text>
-              </Stack>
-            </Group>
-          </div>
+            <Separator orientation="vertical" className="hidden md:block" />
 
-          <Divider orientation="vertical" className="hidden md:block" />
-
-          <div className="flex flex-1 flex-col">
-            <Group justify="space-between">
-              <Title order={3}>{post.title}</Title>
-              {isAuthor && (
-                <ActionIcon
-                  variant="subtle"
-                  color="red"
-                  onClick={handleDelete}
-                  loading={deleteMutation.isPending}
-                >
-                  <IconTrash size={18} />
-                </ActionIcon>
-              )}
-            </Group>
-            <Text size="xs" c="dimmed" className="mt-1">
-              조회 {post.views}
-            </Text>
-
-            <Text className="mt-4 whitespace-pre-wrap">{post.content}</Text>
-
-            <Divider className="my-6" />
-
-            <Text fw={600} className="mb-3">
-              댓글
-            </Text>
-            <ScrollArea.Autosize mah={300} className="scrollbar-brand">
-              <Stack gap="sm">
-                {comments.map((c) => (
-                  <div key={c.id}>
-                    <Group gap="xs">
-                      <Text size="sm" fw={600}>
-                        {c.profiles.display_name}
-                      </Text>
-                      <Text size="xs" c="dimmed">
-                        {c.created_at}
-                      </Text>
-                    </Group>
-                    <Text size="sm" className="mt-1">
-                      {c.content}
-                    </Text>
-                  </div>
-                ))}
-                {comments.length === 0 && (
-                  <Text size="sm" c="dimmed">
-                    아직 댓글이 없습니다.
-                  </Text>
+            <div className="flex flex-1 flex-col">
+              <div className="flex items-center justify-between">
+                <h3 className="font-heading text-xl font-bold">{post.title}</h3>
+                {isAuthor && (
+                  <ConfirmDialog
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="text-destructive hover:text-destructive/80"
+                      >
+                        <Trash2 size={18} />
+                      </Button>
+                    }
+                    title="게시글 삭제"
+                    description="이 게시글을 삭제하시겠습니까? 삭제된 게시글은 복구할 수 없습니다."
+                    onConfirm={handleDelete}
+                    isLoading={deleteMutation.isPending}
+                  />
                 )}
-              </Stack>
-            </ScrollArea.Autosize>
+              </div>
+              <p className="mt-1 text-xs text-muted-foreground">
+                조회 {post.views}
+              </p>
 
-            {user && (
-              <Group className="mt-4">
-                <TextInput
-                  placeholder="댓글을 입력해주세요."
-                  value={comment}
-                  onChange={(e) => setComment(e.currentTarget.value)}
-                  className="flex-1"
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleComment();
-                  }}
-                />
-                <ActionIcon
-                  onClick={handleComment}
-                  loading={commentMutation.isPending}
-                  variant="filled"
-                >
-                  <IconSend size={16} />
-                </ActionIcon>
-              </Group>
-            )}
+              <p className="mt-4 whitespace-pre-wrap">{post.content}</p>
+
+              <Separator className="my-6" />
+
+              <CommentSection
+                comments={comments}
+                isLoggedIn={!!user}
+                onSubmit={handleComment}
+                isSubmitting={commentMutation.isPending}
+              />
+            </div>
           </div>
-        </div>
+        </CardContent>
 
-        <Card.Section className="border-t border-gray-200 p-4">
-          <Text
-            component={Link}
+        <CardFooter className="border-t border-gray-200 p-4">
+          <Link
             href="/board"
-            size="sm"
-            c="dimmed"
-            className="cursor-pointer hover:underline"
+            className="text-sm text-muted-foreground hover:underline"
           >
             게시글 목록보기
-          </Text>
-        </Card.Section>
+          </Link>
+        </CardFooter>
       </Card>
     </div>
   );

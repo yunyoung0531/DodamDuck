@@ -2,24 +2,14 @@
 
 import { useState } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  Card,
-  Text,
-  Title,
-  Stack,
-  TextInput,
-  Badge,
-  Group,
-  SimpleGrid,
-  Center,
-  Loader,
-  ActionIcon,
-  Alert,
-  Affix,
-} from '@mantine/core';
-import { IconSearch, IconPlus } from '@tabler/icons-react';
+import { Search } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Badge } from '@/components/ui/badge';
+import { LoadingState } from '@/components/common/LoadingState';
+import { EmptyState } from '@/components/common/EmptyState';
+import { PageHeader } from '@/components/common/PageHeader';
+import { FloatingActionButton } from '@/components/common/FloatingActionButton';
 import {
   useSharingList,
   useSharingSearch,
@@ -54,28 +44,30 @@ export default function SharingContents() {
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-10">
-      <Stack align="center" gap="xs" className="mb-8">
-        <Text c="dimmed" size="lg">
-          나눔을 통해 행복을 나누다
-        </Text>
-        <Title order={1}>교환 &amp; 나눔</Title>
-      </Stack>
+      <PageHeader
+        subtitle="나눔을 통해 행복을 나누다"
+        title="교환 &amp; 나눔"
+      />
 
       <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-lg">
-        <TextInput
-          placeholder="어떤 제품을 찾으세요?"
-          value={searchQuery}
-          onChange={(e) => setSearchQuery(e.currentTarget.value)}
-          rightSection={
-            <ActionIcon type="submit" variant="subtle">
-              <IconSearch size={18} />
-            </ActionIcon>
-          }
-        />
+        <div className="relative">
+          <Input
+            placeholder="어떤 제품을 찾으세요?"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            className="pr-10"
+          />
+          <button
+            type="submit"
+            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          >
+            <Search size={18} />
+          </button>
+        </div>
       </form>
 
       {popularSearches && popularSearches.length > 0 && (
-        <Group gap="xs" justify="center" className="mb-8">
+        <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
           {popularSearches.slice(0, 5).map((item) => (
             <Badge
               key={item.query}
@@ -89,28 +81,20 @@ export default function SharingContents() {
               #{item.query}
             </Badge>
           ))}
-        </Group>
+        </div>
       )}
 
-      {isLoading && (
-        <Center className="min-h-[40vh]">
-          <Loader size="lg" />
-        </Center>
-      )}
+      {isLoading && <LoadingState />}
 
-      {displayPosts && (
-        <SimpleGrid cols={{ base: 1, xs: 2, sm: 3, md: 4 }} spacing="lg">
+      {displayPosts && displayPosts.length > 0 && (
+        <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
           {displayPosts.map((post) => (
-            <Card
+            <div
               key={post.id}
-              shadow="sm"
-              padding="sm"
-              radius="md"
-              withBorder
-              className="cursor-pointer transition-all hover:-translate-y-1 hover:shadow-lg"
+              className="cursor-pointer overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
               onClick={() => handleCardClick(post.id)}
             >
-              <Card.Section className="relative h-48">
+              <div className="relative h-48">
                 <Image
                   src={post.image_url || '/images/도담덕로고.png'}
                   alt={post.title}
@@ -118,48 +102,38 @@ export default function SharingContents() {
                   className="object-cover"
                   unoptimized
                 />
-              </Card.Section>
+              </div>
 
-              <Text fw={600} size="sm" className="mt-3" lineClamp={1}>
-                {post.title}
-              </Text>
-              <Text size="xs" c="dimmed" className="mt-1">
-                {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
-                {post.views}
-              </Text>
-              <Badge size="sm" variant="light" className="mt-2">
-                {post.exchange_option}
-              </Badge>
-              {post.tags && post.tags.length > 0 && (
-                <Group gap={4} className="mt-1">
-                  {post.tags.map((tag) => (
-                    <Text key={tag} size="xs" c="dimmed">
-                      #{tag}
-                    </Text>
-                  ))}
-                </Group>
-              )}
-            </Card>
+              <div className="p-3">
+                <p className="truncate text-sm font-semibold">{post.title}</p>
+                <p className="mt-1 text-xs text-muted-foreground">
+                  {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
+                  {post.views}
+                </p>
+                <Badge variant="secondary" className="mt-2">
+                  {post.exchange_option}
+                </Badge>
+                {post.tags && post.tags.length > 0 && (
+                  <div className="mt-1 flex gap-1">
+                    {post.tags.map((tag) => (
+                      <span key={tag} className="text-xs text-muted-foreground">
+                        #{tag}
+                      </span>
+                    ))}
+                  </div>
+                )}
+              </div>
+            </div>
           ))}
-        </SimpleGrid>
+        </div>
       )}
 
       {displayPosts && displayPosts.length === 0 && (
-        <Alert className="mx-auto max-w-md">게시글이 없습니다.</Alert>
+        <EmptyState message="게시글이 없습니다." />
       )}
 
       {user && (
-        <Affix position={{ bottom: 40, right: 40 }}>
-          <ActionIcon
-            component={Link}
-            href="/sharing/new"
-            size={56}
-            radius="xl"
-            variant="filled"
-          >
-            <IconPlus size={24} />
-          </ActionIcon>
-        </Affix>
+        <FloatingActionButton href="/sharing/new" label="교환/나눔 글쓰기" />
       )}
     </div>
   );

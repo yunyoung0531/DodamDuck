@@ -1,19 +1,11 @@
 'use client';
 
 import Image from 'next/image';
-import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import {
-  Text,
-  Title,
-  Stack,
-  Center,
-  Loader,
-  Alert,
-  ActionIcon,
-  Affix,
-} from '@mantine/core';
-import { IconPlus } from '@tabler/icons-react';
+import { LoadingState } from '@/components/common/LoadingState';
+import { EmptyState } from '@/components/common/EmptyState';
+import { PageHeader } from '@/components/common/PageHeader';
+import { FloatingActionButton } from '@/components/common/FloatingActionButton';
 import { useBoardList, useIncrementBoardViewCount } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
@@ -31,21 +23,15 @@ export default function BoardContents() {
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
-      <Stack align="center" gap="xs" className="mb-8">
-        <Text c="dimmed" size="lg">
-          나눔을 통해 행복을 나누다
-        </Text>
-        <Title order={1}>도담덕 정보 나눔</Title>
-      </Stack>
+      <PageHeader
+        subtitle="나눔을 통해 행복을 나누다"
+        title="도담덕 정보 나눔"
+      />
 
-      {isLoading && (
-        <Center className="min-h-[40vh]">
-          <Loader size="lg" />
-        </Center>
-      )}
+      {isLoading && <LoadingState />}
 
-      {posts && (
-        <Stack gap="md">
+      {posts && posts.length > 0 && (
+        <div className="flex flex-col gap-4">
           {posts.map((post) => (
             <div
               key={post.id}
@@ -62,38 +48,26 @@ export default function BoardContents() {
                 />
               </div>
               <div className="flex flex-1 flex-col">
-                <Text fw={600} size="lg" lineClamp={1}>
-                  {post.title}
-                </Text>
-                <Text size="sm" c="dimmed" className="mt-1">
+                <p className="truncate text-lg font-semibold">{post.title}</p>
+                <p className="mt-1 text-sm text-muted-foreground">
                   댓글 {post.comment_count}개 · {formatTimeSince(post.created_at)}{' '}
                   · 조회 {post.views}
-                </Text>
-                <Text size="sm" c="dimmed" className="mt-2" lineClamp={2}>
+                </p>
+                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
                   {post.content}
-                </Text>
+                </p>
               </div>
             </div>
           ))}
-        </Stack>
+        </div>
       )}
 
       {posts && posts.length === 0 && (
-        <Alert className="mx-auto max-w-md">게시글이 없습니다.</Alert>
+        <EmptyState message="게시글이 없습니다." />
       )}
 
       {user && (
-        <Affix position={{ bottom: 40, right: 40 }}>
-          <ActionIcon
-            component={Link}
-            href="/board/new"
-            size={56}
-            radius="xl"
-            variant="filled"
-          >
-            <IconPlus size={24} />
-          </ActionIcon>
-        </Affix>
+        <FloatingActionButton href="/board/new" label="게시판 글쓰기" />
       )}
     </div>
   );

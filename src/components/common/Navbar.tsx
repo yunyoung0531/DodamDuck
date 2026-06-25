@@ -4,8 +4,15 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname, useRouter } from 'next/navigation';
-import { Group, Burger, Drawer, Button, Text, Stack } from '@mantine/core';
-import { IconLogin, IconLogout } from '@tabler/icons-react';
+import { LogIn, LogOut, Menu, X } from 'lucide-react';
+import { Button } from '@/components/ui/button';
+import {
+  Sheet,
+  SheetContent,
+  SheetHeader,
+  SheetTitle,
+  SheetTrigger,
+} from '@/components/ui/sheet';
 import { useUser } from '@/services/auth/useUser';
 import { servSignOut } from '@/services/auth/auth-services';
 
@@ -34,133 +41,129 @@ export function Navbar() {
   }
 
   return (
-    <>
-      <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-gray-200 bg-white">
-        <Group className="mx-auto h-full max-w-6xl px-4" justify="space-between">
-          <Link href="/" className="flex items-center gap-2 no-underline">
-            <Image
-              src="/images/도담덕로고.png"
-              alt="도담덕 로고"
-              width={32}
-              height={32}
-            />
-            <Text fw={700} size="lg" c="dodamYellow.5">
-              도담덕
-            </Text>
-          </Link>
-
-          <Group gap="lg" visibleFrom="sm">
-            {NAV_LINKS.map((link) => (
-              <Link
-                key={link.href}
-                href={link.href}
-                className="no-underline"
-              >
-                <Text
-                  size="sm"
-                  fw={isActive(link.href) ? 700 : 400}
-                  c={isActive(link.href) ? 'dodamYellow.5' : 'dark'}
-                >
-                  {link.label}
-                </Text>
-              </Link>
-            ))}
-          </Group>
-
-          <Group gap="sm" visibleFrom="sm">
-            {!isLoading && user && profile ? (
-              <>
-                <Text size="sm">{profile.display_name}님 안녕하세요</Text>
-                <Button
-                  variant="subtle"
-                  size="xs"
-                  leftSection={<IconLogout size={16} />}
-                  onClick={handleLogout}
-                >
-                  로그아웃
-                </Button>
-              </>
-            ) : (
-              !isLoading && (
-                <Button
-                  component={Link}
-                  href="/login"
-                  variant="filled"
-                  size="xs"
-                  leftSection={<IconLogin size={16} />}
-                >
-                  로그인
-                </Button>
-              )
-            )}
-          </Group>
-
-          <Burger
-            opened={drawerOpened}
-            onClick={() => setDrawerOpened((prev) => !prev)}
-            hiddenFrom="sm"
-            aria-label="메뉴 열기"
+    <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-gray-200 bg-white">
+      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
+        <Link href="/" className="flex items-center gap-2 no-underline">
+          <Image
+            src="/images/도담덕로고.png"
+            alt="도담덕 로고"
+            width={32}
+            height={32}
           />
-        </Group>
-      </header>
+          <span className="text-lg font-bold text-dodam-500">도담덕</span>
+        </Link>
 
-      <Drawer
-        opened={drawerOpened}
-        onClose={() => setDrawerOpened(false)}
-        title="메뉴"
-        padding="md"
-        size="xs"
-        position="right"
-      >
-        <Stack gap="md">
+        <nav className="hidden items-center gap-6 sm:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
               className="no-underline"
-              onClick={() => setDrawerOpened(false)}
             >
-              <Text
-                size="md"
-                fw={isActive(link.href) ? 700 : 400}
-                c={isActive(link.href) ? 'dodamYellow.5' : 'dark'}
+              <span
+                className={`text-sm ${
+                  isActive(link.href)
+                    ? 'font-bold text-dodam-500'
+                    : 'text-gray-800'
+                }`}
               >
                 {link.label}
-              </Text>
+              </span>
             </Link>
           ))}
+        </nav>
 
+        <div className="hidden items-center gap-2 sm:flex">
           {!isLoading && user && profile ? (
             <>
-              <Text size="sm" c="dimmed">
-                {profile.display_name}님 안녕하세요
-              </Text>
+              <span className="text-sm">{profile.display_name}님 안녕하세요</span>
               <Button
-                variant="subtle"
-                leftSection={<IconLogout size={16} />}
-                onClick={() => {
-                  setDrawerOpened(false);
-                  handleLogout();
-                }}
+                variant="ghost"
+                size="xs"
+                onClick={handleLogout}
               >
+                <LogOut size={16} />
                 로그아웃
               </Button>
             </>
           ) : (
             !isLoading && (
-              <Button
-                component={Link}
-                href="/login"
-                variant="filled"
-                leftSection={<IconLogin size={16} />}
-                onClick={() => setDrawerOpened(false)}
-              >
+              <Button size="xs" render={<Link href="/signin" />}>
+                <LogIn size={16} />
                 로그인
               </Button>
             )
           )}
-        </Stack>
-      </Drawer>
-    </>
+        </div>
+
+        <Sheet open={drawerOpened} onOpenChange={setDrawerOpened}>
+          <SheetTrigger
+            render={
+              <Button
+                variant="ghost"
+                size="icon"
+                className="sm:hidden"
+                aria-label="메뉴 열기"
+              />
+            }
+          >
+            {drawerOpened ? <X size={20} /> : <Menu size={20} />}
+          </SheetTrigger>
+          <SheetContent side="right" className="w-64">
+            <SheetHeader>
+              <SheetTitle>메뉴</SheetTitle>
+            </SheetHeader>
+            <div className="mt-6 flex flex-col gap-4">
+              {NAV_LINKS.map((link) => (
+                <Link
+                  key={link.href}
+                  href={link.href}
+                  className="no-underline"
+                  onClick={() => setDrawerOpened(false)}
+                >
+                  <span
+                    className={`text-base ${
+                      isActive(link.href)
+                        ? 'font-bold text-dodam-500'
+                        : 'text-gray-800'
+                    }`}
+                  >
+                    {link.label}
+                  </span>
+                </Link>
+              ))}
+
+              {!isLoading && user && profile ? (
+                <>
+                  <p className="text-sm text-muted-foreground">
+                    {profile.display_name}님 안녕하세요
+                  </p>
+                  <Button
+                    variant="ghost"
+                    onClick={() => {
+                      setDrawerOpened(false);
+                      handleLogout();
+                    }}
+                  >
+                    <LogOut size={16} />
+                    로그아웃
+                  </Button>
+                </>
+              ) : (
+                !isLoading && (
+                  <Button
+                    render={<Link href="/signin" />}
+                    onClick={() => setDrawerOpened(false)}
+                  >
+                    <LogIn size={16} />
+                    로그인
+                  </Button>
+                )
+              )}
+            </div>
+          </SheetContent>
+        </Sheet>
+      </div>
+    </header>
   );
 }
