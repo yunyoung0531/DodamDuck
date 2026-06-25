@@ -41,6 +41,7 @@ next-env.d.ts
 # Claude Code
 .claude/
 CLAUDE.md
+DESIGN.md
 
 # OS
 Thumbs.db
