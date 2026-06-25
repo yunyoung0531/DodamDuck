@@ -4,31 +4,23 @@ import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  Button,
-  TextInput,
-  PasswordInput,
-  Stack,
-  Text,
-  Alert,
-  Center,
-  Paper,
-  Loader,
-} from '@mantine/core';
-import { useForm, schemaResolver } from '@mantine/form';
-import { IconLogin } from '@tabler/icons-react';
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { LogIn } from 'lucide-react';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent } from '@/components/ui/card';
+import { LoadingButton } from '@/components/common/LoadingButton';
+import { PasswordInput } from '@/components/common/PasswordInput';
+import { LoadingState } from '@/components/common/LoadingState';
+import { FormFieldError } from '@/components/common/FormFieldError';
 import { loginSchema, type LoginForm } from '@/libs/validations/auth';
 import { servSignIn } from '@/services/auth/auth-services';
 
 export default function LoginPage() {
   return (
-    <Suspense
-      fallback={
-        <Center className="min-h-[calc(100vh-3.5rem)]">
-          <Loader size="lg" />
-        </Center>
-      }
-    >
+    <Suspense fallback={<LoadingState height="full" />}>
       <LoginContent />
     </Suspense>
   );
@@ -41,15 +33,19 @@ function LoginContent() {
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<LoginForm>({
-    validate: schemaResolver(loginSchema),
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<LoginForm>({
+    resolver: zodResolver(loginSchema),
+    defaultValues: {
       userID: '',
       userPassword: '',
     },
   });
 
-  async function handleSubmit(values: LoginForm) {
+  async function onSubmit(values: LoginForm) {
     setError('');
     setIsLoading(true);
 
@@ -69,56 +65,62 @@ function LoginContent() {
   }
 
   return (
-    <Center className="min-h-[calc(100vh-3.5rem)] bg-dodam-light">
-      <Paper shadow="sm" p="xl" radius="md" className="w-full max-w-md">
-        <Stack align="center" gap="lg">
+    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-dodam-light">
+      <Card className="w-full max-w-md">
+        <CardContent className="flex flex-col items-center gap-6 p-8">
           <Image
             src="/images/도담덕로고.png"
             alt="도담덕 로고"
             width={80}
             height={80}
           />
-          <Text fw={700} size="xl">
-            로그인
-          </Text>
+          <h2 className="text-xl font-bold">로그인</h2>
 
           {error && (
-            <Alert color="red" className="w-full">
-              {error}
+            <Alert variant="destructive" className="w-full">
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
-          <form onSubmit={form.onSubmit(handleSubmit)} className="w-full">
-            <Stack gap="md">
-              <TextInput
-                label="아이디"
-                placeholder="아이디를 입력하세요"
-                {...form.getInputProps('userID')}
-              />
-              <PasswordInput
-                label="비밀번호"
-                placeholder="비밀번호를 입력하세요"
-                {...form.getInputProps('userPassword')}
-              />
-              <Button
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+            <div className="flex flex-col gap-4">
+              <div>
+                <Label htmlFor="userID">아이디</Label>
+                <Input
+                  id="userID"
+                  placeholder="아이디를 입력하세요"
+                  {...register('userID')}
+                />
+                <FormFieldError message={errors.userID?.message} />
+              </div>
+              <div>
+                <Label htmlFor="userPassword">비밀번호</Label>
+                <PasswordInput
+                  id="userPassword"
+                  placeholder="비밀번호를 입력하세요"
+                  {...register('userPassword')}
+                />
+                <FormFieldError message={errors.userPassword?.message} />
+              </div>
+              <LoadingButton
                 type="submit"
-                fullWidth
+                className="w-full"
                 loading={isLoading}
-                leftSection={<IconLogin size={18} />}
               >
+                <LogIn size={18} />
                 로그인
-              </Button>
-            </Stack>
+              </LoadingButton>
+            </div>
           </form>
 
-          <Text size="sm" c="dimmed">
+          <p className="text-sm text-muted-foreground">
             계정이 아직 없으신가요?{' '}
-            <Text component={Link} href="/signup" c="dodamYellow.5" fw={600}>
+            <Link href="/signup" className="font-semibold text-dodam-500">
               회원가입
-            </Text>
-          </Text>
-        </Stack>
-      </Paper>
-    </Center>
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

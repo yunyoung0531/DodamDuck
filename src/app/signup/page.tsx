@@ -4,18 +4,16 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  Button,
-  TextInput,
-  PasswordInput,
-  Checkbox,
-  Stack,
-  Text,
-  Alert,
-  Center,
-  Paper,
-} from '@mantine/core';
-import { useForm, schemaResolver } from '@mantine/form';
+import { useForm, Controller } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
+import { Input } from '@/components/ui/input';
+import { Label } from '@/components/ui/label';
+import { Checkbox } from '@/components/ui/checkbox';
+import { Alert, AlertDescription } from '@/components/ui/alert';
+import { Card, CardContent } from '@/components/ui/card';
+import { LoadingButton } from '@/components/common/LoadingButton';
+import { PasswordInput } from '@/components/common/PasswordInput';
+import { FormFieldError } from '@/components/common/FormFieldError';
 import { signupSchema, type SignupForm } from '@/libs/validations/auth';
 import { servCheckUsername, servSignUp } from '@/services/auth/auth-services';
 
@@ -27,9 +25,15 @@ export default function SignupPage() {
   >('idle');
   const [isLoading, setIsLoading] = useState(false);
 
-  const form = useForm<SignupForm>({
-    validate: schemaResolver(signupSchema),
-    initialValues: {
+  const {
+    register,
+    handleSubmit,
+    control,
+    watch,
+    formState: { errors },
+  } = useForm<SignupForm>({
+    resolver: zodResolver(signupSchema),
+    defaultValues: {
       userID: '',
       userPassword: '',
       location: '',
@@ -37,20 +41,21 @@ export default function SignupPage() {
     },
   });
 
+  const userIDValue = watch('userID');
+
   async function handleCheckID() {
-    const userID = form.values.userID;
-    if (!userID) return;
+    if (!userIDValue) return;
 
     setIdStatus('checking');
     try {
-      const result = await servCheckUsername(userID);
+      const result = await servCheckUsername(userIDValue);
       setIdStatus(result.isAvailable ? 'available' : 'taken');
     } catch {
       setIdStatus('idle');
     }
   }
 
-  async function handleSubmit(values: SignupForm) {
+  async function onSubmit(values: SignupForm) {
     if (idStatus !== 'available') {
       setError('아이디 중복 확인을 해주세요.');
       return;
@@ -75,91 +80,115 @@ export default function SignupPage() {
   }
 
   return (
-    <Center className="min-h-[calc(100vh-3.5rem)] bg-dodam-light">
-      <Paper shadow="sm" p="xl" radius="md" className="w-full max-w-md">
-        <Stack align="center" gap="lg">
+    <div className="flex min-h-[calc(100vh-3.5rem)] items-center justify-center bg-dodam-light">
+      <Card className="w-full max-w-md">
+        <CardContent className="flex flex-col items-center gap-6 p-8">
           <Image
             src="/images/도담덕로고.png"
             alt="도담덕 로고"
             width={80}
             height={80}
           />
-          <Text fw={700} size="xl">
-            회원가입
-          </Text>
+          <h2 className="text-xl font-bold">회원가입</h2>
 
           {error && (
-            <Alert color="red" className="w-full">
-              {error}
+            <Alert variant="destructive" className="w-full">
+              <AlertDescription>{error}</AlertDescription>
             </Alert>
           )}
 
-          <form onSubmit={form.onSubmit(handleSubmit)} className="w-full">
-            <Stack gap="md">
+          <form onSubmit={handleSubmit(onSubmit)} className="w-full">
+            <div className="flex flex-col gap-4">
               <div>
-                <TextInput
-                  label="아이디"
-                  placeholder="아이디를 입력하세요"
-                  rightSection={
-                    <Button
-                      size="compact-xs"
-                      variant="subtle"
-                      onClick={handleCheckID}
-                      loading={idStatus === 'checking'}
-                    >
-                      중복확인
-                    </Button>
-                  }
-                  rightSectionWidth={80}
-                  {...form.getInputProps('userID')}
-                  onChange={(e) => {
-                    form.getInputProps('userID').onChange(e);
-                    setIdStatus('idle');
-                  }}
-                />
+                <Label htmlFor="userID">아이디</Label>
+                <div className="flex gap-2">
+                  <Input
+                    id="userID"
+                    placeholder="아이디를 입력하세요"
+                    className="flex-1"
+                    {...register('userID', {
+                      onChange: () => setIdStatus('idle'),
+                    })}
+                  />
+                  <LoadingButton
+                    type="button"
+                    variant="outline"
+                    size="sm"
+                    loading={idStatus === 'checking'}
+                    onClick={handleCheckID}
+                  >
+                    중복확인
+                  </LoadingButton>
+                </div>
+                <FormFieldError message={errors.userID?.message} />
                 {idStatus === 'available' && (
-                  <Text size="xs" c="green" className="mt-1">
+                  <p className="mt-1 text-sm text-green-600">
                     사용 가능한 아이디입니다.
-                  </Text>
+                  </p>
                 )}
                 {idStatus === 'taken' && (
-                  <Text size="xs" c="red" className="mt-1">
+                  <p className="mt-1 text-sm text-destructive">
                     이미 사용 중인 아이디입니다.
-                  </Text>
+                  </p>
                 )}
               </div>
 
-              <PasswordInput
-                label="비밀번호"
-                placeholder="8자 이상, 특수문자 포함"
-                {...form.getInputProps('userPassword')}
-              />
+              <div>
+                <Label htmlFor="userPassword">비밀번호</Label>
+                <PasswordInput
+                  id="userPassword"
+                  placeholder="8자 이상, 특수문자 포함"
+                  {...register('userPassword')}
+                />
+                <FormFieldError message={errors.userPassword?.message} />
+              </div>
 
-              <TextInput
-                label="주소"
-                placeholder="광주광역시 동구 필문대로 309"
-                {...form.getInputProps('location')}
-              />
+              <div>
+                <Label htmlFor="location">주소</Label>
+                <Input
+                  id="location"
+                  placeholder="광주광역시 동구 필문대로 309"
+                  {...register('location')}
+                />
+                <FormFieldError message={errors.location?.message} />
+              </div>
 
-              <Checkbox
-                label="이용약관에 동의합니다"
-                {...form.getInputProps('agree', { type: 'checkbox' })}
+              <Controller
+                name="agree"
+                control={control}
+                render={({ field }) => (
+                  <div className="flex items-center gap-2">
+                    <Checkbox
+                      id="agree"
+                      checked={field.value}
+                      onCheckedChange={field.onChange}
+                    />
+                    <Label htmlFor="agree" className="cursor-pointer">
+                      이용약관에 동의합니다
+                    </Label>
+                  </div>
+                )}
               />
+              <FormFieldError message={errors.agree?.message} />
 
-              <Button type="submit" fullWidth loading={isLoading}>
+              <LoadingButton
+                type="submit"
+                className="w-full"
+                loading={isLoading}
+              >
                 회원가입
-              </Button>
-            </Stack>
+              </LoadingButton>
+            </div>
           </form>
 
-          <Text size="sm" c="dimmed">
+          <p className="text-sm text-muted-foreground">
             이미 계정이 있으신가요?{' '}
-            <Text component={Link} href="/login" c="dodamYellow.5" fw={600}>
+            <Link href="/login" className="font-semibold text-dodam-500">
               로그인
-            </Text>
-          </Text>
-        </Stack>
-      </Paper>
-    </Center>
+            </Link>
+          </p>
+        </CardContent>
+      </Card>
+    </div>
   );
 }

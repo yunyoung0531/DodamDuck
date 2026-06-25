@@ -1,62 +1,62 @@
 import {
-  IconCube,
-  IconHome,
-  IconBabyCarriage,
-  IconMusic,
-  IconCar,
-  IconHandFinger,
-  IconPuzzle,
-} from '@tabler/icons-react';
-import type { TablerIcon } from '@tabler/icons-react';
+  Box,
+  Home,
+  Baby,
+  Music,
+  Car,
+  Hand,
+  Puzzle,
+} from 'lucide-react';
+import type { LucideIcon } from 'lucide-react';
 
 import type { LibraryItem, LibraryResponse, ToyCategory } from './library.types';
 
 interface CategoryConfig {
-  icon: TablerIcon;
+  icon: LucideIcon;
   color: string;
   gradient: string;
 }
 
 const CATEGORY_CONFIG: Record<ToyCategory, CategoryConfig> = {
   '블록': {
-    icon: IconCube,
+    icon: Box,
     color: 'blue',
     gradient: 'linear-gradient(135deg, #74b9ff 0%, #0984e3 100%)',
   },
   '역할/소꿉': {
-    icon: IconHome,
+    icon: Home,
     color: 'pink',
     gradient: 'linear-gradient(135deg, #fd79a8 0%, #e84393 100%)',
   },
   '육아용품': {
-    icon: IconBabyCarriage,
+    icon: Baby,
     color: 'green',
     gradient: 'linear-gradient(135deg, #55efc4 0%, #00b894 100%)',
   },
   '음률': {
-    icon: IconMusic,
+    icon: Music,
     color: 'violet',
     gradient: 'linear-gradient(135deg, #a29bfe 0%, #6c5ce7 100%)',
   },
   '자동차/모형': {
-    icon: IconCar,
+    icon: Car,
     color: 'orange',
     gradient: 'linear-gradient(135deg, #ffeaa7 0%, #fdcb6e 100%)',
   },
   '조작/탐색': {
-    icon: IconHandFinger,
+    icon: Hand,
     color: 'teal',
     gradient: 'linear-gradient(135deg, #81ecec 0%, #00cec9 100%)',
   },
   '퍼즐/게임': {
-    icon: IconPuzzle,
+    icon: Puzzle,
     color: 'yellow',
     gradient: 'linear-gradient(135deg, #ffeaa7 0%, #f9ca24 100%)',
   },
 };
 
 const DEFAULT_CONFIG: CategoryConfig = {
-  icon: IconCube,
+  icon: Box,
   color: 'gray',
   gradient: 'linear-gradient(135deg, #b2bec3 0%, #636e72 100%)',
 };

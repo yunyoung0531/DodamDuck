@@ -5,8 +5,6 @@ import {
   type RenderHookOptions,
 } from '@testing-library/react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { MantineProvider } from '@mantine/core';
-import { theme } from '@/libs/mantine-theme';
 
 function createTestQueryClient() {
   return new QueryClient({
@@ -23,9 +21,7 @@ function TestProviders({ children }: { children: React.ReactNode }) {
   const queryClient = createTestQueryClient();
 
   return (
-    <QueryClientProvider client={queryClient}>
-      <MantineProvider theme={theme}>{children}</MantineProvider>
-    </QueryClientProvider>
+    <QueryClientProvider client={queryClient}>{children}</QueryClientProvider>
   );
 }
 
