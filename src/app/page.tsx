@@ -30,7 +30,7 @@ export default function HomePage() {
         <p className="mt-1 text-center text-lg text-muted-foreground">
           유아용품 교환 &amp; 나눔 플랫폼
         </p>
-        <Button size="lg" className="mt-8" render={<Link href="/sharing" />}>
+        <Button size="lg" className="mt-8" nativeButton={false} render={<Link href="/sharing" />}>
           교환/나눔 둘러보기
         </Button>
       </section>
