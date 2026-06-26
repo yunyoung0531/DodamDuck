@@ -41,8 +41,8 @@ export function Navbar() {
   }
 
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 h-14 border-b border-gray-200 bg-white">
-      <div className="mx-auto flex h-full max-w-6xl items-center justify-between px-4">
+    <header className="fixed top-0 left-0 right-0 z-50 flex h-14 justify-center border-b border-gray-200 bg-white">
+      <div className="flex h-full w-full max-w-6xl items-center justify-between px-4">
         <Link href="/" className="flex items-center gap-2 no-underline">
           <Image
             src="/images/도담덕로고.png"
@@ -113,7 +113,7 @@ export function Navbar() {
             <SheetHeader>
               <SheetTitle>메뉴</SheetTitle>
             </SheetHeader>
-            <div className="mt-6 flex flex-col gap-4">
+            <div className="flex flex-col gap-4 pt-6">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}

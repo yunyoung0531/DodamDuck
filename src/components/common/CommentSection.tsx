@@ -42,12 +42,12 @@ export function CommentSection({
   }
 
   return (
-    <div className={cn(className)}>
-      <p className="mb-3 font-semibold">댓글</p>
+    <div className={cn('flex flex-col gap-3', className)}>
+      <p className="font-semibold">댓글</p>
       <ScrollArea className="scrollbar-brand h-[300px]">
         <div className="flex flex-col gap-3">
           {comments.map((c) => (
-            <div key={c.id}>
+            <div key={c.id} className="flex flex-col gap-1">
               <div className="flex items-center gap-2">
                 <p className="text-sm font-semibold">
                   {c.profiles.display_name}
@@ -56,7 +56,7 @@ export function CommentSection({
                   {formatTimeSince(c.created_at)}
                 </p>
               </div>
-              <p className="mt-1 text-sm">{c.content}</p>
+              <p className="text-sm">{c.content}</p>
             </div>
           ))}
           {comments.length === 0 && (
@@ -70,7 +70,7 @@ export function CommentSection({
       </ScrollArea>
 
       {isLoggedIn && (
-        <div className="mt-4 flex gap-2">
+        <div className="flex gap-2 pt-1">
           <Input
             placeholder="댓글을 입력해주세요."
             value={comment}
