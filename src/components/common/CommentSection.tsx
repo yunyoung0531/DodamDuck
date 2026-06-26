@@ -7,6 +7,7 @@ import { ScrollArea } from '@/components/ui/scroll-area';
 import { LoadingButton } from '@/components/common/LoadingButton';
 import { EmptyState } from '@/components/common/EmptyState';
 import { cn } from '@/lib/utils';
+import { formatTimeSince } from '@/libs/format-date';
 
 interface Comment {
   id: number;
@@ -52,7 +53,7 @@ export function CommentSection({
                   {c.profiles.display_name}
                 </p>
                 <p className="text-xs text-muted-foreground">
-                  {c.created_at}
+                  {formatTimeSince(c.created_at)}
                 </p>
               </div>
               <p className="mt-1 text-sm">{c.content}</p>
