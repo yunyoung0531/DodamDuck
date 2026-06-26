@@ -88,7 +88,7 @@ export function Navbar() {
             </>
           ) : (
             !isLoading && (
-              <Button size="xs" render={<Link href="/signin" />}>
+              <Button size="xs" nativeButton={false} render={<Link href="/signin" />}>
                 <LogIn size={16} />
                 로그인
               </Button>

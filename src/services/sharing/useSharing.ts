@@ -51,8 +51,16 @@ export function useDeleteSharingPost() {
 }
 
 export function useIncrementSharingViewCount() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (postId: number) => servIncrementSharingViewCount(postId),
+    onSuccess: (_data, postId) => {
+      queryClient.invalidateQueries({ queryKey: ['sharing', 'list'] });
+      queryClient.invalidateQueries({
+        queryKey: ['sharing', 'detail', postId],
+      });
+    },
   });
 }
 

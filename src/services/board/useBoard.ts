@@ -43,8 +43,16 @@ export function useDeleteBoardPost() {
 }
 
 export function useIncrementBoardViewCount() {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationFn: (postId: number) => servIncrementBoardViewCount(postId),
+    onSuccess: (_data, postId) => {
+      queryClient.invalidateQueries({ queryKey: ['board', 'list'] });
+      queryClient.invalidateQueries({
+        queryKey: ['board', 'detail', postId],
+      });
+    },
   });
 }
 

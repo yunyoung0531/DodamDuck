@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -17,6 +18,7 @@ import {
   useSharingDetail,
   useDeleteSharingPost,
   useAddSharingComment,
+  useIncrementSharingViewCount,
 } from '@/services/sharing/useSharing';
 import { useCreateChatRoom } from '@/services/chat/useChat';
 import { useUser } from '@/services/auth/useUser';
@@ -26,11 +28,20 @@ export default function SharingDetailContents() {
   const postId = Number(id);
   const router = useRouter();
   const { user } = useUser();
+  const hasIncremented = useRef(false);
 
   const { data, isLoading } = useSharingDetail(postId);
   const deleteMutation = useDeleteSharingPost();
   const commentMutation = useAddSharingComment();
   const createChatRoom = useCreateChatRoom();
+  const incrementView = useIncrementSharingViewCount();
+
+  useEffect(() => {
+    if (!hasIncremented.current) {
+      hasIncremented.current = true;
+      incrementView.mutate(postId);
+    }
+  }, [postId]);
 
   if (isLoading) {
     return <LoadingState height="lg" />;
