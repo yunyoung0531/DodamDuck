@@ -20,6 +20,7 @@ import {
   useIncrementBoardViewCount,
 } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
+import { formatDateTime } from '@/libs/format-date';
 
 export default function BoardDetailContents() {
   const { id } = useParams<{ id: string }>();
@@ -96,7 +97,7 @@ export default function BoardDetailContents() {
                 </Avatar>
                 <div className="flex flex-col gap-0.5">
                   <p className="font-semibold">{post.profiles.display_name} 님</p>
-                  <p className="text-xs text-muted-foreground">{post.created_at}</p>
+                  <p className="text-xs text-muted-foreground">{formatDateTime(post.created_at)}</p>
                 </div>
               </div>
             </div>
