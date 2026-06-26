@@ -21,21 +21,24 @@ export default function ChatContents({ user, profile }: ChatContentsProps) {
   const rooms = chatList ?? [];
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="w-full max-w-4xl">
       <div className="flex flex-col gap-6 md:flex-row">
-        <div className="w-full md:w-80">
-          <div className="mb-6 flex flex-col items-center rounded-md border border-gray-200 bg-white p-4">
+        <div className="flex w-full flex-col gap-6 md:w-80">
+          <div className="flex flex-col items-center gap-3 rounded-md border border-gray-200 bg-white p-4">
             <Avatar className="h-20 w-20">
               <AvatarImage src={profile.profile_url || undefined} />
               <AvatarFallback>{profile.display_name?.[0] ?? '?'}</AvatarFallback>
             </Avatar>
-            <p className="mt-3 font-semibold">{profile.display_name}</p>
-            <Badge variant="secondary" className="mt-1">
-              level.{profile.level}
-            </Badge>
+            <div className="flex flex-col items-center gap-1">
+              <p className="font-semibold">{profile.display_name}</p>
+              <Badge variant="secondary">
+                level.{profile.level}
+              </Badge>
+            </div>
           </div>
 
-          <p className="mb-3 text-sm font-semibold">채팅 중인 이웃</p>
+          <p className="text-sm font-semibold">채팅 중인 이웃</p>
 
           {isLoading && <LoadingState height="sm" size="sm" />}
 
@@ -82,12 +85,13 @@ export default function ChatContents({ user, profile }: ChatContentsProps) {
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col items-center justify-center rounded-md border border-gray-200 bg-white p-10">
+        <div className="flex flex-1 flex-col items-center justify-center gap-4 rounded-md border border-gray-200 bg-white p-10">
           <MessageCircle size={80} className="text-gray-300" />
-          <p className="mt-4 text-muted-foreground">
+          <p className="text-muted-foreground">
             채팅할 상대를 선택해주세요
           </p>
         </div>
+      </div>
       </div>
     </div>
   );

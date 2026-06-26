@@ -47,9 +47,11 @@ export default function BoardDetailContents() {
 
   if (!data) {
     return (
-      <Alert variant="destructive" className="mx-auto mt-10 max-w-md">
+      <div className="flex justify-center pt-10">
+      <Alert variant="destructive" className="max-w-md">
         <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
       </Alert>
+      </div>
     );
   }
 
@@ -69,7 +71,8 @@ export default function BoardDetailContents() {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="w-full max-w-4xl">
       <Card>
         <CardHeader className="border-b border-gray-200 p-4">
           <p className="font-semibold">도담덕 정보 나눔 게시판</p>
@@ -104,34 +107,38 @@ export default function BoardDetailContents() {
 
             <Separator orientation="vertical" className="hidden md:block" />
 
-            <div className="flex flex-1 flex-col">
-              <div className="flex items-center justify-between">
-                <h3 className="font-heading text-xl font-bold">{post.title}</h3>
-                {isAuthor && (
-                  <ConfirmDialog
-                    trigger={
-                      <Button
-                        variant="ghost"
-                        size="icon-sm"
-                        className="text-destructive hover:text-destructive/80"
-                      >
-                        <Trash2 size={18} />
-                      </Button>
-                    }
-                    title="게시글 삭제"
-                    description="이 게시글을 삭제하시겠습니까? 삭제된 게시글은 복구할 수 없습니다."
-                    onConfirm={handleDelete}
-                    isLoading={deleteMutation.isPending}
-                  />
-                )}
+            <div className="flex flex-1 flex-col gap-4">
+              <div className="flex flex-col gap-1">
+                <div className="flex items-center justify-between">
+                  <h3 className="font-heading text-xl font-bold">{post.title}</h3>
+                  {isAuthor && (
+                    <ConfirmDialog
+                      trigger={
+                        <Button
+                          variant="ghost"
+                          size="icon-sm"
+                          className="text-destructive hover:text-destructive/80"
+                        >
+                          <Trash2 size={18} />
+                        </Button>
+                      }
+                      title="게시글 삭제"
+                      description="이 게시글을 삭제하시겠습니까? 삭제된 게시글은 복구할 수 없습니다."
+                      onConfirm={handleDelete}
+                      isLoading={deleteMutation.isPending}
+                    />
+                  )}
+                </div>
+                <p className="text-xs text-muted-foreground">
+                  조회 {post.views}
+                </p>
               </div>
-              <p className="mt-1 text-xs text-muted-foreground">
-                조회 {post.views}
-              </p>
 
-              <p className="mt-4 whitespace-pre-wrap">{post.content}</p>
+              <p className="whitespace-pre-wrap">{post.content}</p>
 
-              <Separator className="my-6" />
+              <div className="py-2">
+                <Separator />
+              </div>
 
               <CommentSection
                 comments={comments}
@@ -152,6 +159,7 @@ export default function BoardDetailContents() {
           </Link>
         </CardFooter>
       </Card>
+      </div>
     </div>
   );
 }
