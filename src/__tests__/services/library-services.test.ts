@@ -1,9 +1,7 @@
 import { http, HttpResponse } from 'msw';
 import { server } from '../mocks/server';
-import {
-  servFetchLibraryItems,
-  getCategoryConfig,
-} from '@/services/library/library-services';
+import { servFetchLibraryItems } from '@/services/library/library-services';
+import { getCategoryConfig } from '@/constants/toy-categories';
 import { createMockLibraryItem } from '../mocks/factories';
 
 const APP_URL = process.env.NEXT_PUBLIC_APP_URL;
