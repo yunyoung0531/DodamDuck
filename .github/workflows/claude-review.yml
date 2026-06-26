@@ -24,9 +24,8 @@ jobs:
       - uses: anthropics/claude-code-action@v1
         with:
           anthropic_api_key: ${{ secrets.ANTHROPIC_API_KEY }}
-          model: claude-sonnet-4-20250514
-          show_full_output: true
-          allowed_tools: "Read,Glob,Grep,WebFetch"
+          claude_args: "--model claude-sonnet-4-20250514"
+          use_sticky_comment: true
           prompt: |
             이 PR의 변경사항을 리뷰해주세요.
             코드 품질, 버그 가능성, 보안 문제를 중심으로 검토하고,
