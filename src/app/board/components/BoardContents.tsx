@@ -6,7 +6,7 @@ import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
-import { useBoardList, useIncrementBoardViewCount } from '@/services/board/useBoard';
+import { useBoardList } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
 
@@ -14,12 +14,6 @@ export default function BoardContents() {
   const router = useRouter();
   const { user } = useUser();
   const { data: posts, isLoading } = useBoardList();
-  const incrementView = useIncrementBoardViewCount();
-
-  function handleCardClick(postId: number) {
-    incrementView.mutate(postId);
-    router.push(`/board/${postId}`);
-  }
 
   return (
     <div className="mx-auto max-w-4xl px-4 py-10">
@@ -36,7 +30,7 @@ export default function BoardContents() {
             <div
               key={post.id}
               className="flex cursor-pointer items-center gap-5 rounded-md border border-gray-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              onClick={() => handleCardClick(post.id)}
+              onClick={() => router.push(`/board/${post.id}`)}
             >
               <div className="relative h-32 w-44 shrink-0 overflow-hidden rounded-md">
                 <Image

@@ -14,7 +14,6 @@ import {
   useSharingList,
   useSharingSearch,
   usePopularSearches,
-  useIncrementSharingViewCount,
 } from '@/services/sharing/useSharing';
 import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
@@ -28,18 +27,12 @@ export default function SharingContents() {
   const { data: posts, isLoading } = useSharingList();
   const { data: searchResults } = useSharingSearch(activeSearch);
   const { data: popularSearches } = usePopularSearches();
-  const incrementView = useIncrementSharingViewCount();
 
   const displayPosts = activeSearch ? searchResults : posts;
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
     setActiveSearch(searchQuery);
-  }
-
-  function handleCardClick(postId: number) {
-    incrementView.mutate(postId);
-    router.push(`/sharing/${postId}`);
   }
 
   return (
@@ -92,7 +85,7 @@ export default function SharingContents() {
             <div
               key={post.id}
               className="cursor-pointer overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
-              onClick={() => handleCardClick(post.id)}
+              onClick={() => router.push(`/sharing/${post.id}`)}
             >
               <div className="relative h-48">
                 <Image

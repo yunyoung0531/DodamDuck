@@ -1,5 +1,6 @@
 'use client';
 
+import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
@@ -16,6 +17,7 @@ import {
   useBoardDetail,
   useDeleteBoardPost,
   useAddBoardComment,
+  useIncrementBoardViewCount,
 } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
 
@@ -24,10 +26,19 @@ export default function BoardDetailContents() {
   const postId = Number(id);
   const router = useRouter();
   const { user } = useUser();
+  const hasIncremented = useRef(false);
 
   const { data, isLoading } = useBoardDetail(postId);
   const deleteMutation = useDeleteBoardPost();
   const commentMutation = useAddBoardComment();
+  const incrementView = useIncrementBoardViewCount();
+
+  useEffect(() => {
+    if (!hasIncremented.current) {
+      hasIncremented.current = true;
+      incrementView.mutate(postId);
+    }
+  }, [postId]);
 
   if (isLoading) {
     return <LoadingState height="lg" />;
