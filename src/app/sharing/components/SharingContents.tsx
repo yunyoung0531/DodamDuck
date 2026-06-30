@@ -36,31 +36,33 @@ export default function SharingContents() {
   }
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-6xl flex-col gap-8">
       <PageHeader
         subtitle="나눔을 통해 행복을 나누다"
         title="교환 &amp; 나눔"
       />
 
-      <form onSubmit={handleSearch} className="mx-auto mb-6 max-w-lg">
-        <div className="relative">
-          <Input
-            placeholder="어떤 제품을 찾으세요?"
-            value={searchQuery}
-            onChange={(e) => setSearchQuery(e.target.value)}
-            className="pr-10"
-          />
-          <button
-            type="submit"
-            className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-          >
-            <Search size={18} />
-          </button>
-        </div>
-      </form>
+      <div className="flex flex-col items-center gap-6">
+        <form onSubmit={handleSearch} className="w-full max-w-lg">
+          <div className="relative">
+            <Input
+              placeholder="어떤 제품을 찾으세요?"
+              value={searchQuery}
+              onChange={(e) => setSearchQuery(e.target.value)}
+              className="pr-10"
+            />
+            <button
+              type="submit"
+              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+            >
+              <Search size={18} />
+            </button>
+          </div>
+        </form>
 
-      {popularSearches && popularSearches.length > 0 && (
-        <div className="mb-8 flex flex-wrap items-center justify-center gap-2">
+        {popularSearches && popularSearches.length > 0 && (
+          <div className="flex flex-wrap items-center justify-center gap-2">
           {popularSearches.slice(0, 5).map((item) => (
             <Badge
               key={item.query}
@@ -74,8 +76,9 @@ export default function SharingContents() {
               #{item.query}
             </Badge>
           ))}
-        </div>
-      )}
+          </div>
+        )}
+      </div>
 
       {isLoading && <LoadingState />}
 
@@ -97,24 +100,28 @@ export default function SharingContents() {
                 />
               </div>
 
-              <div className="p-3">
-                <p className="truncate text-sm font-semibold">{post.title}</p>
-                <p className="mt-1 text-xs text-muted-foreground">
-                  {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
-                  {post.views}
-                </p>
-                <Badge variant="secondary" className="mt-2">
-                  {post.exchange_option}
-                </Badge>
-                {post.tags && post.tags.length > 0 && (
-                  <div className="mt-1 flex gap-1">
+              <div className="flex flex-col gap-2 p-3">
+                <div className="flex flex-col gap-1">
+                  <p className="truncate text-sm font-semibold">{post.title}</p>
+                  <p className="text-xs text-muted-foreground">
+                    {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
+                    {post.views}
+                  </p>
+                </div>
+                <div className="flex flex-col gap-1">
+                  <Badge variant="secondary">
+                    {post.exchange_option}
+                  </Badge>
+                  {post.tags && post.tags.length > 0 && (
+                    <div className="flex gap-1">
                     {post.tags.map((tag) => (
                       <span key={tag} className="text-xs text-muted-foreground">
                         #{tag}
                       </span>
                     ))}
-                  </div>
-                )}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           ))}
@@ -128,6 +135,7 @@ export default function SharingContents() {
       {user && (
         <FloatingActionButton href="/sharing/new" label="교환/나눔 글쓰기" />
       )}
+      </div>
     </div>
   );
 }

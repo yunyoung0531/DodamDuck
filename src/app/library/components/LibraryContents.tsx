@@ -68,21 +68,23 @@ export default function LibraryContents() {
   const { data: items, isLoading, error } = useLibraryItems();
 
   return (
-    <div className="mx-auto max-w-6xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-6xl flex-col gap-10">
       <PageHeader
         subtitle="원하는 장난감을 빌릴 수 있는"
         title="장난감 도서관"
-        className="mb-10"
       />
 
       {isLoading && <LoadingState />}
 
       {error && (
-        <Alert variant="destructive" className="mx-auto max-w-md">
+        <div className="flex justify-center">
+        <Alert variant="destructive" className="max-w-md">
           <AlertDescription>
             장난감 목록을 불러오는 데 실패했습니다.
           </AlertDescription>
         </Alert>
+        </div>
       )}
 
       {items && (
@@ -92,6 +94,7 @@ export default function LibraryContents() {
           ))}
         </div>
       )}
+      </div>
     </div>
   );
 }

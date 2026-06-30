@@ -22,13 +22,13 @@ export function EmptyState({
   return (
     <div
       className={cn(
-        'flex flex-col items-center justify-center py-12',
+        'flex flex-col items-center justify-center gap-3 py-12',
         className
       )}
     >
       <Icon size={iconSize} className="text-gray-300" />
-      <p className="mt-3 text-muted-foreground">{message}</p>
-      {action && <div className="mt-4">{action}</div>}
+      <p className="text-muted-foreground">{message}</p>
+      {action && <div className="pt-1">{action}</div>}
     </div>
   );
 }

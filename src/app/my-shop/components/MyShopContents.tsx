@@ -30,8 +30,9 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
-      <Card className="mb-8">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-4xl flex-col gap-8">
+      <Card>
         <CardContent className="flex items-center gap-4 p-6">
           <Avatar className="h-[120px] w-[120px]">
             <AvatarImage src={profile.profile_url || undefined} />
@@ -70,7 +71,7 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
               {myPosts.map((post) => (
                 <div
                   key={post.id}
-                  className="cursor-pointer"
+                  className="flex cursor-pointer flex-col gap-2"
                   onClick={() => handleProductClick(post.id)}
                 >
                   <div className="relative aspect-square overflow-hidden rounded-md">
@@ -82,7 +83,7 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
                       unoptimized
                     />
                   </div>
-                  <p className="mt-2 truncate text-sm">{post.title}</p>
+                  <p className="truncate text-sm">{post.title}</p>
                 </div>
               ))}
             </div>
@@ -97,6 +98,7 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
           <EmptyState message="준비중입니다." className="py-8" />
         </TabsContent>
       </Tabs>
+      </div>
     </div>
   );
 }

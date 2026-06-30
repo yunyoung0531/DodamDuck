@@ -16,7 +16,8 @@ export default function BoardContents() {
   const { data: posts, isLoading } = useBoardList();
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-4xl flex-col gap-8">
       <PageHeader
         subtitle="나눔을 통해 행복을 나누다"
         title="도담덕 정보 나눔"
@@ -41,13 +42,15 @@ export default function BoardContents() {
                   unoptimized
                 />
               </div>
-              <div className="flex flex-1 flex-col">
-                <p className="truncate text-lg font-semibold">{post.title}</p>
-                <p className="mt-1 text-sm text-muted-foreground">
-                  댓글 {post.comment_count}개 · {formatTimeSince(post.created_at)}{' '}
-                  · 조회 {post.views}
-                </p>
-                <p className="mt-2 line-clamp-2 text-sm text-muted-foreground">
+              <div className="flex flex-1 flex-col gap-2">
+                <div className="flex flex-col gap-1">
+                  <p className="truncate text-lg font-semibold">{post.title}</p>
+                  <p className="text-sm text-muted-foreground">
+                    댓글 {post.comment_count}개 · {formatTimeSince(post.created_at)}{' '}
+                    · 조회 {post.views}
+                  </p>
+                </div>
+                <p className="line-clamp-2 text-sm text-muted-foreground">
                   {post.content}
                 </p>
               </div>
@@ -63,6 +66,7 @@ export default function BoardContents() {
       {user && (
         <FloatingActionButton href="/board/new" label="게시판 글쓰기" />
       )}
+      </div>
     </div>
   );
 }

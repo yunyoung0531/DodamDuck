@@ -56,21 +56,24 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
   }
 
   return (
-    <div className="mx-auto max-w-4xl px-4 py-10">
+    <div className="flex justify-center px-4 py-10">
+      <div className="w-full max-w-4xl">
       <div className="flex flex-col gap-6 md:flex-row">
-        <div className="w-full md:w-80">
-          <div className="mb-6 flex flex-col items-center rounded-md border border-gray-200 bg-white p-4">
+        <div className="flex w-full flex-col gap-6 md:w-80">
+          <div className="flex flex-col items-center gap-3 rounded-md border border-gray-200 bg-white p-4">
             <Avatar className="h-20 w-20">
               <AvatarImage src={profile.profile_url || undefined} />
               <AvatarFallback>{profile.display_name?.[0] ?? '?'}</AvatarFallback>
             </Avatar>
-            <p className="mt-3 font-semibold">{profile.display_name}</p>
-            <Badge variant="secondary" className="mt-1">
-              level.{profile.level}
-            </Badge>
+            <div className="flex flex-col items-center gap-1">
+              <p className="font-semibold">{profile.display_name}</p>
+              <Badge variant="secondary">
+                level.{profile.level}
+              </Badge>
+            </div>
           </div>
 
-          <p className="mb-3 text-sm font-semibold">채팅 중인 이웃</p>
+          <p className="text-sm font-semibold">채팅 중인 이웃</p>
 
           <div className="flex flex-col gap-2">
             {rooms.map((chat) => {
@@ -135,10 +138,10 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
                 return (
                   <div
                     key={msg.id}
-                    className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
+                    className={`flex gap-2 ${isMe ? 'justify-end' : 'justify-start'}`}
                   >
                     {!isMe && (
-                      <Avatar className="mr-2 h-8 w-8">
+                      <Avatar className="h-8 w-8">
                         <AvatarFallback>?</AvatarFallback>
                       </Avatar>
                     )}
@@ -184,6 +187,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
             </LoadingButton>
           </div>
         </div>
+      </div>
       </div>
     </div>
   );

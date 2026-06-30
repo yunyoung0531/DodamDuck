@@ -64,8 +64,9 @@ function BoardNewContent() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h2 className="mb-8 font-heading text-2xl font-bold">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-3xl flex-col gap-8">
+      <h2 className="font-heading text-2xl font-bold">
         도담덕 게시판 글 올리기
       </h2>
 
@@ -73,7 +74,7 @@ function BoardNewContent() {
         <CardContent className="p-8">
           <form onSubmit={handleSubmit(onSubmit)}>
             <div className="flex flex-col gap-6">
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="title">제목</Label>
                 <Input
                   id="title"
@@ -88,7 +89,7 @@ function BoardNewContent() {
                 onFileSelect={setImage}
               />
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="content">내용</Label>
                 <Textarea
                   id="content"
@@ -110,6 +111,7 @@ function BoardNewContent() {
           </form>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

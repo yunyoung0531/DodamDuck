@@ -99,7 +99,7 @@ export default function SignupPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div className="flex flex-col gap-4">
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="userID">아이디</Label>
                 <div className="flex gap-2">
                   <Input
@@ -122,18 +122,18 @@ export default function SignupPage() {
                 </div>
                 <FormFieldError message={errors.userID?.message} />
                 {idStatus === 'available' && (
-                  <p className="mt-1 text-sm text-green-600">
+                  <p className="text-sm text-green-600">
                     사용 가능한 아이디입니다.
                   </p>
                 )}
                 {idStatus === 'taken' && (
-                  <p className="mt-1 text-sm text-destructive">
+                  <p className="text-sm text-destructive">
                     이미 사용 중인 아이디입니다.
                   </p>
                 )}
               </div>
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="userPassword">비밀번호</Label>
                 <PasswordInput
                   id="userPassword"
@@ -143,7 +143,7 @@ export default function SignupPage() {
                 <FormFieldError message={errors.userPassword?.message} />
               </div>
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="location">주소</Label>
                 <Input
                   id="location"

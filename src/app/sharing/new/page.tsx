@@ -86,8 +86,9 @@ function SharingNewContent() {
   }
 
   return (
-    <div className="mx-auto max-w-3xl px-4 py-10">
-      <h2 className="mb-8 font-heading text-2xl font-bold">
+    <div className="flex justify-center px-4 py-10">
+      <div className="flex w-full max-w-3xl flex-col gap-8">
+      <h2 className="font-heading text-2xl font-bold">
         교환 &amp; 나눔 글 올리기
       </h2>
 
@@ -100,7 +101,7 @@ function SharingNewContent() {
                 onFileSelect={setImage}
               />
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="title">상품명</Label>
                 <Input
                   id="title"
@@ -110,7 +111,7 @@ function SharingNewContent() {
                 <FormFieldError message={errors.title?.message} />
               </div>
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="content">상품 설명</Label>
                 <Textarea
                   id="content"
@@ -121,7 +122,7 @@ function SharingNewContent() {
                 <FormFieldError message={errors.content?.message} />
               </div>
 
-              <div>
+              <div className="flex flex-col gap-1">
                 <Label htmlFor="location">거래 희망 장소</Label>
                 <Input
                   id="location"
@@ -135,8 +136,8 @@ function SharingNewContent() {
                 name="exchangeOption"
                 control={control}
                 render={({ field }) => (
-                  <div>
-                    <Label className="mb-2 block">거래 방식</Label>
+                  <div className="flex flex-col gap-2">
+                    <Label className="block">거래 방식</Label>
                     <RadioGroup
                       value={field.value}
                       onValueChange={field.onChange}
@@ -159,23 +160,25 @@ function SharingNewContent() {
                 )}
               />
 
-              <div>
-                <Label htmlFor="tagInput">해시태그</Label>
-                <Input
-                  id="tagInput"
-                  placeholder="태그 입력 후 스페이스바 (최대 5개)"
-                  value={tagInput}
-                  onChange={(e) => setTagInput(e.target.value)}
-                  onKeyDown={handleTagKeyDown}
-                />
+              <div className="flex flex-col gap-2">
+                <div>
+                  <Label htmlFor="tagInput">해시태그</Label>
+                  <Input
+                    id="tagInput"
+                    placeholder="태그 입력 후 스페이스바 (최대 5개)"
+                    value={tagInput}
+                    onChange={(e) => setTagInput(e.target.value)}
+                    onKeyDown={handleTagKeyDown}
+                  />
+                </div>
                 {tags.length > 0 && (
-                  <div className="mt-2 flex flex-wrap gap-2">
+                  <div className="flex flex-wrap gap-2">
                     {tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="gap-1">
+                      <Badge key={tag} variant="outline" className="gap-2">
                         #{tag}
                         <button
                           type="button"
-                          className="ml-1 text-muted-foreground hover:text-foreground"
+                          className="text-muted-foreground hover:text-foreground"
                           onClick={() =>
                             setTags(tags.filter((t) => t !== tag))
                           }
@@ -199,6 +202,7 @@ function SharingNewContent() {
           </form>
         </CardContent>
       </Card>
+      </div>
     </div>
   );
 }

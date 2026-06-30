@@ -8,7 +8,7 @@ interface PageHeaderProps {
 
 export function PageHeader({ subtitle, title, className }: PageHeaderProps) {
   return (
-    <div className={cn('mb-8 flex flex-col items-center gap-1', className)}>
+    <div className={cn('flex flex-col items-center gap-1', className)}>
       {subtitle && (
         <p className="text-lg text-muted-foreground">{subtitle}</p>
       )}

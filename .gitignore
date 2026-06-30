@@ -42,6 +42,7 @@ next-env.d.ts
 .claude/
 CLAUDE.md
 DESIGN.md
+REVIEW.md
 
 # OS
 Thumbs.db
