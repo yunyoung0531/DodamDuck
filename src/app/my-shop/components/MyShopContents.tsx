@@ -34,7 +34,7 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
       <div className="flex w-full max-w-4xl flex-col gap-8">
       <Card>
         <CardContent className="flex items-center gap-4 p-6">
-          <Avatar className="h-[120px] w-[120px]">
+          <Avatar className="h-30 w-30">
             <AvatarImage src={profile.profile_url || undefined} />
             <AvatarFallback className="text-2xl">
               {profile.display_name?.[0] ?? '?'}
