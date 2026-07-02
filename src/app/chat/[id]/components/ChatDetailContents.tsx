@@ -130,7 +130,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
 
           <div
             ref={viewport}
-            className="scrollbar-brand h-[400px] flex-1 overflow-y-auto p-4"
+            className="scrollbar-brand h-100 flex-1 overflow-y-auto p-4"
           >
             <div className="flex flex-col gap-3">
               {messages?.map((msg) => {
