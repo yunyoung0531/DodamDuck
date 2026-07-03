@@ -44,7 +44,7 @@ export function CommentSection({
   return (
     <div className={cn('flex flex-col gap-3', className)}>
       <p className="font-semibold">댓글</p>
-      <ScrollArea className="scrollbar-brand h-[300px]">
+      <ScrollArea className="scrollbar-brand h-75">
         <div className="flex flex-col gap-3">
           {comments.map((c) => (
             <div key={c.id} className="flex flex-col gap-1">

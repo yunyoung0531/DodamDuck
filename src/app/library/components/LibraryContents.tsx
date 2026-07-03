@@ -17,8 +17,8 @@ function ToyCard({ item }: { item: LibraryItem }) {
   return (
     <div className="overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
       <div
-        className="flex h-[140px] items-center justify-center"
-        style={{ background: config.gradient }}
+        className="flex h-35 items-center justify-center [background:var(--card-gradient)]"
+        style={{ '--card-gradient': config.gradient } as React.CSSProperties}
       >
         <Icon size={56} color="white" strokeWidth={1.5} />
       </div>
