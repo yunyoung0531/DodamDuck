@@ -8,7 +8,6 @@ import {
 import { createMockChatRoom, createMockChatMessage } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-vi.mock('@/libs/supabase/client');
 
 const mockSupabase = createClient() as unknown as MockSupabaseClient;
 

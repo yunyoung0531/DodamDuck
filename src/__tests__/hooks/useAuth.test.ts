@@ -3,7 +3,6 @@ import { renderHookWithProviders, waitFor } from '../test-utils';
 import { useSignIn, useSignUp, useCheckUsername } from '@/services/auth/useAuth';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-vi.mock('@/libs/supabase/client');
 
 const mockSupabase = createClient() as unknown as MockSupabaseClient;
 
