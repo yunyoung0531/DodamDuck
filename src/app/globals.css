@@ -17,6 +17,7 @@
 @theme inline {
   --font-sans: '210OmniGothic035', sans-serif;
   --font-heading: '210OmniGothic045', sans-serif;
+  --font-gugi: var(--font-gugi-next), 'Gugi', sans-serif;
 
   --color-dodam-50: #fffbe4;
   --color-dodam-100: #fff5c2;
@@ -115,10 +116,180 @@
   min-height: calc(100vh - 3.5rem);
 }
 
+/* Landing page layout */
+.main-dodamduck-img {
+  transform: scaleX(-1);
+  max-height: 80%;
+}
+
+.main1-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  height: 100vh;
+}
+
+.main2-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 1.25rem;
+  height: 100vh;
+  padding-right: 10rem;
+}
+
+.main2-android-main {
+  transform: rotate(-20deg);
+  transform-origin: left bottom;
+  z-index: 1;
+  position: relative;
+  left: 9.375rem;
+  top: -1.25rem;
+  border-radius: 35px;
+}
+
+.main-android-home {
+  transform: rotate(15deg);
+  transform-origin: left bottom;
+  z-index: 2;
+  position: relative;
+  left: -11.25rem;
+  top: -0.625rem;
+  border-radius: 35px;
+}
+
+.main3-android-main {
+  transform: rotate(-20deg);
+  transform-origin: left bottom;
+  z-index: 1;
+  position: relative;
+  left: 1.25rem;
+  top: -1.25rem;
+  border-radius: 35px;
+}
+
+.main-android-library {
+  transform: rotate(15deg);
+  transform-origin: left bottom;
+  z-index: 2;
+  position: relative;
+  left: -19.375rem;
+  top: -0.625rem;
+  border-radius: 30px;
+}
+
+.app-main3 {
+  padding-left: 1.875rem;
+}
+
+.app-main4 {
+  background-color: #fffbe4;
+}
+
+.main4-large-container {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 0.625rem;
+  width: 62.5rem;
+  height: 18.75rem;
+  padding: 3.75rem 0 0 8.125rem;
+  background-color: #ffffff;
+  border: 1px solid #dfdfdf;
+  border-radius: 10px;
+  transform: translateY(-10rem);
+  box-shadow: 1px 1px 1px 1px rgba(220, 220, 220, 0.5);
+}
+
+.main4-txt {
+  color: #554747;
+  text-shadow: 3px 3px 3px rgba(220, 220, 220, 1);
+}
+
+.main4-dodamduck-txt {
+  color: #7c6a6a;
+  text-shadow: 5px 5px 5px rgba(220, 220, 220, 1);
+  font-family: var(--font-gugi);
+  font-size: 340%;
+}
+
+.main4-hand-img {
+  position: absolute;
+  left: 38.75rem;
+  top: 4.625rem;
+}
+
+.main4-google-container {
+  width: 7.5rem;
+  height: 1.875rem;
+  background-color: #ffffff;
+  border: 1px solid #979797;
+  border-radius: 5px;
+  box-shadow: 1px 1px 1px 1px rgba(232, 232, 232, 0.5);
+}
+
+.google-play {
+  padding: 0.4375rem 0 0 1.25rem;
+  font-size: 0.6875rem;
+}
+
+.main4-dodamduck-img {
+  position: absolute;
+  left: 63.75rem;
+  top: 32.5rem;
+}
+
+/* ─── Landing page responsive: Tablet (768–1023px) ─── */
+@media (max-width: 1023px) {
+  .main2-container {
+    padding-right: 0;
+  }
+
+  .app-main3 {
+    padding-left: 0;
+  }
+
+  .main4-large-container {
+    width: 90%;
+    max-width: 62.5rem;
+    padding-left: 2.5rem;
+  }
+}
+
+/* ─── Landing page responsive: Mobile (≤767px) ─── */
+@media (max-width: 767px) {
+  .main1-container,
+  .main2-container {
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .main4-large-container {
+    width: 90%;
+    height: auto;
+    padding: 1.875rem 1.25rem;
+    transform: translateY(-5rem);
+  }
+
+  .main4-txt {
+    font-size: 0.875rem;
+  }
+
+  .main4-dodamduck-txt {
+    font-size: 200%;
+  }
+}
+
+/* Landing fluid typography */
+.text-landing-sub {
+  font-size: clamp(0.875rem, 0.6rem + 0.8vw, 1.25rem);
+}
+
 /* Slide-in animation */
 .slide-in {
   opacity: 0;
-  transform: translateY(40px);
+  transform: translateY(2.5rem);
   transition: opacity 0.8s ease-out, transform 0.8s ease-out;
 }
 
