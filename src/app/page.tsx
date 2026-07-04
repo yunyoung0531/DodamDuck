@@ -12,7 +12,6 @@ export default function HomePage() {
           alt="도담덕 캐릭터"
           width={250}
           height={250}
-          priority
           className="main-dodamduck-img hidden lg:block"
         />
         <div className="text-center">
@@ -38,8 +37,8 @@ export default function HomePage() {
         </div>
         <div className="text-center lg:pl-5">
           <div>
-            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-bold">하나의 장난감,</h2>
-            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-bold">무수한 웃음</h2>
+            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">하나의 장난감,</h2>
+            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">무수한 웃음</h2>
           </div>
           <div className="pt-2.5">
             <h5 className="text-landing-sub">교환의 기쁨을 경험하세요.</h5>
@@ -50,14 +49,14 @@ export default function HomePage() {
           alt="안드로이드 메인"
           width={170}
           height={340}
-          className="main2-android-main hidden lg:block"
+          className="android-phone-tilted-left main2-android-main hidden lg:block"
         />
         <Image
           src="/images/안드로이드_홈.png"
           alt="안드로이드 홈"
           width={170}
           height={340}
-          className="main-android-home hidden lg:block"
+          className="android-phone-tilted-right main-android-home hidden lg:block"
         />
       </AnimatedSection>
 
@@ -72,8 +71,8 @@ export default function HomePage() {
           />
         </div>
         <div className="z-[3] flex flex-col gap-1">
-          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-bold text-center lg:text-right lg:pr-16">나누면 더 커지는 행복,</h2>
-          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-bold text-center lg:text-left lg:pl-5">
+          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-right lg:pr-16">나누면 더 커지는 행복,</h2>
+          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-left lg:pl-5">
             장난감 교환으로 시작하세요.
           </h2>
         </div>
@@ -82,14 +81,14 @@ export default function HomePage() {
           alt="안드로이드 메인"
           width={170}
           height={340}
-          className="main3-android-main hidden lg:block"
+          className="android-phone-tilted-left main3-android-main hidden lg:block"
         />
         <Image
           src="/images/안드로이드_도서관.png"
           alt="안드로이드 도서관"
           width={170}
           height={340}
-          className="main-android-library hidden lg:block"
+          className="android-phone-tilted-right main-android-library hidden lg:block"
         />
       </AnimatedSection>
 

@@ -139,43 +139,39 @@
   padding-right: 10rem;
 }
 
-.main2-android-main {
-  transform: rotate(-20deg);
+.android-phone-tilted-left,
+.android-phone-tilted-right {
   transform-origin: left bottom;
-  z-index: 1;
   position: relative;
-  left: 9.375rem;
-  top: -1.25rem;
   border-radius: 35px;
+}
+
+.android-phone-tilted-left {
+  transform: rotate(-20deg);
+  z-index: 1;
+  top: -1.25rem;
+}
+
+.android-phone-tilted-right {
+  transform: rotate(15deg);
+  z-index: 2;
+  top: -0.625rem;
+}
+
+.main2-android-main {
+  left: 9.375rem;
 }
 
 .main-android-home {
-  transform: rotate(15deg);
-  transform-origin: left bottom;
-  z-index: 2;
-  position: relative;
   left: -11.25rem;
-  top: -0.625rem;
-  border-radius: 35px;
 }
 
 .main3-android-main {
-  transform: rotate(-20deg);
-  transform-origin: left bottom;
-  z-index: 1;
-  position: relative;
   left: 1.25rem;
-  top: -1.25rem;
-  border-radius: 35px;
 }
 
 .main-android-library {
-  transform: rotate(15deg);
-  transform-origin: left bottom;
-  z-index: 2;
-  position: relative;
   left: -19.375rem;
-  top: -0.625rem;
   border-radius: 30px;
 }
 
@@ -185,6 +181,7 @@
 
 .app-main4 {
   background-color: #fffbe4;
+  overflow: hidden;
 }
 
 .main4-large-container {

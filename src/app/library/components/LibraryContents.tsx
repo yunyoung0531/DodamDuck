@@ -49,6 +49,7 @@ function ToyCard({ item }: { item: LibraryItem }) {
             variant="outline"
             size="sm"
             className="w-full"
+            nativeButton={false}
             render={<a href={`tel:${item.관리기관전화번호}`} />}
           >
             <Phone size={16} />
