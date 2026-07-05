@@ -2,86 +2,115 @@
 
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
-import {
-  ArrowLeftRight,
-  BookOpen,
-  Users,
-} from 'lucide-react';
-import { Button } from '@/components/ui/button';
 
 export default function HomePage() {
   return (
     <div className="snap-container">
-      <section className="snap-section flex flex-col items-center justify-center gap-4 bg-dodam-light">
-        <div className="flex flex-col items-center gap-6">
-          <Image
-            src="/images/도담덕로고.png"
-            alt="도담덕 캐릭터"
-            width={200}
-            height={200}
-            priority
-          />
-          <h1 className="text-center font-heading text-5xl font-bold">
+      <section className="snap-section flex flex-col lg:flex-row items-center justify-center bg-dodam-light">
+        <Image
+          src="/images/도담덕캐릭터.png"
+          alt="도담덕 캐릭터"
+          width={250}
+          height={250}
+          className="main-dodamduck-img hidden lg:block"
+        />
+        <div className="text-center">
+          <h1 className="font-heading text-[clamp(1.75rem,1rem+3.2vw,3.4375rem)]">
             어제의 장난감, 오늘의 행복
           </h1>
-        </div>
-        <div className="flex flex-col items-center gap-1">
-          <p className="text-center text-xl text-muted-foreground">
-            여기에서 시작하는 작은 교환, 큰 행복으로 연결됩니다.
-          </p>
-          <p className="text-center text-lg text-muted-foreground">
-            유아용품 교환 &amp; 나눔 플랫폼
-          </p>
-        </div>
-        <div className="pt-4">
-          <Button size="lg" nativeButton={false} render={<Link href="/sharing" />}>
-            교환/나눔 둘러보기
-          </Button>
+          <div className="flex flex-col gap-2.5 pt-7">
+            <h5 className="text-landing-sub text-center lg:pr-8">여기에서 시작하는 작은 교환,</h5>
+            <h5 className="text-landing-sub text-center lg:pl-8">큰 행복으로 연결됩니다.</h5>
+          </div>
         </div>
       </section>
 
-      <AnimatedSection className="snap-section flex flex-col items-center justify-center gap-4 bg-white py-20">
-        <h2 className="text-center font-heading text-3xl font-bold">
-          하나의 장난감, 무수한 웃음
-        </h2>
-        <p className="text-center text-lg text-muted-foreground">
-          교환의 기쁨을 경험하세요.
-        </p>
-        <div className="flex flex-col gap-6 px-4 pt-6 sm:flex-row sm:gap-8">
-          <FeatureCard
-            icon={<ArrowLeftRight size={32} className="text-dodam-yellow" />}
-            title="장난감 교환"
-            description="사용하지 않는 장난감을 필요한 사람에게"
-            href="/sharing"
-          />
-          <FeatureCard
-            icon={<BookOpen size={32} className="text-dodam-yellow" />}
-            title="장난감 도서관"
-            description="광주광역시 공공 장난감 대여 서비스"
-            href="/library"
-          />
-          <FeatureCard
-            icon={<Users size={32} className="text-dodam-yellow" />}
-            title="정보 나눔"
-            description="육아 정보를 함께 공유하는 커뮤니티"
-            href="/board"
+      <AnimatedSection className="snap-section main2-container bg-dodam-light">
+        <div className="hidden lg:block pl-[16.875rem]">
+          <Image
+            src="/images/도담덕캐릭터.png"
+            alt="도담덕 캐릭터"
+            width={250}
+            height={250}
+            className="main-dodamduck-img"
           />
         </div>
+        <div className="text-center lg:pl-5">
+          <div>
+            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">하나의 장난감,</h2>
+            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">무수한 웃음</h2>
+          </div>
+          <div className="pt-2.5">
+            <h5 className="text-landing-sub">교환의 기쁨을 경험하세요.</h5>
+          </div>
+        </div>
+        <Image
+          src="/images/안드로이드_메인.png"
+          alt="안드로이드 메인"
+          width={170}
+          height={340}
+          className="android-phone-tilted-left main2-android-main hidden lg:block"
+        />
+        <Image
+          src="/images/안드로이드_홈.png"
+          alt="안드로이드 홈"
+          width={170}
+          height={340}
+          className="android-phone-tilted-right main-android-home hidden lg:block"
+        />
       </AnimatedSection>
 
-      <section className="snap-section flex flex-col items-center justify-center gap-4 bg-dodam-light py-16">
-        <div className="flex flex-col items-center gap-2">
-          <p className="text-center text-muted-foreground">
-            우리나라 최초 장난감 교환 플랫폼
-          </p>
-          <h2 className="text-center font-heading text-5xl font-bold text-dodam-yellow">
-            도담덕
+      <AnimatedSection className="snap-section main1-container app-main3 bg-dodam-light">
+        <div className="hidden lg:block pl-[10rem]">
+          <Image
+            src="/images/도담덕캐릭터.png"
+            alt="도담덕 캐릭터"
+            width={250}
+            height={250}
+            className="main-dodamduck-img"
+          />
+        </div>
+        <div className="z-[3] flex flex-col gap-1">
+          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-right lg:pr-16">나누면 더 커지는 행복,</h2>
+          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-left lg:pl-5">
+            장난감 교환으로 시작하세요.
           </h2>
         </div>
-        <p className="text-center text-muted-foreground">
-          나누면 더 커지는 행복, 장난감 교환으로 시작하세요.
-        </p>
+        <Image
+          src="/images/안드로이드_메인.png"
+          alt="안드로이드 메인"
+          width={170}
+          height={340}
+          className="android-phone-tilted-left main3-android-main hidden lg:block"
+        />
+        <Image
+          src="/images/안드로이드_도서관.png"
+          alt="안드로이드 도서관"
+          width={170}
+          height={340}
+          className="android-phone-tilted-right main-android-library hidden lg:block"
+        />
+      </AnimatedSection>
+
+      <section className="snap-section main1-container app-main4 bg-dodam-light">
+        <div className="main4-large-container">
+          <p className="main4-txt">우리나라 최초 장난감 교환 플랫폼</p>
+          <h2 className="main4-dodamduck-txt">도담덕</h2>
+          <Image
+            src="/images/안드로이드_손.png"
+            alt="안드로이드 손"
+            width={233}
+            height={233}
+            className="main4-hand-img hidden lg:block"
+          />
+          <Image
+            src="/images/도담덕캐릭터.png"
+            alt="도담덕 캐릭터"
+            width={150}
+            height={150}
+            className="main4-dodamduck-img hidden lg:block"
+          />
+        </div>
       </section>
     </div>
   );
@@ -117,31 +146,5 @@ function AnimatedSection({
     <section ref={ref} className={`slide-in ${className ?? ''}`}>
       {children}
     </section>
-  );
-}
-
-function FeatureCard({
-  icon,
-  title,
-  description,
-  href,
-}: {
-  icon: React.ReactNode;
-  title: string;
-  description: string;
-  href: string;
-}) {
-  return (
-    <Link href={href} className="no-underline">
-      <div className="flex h-52 w-64 flex-col items-center justify-center gap-2 rounded-lg border border-gray-200 bg-white p-6 shadow-sm transition-all hover:-translate-y-1 hover:shadow-lg">
-        <div className="flex flex-col items-center gap-3">
-          {icon}
-          <p className="text-lg font-bold">{title}</p>
-        </div>
-        <p className="text-center text-sm text-muted-foreground">
-          {description}
-        </p>
-      </div>
-    </Link>
   );
 }

@@ -21,6 +21,7 @@ export function FloatingActionButton({
       <Button
         size="icon-lg"
         className="h-14 w-14 rounded-full"
+        nativeButton={false}
         render={<Link href={href} />}
       >
         <Plus size={24} />

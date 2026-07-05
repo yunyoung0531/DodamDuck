@@ -1,8 +1,11 @@
 import type { Metadata } from 'next';
+import { Gugi } from 'next/font/google';
 import { Providers } from '@/providers/Providers';
 import { Navbar } from '@/components/common/Navbar';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
+
+const gugi = Gugi({ weight: '400', subsets: ['latin'], display: 'swap', variable: '--font-gugi-next' });
 
 export const metadata: Metadata = {
   title: '도담덕 - 유아용품 교환 & 나눔 플랫폼',
@@ -16,7 +19,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }) {
   return (
-    <html lang="ko">
+    <html lang="ko" className={gugi.variable}>
       <head />
       <body>
         <Providers>

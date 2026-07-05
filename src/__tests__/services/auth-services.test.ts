@@ -6,14 +6,13 @@ import {
 } from '@/services/auth/auth-services';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-vi.mock('@/libs/supabase/client');
 
 const mockSupabase = createClient() as unknown as MockSupabaseClient;
 
 describe('servSignIn', () => {
   it('로그인 성공 시 데이터를 반환한다', async () => {
     const mockData = {
-      user: { id: 'uuid-1', email: 'testuser@dodamduck.app' },
+      user: { id: 'uuid-1', email: 'testuser@example.com' },
       session: { access_token: 'mock-token' },
     };
 
@@ -26,9 +25,9 @@ describe('servSignIn', () => {
       userPassword: 'password123!',
     });
 
-    expect(result.user?.email).toBe('testuser@dodamduck.app');
+    expect(result.user?.email).toBe('testuser@example.com');
     expect(mockSupabase.auth.signInWithPassword).toHaveBeenCalledWith({
-      email: 'testuser@dodamduck.app',
+      email: 'testuser@example.com',
       password: 'password123!',
     });
   });
@@ -50,7 +49,7 @@ describe('servSignIn', () => {
 describe('servSignUp', () => {
   it('회원가입 성공 시 데이터를 반환한다', async () => {
     const mockData = {
-      user: { id: 'uuid-new', email: 'newuser@dodamduck.app' },
+      user: { id: 'uuid-new', email: 'newuser@example.com' },
       session: null,
     };
 
@@ -64,7 +63,7 @@ describe('servSignUp', () => {
       location: '광주광역시',
     });
 
-    expect(result.user?.email).toBe('newuser@dodamduck.app');
+    expect(result.user?.email).toBe('newuser@example.com');
   });
 });
 
