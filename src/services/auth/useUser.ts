@@ -5,41 +5,26 @@ import { createClient } from '@/libs/supabase/client';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from './auth.types';
 
+interface UseUserOptions {
+  initialUser?: User | null;
+  initialProfile?: Profile | null;
+}
+
 interface UseUserReturn {
   user: User | null;
   profile: Profile | null;
   isLoading: boolean;
 }
 
-export function useUser(): UseUserReturn {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
+export function useUser(options?: UseUserOptions): UseUserReturn {
+  const [user, setUser] = useState<User | null>(options?.initialUser ?? null);
+  const [profile, setProfile] = useState<Profile | null>(options?.initialProfile ?? null);
+  const [isLoading, setIsLoading] = useState(
+    options?.initialUser === undefined,
+  );
   const supabase = createClient();
 
   useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user: authUser },
-      } = await supabase.auth.getUser();
-
-      setUser(authUser);
-
-      if (authUser) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', authUser.id)
-          .single();
-
-        setProfile(profileData);
-      }
-
-      setIsLoading(false);
-    }
-
-    getUser();
-
     const {
       data: { subscription },
     } = supabase.auth.onAuthStateChange(async (_event, session) => {
@@ -62,7 +47,8 @@ export function useUser(): UseUserReturn {
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- supabase client is a singleton from @supabase/ssr
+  }, []);
 
   return { user, profile, isLoading };
 }
