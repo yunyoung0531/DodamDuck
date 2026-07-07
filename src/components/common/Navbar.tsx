@@ -15,6 +15,8 @@ import {
 } from '@/components/ui/sheet';
 import { useUser } from '@/services/auth/useUser';
 import { servSignOut } from '@/services/auth/auth-services';
+import type { User } from '@supabase/supabase-js';
+import type { Profile } from '@/services/auth/auth.types';
 
 const NAV_LINKS = [
   { href: '/sharing', label: '장난감 교환' },
@@ -24,11 +26,19 @@ const NAV_LINKS = [
   { href: '/chat', label: '채팅' },
 ] as const;
 
-export function Navbar() {
+interface NavbarProps {
+  serverUser?: User | null;
+  serverProfile?: Profile | null;
+}
+
+export function Navbar({ serverUser, serverProfile }: NavbarProps) {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { user, profile, isLoading } = useUser();
+  const { user, profile } = useUser({
+    initialUser: serverUser,
+    initialProfile: serverProfile,
+  });
 
   async function handleLogout() {
     await servSignOut();
@@ -42,8 +52,8 @@ export function Navbar() {
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 flex h-14 justify-center border-b border-gray-200 bg-white">
-      <div className="flex h-full w-full max-w-6xl items-center justify-between px-4">
-        <Link href="/" className="flex items-center gap-2 no-underline">
+      <div className="relative flex h-full w-full items-center justify-between px-4 sm:px-8 lg:px-20">
+        <Link href="/" className="flex shrink-0 items-center gap-2 no-underline">
           <Image
             src="/images/도담덕로고.png"
             alt="도담덕 로고"
@@ -53,12 +63,12 @@ export function Navbar() {
           <span className="text-lg font-bold text-dodam-500">도담덕</span>
         </Link>
 
-        <nav className="hidden items-center gap-6 sm:flex">
+        <nav className="pointer-events-none absolute inset-x-0 hidden items-center justify-center gap-6 lg:flex">
           {NAV_LINKS.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="no-underline"
+              className="pointer-events-auto no-underline"
             >
               <span
                 className={`text-sm ${
@@ -73,10 +83,10 @@ export function Navbar() {
           ))}
         </nav>
 
-        <div className="hidden items-center gap-2 sm:flex">
-          {!isLoading && user && profile ? (
+        <div className="hidden shrink-0 items-center gap-2 lg:flex">
+          {user && profile ? (
             <>
-              <span className="text-sm">{profile.display_name}님 안녕하세요</span>
+              <span className="max-w-32 truncate text-sm">{profile.display_name}님 안녕하세요</span>
               <Button
                 variant="ghost"
                 size="xs"
@@ -87,12 +97,10 @@ export function Navbar() {
               </Button>
             </>
           ) : (
-            !isLoading && (
-              <Button size="xs" nativeButton={false} render={<Link href="/signin" />}>
-                <LogIn size={16} />
-                로그인
-              </Button>
-            )
+            <Button size="xs" nativeButton={false} render={<Link href="/signin" />}>
+              <LogIn size={16} />
+              로그인
+            </Button>
           )}
         </div>
 
@@ -102,44 +110,44 @@ export function Navbar() {
               <Button
                 variant="ghost"
                 size="icon"
-                className="sm:hidden"
+                className="lg:hidden"
                 aria-label="메뉴 열기"
               />
             }
           >
             {drawerOpened ? <X size={20} /> : <Menu size={20} />}
           </SheetTrigger>
-          <SheetContent side="right" className="w-64">
-            <SheetHeader>
-              <SheetTitle>메뉴</SheetTitle>
+          <SheetContent side="right" className="w-72">
+            <SheetHeader className="px-4 pb-2">
+              <SheetTitle className="text-dodam-500">도담덕</SheetTitle>
             </SheetHeader>
-            <div className="flex flex-col gap-4 pt-6">
+            <nav className="flex flex-col gap-1 px-2 pt-2">
               {NAV_LINKS.map((link) => (
                 <Link
                   key={link.href}
                   href={link.href}
-                  className="no-underline"
+                  className={`rounded-lg px-3 py-2.5 no-underline transition-colors ${
+                    isActive(link.href)
+                      ? 'bg-dodam-50 font-bold text-dodam-500'
+                      : 'text-gray-700 hover:bg-gray-100'
+                  }`}
                   onClick={() => setDrawerOpened(false)}
                 >
-                  <span
-                    className={`text-base ${
-                      isActive(link.href)
-                        ? 'font-bold text-dodam-500'
-                        : 'text-gray-800'
-                    }`}
-                  >
-                    {link.label}
-                  </span>
+                  {link.label}
                 </Link>
               ))}
+            </nav>
 
-              {!isLoading && user && profile ? (
-                <>
-                  <p className="text-sm text-muted-foreground">
+            <div className="border-t border-gray-200 px-4 pt-4">
+              {user && profile ? (
+                <div className="flex flex-col gap-3">
+                  <p className="text-sm font-medium text-gray-900">
                     {profile.display_name}님 안녕하세요
                   </p>
                   <Button
-                    variant="ghost"
+                    variant="outline"
+                    size="sm"
+                    className="w-full"
                     onClick={() => {
                       setDrawerOpened(false);
                       handleLogout();
@@ -148,17 +156,17 @@ export function Navbar() {
                     <LogOut size={16} />
                     로그아웃
                   </Button>
-                </>
+                </div>
               ) : (
-                !isLoading && (
-                  <Button
-                    render={<Link href="/signin" />}
-                    onClick={() => setDrawerOpened(false)}
-                  >
-                    <LogIn size={16} />
-                    로그인
-                  </Button>
-                )
+                <Button
+                  className="w-full"
+                  size="sm"
+                  render={<Link href="/signin" />}
+                  onClick={() => setDrawerOpened(false)}
+                >
+                  <LogIn size={16} />
+                  로그인
+                </Button>
               )}
             </div>
           </SheetContent>
