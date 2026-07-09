@@ -15,30 +15,13 @@ import {
 } from '@/components/ui/sheet';
 import { useUser } from '@/services/auth/useUser';
 import { servSignOut } from '@/services/auth/auth-services';
-import type { User } from '@supabase/supabase-js';
-import type { Profile } from '@/services/auth/auth.types';
+import { NAV_LINKS } from './nav-links';
 
-const NAV_LINKS = [
-  { href: '/sharing', label: '장난감 교환' },
-  { href: '/library', label: '장난감 도서관' },
-  { href: '/board', label: '게시판' },
-  { href: '/my-shop', label: '내 상점' },
-  { href: '/chat', label: '채팅' },
-] as const;
-
-interface NavbarProps {
-  serverUser?: User | null;
-  serverProfile?: Profile | null;
-}
-
-export function Navbar({ serverUser, serverProfile }: NavbarProps) {
+export function Navbar() {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const pathname = usePathname();
   const router = useRouter();
-  const { user, profile } = useUser({
-    initialUser: serverUser,
-    initialProfile: serverProfile,
-  });
+  const { user, profile } = useUser();
 
   async function handleLogout() {
     await servSignOut();
@@ -86,7 +69,7 @@ export function Navbar({ serverUser, serverProfile }: NavbarProps) {
         <div className="hidden shrink-0 items-center gap-2 lg:flex">
           {user && profile ? (
             <>
-              <span className="max-w-32 truncate text-sm">{profile.display_name}님 안녕하세요</span>
+              <span className="max-w-52 text-sm">{profile.display_name}님 안녕하세요</span>
               <Button
                 variant="ghost"
                 size="xs"
