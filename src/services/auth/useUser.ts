@@ -25,7 +25,7 @@ export function useUser(): UseUserReturn {
     } = supabase.auth.onAuthStateChange((event) => {
       if (event === 'INITIAL_SESSION') return;
       queryClient.invalidateQueries({
-        queryKey: ['auth', 'currentProfile'],
+        queryKey: authQueries.currentProfile().queryKey,
       });
     });
 
