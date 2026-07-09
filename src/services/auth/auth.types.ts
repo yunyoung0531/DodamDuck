@@ -21,6 +21,17 @@ export interface Profile {
   updated_at: string;
 }
 
+export const PROFILE_COLUMNS =
+  'id, username, display_name, location, profile_url, level, verification_count, created_at, updated_at' as const;
+
 export interface CheckUsernameResponse {
   isAvailable: boolean;
+}
+
+export interface CurrentProfile {
+  user: {
+    id: string;
+    email: string | undefined;
+  };
+  profile: Profile;
 }
