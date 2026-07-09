@@ -1,7 +1,9 @@
 'use client';
 
-import { useEffect, useState } from 'react';
+import { useEffect } from 'react';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import { createClient } from '@/libs/supabase/client';
+import { authQueries } from './queries';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from './auth.types';
 
@@ -12,57 +14,28 @@ interface UseUserReturn {
 }
 
 export function useUser(): UseUserReturn {
-  const [user, setUser] = useState<User | null>(null);
-  const [profile, setProfile] = useState<Profile | null>(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const supabase = createClient();
+  const queryClient = useQueryClient();
+  const { data, isLoading } = useQuery(authQueries.currentProfile());
 
   useEffect(() => {
-    async function getUser() {
-      const {
-        data: { user: authUser },
-      } = await supabase.auth.getUser();
-
-      setUser(authUser);
-
-      if (authUser) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', authUser.id)
-          .single();
-
-        setProfile(profileData);
-      }
-
-      setIsLoading(false);
-    }
-
-    getUser();
+    const supabase = createClient();
 
     const {
       data: { subscription },
-    } = supabase.auth.onAuthStateChange(async (_event, session) => {
-      const currentUser = session?.user ?? null;
-      setUser(currentUser);
-
-      if (currentUser) {
-        const { data: profileData } = await supabase
-          .from('profiles')
-          .select('*')
-          .eq('id', currentUser.id)
-          .single();
-
-        setProfile(profileData);
-      } else {
-        setProfile(null);
-      }
-
-      setIsLoading(false);
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === 'INITIAL_SESSION') return;
+      queryClient.invalidateQueries({
+        queryKey: authQueries.currentProfile().queryKey,
+      });
     });
 
     return () => subscription.unsubscribe();
-  }, [supabase]);
+  }, [queryClient]);
+
+  const user = data
+    ? ({ id: data.user.id, email: data.user.email } as User)
+    : null;
+  const profile = data?.profile ?? null;
 
   return { user, profile, isLoading };
 }

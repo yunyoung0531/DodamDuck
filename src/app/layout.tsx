@@ -1,7 +1,9 @@
+import { Suspense } from 'react';
 import type { Metadata } from 'next';
 import { Gugi } from 'next/font/google';
 import { Providers } from '@/providers/Providers';
-import { Navbar } from '@/components/common/Navbar';
+import { NavbarWithAuth } from '@/components/common/NavbarWithAuth';
+import { NavbarSkeleton } from '@/components/common/NavbarSkeleton';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
@@ -23,7 +25,9 @@ export default function RootLayout({
       <head />
       <body>
         <Providers>
-          <Navbar />
+          <Suspense fallback={<NavbarSkeleton />}>
+            <NavbarWithAuth />
+          </Suspense>
           <main className="pt-14">{children}</main>
           <Toaster />
         </Providers>
