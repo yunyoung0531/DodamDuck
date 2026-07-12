@@ -20,3 +20,16 @@ export const signupSchema = z.object({
 });
 
 export type SignupForm = z.infer<typeof signupSchema>;
+
+export const editProfileSchema = z.object({
+  display_name: z
+    .string()
+    .min(1, '닉네임을 입력해주세요')
+    .max(20, '닉네임은 20자 이내로 입력해주세요'),
+  location: z
+    .string()
+    .min(1, '위치를 입력해주세요')
+    .max(50, '위치는 50자 이내로 입력해주세요'),
+});
+
+export type EditProfileForm = z.infer<typeof editProfileSchema>;
