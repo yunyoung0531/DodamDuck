@@ -11,12 +11,22 @@ export async function uploadImage(
 
   const { error } = await supabase.storage
     .from(bucket)
-    .upload(path, file, { upsert: true });
+    .upload(path, file, { upsert: true, contentType: file.type });
 
   if (error) throw error;
 
   const { data } = supabase.storage.from(bucket).getPublicUrl(path);
   return data.publicUrl;
+}
+
+export function extractStoragePath(
+  publicUrl: string,
+  bucket: BucketName
+): string | null {
+  const marker = `/object/public/${bucket}/`;
+  const index = publicUrl.indexOf(marker);
+  if (index === -1) return null;
+  return publicUrl.slice(index + marker.length);
 }
 
 export async function deleteImage(
