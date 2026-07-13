@@ -24,6 +24,12 @@ export interface Profile {
 export const PROFILE_COLUMNS =
   'id, username, display_name, location, profile_url, level, verification_count, created_at, updated_at' as const;
 
+export interface UpdateProfileRequest {
+  display_name: string;
+  location: string;
+  profileImage?: File;
+}
+
 export interface CheckUsernameResponse {
   isAvailable: boolean;
 }

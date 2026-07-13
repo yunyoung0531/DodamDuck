@@ -1,12 +1,14 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/supabase';
 import { createClient } from '@/libs/supabase/client';
+import { uploadImage, extractStoragePath, deleteImage } from '@/libs/supabase/storage';
 import type {
   SignInRequest,
   SignUpRequest,
   CheckUsernameResponse,
   CurrentProfile,
   Profile,
+  UpdateProfileRequest,
 } from './auth.types';
 import { PROFILE_COLUMNS } from './auth.types';
 
@@ -92,4 +94,60 @@ export async function servFetchCurrentProfile(
     user: { id: user.id, email: user.email },
     profile,
   };
+}
+
+export async function servUpdateProfile(
+  request: Pick<UpdateProfileRequest, 'display_name' | 'location'>
+): Promise<void> {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error('인증이 필요합니다');
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({
+      display_name: request.display_name,
+      location: request.location,
+    })
+    .eq('id', user.id);
+
+  if (error) throw error;
+}
+
+export async function servUpdateProfileImage(file: File): Promise<string> {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error('인증이 필요합니다');
+
+  const { data: currentProfile } = await supabase
+    .from('profiles')
+    .select('profile_url')
+    .eq('id', user.id)
+    .single<{ profile_url: string }>();
+
+  const ext = file.type.split('/')[1] === 'jpeg' ? 'jpg' : file.type.split('/')[1];
+  const imagePath = `${user.id}/${Date.now()}.${ext}`;
+  const imageUrl = await uploadImage('profile-images', imagePath, file);
+
+  const { error } = await supabase
+    .from('profiles')
+    .update({ profile_url: imageUrl })
+    .eq('id', user.id);
+
+  if (error) throw error;
+
+  if (currentProfile?.profile_url) {
+    const oldPath = extractStoragePath(currentProfile.profile_url, 'profile-images');
+    if (oldPath) {
+      deleteImage('profile-images', oldPath).catch(() => {});
+    }
+  }
+
+  return imageUrl;
 }

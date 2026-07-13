@@ -2,12 +2,13 @@
 
 import Image from 'next/image';
 import { useRouter } from 'next/navigation';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
+import { EditProfileDialog } from '@/components/my-shop/EditProfileDialog';
 import { useSharingList, useIncrementSharingViewCount } from '@/services/sharing/useSharing';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
@@ -40,7 +41,7 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
               {profile.display_name?.[0] ?? '?'}
             </AvatarFallback>
           </Avatar>
-          <div className="flex flex-col gap-1">
+          <div className="flex flex-1 flex-col gap-1">
             <h3 className="font-heading text-xl font-bold">
               {profile.display_name}({profile.username}) 님
             </h3>
@@ -53,6 +54,9 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
             <p className="text-sm text-muted-foreground">
               위치: {profile.location}
             </p>
+          </div>
+          <div className="flex items-start">
+            <EditProfileDialog profile={profile} />
           </div>
         </CardContent>
       </Card>
