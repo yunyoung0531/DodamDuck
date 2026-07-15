@@ -106,7 +106,7 @@ export function CommentSection({
             onChange={(e) => setComment(e.target.value)}
             className="flex-1"
             onKeyDown={(e) => {
-              if (e.key === 'Enter') handleSubmit();
+              if (e.key === 'Enter' && !e.nativeEvent.isComposing) handleSubmit();
             }}
           />
           <LoadingButton
