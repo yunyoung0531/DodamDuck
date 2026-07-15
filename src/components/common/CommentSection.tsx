@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { Send, X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
@@ -43,6 +43,11 @@ export function CommentSection({
   isDeletingId,
 }: CommentSectionProps) {
   const [comment, setComment] = useState('');
+  const bottomRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }, [comments.length]);
 
   function handleSubmit() {
     if (!comment.trim()) return;
@@ -88,6 +93,7 @@ export function CommentSection({
               <p className="text-sm">{c.content}</p>
             </div>
           ))}
+          <div ref={bottomRef} />
           {comments.length === 0 && (
             <EmptyState
               message="아직 댓글이 없습니다."
