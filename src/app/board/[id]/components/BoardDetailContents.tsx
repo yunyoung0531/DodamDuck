@@ -16,6 +16,7 @@ import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import {
   useBoardDetail,
   useDeleteBoardPost,
+  useDeleteBoardComment,
   useAddBoardComment,
   useIncrementBoardViewCount,
 } from '@/services/board/useBoard';
@@ -31,6 +32,7 @@ export default function BoardDetailContents() {
 
   const { data, isLoading } = useBoardDetail(postId);
   const deleteMutation = useDeleteBoardPost();
+  const deleteCommentMutation = useDeleteBoardComment(postId);
   const commentMutation = useAddBoardComment();
   const incrementView = useIncrementBoardViewCount();
 
@@ -145,6 +147,13 @@ export default function BoardDetailContents() {
                 isLoggedIn={!!user}
                 onSubmit={handleComment}
                 isSubmitting={commentMutation.isPending}
+                onDelete={(commentId) => deleteCommentMutation.mutate(commentId)}
+                currentUserId={user?.id}
+                isDeletingId={
+                  deleteCommentMutation.isPending
+                    ? (deleteCommentMutation.variables ?? null)
+                    : null
+                }
               />
             </div>
           </div>
