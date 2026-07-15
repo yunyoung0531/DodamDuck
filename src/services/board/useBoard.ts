@@ -5,6 +5,7 @@ import {
   servDeleteBoardPost,
   servIncrementBoardViewCount,
   servAddBoardComment,
+  servDeleteBoardComment,
 } from './board-services';
 import type {
   CreateBoardPostRequest,
@@ -49,6 +50,19 @@ export function useIncrementBoardViewCount() {
     mutationFn: (postId: number) => servIncrementBoardViewCount(postId),
     onSuccess: (_data, postId) => {
       queryClient.invalidateQueries({ queryKey: ['board', 'list'] });
+      queryClient.invalidateQueries({
+        queryKey: ['board', 'detail', postId],
+      });
+    },
+  });
+}
+
+export function useDeleteBoardComment(postId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: number) => servDeleteBoardComment(commentId),
+    onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['board', 'detail', postId],
       });

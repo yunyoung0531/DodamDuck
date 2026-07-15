@@ -101,6 +101,19 @@ export async function servIncrementBoardViewCount(
   if (error) throw error;
 }
 
+export async function servDeleteBoardComment(
+  commentId: number
+): Promise<void> {
+  const supabase = createClient();
+
+  const { error } = await supabase
+    .from('board_comments')
+    .delete()
+    .eq('id', commentId);
+
+  if (error) throw error;
+}
+
 export async function servAddBoardComment(
   request: AddBoardCommentRequest
 ): Promise<void> {
