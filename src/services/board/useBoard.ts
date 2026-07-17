@@ -62,8 +62,7 @@ export function useDeleteBoardComment(postId: number) {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: ({ commentId, userId }: { commentId: number; userId: string }) =>
-      servDeleteBoardComment(commentId, userId),
+    mutationFn: (commentId: number) => servDeleteBoardComment(commentId),
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['board', 'detail', postId],
