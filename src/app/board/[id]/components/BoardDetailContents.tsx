@@ -147,11 +147,11 @@ export default function BoardDetailContents() {
                 isLoggedIn={!!user}
                 onSubmit={handleComment}
                 isSubmitting={commentMutation.isPending}
-                onDelete={(commentId) => deleteCommentMutation.mutate(commentId)}
+                onDelete={(commentId) => deleteCommentMutation.mutate({ commentId, userId: user!.id })}
                 currentUserId={user?.id}
                 isDeletingId={
                   deleteCommentMutation.isPending
-                    ? (deleteCommentMutation.variables ?? null)
+                    ? (deleteCommentMutation.variables?.commentId ?? null)
                     : null
                 }
               />

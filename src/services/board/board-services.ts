@@ -102,16 +102,19 @@ export async function servIncrementBoardViewCount(
 }
 
 export async function servDeleteBoardComment(
-  commentId: number
+  commentId: number,
+  userId: string
 ): Promise<void> {
   const supabase = createClient();
 
-  const { error } = await supabase
+  const { error, count } = await supabase
     .from('board_comments')
-    .delete()
-    .eq('id', commentId);
+    .delete({ count: 'exact' })
+    .eq('id', commentId)
+    .eq('user_id', userId);
 
   if (error) throw error;
+  if (!count) throw new Error('삭제 권한이 없거나 존재하지 않는 댓글입니다.');
 }
 
 export async function servAddBoardComment(
