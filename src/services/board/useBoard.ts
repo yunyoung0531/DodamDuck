@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { boardQueries } from './queries';
 import {
   servCreateBoardPost,
   servDeleteBoardPost,
   servIncrementBoardViewCount,
   servAddBoardComment,
+  servDeleteBoardComment,
 } from './board-services';
 import type {
   CreateBoardPostRequest,
@@ -52,6 +54,23 @@ export function useIncrementBoardViewCount() {
       queryClient.invalidateQueries({
         queryKey: ['board', 'detail', postId],
       });
+    },
+  });
+}
+
+export function useDeleteBoardComment(postId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: number) => servDeleteBoardComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['board', 'detail', postId],
+      });
+      toast.success('댓글이 삭제되었습니다.');
+    },
+    onError: (error) => {
+      toast.error(`댓글 삭제 실패: ${error.message}`);
     },
   });
 }
