@@ -38,6 +38,7 @@ export function createMockSharingDetail(
       {
         id: 1,
         post_id: 1,
+        user_id: 'comment-user-1',
         content: '교환 원합니다',
         created_at: '2024-01-02T00:00:00Z',
         profiles: {

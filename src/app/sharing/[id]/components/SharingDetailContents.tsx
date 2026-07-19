@@ -18,6 +18,7 @@ import {
   useSharingDetail,
   useDeleteSharingPost,
   useAddSharingComment,
+  useDeleteSharingComment,
   useIncrementSharingViewCount,
 } from '@/services/sharing/useSharing';
 import { useCreateChatRoom } from '@/services/chat/useChat';
@@ -33,6 +34,7 @@ export default function SharingDetailContents() {
 
   const { data, isLoading } = useSharingDetail(postId);
   const deleteMutation = useDeleteSharingPost();
+  const deleteCommentMutation = useDeleteSharingComment(postId);
   const commentMutation = useAddSharingComment();
   const createChatRoom = useCreateChatRoom();
   const incrementView = useIncrementSharingViewCount();
@@ -167,6 +169,13 @@ export default function SharingDetailContents() {
                 isLoggedIn={!!user}
                 onSubmit={handleComment}
                 isSubmitting={commentMutation.isPending}
+                onDelete={(commentId) => deleteCommentMutation.mutate(commentId)}
+                currentUserId={user?.id}
+                isDeletingId={
+                  deleteCommentMutation.isPending
+                    ? (deleteCommentMutation.variables ?? null)
+                    : null
+                }
               />
             </div>
           </div>
