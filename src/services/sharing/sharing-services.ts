@@ -41,7 +41,7 @@ export async function servFetchSharingDetail(
 
   const { data: comments, error: commentsError } = await supabase
     .from('sharing_comments')
-    .select('*, profiles(username, display_name)')
+    .select('id, post_id, user_id, content, created_at, profiles(username, display_name)')
     .eq('post_id', postId)
     .order('created_at', { ascending: true });
 
@@ -122,6 +122,26 @@ export async function servAddSharingComment(
   });
 
   if (error) throw error;
+}
+
+export async function servDeleteSharingComment(
+  commentId: number
+): Promise<void> {
+  const supabase = createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+  if (!user) throw new Error('인증이 필요합니다');
+
+  const { error, count } = await supabase
+    .from('sharing_comments')
+    .delete({ count: 'exact' })
+    .eq('id', commentId)
+    .eq('user_id', user.id);
+
+  if (error) throw error;
+  if (!count) throw new Error('삭제 권한이 없거나 존재하지 않는 댓글입니다.');
 }
 
 export async function servSearchSharingPosts(

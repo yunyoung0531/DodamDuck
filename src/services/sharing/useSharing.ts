@@ -1,10 +1,12 @@
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { sharingQueries } from './queries';
 import {
   servCreateSharingPost,
   servDeleteSharingPost,
   servIncrementSharingViewCount,
   servAddSharingComment,
+  servDeleteSharingComment,
 } from './sharing-services';
 import type {
   CreateSharingPostRequest,
@@ -60,6 +62,23 @@ export function useIncrementSharingViewCount() {
       queryClient.invalidateQueries({
         queryKey: ['sharing', 'detail', postId],
       });
+    },
+  });
+}
+
+export function useDeleteSharingComment(postId: number) {
+  const queryClient = useQueryClient();
+
+  return useMutation({
+    mutationFn: (commentId: number) => servDeleteSharingComment(commentId),
+    onSuccess: () => {
+      queryClient.invalidateQueries({
+        queryKey: ['sharing', 'detail', postId],
+      });
+      toast.success('댓글이 삭제되었습니다.');
+    },
+    onError: (error) => {
+      toast.error(`댓글 삭제 실패: ${error.message}`);
     },
   });
 }

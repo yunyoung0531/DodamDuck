@@ -14,6 +14,7 @@ export interface SharingPost extends SharingPostRow {
 export interface SharingComment {
   id: number;
   post_id: number;
+  user_id: string;
   content: string;
   created_at: string;
   profiles: {
