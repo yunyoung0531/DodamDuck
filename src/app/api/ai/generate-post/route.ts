@@ -12,6 +12,7 @@ const ALLOWED_MIME_TYPES = [
 ];
 
 const MAX_BASE64_SIZE = 7 * 1024 * 1024; // ~5MB 원본 이미지 → ~6.7MB base64
+const MAX_REQUEST_SIZE = 8 * 1024 * 1024; // base64 + mimeType 등 여유 포함
 
 const SYSTEM_PROMPT = `당신은 유아용품 교환/나눔 플랫폼 "도담덕"의 게시글 작성 도우미입니다.
 사용자가 업로드한 장난감/유아용품 사진을 분석하여 교환/나눔 게시글을 작성해주세요.
@@ -41,6 +42,14 @@ export async function POST(request: Request) {
     return NextResponse.json(
       { error: '로그인이 필요합니다' },
       { status: 401 }
+    );
+  }
+
+  const contentLength = Number(request.headers.get('content-length') ?? '0');
+  if (contentLength > MAX_REQUEST_SIZE) {
+    return NextResponse.json(
+      { error: '요청 크기가 너무 큽니다. 이미지는 5MB 이하만 가능합니다.' },
+      { status: 413 }
     );
   }
 
