@@ -63,7 +63,8 @@ export async function servCreateSharingPost(
   } = await supabase.auth.getUser();
   if (!user) throw new Error('인증이 필요합니다');
 
-  const ext = request.image.name.split('.').pop() ?? 'jpg';
+  const parts = request.image.name.split('.');
+  const ext = parts.length > 1 ? parts.pop() : 'jpg';
   const imagePath = `${user.id}/${Date.now()}.${ext}`;
   const imageUrl = await uploadImage('post-images', imagePath, request.image);
 
