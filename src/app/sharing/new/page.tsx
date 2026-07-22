@@ -15,6 +15,7 @@ import { LoadingButton } from '@/components/common/LoadingButton';
 import { LoadingState } from '@/components/common/LoadingState';
 import { FormFieldError } from '@/components/common/FormFieldError';
 import { ImageUploadField } from '@/components/common/ImageUploadField';
+import { AIGenerateButton } from '@/components/sharing/AIGenerateButton';
 import {
   createSharingPostSchema,
   type CreateSharingPostForm,
@@ -43,6 +44,7 @@ function SharingNewContent() {
     register,
     handleSubmit,
     control,
+    setValue,
     formState: { errors },
   } = useForm<CreateSharingPostForm>({
     resolver: zodResolver(createSharingPostSchema),
@@ -99,6 +101,12 @@ function SharingNewContent() {
               <ImageUploadField
                 label="상품 이미지"
                 onFileSelect={setImage}
+              />
+
+              <AIGenerateButton
+                image={image}
+                setValue={setValue}
+                setTags={setTags}
               />
 
               <div className="flex flex-col gap-1">
