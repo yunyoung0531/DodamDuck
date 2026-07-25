@@ -45,7 +45,7 @@ importers:
         specifier: ^1.21.0
         version: 1.21.0(react@19.2.7)
       matter-js:
-        specifier: ^0.20.0
+        specifier: 0.20.0
         version: 0.20.0
       next:
         specifier: ^16.2.9
