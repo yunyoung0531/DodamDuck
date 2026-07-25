@@ -1,6 +1,11 @@
 import { renderWithProviders, screen } from '../test-utils';
 import HomePage from '@/app/page';
 
+vi.mock('@/components/landing/useToyPhysics', () => ({
+  useToyPhysics: vi.fn(),
+  usePrefersReducedMotion: vi.fn(() => false),
+}));
+
 describe('HomePage', () => {
   it('히어로 제목을 표시한다', () => {
     renderWithProviders(<HomePage />);
