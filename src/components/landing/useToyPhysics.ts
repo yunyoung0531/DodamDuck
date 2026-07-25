@@ -14,14 +14,6 @@ interface Walls {
   right: Matter.Body;
 }
 
-/** matter.js Mouse가 내부적으로 보관하는 DOM 이벤트 핸들러 (타입 미공개) */
-interface MouseInternalHandlers {
-  mousemove: EventListener;
-  mousedown: EventListener;
-  mouseup: EventListener;
-  mousewheel: EventListener;
-}
-
 const REDUCED_MOTION_QUERY = '(prefers-reduced-motion: reduce)';
 
 function subscribeReducedMotion(callback: () => void) {
@@ -172,24 +164,35 @@ function attachMouse(engine: Matter.Engine, render: Matter.Render) {
     constraint: { stiffness: 0.2, render: { visible: false } },
   });
 
-  // matter.js가 등록한 wheel/터치 리스너 제거 → 페이지 스크롤 보존, 모바일은 스크롤 우선
-  //
-  // ⚠️  matter-js 내부 API 의존 (공개 타입에 노출되지 않는 핸들러 필드 접근)
-  //     Mouse.create() 내부에서 등록하는 이벤트 핸들러를 제거하는 방식이므로,
-  //     matter-js 버전 업그레이드 시 반드시 수동 확인 필요:
-  //     1. 히어로 섹션에서 마우스 휠로 페이지 스크롤이 정상 동작하는지
-  //     2. 모바일에서 터치 스크롤이 캔버스에 가로채이지 않/ㅇㄹ는지
-  //     removeEventListener(event, undefined)는 조용히 무시되어 에러가 발생하지 않으므로
-  //     자동화 테스트로는 회귀를 감지하기 어려움.
-  //     package.json에서 matter-js 버전을 정확히 고정(caret 없음)한 이유이기도 함.
-  const handlers = mouse as unknown as Matter.Mouse & MouseInternalHandlers;
-  mouse.element.removeEventListener('wheel', handlers.mousewheel);
-  mouse.element.removeEventListener('touchstart', handlers.mousedown);
-  mouse.element.removeEventListener('touchmove', handlers.mousemove);
-  mouse.element.removeEventListener('touchend', handlers.mouseup);
-
   render.mouse = mouse;
   return mouseConstraint;
+}
+
+/**
+ * matter.js Mouse.setElement()은 canvas에 wheel/touch 리스너를 등록하며,
+ * 핸들러 내부에서 preventDefault()를 호출해 페이지 스크롤을 막는다.
+ *
+ * 내부 핸들러 참조를 꺼내 removeEventListener하는 대신,
+ * 캔버스의 부모(container)에서 캡처링 페이즈로 해당 이벤트의 전파를 차단한다.
+ * 이벤트가 canvas에 도달하지 않으므로 matter.js 핸들러가 실행되지 않고,
+ * 브라우저의 기본 스크롤은 정상 동작한다.
+ *
+ * - 공개 API만 사용하므로 matter-js 버전에 의존하지 않음
+ * - 마우스 이벤트(mousemove/mousedown/mouseup)는 차단하지 않아 데스크톱 드래그 유지
+ */
+function interceptScrollEvents(container: HTMLDivElement) {
+  const stop = (e: Event) => e.stopPropagation();
+  const events = ['wheel', 'touchstart', 'touchmove', 'touchend'] as const;
+
+  for (const event of events) {
+    container.addEventListener(event, stop, { capture: true });
+  }
+
+  return () => {
+    for (const event of events) {
+      container.removeEventListener(event, stop, { capture: true });
+    }
+  };
 }
 
 /** 드래그로 화면 밖 멀리 던져진 바디를 상단에서 재스폰 */
@@ -327,6 +330,7 @@ export function useToyPhysics(
     let height = container.clientHeight;
 
     const scene = createScene(container, width, height);
+    const cleanupScrollIntercept = interceptScrollEvents(container);
 
     const timeouts: number[] = [];
     let cancelled = false;
@@ -363,6 +367,7 @@ export function useToyPhysics(
       timeouts.forEach((id) => window.clearTimeout(id));
       window.clearInterval(respawnerId);
       disconnectObservers();
+      cleanupScrollIntercept();
       destroyScene(scene);
     };
   }, [containerRef, enabled]);
