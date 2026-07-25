@@ -173,6 +173,15 @@ function attachMouse(engine: Matter.Engine, render: Matter.Render) {
   });
 
   // matter.js가 등록한 wheel/터치 리스너 제거 → 페이지 스크롤 보존, 모바일은 스크롤 우선
+  //
+  // ⚠️  matter-js 내부 API 의존 (공개 타입에 노출되지 않는 핸들러 필드 접근)
+  //     Mouse.create() 내부에서 등록하는 이벤트 핸들러를 제거하는 방식이므로,
+  //     matter-js 버전 업그레이드 시 반드시 수동 확인 필요:
+  //     1. 히어로 섹션에서 마우스 휠로 페이지 스크롤이 정상 동작하는지
+  //     2. 모바일에서 터치 스크롤이 캔버스에 가로채이지 않/ㅇㄹ는지
+  //     removeEventListener(event, undefined)는 조용히 무시되어 에러가 발생하지 않으므로
+  //     자동화 테스트로는 회귀를 감지하기 어려움.
+  //     package.json에서 matter-js 버전을 정확히 고정(caret 없음)한 이유이기도 함.
   const handlers = mouse as unknown as Matter.Mouse & MouseInternalHandlers;
   mouse.element.removeEventListener('wheel', handlers.mousewheel);
   mouse.element.removeEventListener('touchstart', handlers.mousedown);
