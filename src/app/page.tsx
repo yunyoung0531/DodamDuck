@@ -3,27 +3,12 @@
 import { useEffect, useRef } from 'react';
 import Image from 'next/image';
 
+import ToyPhysicsHero from '@/components/landing/ToyPhysicsHero';
+
 export default function HomePage() {
   return (
     <div className="snap-container">
-      <section className="snap-section flex flex-col lg:flex-row items-center justify-center bg-dodam-light">
-        <Image
-          src="/images/도담덕캐릭터.png"
-          alt="도담덕 캐릭터"
-          width={250}
-          height={250}
-          className="main-dodamduck-img hidden lg:block"
-        />
-        <div className="text-center">
-          <h1 className="font-heading text-[clamp(1.75rem,1rem+3.2vw,3.4375rem)]">
-            어제의 장난감, 오늘의 행복
-          </h1>
-          <div className="flex flex-col gap-2.5 pt-7">
-            <h5 className="text-landing-sub text-center lg:pr-8">여기에서 시작하는 작은 교환,</h5>
-            <h5 className="text-landing-sub text-center lg:pl-8">큰 행복으로 연결됩니다.</h5>
-          </div>
-        </div>
-      </section>
+      <ToyPhysicsHero />
 
       <AnimatedSection className="snap-section main2-container bg-dodam-light">
         <div className="hidden lg:block pl-[16.875rem]">
