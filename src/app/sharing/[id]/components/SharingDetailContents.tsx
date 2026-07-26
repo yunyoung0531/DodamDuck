@@ -5,6 +5,7 @@ import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Trash2, MessageCircle } from 'lucide-react';
+import { LikeButton } from '@/components/common/LikeButton';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
@@ -153,9 +154,15 @@ export default function SharingDetailContents() {
                     />
                   )}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  조회 {post.views}
-                </p>
+                <div className="flex items-center gap-2">
+                  <p className="text-xs text-muted-foreground">
+                    조회 {post.views}
+                  </p>
+                  <LikeButton
+                    postId={post.id}
+                    likeCount={post.like_count}
+                  />
+                </div>
               </div>
 
               <p className="whitespace-pre-wrap">{post.content}</p>
