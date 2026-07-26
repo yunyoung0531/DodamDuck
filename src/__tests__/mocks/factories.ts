@@ -22,6 +22,7 @@ export function createMockSharingPost(
     exchange_option: '교환',
     tags: ['레고', '장난감'],
     views: 10,
+    like_count: 0,
     created_at: '2024-01-01T00:00:00Z',
     updated_at: '2024-01-01T00:00:00Z',
     profiles: DEFAULT_PROFILE,
