@@ -32,6 +32,8 @@ export function LikeButton({
       return;
     }
 
+    if (toggleLike.isPending) return;
+
     toggleLike.mutate(postId);
   }
 
