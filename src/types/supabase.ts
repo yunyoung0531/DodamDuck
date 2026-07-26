@@ -47,6 +47,7 @@ export interface Database {
           exchange_option: string;
           tags: string[];
           views: number;
+          like_count: number;
           created_at: string;
           updated_at: string;
         };
@@ -59,6 +60,7 @@ export interface Database {
           exchange_option?: string;
           tags?: string[];
           views?: number;
+          like_count?: number;
           created_at?: string;
           updated_at?: string;
         };
@@ -70,11 +72,45 @@ export interface Database {
           exchange_option?: string;
           tags?: string[];
           views?: number;
+          like_count?: number;
           updated_at?: string;
         };
         Relationships: [
           {
             foreignKeyName: 'sharing_posts_user_id_fkey';
+            columns: ['user_id'];
+            isOneToOne: false;
+            referencedRelation: 'profiles';
+            referencedColumns: ['id'];
+          },
+        ];
+      };
+      sharing_likes: {
+        Row: {
+          id: number;
+          post_id: number;
+          user_id: string;
+          created_at: string;
+        };
+        Insert: {
+          post_id: number;
+          user_id: string;
+          created_at?: string;
+        };
+        Update: {
+          post_id?: number;
+          user_id?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'sharing_likes_post_id_fkey';
+            columns: ['post_id'];
+            isOneToOne: false;
+            referencedRelation: 'sharing_posts';
+            referencedColumns: ['id'];
+          },
+          {
+            foreignKeyName: 'sharing_likes_user_id_fkey';
             columns: ['user_id'];
             isOneToOne: false;
             referencedRelation: 'profiles';
@@ -295,6 +331,10 @@ export interface Database {
       search_sharing_posts: {
         Args: { search_query: string };
         Returns: Database['public']['Tables']['sharing_posts']['Row'][];
+      };
+      toggle_like: {
+        Args: { target_table: string; target_post_id: number };
+        Returns: boolean;
       };
     };
     Enums: Record<string, never>;

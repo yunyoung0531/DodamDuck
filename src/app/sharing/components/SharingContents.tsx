@@ -10,6 +10,7 @@ import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
+import { LikeButton } from '@/components/common/LikeButton';
 import {
   useSharingList,
   useSharingSearch,
@@ -102,7 +103,14 @@ export default function SharingContents() {
 
               <div className="flex flex-col gap-2 p-3">
                 <div className="flex flex-col gap-1">
-                  <p className="truncate text-sm font-semibold">{post.title}</p>
+                  <div className="flex items-center justify-between">
+                    <p className="truncate text-sm font-semibold">{post.title}</p>
+                    <LikeButton
+                      postId={post.id}
+                      likeCount={post.like_count}
+                      size="sm"
+                    />
+                  </div>
                   <p className="text-xs text-muted-foreground">
                     {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
                     {post.views}

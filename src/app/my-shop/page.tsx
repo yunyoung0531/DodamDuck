@@ -4,6 +4,8 @@ import getQueryClient from '@/libs/query/query-client';
 import { createClient } from '@/libs/supabase/server';
 import { sharingQueries } from '@/services/sharing/queries';
 import { servFetchSharingPosts } from '@/services/sharing/sharing-services';
+import { likesQueries } from '@/services/likes/queries';
+import { servFetchUserLikedSharingPosts } from '@/services/likes/likes-services';
 import type { Profile } from '@/services/auth/auth.types';
 import MyShopContents from './components/MyShopContents';
 
@@ -29,6 +31,10 @@ export default async function MyShopPage() {
       .select('*')
       .eq('id', user.id)
       .single<Profile>(),
+    queryClient.prefetchQuery({
+      ...likesQueries.userLikedSharingPosts(),
+      queryFn: () => servFetchUserLikedSharingPosts(supabase),
+    }),
   ]);
 
   return (

@@ -9,7 +9,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { EditProfileDialog } from '@/components/my-shop/EditProfileDialog';
+import { LikeButton } from '@/components/common/LikeButton';
 import { useSharingList, useIncrementSharingViewCount } from '@/services/sharing/useSharing';
+import { useUserLikedSharingPosts } from '@/services/likes/useLikes';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
 
@@ -22,6 +24,8 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
   const router = useRouter();
   const { data: allPosts, isLoading } = useSharingList();
   const incrementView = useIncrementSharingViewCount();
+  const { data: likedSharingPosts, isLoading: isLoadingLikedSharing } =
+    useUserLikedSharingPosts();
 
   const myPosts = allPosts?.filter((post) => post.user_id === user.id);
 
@@ -99,7 +103,44 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
         </TabsContent>
 
         <TabsContent value="wishlist" className="pt-6">
-          <EmptyState message="준비중입니다." className="py-8" />
+          {isLoadingLikedSharing && <LoadingState height="sm" />}
+
+          {likedSharingPosts && likedSharingPosts.length > 0 ? (
+            <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
+              {likedSharingPosts.map((post) => (
+                <div
+                  key={post.id}
+                  className="flex cursor-pointer flex-col gap-2"
+                  onClick={() => {
+                    incrementView.mutate(post.id);
+                    router.push(`/sharing/${post.id}`);
+                  }}
+                >
+                  <div className="relative aspect-square overflow-hidden rounded-md">
+                    <Image
+                      src={post.image_url || '/images/도담덕로고.png'}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      unoptimized
+                    />
+                  </div>
+                  <div className="flex items-center justify-between">
+                    <p className="truncate text-sm">{post.title}</p>
+                    <LikeButton
+                      postId={post.id}
+                      likeCount={post.like_count}
+                      size="sm"
+                    />
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : (
+            !isLoadingLikedSharing && (
+              <EmptyState message="좋아요한 게시글이 없습니다." className="py-8" />
+            )
+          )}
         </TabsContent>
       </Tabs>
       </div>
