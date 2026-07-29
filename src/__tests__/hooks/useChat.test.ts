@@ -4,6 +4,7 @@ import {
   useChatList,
   useChatMessages,
   useSendMessage,
+  useCreateChatRoom,
 } from '@/services/chat/useChat';
 import { createMockChatRoom, createMockChatMessage } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
@@ -99,6 +100,46 @@ describe('useSendMessage', () => {
     const { result } = renderHookWithProviders(() => useSendMessage());
 
     result.current.mutate({ roomId: 1, message: '테스트 메시지' });
+
+    await waitFor(() => {
+      expect(result.current.isSuccess).toBe(true);
+    });
+  });
+});
+
+describe('useCreateChatRoom', () => {
+  it('채팅방 생성 mutation이 성공한다', async () => {
+    const mockRoom = createMockChatRoom();
+
+    mockSupabase.auth.getUser = vi.fn(() =>
+      Promise.resolve({
+        data: { user: { id: 'test-uuid-1' } },
+        error: null,
+      })
+    );
+
+    mockSupabase.from = vi.fn(() => ({
+      select: vi.fn().mockReturnValue({
+        eq: vi.fn().mockReturnValue({
+          eq: vi.fn().mockReturnValue({
+            maybeSingle: vi.fn(() =>
+              Promise.resolve({ data: null, error: null })
+            ),
+          }),
+        }),
+      }),
+      insert: vi.fn().mockReturnValue({
+        select: vi.fn().mockReturnValue({
+          single: vi.fn(() =>
+            Promise.resolve({ data: mockRoom, error: null })
+          ),
+        }),
+      }),
+    })) as ReturnType<typeof vi.fn>;
+
+    const { result } = renderHookWithProviders(() => useCreateChatRoom());
+
+    result.current.mutate({ otherUserId: 'test-uuid-2', postId: 1 });
 
     await waitFor(() => {
       expect(result.current.isSuccess).toBe(true);
