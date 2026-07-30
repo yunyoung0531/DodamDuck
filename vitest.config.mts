@@ -46,5 +46,23 @@ export default defineConfig({
     setupFiles: ['./src/vitest.setup.tsx'],
     css: false,
     exclude: ['node_modules', 'dodamduck_fe', '.next'],
+    coverage: {
+      provider: 'v8',
+      reporter: ['text', 'text-summary'],
+      include: ['src/**/*.{ts,tsx}'],
+      exclude: [
+        'src/**/*.test.{ts,tsx}',
+        'src/__tests__/**',
+        'src/vitest.setup.tsx',
+        'src/types/**',
+        'src/components/ui/**',
+        'src/app/**/page.tsx',
+        'src/app/**/layout.tsx',
+        'src/app/**/route.ts',
+        'src/providers/**',
+        'src/libs/supabase/**',
+        'src/libs/query/**',
+      ],
+    },
   },
 });
