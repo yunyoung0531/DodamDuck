@@ -45,6 +45,7 @@ export interface Database {
           image_url: string;
           location: string;
           exchange_option: string;
+          category: string;
           tags: string[];
           views: number;
           like_count: number;
@@ -58,6 +59,7 @@ export interface Database {
           image_url?: string;
           location?: string;
           exchange_option?: string;
+          category?: string;
           tags?: string[];
           views?: number;
           like_count?: number;
@@ -70,6 +72,7 @@ export interface Database {
           image_url?: string;
           location?: string;
           exchange_option?: string;
+          category?: string;
           tags?: string[];
           views?: number;
           like_count?: number;

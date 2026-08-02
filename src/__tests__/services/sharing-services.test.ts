@@ -10,6 +10,7 @@ import {
   servSearchSharingPosts,
   servFetchPopularSearches,
 } from '@/services/sharing/sharing-services';
+import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import { createMockUser } from '../mocks/supabase';
 import { createMockSharingPost, createMockSharingDetail } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
@@ -54,6 +55,30 @@ describe('servFetchSharingPosts', () => {
     })) as ReturnType<typeof vi.fn>;
 
     await expect(servFetchSharingPosts()).rejects.toThrow();
+  });
+
+  it('카테고리를 넘기면 해당 카테고리로 필터링한다', async () => {
+    const order = vi.fn(() => Promise.resolve({ data: [], error: null }));
+    const eq = vi.fn().mockReturnValue({ order });
+    const select = vi.fn().mockReturnValue({ eq, order });
+
+    mockSupabase.from = vi.fn(() => ({ select })) as ReturnType<typeof vi.fn>;
+
+    await servFetchSharingPosts(SHARING_CATEGORY.BLOCKS);
+
+    expect(eq).toHaveBeenCalledWith('category', SHARING_CATEGORY.BLOCKS);
+  });
+
+  it('카테고리를 넘기지 않으면 필터를 걸지 않는다', async () => {
+    const order = vi.fn(() => Promise.resolve({ data: [], error: null }));
+    const eq = vi.fn().mockReturnValue({ order });
+    const select = vi.fn().mockReturnValue({ eq, order });
+
+    mockSupabase.from = vi.fn(() => ({ select })) as ReturnType<typeof vi.fn>;
+
+    await servFetchSharingPosts();
+
+    expect(eq).not.toHaveBeenCalled();
   });
 });
 
@@ -190,26 +215,28 @@ describe('servCreateSharingPost', () => {
       ),
     } as typeof mockSupabase.auth;
 
-    mockSupabase.from = vi.fn(() => ({
-      insert: vi.fn().mockReturnValue({
-        select: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: mockPost, error: null })
-          ),
-        }),
+    const insert = vi.fn().mockReturnValue({
+      select: vi.fn().mockReturnValue({
+        single: vi.fn(() => Promise.resolve({ data: mockPost, error: null })),
       }),
-    })) as ReturnType<typeof vi.fn>;
+    });
+
+    mockSupabase.from = vi.fn(() => ({ insert })) as ReturnType<typeof vi.fn>;
 
     const result = await servCreateSharingPost({
       title: '새 장난감',
       content: '상태 좋습니다',
       location: '광주광역시',
       exchangeOption: '교환',
+      category: SHARING_CATEGORY.RIDE,
       tags: ['장난감'],
       image: new File(['test'], 'test.jpg', { type: 'image/jpeg' }),
     });
 
     expect(result.title).toBe('새 장난감');
+    expect(insert).toHaveBeenCalledWith(
+      expect.objectContaining({ category: SHARING_CATEGORY.RIDE })
+    );
   });
 
   it('미인증 사용자는 에러를 던진다', async () => {
@@ -225,6 +252,7 @@ describe('servCreateSharingPost', () => {
         content: '내용',
         location: '광주',
         exchangeOption: '교환',
+        category: SHARING_CATEGORY.ETC,
         tags: [],
         image: new File(['test'], 'test.jpg', { type: 'image/jpeg' }),
       })

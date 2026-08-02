@@ -8,6 +8,7 @@ import { Trash2, MessageCircle } from 'lucide-react';
 import { LikeButton } from '@/components/common/LikeButton';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
 import { Button } from '@/components/ui/button';
@@ -162,6 +163,10 @@ export default function SharingDetailContents() {
                     postId={post.id}
                     likeCount={post.like_count}
                   />
+                </div>
+                <div className="flex flex-wrap gap-2">
+                  <Badge variant="secondary">{post.exchange_option}</Badge>
+                  <Badge variant="outline">{post.category}</Badge>
                 </div>
               </div>
 

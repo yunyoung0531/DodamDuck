@@ -11,25 +11,39 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
 import { LikeButton } from '@/components/common/LikeButton';
+import { CategoryChips } from '@/components/sharing/CategoryChips';
 import {
   useSharingList,
   useSharingSearch,
   usePopularSearches,
 } from '@/services/sharing/useSharing';
+import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
+import type { SharingCategory } from '@/services/sharing/sharing.types';
 import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
 
 export default function SharingContents() {
   const [searchQuery, setSearchQuery] = useState('');
   const [activeSearch, setActiveSearch] = useState('');
+  const [category, setCategory] = useState<SharingCategory>(
+    SHARING_CATEGORY.ALL
+  );
   const router = useRouter();
   const { user } = useUser();
 
-  const { data: posts, isLoading } = useSharingList();
+  const categoryFilter =
+    category === SHARING_CATEGORY.ALL ? undefined : category;
+
+  const { data: posts, isLoading } = useSharingList(categoryFilter);
   const { data: searchResults } = useSharingSearch(activeSearch);
   const { data: popularSearches } = usePopularSearches();
 
-  const displayPosts = activeSearch ? searchResults : posts;
+  // 검색 RPC에는 카테고리 인자가 없어서 검색 결과만 클라이언트에서 좁힌다.
+  const displayPosts = activeSearch
+    ? searchResults?.filter(
+        (post) => !categoryFilter || post.category === categoryFilter
+      )
+    : posts;
 
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
@@ -79,6 +93,8 @@ export default function SharingContents() {
           ))}
           </div>
         )}
+
+        <CategoryChips value={category} onChange={setCategory} includeAll />
       </div>
 
       {isLoading && <LoadingState />}
@@ -117,9 +133,12 @@ export default function SharingContents() {
                   </p>
                 </div>
                 <div className="flex flex-col gap-1">
-                  <Badge variant="secondary">
-                    {post.exchange_option}
-                  </Badge>
+                  <div className="flex flex-wrap gap-1">
+                    <Badge variant="secondary">
+                      {post.exchange_option}
+                    </Badge>
+                    <Badge variant="outline">{post.category}</Badge>
+                  </div>
                   {post.tags && post.tags.length > 0 && (
                     <div className="flex gap-1">
                     {post.tags.map((tag) => (

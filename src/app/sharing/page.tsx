@@ -15,7 +15,7 @@ export default async function SharingPage() {
   await Promise.all([
     queryClient.prefetchQuery({
       ...sharingQueries.all(),
-      queryFn: () => servFetchSharingPosts(supabase),
+      queryFn: () => servFetchSharingPosts(undefined, supabase),
     }),
     queryClient.prefetchQuery({
       ...sharingQueries.popularSearches(),

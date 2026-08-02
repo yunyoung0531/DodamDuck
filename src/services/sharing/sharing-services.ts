@@ -9,17 +9,26 @@ import type {
   AddSharingCommentRequest,
   SharingComment,
   PopularSearch,
+  SharingPostCategory,
 } from './sharing.types';
 
 export async function servFetchSharingPosts(
+  category?: SharingPostCategory,
   client?: SupabaseClient<Database>
 ): Promise<SharingPost[]> {
   const supabase = client ?? createClient();
 
-  const { data, error } = await supabase
+  let query = supabase
     .from('sharing_posts')
-    .select('*, profiles(username, display_name, profile_url)')
-    .order('created_at', { ascending: false });
+    .select('*, profiles(username, display_name, profile_url)');
+
+  if (category) {
+    query = query.eq('category', category);
+  }
+
+  const { data, error } = await query.order('created_at', {
+    ascending: false,
+  });
 
   if (error) throw error;
   return data as SharingPost[];
@@ -77,6 +86,7 @@ export async function servCreateSharingPost(
       image_url: imageUrl,
       location: request.location,
       exchange_option: request.exchangeOption,
+      category: request.category,
       tags: request.tags,
     })
     .select('*, profiles(username, display_name, profile_url)')

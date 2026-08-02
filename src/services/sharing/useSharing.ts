@@ -11,10 +11,11 @@ import {
 import type {
   CreateSharingPostRequest,
   AddSharingCommentRequest,
+  SharingPostCategory,
 } from './sharing.types';
 
-export function useSharingList() {
-  return useQuery(sharingQueries.all());
+export function useSharingList(category?: SharingPostCategory) {
+  return useQuery(sharingQueries.all(category));
 }
 
 export function useSharingDetail(postId: number) {

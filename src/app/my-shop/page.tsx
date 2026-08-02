@@ -24,7 +24,7 @@ export default async function MyShopPage() {
   const [, { data: profile }] = await Promise.all([
     queryClient.prefetchQuery({
       ...sharingQueries.all(),
-      queryFn: () => servFetchSharingPosts(supabase),
+      queryFn: () => servFetchSharingPosts(undefined, supabase),
     }),
     supabase
       .from('profiles')
