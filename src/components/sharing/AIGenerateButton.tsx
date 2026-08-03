@@ -123,8 +123,11 @@ export function AIGenerateButton({
       });
       setValue('title', response.data.title);
       setValue('content', response.data.content);
+      setValue('category', response.data.category);
       setTags(response.data.tags);
-      toast.success('AI가 게시글을 작성했습니다. 내용을 확인해주세요!');
+      toast.success(
+        'AI가 게시글을 작성했습니다. 내용과 카테고리를 확인해주세요!'
+      );
     } catch (error) {
       toast.error(extractMessage(error));
     }

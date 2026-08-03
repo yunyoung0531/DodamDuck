@@ -11,6 +11,7 @@ import {
   useDeleteSharingComment,
   useIncrementSharingViewCount,
 } from '@/services/sharing/useSharing';
+import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import { createMockSharingPost, createMockSharingDetail } from '../mocks/factories';
 import { createMockUser } from '../mocks/supabase';
 import type { MockSupabaseClient } from '../mocks/supabase';
@@ -148,6 +149,7 @@ describe('useCreateSharingPost', () => {
       content: '상태 좋음',
       location: '광주광역시',
       exchangeOption: '교환',
+      category: SHARING_CATEGORY.BLOCKS,
       tags: ['장난감'],
       image: new File(['test'], 'test.jpg', { type: 'image/jpeg' }),
     });

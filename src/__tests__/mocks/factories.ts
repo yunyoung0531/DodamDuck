@@ -1,3 +1,4 @@
+import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import type { SharingPost, SharingDetailResponse } from '@/services/sharing/sharing.types';
 import type { BoardPost, BoardDetailResponse } from '@/services/board/board.types';
 import type { ChatRoom, ChatMessage } from '@/services/chat/chat.types';
@@ -20,6 +21,7 @@ export function createMockSharingPost(
     content: '상태 좋은 레고입니다',
     location: '광주광역시',
     exchange_option: '교환',
+    category: SHARING_CATEGORY.BLOCKS,
     tags: ['레고', '장난감'],
     views: 10,
     like_count: 0,

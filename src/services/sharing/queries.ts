@@ -1,16 +1,18 @@
-import { queryOptions } from '@tanstack/react-query';
+import { queryOptions, keepPreviousData } from '@tanstack/react-query';
 import {
   servFetchSharingPosts,
   servFetchSharingDetail,
   servSearchSharingPosts,
   servFetchPopularSearches,
 } from './sharing-services';
+import type { SharingPostCategory } from './sharing.types';
 
 export const sharingQueries = {
-  all: () =>
+  all: (category?: SharingPostCategory) =>
     queryOptions({
-      queryKey: ['sharing', 'list'] as const,
-      queryFn: () => servFetchSharingPosts(),
+      queryKey: ['sharing', 'list', category ?? null] as const,
+      queryFn: () => servFetchSharingPosts(category),
+      placeholderData: keepPreviousData,
       staleTime: 5 * 60 * 1000,
       gcTime: 30 * 60 * 1000,
     }),

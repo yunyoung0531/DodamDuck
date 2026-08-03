@@ -16,6 +16,7 @@ import { LoadingState } from '@/components/common/LoadingState';
 import { FormFieldError } from '@/components/common/FormFieldError';
 import { ImageUploadField } from '@/components/common/ImageUploadField';
 import { AIGenerateButton } from '@/components/sharing/AIGenerateButton';
+import { CategoryChips } from '@/components/sharing/CategoryChips';
 import {
   createSharingPostSchema,
   type CreateSharingPostForm,
@@ -76,6 +77,7 @@ function SharingNewContent() {
         content: values.content,
         location: values.location,
         exchangeOption: values.exchangeOption,
+        category: values.category,
         tags,
         image,
       },
@@ -139,6 +141,21 @@ function SharingNewContent() {
                 />
                 <FormFieldError message={errors.location?.message} />
               </div>
+
+              <Controller
+                name="category"
+                control={control}
+                render={({ field }) => (
+                  <div className="flex flex-col gap-2">
+                    <Label className="block">카테고리</Label>
+                    <CategoryChips
+                      value={field.value}
+                      onChange={field.onChange}
+                    />
+                    <FormFieldError message={errors.category?.message} />
+                  </div>
+                )}
+              />
 
               <Controller
                 name="exchangeOption"

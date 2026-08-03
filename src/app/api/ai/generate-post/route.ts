@@ -3,6 +3,7 @@ import { generateText, Output } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { createClient } from '@/libs/supabase/server';
 import { generatedPostSchema } from '@/libs/validations/ai';
+import { SHARING_CATEGORY_VALUES } from '@/services/sharing/sharing.types';
 
 const ALLOWED_MIME_TYPES = [
   'image/jpeg',
@@ -20,9 +21,11 @@ const SYSTEM_PROMPT = `당신은 유아용품 교환/나눔 플랫폼 "도담덕
 1. title (상품명): 브랜드 + 상품명, 30자 이내
 2. content (상품 설명): 종류, 구성품, 적합 연령대, 50~200자, 따뜻한 말투
 3. tags (해시태그): 관련 키워드 1~5개, '#' 없이
+4. category (카테고리): 아래 6종 중 하나를 글자 그대로 (임의로 바꾸지 마세요)
+${SHARING_CATEGORY_VALUES.map((value) => `   - ${value}`).join('\n')}
 
 반드시 JSON 형식으로만 응답하세요:
-{"title": "...", "content": "...", "tags": ["...", "..."]}`;
+{"title": "...", "content": "...", "tags": ["...", "..."], "category": "..."}`;
 
 export async function POST(request: Request) {
   const apiKey = process.env.OPENROUTER_API_KEY;

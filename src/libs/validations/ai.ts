@@ -1,4 +1,5 @@
 import { z } from 'zod';
+import { SHARING_CATEGORY_VALUES } from '@/services/sharing/sharing.types';
 
 export const generatedPostSchema = z.object({
   title: z.string().describe('브랜드 + 상품명, 30자 이내'),
@@ -7,6 +8,11 @@ export const generatedPostSchema = z.object({
     .array(z.string())
     .max(5)
     .describe("관련 키워드 1~5개, '#' 없이"),
+  category: z
+    .enum(SHARING_CATEGORY_VALUES)
+    .describe(
+      `다음 중 하나를 글자 그대로: ${SHARING_CATEGORY_VALUES.join(' / ')}`
+    ),
 });
 
 export type GeneratedPost = z.infer<typeof generatedPostSchema>;
