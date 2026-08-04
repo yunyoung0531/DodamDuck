@@ -117,8 +117,8 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
           </div>
         </div>
 
-        <div className="flex flex-1 flex-col rounded-md border border-gray-200 bg-white">
-          <div className="flex items-center gap-3 border-b border-gray-200 p-4">
+        <div className="flex h-[70vh] flex-1 flex-col rounded-md border border-gray-200 bg-white md:h-[calc(100vh-8.5rem)]">
+          <div className="flex shrink-0 items-center gap-3 border-b border-gray-200 p-4">
             <Avatar className="h-10 w-10">
               <AvatarImage src={partnerProfile?.profile_url || undefined} />
               <AvatarFallback>
@@ -130,7 +130,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
 
           <div
             ref={viewport}
-            className="scrollbar-brand h-100 flex-1 overflow-y-auto p-4"
+            className="scrollbar-brand min-h-0 flex-1 overflow-y-auto p-4"
           >
             <div className="flex flex-col gap-3">
               {messages?.map((msg) => {
@@ -168,7 +168,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
             </div>
           </div>
 
-          <div className="flex items-center gap-2 border-t border-gray-200 p-3">
+          <div className="flex shrink-0 items-center gap-2 border-t border-gray-200 p-3">
             <Input
               placeholder="메시지를 입력하세요"
               value={message}

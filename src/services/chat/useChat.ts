@@ -9,6 +9,12 @@ export function useChatList() {
   return useQuery(chatQueries.list());
 }
 
+// realtime-js의 client.channel(topic)은 같은 토픽이면 기존 채널 객체를 재사용한다.
+// StrictMode 이중 마운트에서는 정리(unsubscribe) 중인 채널을 두 번째 마운트가 그대로
+// 재사용하고, 뒤늦게 도착한 teardown이 그 채널을 죽여서 에러 없이 이벤트만 끊긴다.
+// 구독마다 토픽을 다르게 만들어 재사용 자체를 막는다.
+let channelSeq = 0;
+
 export function useChatMessages(roomId: number) {
   const queryClient = useQueryClient();
 
@@ -19,7 +25,7 @@ export function useChatMessages(roomId: number) {
 
     const supabase = createClient();
     const channel = supabase
-      .channel(`chat-room-${roomId}`)
+      .channel(`chat-room-${roomId}-${++channelSeq}`)
       .on(
         'postgres_changes',
         {
@@ -30,10 +36,10 @@ export function useChatMessages(roomId: number) {
         },
         () => {
           queryClient.invalidateQueries({
-            queryKey: ['chat', 'messages', roomId],
+            queryKey: chatQueries.messages(roomId).queryKey,
           });
           queryClient.invalidateQueries({
-            queryKey: ['chat', 'list'],
+            queryKey: chatQueries.list().queryKey,
           });
         }
       )
@@ -60,7 +66,18 @@ export function useCreateChatRoom() {
 }
 
 export function useSendMessage() {
+  const queryClient = useQueryClient();
+
+  // Realtime 에코에만 의존하면 구독이 끊긴 동안 내가 보낸 메시지도 보이지 않는다.
   return useMutation({
     mutationFn: (request: SendMessageRequest) => servSendMessage(request),
+    onSuccess: (_data, variables) => {
+      queryClient.invalidateQueries({
+        queryKey: chatQueries.messages(variables.roomId).queryKey,
+      });
+      queryClient.invalidateQueries({
+        queryKey: chatQueries.list().queryKey,
+      });
+    },
   });
 }
