@@ -67,8 +67,8 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
 
       <Tabs defaultValue="products">
         <TabsList>
-          <TabsTrigger value="products">상품</TabsTrigger>
-          <TabsTrigger value="wishlist">하트목록</TabsTrigger>
+          <TabsTrigger value="products" className="cursor-pointer">상품</TabsTrigger>
+          <TabsTrigger value="wishlist" className="cursor-pointer">하트 목록</TabsTrigger>
         </TabsList>
 
         <TabsContent value="products" className="pt-6">

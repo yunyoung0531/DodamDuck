@@ -55,3 +55,6 @@ coverage
 
 # legacy CRA project
 dodamduck_fe/
+
+# Python (githooks)
+__pycache__/
