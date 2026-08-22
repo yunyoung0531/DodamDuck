@@ -111,9 +111,14 @@ def load_token(repo_root):
   return ""
 
 
-def api_request(path, token, method="GET", payload=None):
-  """GitHub API 호출. (status_code, parsed_json) 반환."""
-  url = f"https://api.github.com{path}"
+def api_request(path, token, method="GET", payload=None, _redirected=False):
+  """GitHub API 호출. (status_code, parsed_json) 반환.
+
+  저장소 이름이 바뀌면 GitHub은 옛 경로에 리다이렉트를 준다. GET은 urllib이
+  알아서 따라가지만 POST/PATCH는 307을 그대로 돌려주므로(메서드 보존 규칙),
+  PR 생성만 조용히 실패한다. 응답 본문의 정식 URL로 한 번 재시도한다.
+  """
+  url = path if path.startswith("https://") else f"https://api.github.com{path}"
   data = json.dumps(payload).encode("utf-8") if payload is not None else None
   req = urllib.request.Request(url, data=data, method=method)
   req.add_header("Authorization", f"Bearer {token}")
@@ -127,9 +132,18 @@ def api_request(path, token, method="GET", payload=None):
   except urllib.error.HTTPError as e:
     body = e.read().decode("utf-8", "replace")
     try:
-      return e.code, json.loads(body)
+      parsed = json.loads(body)
     except json.JSONDecodeError:
-      return e.code, {"raw": body}
+      parsed = {"raw": body}
+
+    if e.code in (301, 307, 308) and not _redirected:
+      target = (parsed or {}).get("url") or e.headers.get("Location")
+      if target:
+        log(f"저장소가 이동됨(status={e.code}). 정식 URL로 재시도: {target}")
+        return api_request(target, token, method, payload, _redirected=True)
+      log(f"이동 응답({e.code})인데 대상 URL을 찾지 못함")
+
+    return e.code, parsed
   except urllib.error.URLError as e:
     log(f"API 연결 실패: {e}")
     return 0, None
