@@ -58,3 +58,11 @@ dodamduck_fe/
 
 # Python (githooks)
 __pycache__/
+
+# 블로그 글 작업물 (humanize-korean 스킬 산출물 포함)
+tistory*.md
+series-map.md
+_workspace/
+
+# 로컬 백업
+_backup_*/
