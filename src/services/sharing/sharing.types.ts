@@ -76,3 +76,8 @@ export interface PopularSearch {
   query: string;
   search_count: number;
 }
+
+/**
+ * 검색을 실행하는 최소 글자 수.
+ */
+export const MIN_SEARCH_QUERY_LENGTH = 2;

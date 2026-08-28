@@ -7,47 +7,77 @@ import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { LoadingState } from '@/components/common/LoadingState';
-import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
 import { LikeButton } from '@/components/common/LikeButton';
 import { CategoryChips } from '@/components/sharing/CategoryChips';
+import { SharingEmptyState } from '@/components/sharing/SharingEmptyState';
 import {
   useSharingList,
   useSharingSearch,
   usePopularSearches,
 } from '@/services/sharing/useSharing';
-import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
+import {
+  SHARING_CATEGORY,
+  MIN_SEARCH_QUERY_LENGTH,
+} from '@/services/sharing/sharing.types';
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 import { useUser } from '@/services/auth/useUser';
+import { useDebouncedValue } from '@/hooks/useDebouncedValue';
 import { formatTimeSince } from '@/libs/format-date';
 
 export default function SharingContents() {
-  const [searchQuery, setSearchQuery] = useState('');
-  const [activeSearch, setActiveSearch] = useState('');
+  const [inputValue, setInputValue] = useState('');
   const [category, setCategory] = useState<SharingCategory>(
     SHARING_CATEGORY.ALL
   );
   const router = useRouter();
   const { user } = useUser();
 
+  const { debouncedValue: debouncedQuery, commitNow } =
+    useDebouncedValue(inputValue);
+
+  const searchTerm =
+    inputValue.trim().length >= MIN_SEARCH_QUERY_LENGTH &&
+    debouncedQuery.trim().length >= MIN_SEARCH_QUERY_LENGTH
+      ? debouncedQuery.trim()
+      : '';
+
   const categoryFilter =
     category === SHARING_CATEGORY.ALL ? undefined : category;
 
   const { data: posts, isLoading } = useSharingList(categoryFilter);
-  const { data: searchResults } = useSharingSearch(activeSearch);
+  const { data: searchResults, isLoading: isSearchLoading } =
+    useSharingSearch(searchTerm);
   const { data: popularSearches } = usePopularSearches();
 
-  // 검색 RPC에는 카테고리 인자가 없어서 검색 결과만 클라이언트에서 좁힌다.
-  const displayPosts = activeSearch
+  const displayPosts = searchTerm
     ? searchResults?.filter(
         (post) => !categoryFilter || post.category === categoryFilter
       )
     : posts;
 
+  function applySearchImmediately(query: string) {
+    setInputValue(query);
+    commitNow(query);
+  }
+
   function handleSearch(e: React.FormEvent) {
     e.preventDefault();
-    setActiveSearch(searchQuery);
+    applySearchImmediately(inputValue);
+  }
+
+  function handleResetSearch() {
+    applySearchImmediately('');
+  }
+
+  function handleResetCategory() {
+    setCategory(SHARING_CATEGORY.ALL);
+  }
+
+  function handleResetAll() {
+    handleResetSearch();
+    handleResetCategory();
   }
 
   return (
@@ -63,8 +93,8 @@ export default function SharingContents() {
           <div className="relative">
             <Input
               placeholder="어떤 제품을 찾으세요?"
-              value={searchQuery}
-              onChange={(e) => setSearchQuery(e.target.value)}
+              value={inputValue}
+              onChange={(e) => setInputValue(e.target.value)}
               className="pr-10"
             />
             <button
@@ -83,10 +113,7 @@ export default function SharingContents() {
               key={item.query}
               variant="outline"
               className="cursor-pointer"
-              onClick={() => {
-                setSearchQuery(item.query);
-                setActiveSearch(item.query);
-              }}
+              onClick={() => applySearchImmediately(item.query)}
             >
               #{item.query}
             </Badge>
@@ -97,7 +124,7 @@ export default function SharingContents() {
         <CategoryChips value={category} onChange={setCategory} includeAll />
       </div>
 
-      {isLoading && <LoadingState />}
+      {(isLoading || (searchTerm !== '' && isSearchLoading)) && <LoadingState />}
 
       {displayPosts && displayPosts.length > 0 && (
         <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
@@ -156,7 +183,15 @@ export default function SharingContents() {
       )}
 
       {displayPosts && displayPosts.length === 0 && (
-        <EmptyState message="게시글이 없습니다." />
+        <SharingEmptyState
+          searchTerm={searchTerm}
+          category={category}
+          onResetSearch={handleResetSearch}
+          onResetCategory={handleResetCategory}
+          onResetAll={handleResetAll}
+          suggestedQueries={popularSearches?.map((item) => item.query)}
+          onSelectQuery={applySearchImmediately}
+        />
       )}
 
       {user && (
