@@ -5,6 +5,7 @@ import {
   servSearchSharingPosts,
   servFetchPopularSearches,
 } from './sharing-services';
+import { MIN_SEARCH_QUERY_LENGTH } from './sharing.types';
 import type { SharingPostCategory } from './sharing.types';
 
 export const sharingQueries = {
@@ -29,7 +30,9 @@ export const sharingQueries = {
     queryOptions({
       queryKey: ['sharing', 'search', query] as const,
       queryFn: () => servSearchSharingPosts(query),
-      enabled: query.length > 0,
+      enabled: query.trim().length >= MIN_SEARCH_QUERY_LENGTH,
+      // 검색어가 바뀌는 동안 이전 결과를 유지해 목록이 빈 화면으로 깜빡이지 않게 한다.
+      placeholderData: keepPreviousData,
       staleTime: 60 * 1000,
       gcTime: 5 * 60 * 1000,
     }),
