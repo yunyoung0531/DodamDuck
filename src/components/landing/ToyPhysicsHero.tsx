@@ -2,9 +2,8 @@
 
 import { useRef } from 'react';
 import Image from 'next/image';
-import Link from 'next/link';
 
-import { Button } from '@/components/ui/button';
+import { LinkButton } from '@/components/common/LinkButton';
 
 import { TOY_ASSETS } from './toy-config';
 import { usePrefersReducedMotion, useToyPhysics } from './useToyPhysics';
@@ -36,13 +35,13 @@ export default function ToyPhysicsHero() {
           <h5 className="text-landing-sub">여기에서 시작하는 작은 교환,</h5>
           <h5 className="text-landing-sub">큰 행복으로 연결됩니다.</h5>
         </div>
-        <Button
+        <LinkButton
+          href="/sharing"
           size="lg"
           className="pointer-events-auto px-6"
-          render={<Link href="/sharing" />}
         >
           교환하러 가기
-        </Button>
+        </LinkButton>
       </div>
     </section>
   );

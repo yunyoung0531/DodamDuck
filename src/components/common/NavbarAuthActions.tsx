@@ -1,8 +1,8 @@
 'use client';
 
-import Link from 'next/link';
 import { LogIn, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { LinkButton } from '@/components/common/LinkButton';
 import { useUser } from '@/services/auth/useUser';
 import { useLogout } from '@/services/auth/useAuth';
 
@@ -27,10 +27,10 @@ export function NavbarAuthActions() {
           </Button>
         </>
       ) : (
-        <Button size="xs" nativeButton={false} render={<Link href="/signin" />}>
+        <LinkButton href="/signin" size="xs">
           <LogIn size={16} />
           로그인
-        </Button>
+        </LinkButton>
       )}
     </div>
   );

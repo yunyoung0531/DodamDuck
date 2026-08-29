@@ -3,7 +3,8 @@
 import { Phone } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
+import { Button, buttonVariants } from '@/components/ui/button';
+import { cn } from '@/lib/utils';
 import { LoadingState } from '@/components/common/LoadingState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { useLibraryItems } from '@/services/library/useLibrary';
@@ -45,16 +46,16 @@ function ToyCard({ item }: { item: LibraryItem }) {
         </div>
 
         {item.관리기관전화번호 ? (
-          <Button
-            variant="outline"
-            size="sm"
-            className="w-full"
-            nativeButton={false}
-            render={<a href={`tel:${item.관리기관전화번호}`} />}
+          <a
+            href={`tel:${item.관리기관전화번호}`}
+            className={cn(
+              buttonVariants({ variant: 'outline', size: 'sm' }),
+              'w-full'
+            )}
           >
             <Phone size={16} />
             대여 문의
-          </Button>
+          </a>
         ) : (
           <Button variant="outline" size="sm" className="w-full" disabled>
             대여 문의
