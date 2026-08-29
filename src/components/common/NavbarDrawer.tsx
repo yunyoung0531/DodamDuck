@@ -5,6 +5,7 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { LogIn, LogOut, Menu, X } from 'lucide-react';
 import { Button } from '@/components/ui/button';
+import { LinkButton } from '@/components/common/LinkButton';
 import {
   Sheet,
   SheetContent,
@@ -78,15 +79,15 @@ export function NavbarDrawer() {
               </Button>
             </div>
           ) : (
-            <Button
-              className="w-full"
+            <LinkButton
+              href="/signin"
               size="sm"
-              render={<Link href="/signin" />}
+              className="w-full"
               onClick={() => setDrawerOpened(false)}
             >
               <LogIn size={16} />
               로그인
-            </Button>
+            </LinkButton>
           )}
         </div>
       </SheetContent>
