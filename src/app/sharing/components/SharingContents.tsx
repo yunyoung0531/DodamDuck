@@ -1,22 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import Image from 'next/image';
-import { useRouter } from 'next/navigation';
 import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
-import { LoadingState } from '@/components/common/LoadingState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
-import { LikeButton } from '@/components/common/LikeButton';
 import { CategoryChips } from '@/components/sharing/CategoryChips';
-import { SharingEmptyState } from '@/components/sharing/SharingEmptyState';
-import {
-  useSharingList,
-  useSharingSearch,
-  usePopularSearches,
-} from '@/services/sharing/useSharing';
+import { SharingPostList } from './SharingPostList';
+import { SharingSearchResults } from './SharingSearchResults';
+import { usePopularSearches } from '@/services/sharing/useSharing';
 import {
   SHARING_CATEGORY,
   MIN_SEARCH_QUERY_LENGTH,
@@ -24,38 +17,28 @@ import {
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 import { useUser } from '@/services/auth/useUser';
 import { useDebouncedValue } from '@/hooks/useDebouncedValue';
-import { formatTimeSince } from '@/libs/format-date';
 
 export default function SharingContents() {
   const [inputValue, setInputValue] = useState('');
   const [category, setCategory] = useState<SharingCategory>(
     SHARING_CATEGORY.ALL
   );
-  const router = useRouter();
   const { user } = useUser();
 
   const { debouncedValue: debouncedQuery, commitNow } =
     useDebouncedValue(inputValue);
 
+  const { data: popularSearches } = usePopularSearches();
+
+  /**
+   * 검색 모드와 목록 모드를 가르는 단 하나의 조건.
+   * 지운 직후 이전 검색어로 잠깐 검색되는 것을 막으려 현재 입력값도 함께 본다.
+   */
   const searchTerm =
     inputValue.trim().length >= MIN_SEARCH_QUERY_LENGTH &&
     debouncedQuery.trim().length >= MIN_SEARCH_QUERY_LENGTH
       ? debouncedQuery.trim()
       : '';
-
-  const categoryFilter =
-    category === SHARING_CATEGORY.ALL ? undefined : category;
-
-  const { data: posts, isLoading } = useSharingList(categoryFilter);
-  const { data: searchResults, isLoading: isSearchLoading } =
-    useSharingSearch(searchTerm);
-  const { data: popularSearches } = usePopularSearches();
-
-  const displayPosts = searchTerm
-    ? searchResults?.filter(
-        (post) => !categoryFilter || post.category === categoryFilter
-      )
-    : posts;
 
   function applySearchImmediately(query: string) {
     setInputValue(query);
@@ -79,6 +62,14 @@ export default function SharingContents() {
     handleResetSearch();
     handleResetCategory();
   }
+
+  const emptyActions = {
+    onResetSearch: handleResetSearch,
+    onResetCategory: handleResetCategory,
+    onResetAll: handleResetAll,
+    suggestedQueries: popularSearches?.map((item) => item.query),
+    onSelectQuery: applySearchImmediately,
+  };
 
   return (
     <div className="flex justify-center px-4 py-10">
@@ -124,74 +115,14 @@ export default function SharingContents() {
         <CategoryChips value={category} onChange={setCategory} includeAll />
       </div>
 
-      {(isLoading || (searchTerm !== '' && isSearchLoading)) && <LoadingState />}
-
-      {displayPosts && displayPosts.length > 0 && (
-        <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-          {displayPosts.map((post) => (
-            <div
-              key={post.id}
-              className="cursor-pointer overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
-              onClick={() => router.push(`/sharing/${post.id}`)}
-            >
-              <div className="relative h-48">
-                <Image
-                  src={post.image_url || '/images/도담덕로고.png'}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-
-              <div className="flex flex-col gap-2 p-3">
-                <div className="flex flex-col gap-1">
-                  <div className="flex items-center justify-between">
-                    <p className="truncate text-sm font-semibold">{post.title}</p>
-                    <LikeButton
-                      postId={post.id}
-                      likeCount={post.like_count}
-                      size="sm"
-                    />
-                  </div>
-                  <p className="text-xs text-muted-foreground">
-                    {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
-                    {post.views}
-                  </p>
-                </div>
-                <div className="flex flex-col gap-1">
-                  <div className="flex flex-wrap gap-1">
-                    <Badge variant="secondary">
-                      {post.exchange_option}
-                    </Badge>
-                    <Badge variant="outline">{post.category}</Badge>
-                  </div>
-                  {post.tags && post.tags.length > 0 && (
-                    <div className="flex gap-1">
-                    {post.tags.map((tag) => (
-                      <span key={tag} className="text-xs text-muted-foreground">
-                        #{tag}
-                      </span>
-                    ))}
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-          ))}
-        </div>
-      )}
-
-      {displayPosts && displayPosts.length === 0 && (
-        <SharingEmptyState
+      {searchTerm ? (
+        <SharingSearchResults
           searchTerm={searchTerm}
           category={category}
-          onResetSearch={handleResetSearch}
-          onResetCategory={handleResetCategory}
-          onResetAll={handleResetAll}
-          suggestedQueries={popularSearches?.map((item) => item.query)}
-          onSelectQuery={applySearchImmediately}
+          emptyActions={emptyActions}
         />
+      ) : (
+        <SharingPostList category={category} emptyActions={emptyActions} />
       )}
 
       {user && (

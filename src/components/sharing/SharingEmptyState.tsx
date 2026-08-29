@@ -8,16 +8,23 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 
-interface SharingEmptyStateProps {
-  /** 현재 적용된 검색어. 빈 문자열이면 검색 중이 아니다. */
-  searchTerm: string;
-  category: SharingCategory;
+/**
+ * 0건일 때 조건을 되돌리는 수단들. 목록·검색 컴포넌트가 그대로 전달만 하므로
+ * 하나로 묶어 중간 단계의 props 배관을 줄인다.
+ */
+export interface SharingEmptyStateActions {
   onResetSearch: () => void;
   onResetCategory: () => void;
   onResetAll: () => void;
   /** 검색어만 걸린 경우 대안으로 제시할 인기 검색어. */
   suggestedQueries?: string[];
   onSelectQuery?: (query: string) => void;
+}
+
+interface SharingEmptyStateProps extends SharingEmptyStateActions {
+  /** 현재 적용된 검색어. 빈 문자열이면 검색 중이 아니다. */
+  searchTerm: string;
+  category: SharingCategory;
 }
 
 /**
