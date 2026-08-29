@@ -1,3 +1,4 @@
+import { useRouter } from 'next/navigation';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { authQueries } from './queries';
 import {
@@ -33,6 +34,21 @@ export function useSignOut() {
   return useMutation({
     mutationFn: () => servSignOut(),
   });
+}
+
+/**
+ * 로그아웃 후 홈으로 이동하고 서버 컴포넌트를 다시 그린다.
+ * `refresh()`가 없으면 세션이 남아있는 상태로 렌더된 서버 컴포넌트가 그대로 보인다.
+ */
+export function useLogout() {
+  const router = useRouter();
+  const signOut = useSignOut();
+
+  return async function logout() {
+    await signOut.mutateAsync();
+    router.push('/');
+    router.refresh();
+  };
 }
 
 export function useUpdateProfileImage() {
