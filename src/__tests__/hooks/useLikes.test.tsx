@@ -128,7 +128,8 @@ describe('useIsLiked', () => {
 
     const { result } = renderHook(() => useIsLiked(3), { wrapper });
 
-    expect(result.current).toBe(true);
+    expect(result.current.isLiked).toBe(true);
+    expect(result.current.isLoading).toBe(false);
   });
 
   it('좋아요하지 않은 게시글이면 false를 반환한다', () => {
@@ -140,13 +141,20 @@ describe('useIsLiked', () => {
 
     const { result } = renderHook(() => useIsLiked(2), { wrapper });
 
-    expect(result.current).toBe(false);
+    expect(result.current.isLiked).toBe(false);
+    expect(result.current.isLoading).toBe(false);
   });
 
   it('likedIds가 없으면 false를 반환한다', () => {
     const { result } = renderHookWithProviders(() => useIsLiked(1));
 
-    expect(result.current).toBe(false);
+    expect(result.current.isLiked).toBe(false);
+  });
+
+  it('비로그인 사용자는 쿼리가 비활성이라 isLoading이 false다', () => {
+    const { result } = renderHookWithProviders(() => useIsLiked(1));
+
+    expect(result.current.isLoading).toBe(false);
   });
 });
 

@@ -20,7 +20,7 @@ export function LikeButton({
 }: LikeButtonProps) {
   const router = useRouter();
   const { user } = useUser();
-  const isLiked = useIsLiked(postId);
+  const { isLiked, isLoading } = useIsLiked(postId);
   const toggleLike = useToggleLike();
 
   function handleClick(e: React.MouseEvent) {
@@ -31,6 +31,8 @@ export function LikeButton({
       router.push('/signin');
       return;
     }
+
+    if (isLoading) return;
 
     if (toggleLike.isPending) return;
 

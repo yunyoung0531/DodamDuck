@@ -14,8 +14,12 @@ export function useUserLikedIds() {
 }
 
 export function useIsLiked(postId: number) {
-  const { data: likedIds } = useUserLikedIds();
-  return likedIds?.includes(postId) ?? false;
+  const { data: likedIds, isLoading } = useUserLikedIds();
+
+  return {
+    isLiked: likedIds?.includes(postId) ?? false,
+    isLoading,
+  };
 }
 
 export function useToggleLike() {
