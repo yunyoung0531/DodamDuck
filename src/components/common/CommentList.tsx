@@ -8,7 +8,7 @@ import { EmptyState } from '@/components/common/EmptyState';
 import { ConfirmDialog } from '@/components/common/ConfirmDialog';
 import { formatTimeSince } from '@/libs/format-date';
 
-export interface Comment {
+export interface PostComment {
   id: number;
   user_id?: string;
   content: string;
@@ -19,7 +19,7 @@ export interface Comment {
 }
 
 interface CommentListProps {
-  comments: Comment[];
+  comments: PostComment[];
   onDelete?: (commentId: number) => void;
   currentUserId?: string;
   isDeletingId?: number | null;
