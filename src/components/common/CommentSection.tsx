@@ -1,11 +1,14 @@
 'use client';
 
-import { CommentList, type Comment } from '@/components/common/CommentList';
+import {
+  CommentList,
+  type PostComment,
+} from '@/components/common/CommentList';
 import { CommentComposer } from '@/components/common/CommentComposer';
 import { cn } from '@/lib/utils';
 
 interface CommentSectionProps {
-  comments: Comment[];
+  comments: PostComment[];
   isLoggedIn: boolean;
   onSubmit: (content: string) => void;
   isSubmitting: boolean;
