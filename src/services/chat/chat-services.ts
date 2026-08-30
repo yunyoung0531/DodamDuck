@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import type { Database } from '@/types/supabase';
 import type {
   ChatRoom,
@@ -11,7 +11,7 @@ import type {
 export async function servFetchChatList(
   client?: SupabaseClient<Database>
 ): Promise<ChatRoom[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const {
     data: { user },
@@ -34,7 +34,7 @@ export async function servFetchMessages(
   roomId: number,
   client?: SupabaseClient<Database>
 ): Promise<ChatMessage[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data, error } = await supabase
     .from('chat_messages')
@@ -49,7 +49,7 @@ export async function servFetchMessages(
 export async function servCreateChatRoom(
   request: CreateChatRoomRequest
 ): Promise<ChatRoom> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -91,7 +91,7 @@ export async function servCreateChatRoom(
 export async function servSendMessage(
   request: SendMessageRequest
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { uploadImage } from '@/libs/supabase/storage';
 import type { Database } from '@/types/supabase';
 import type {
@@ -16,7 +16,7 @@ export async function servFetchSharingPosts(
   category?: SharingPostCategory,
   client?: SupabaseClient<Database>
 ): Promise<SharingPost[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   let query = supabase
     .from('sharing_posts')
@@ -38,7 +38,7 @@ export async function servFetchSharingDetail(
   postId: number,
   client?: SupabaseClient<Database>
 ): Promise<SharingDetailResponse> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data: post, error: postError } = await supabase
     .from('sharing_posts')
@@ -65,7 +65,7 @@ export async function servFetchSharingDetail(
 export async function servCreateSharingPost(
   request: CreateSharingPostRequest
 ): Promise<SharingPost> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -97,7 +97,7 @@ export async function servCreateSharingPost(
 }
 
 export async function servDeleteSharingPost(postId: number): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { error } = await supabase
     .from('sharing_posts')
@@ -110,7 +110,7 @@ export async function servDeleteSharingPost(postId: number): Promise<void> {
 export async function servIncrementSharingViewCount(
   postId: number
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
   const { error } = await supabase.rpc('increment_sharing_views', {
     target_post_id: postId,
   });
@@ -120,7 +120,7 @@ export async function servIncrementSharingViewCount(
 export async function servAddSharingComment(
   request: AddSharingCommentRequest
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -139,7 +139,7 @@ export async function servAddSharingComment(
 export async function servDeleteSharingComment(
   commentId: number
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -160,7 +160,7 @@ export async function servSearchSharingPosts(
   query: string,
   client?: SupabaseClient<Database>
 ): Promise<SharingPost[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data, error } = await supabase.rpc('search_sharing_posts', {
     search_query: query,
@@ -187,7 +187,7 @@ export async function servSearchSharingPosts(
 export async function servFetchPopularSearches(
   client?: SupabaseClient<Database>
 ): Promise<PopularSearch[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data, error } = await supabase.rpc('get_popular_searches', {
     limit_count: 5,

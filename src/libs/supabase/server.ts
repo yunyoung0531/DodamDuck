@@ -2,7 +2,11 @@ import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
 import type { Database } from '@/types/supabase';
 
-export async function createClient() {
+/**
+ * 서버(RSC/Route Handler)용 Supabase 클라이언트.
+ * 쿠키를 읽어야 해서 **비동기**다 — `await createServerSupabase()`로 쓴다.
+ */
+export async function createServerSupabase() {
   const cookieStore = await cookies();
 
   return createServerClient<Database>(

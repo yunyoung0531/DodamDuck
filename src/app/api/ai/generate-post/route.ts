@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { generateText } from 'ai';
 import { createOpenRouter } from '@openrouter/ai-sdk-provider';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { generatedPostSchema } from '@/libs/validations/ai';
 import {
   SHARING_CATEGORY,
@@ -311,7 +311,7 @@ export async function POST(request: Request) {
     );
   }
 
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

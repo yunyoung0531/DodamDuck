@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import {
   servSignIn,
   servSignUp,
@@ -20,7 +20,7 @@ vi.mock('@/libs/supabase/storage', () => ({
 }));
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servSignIn', () => {
   it('로그인 성공 시 데이터를 반환한다', async () => {

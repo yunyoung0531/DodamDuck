@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import {
   servFetchBoardPosts,
   servFetchBoardDetail,
@@ -19,7 +19,7 @@ vi.mock('@/libs/supabase/storage', () => ({
 }));
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servFetchBoardPosts', () => {
   it('게시판 목록을 반환한다', async () => {

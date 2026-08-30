@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { renderHookWithProviders, waitFor } from '../test-utils';
 import {
   useBoardList,
@@ -20,7 +20,7 @@ vi.mock('@/libs/supabase/storage', () => ({
 }));
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useBoardList', () => {
   it('게시판 목록을 가져온다', async () => {

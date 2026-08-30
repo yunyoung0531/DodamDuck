@@ -1,6 +1,6 @@
 import userEvent from '@testing-library/user-event';
 import { renderWithProviders, screen, waitFor } from '../test-utils';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { LikeButton } from '@/components/common/LikeButton';
 import { createMockUser, createMockProfile } from '../mocks/supabase';
 import type { MockSupabaseClient } from '../mocks/supabase';
@@ -16,7 +16,7 @@ vi.mocked(await import('next/navigation')).useRouter.mockReturnValue({
   forward: vi.fn(),
 });
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 function setupUnauthenticated() {
   mockSupabase.auth = {

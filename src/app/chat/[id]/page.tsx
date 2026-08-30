@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { chatQueries } from '@/services/chat/queries';
 import { servFetchChatList, servFetchMessages } from '@/services/chat/chat-services';
 import type { Profile } from '@/services/auth/auth.types';
@@ -16,7 +16,7 @@ export default async function ChatDetailPage({
 }: ChatDetailPageProps) {
   const { id } = await params;
   const roomId = Number(id);
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

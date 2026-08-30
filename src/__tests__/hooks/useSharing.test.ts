@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { renderHookWithProviders, waitFor } from '../test-utils';
 import {
   useSharingList,
@@ -23,7 +23,7 @@ vi.mock('@/libs/supabase/storage', () => ({
 }));
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useSharingList', () => {
   it('게시글 목록을 가져온다', async () => {

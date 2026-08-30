@@ -24,7 +24,7 @@ vi.mock('@openrouter/ai-sdk-provider', () => ({
 }));
 
 vi.mock('@/libs/supabase/server', () => ({
-  createClient: async () => ({ auth: { getUser: getUserMock } }),
+  createServerSupabase: async () => ({ auth: { getUser: getUserMock } }),
 }));
 
 const { POST } = await import('@/app/api/ai/generate-post/route');

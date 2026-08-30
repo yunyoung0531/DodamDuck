@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { sharingQueries } from '@/services/sharing/queries';
 import {
   servFetchSharingPosts,
@@ -10,7 +10,7 @@ import SharingContents from './components/SharingContents';
 
 export default async function SharingPage() {
   const queryClient = getQueryClient();
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
 
   await Promise.all([
     queryClient.prefetchQuery({

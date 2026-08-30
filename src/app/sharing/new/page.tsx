@@ -1,9 +1,9 @@
 import { redirect } from 'next/navigation';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import SharingNewContents from './components/SharingNewContents';
 
 export default async function SharingNewPage() {
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

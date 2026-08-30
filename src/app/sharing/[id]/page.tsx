@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { sharingQueries } from '@/services/sharing/queries';
 import { servFetchSharingDetail } from '@/services/sharing/sharing-services';
 import { likesQueries } from '@/services/likes/queries';
@@ -17,7 +17,7 @@ export default async function SharingDetailPage({
   const { id } = await params;
   const postId = Number(id);
   const queryClient = getQueryClient();
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
 
   const {
     data: { user },

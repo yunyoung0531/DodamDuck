@@ -2,7 +2,7 @@
 
 import { useEffect } from 'react';
 import { useQuery, useQueryClient } from '@tanstack/react-query';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { authQueries } from './queries';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from './auth.types';
@@ -18,7 +18,7 @@ export function useUser(): UseUserReturn {
   const { data, isLoading } = useQuery(authQueries.currentProfile());
 
   useEffect(() => {
-    const supabase = createClient();
+    const supabase = createBrowserSupabase();
 
     const {
       data: { subscription },

@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { renderHookWithProviders, waitFor } from '../test-utils';
 import {
   useChatList,
@@ -10,7 +10,7 @@ import { createMockChatRoom, createMockChatMessage } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useChatList', () => {
   it('채팅 목록을 가져온다', async () => {

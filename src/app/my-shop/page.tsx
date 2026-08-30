@@ -1,7 +1,7 @@
 import { redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { sharingQueries } from '@/services/sharing/queries';
 import { servFetchSharingPosts } from '@/services/sharing/sharing-services';
 import { likesQueries } from '@/services/likes/queries';
@@ -10,7 +10,7 @@ import type { Profile } from '@/services/auth/auth.types';
 import MyShopContents from './components/MyShopContents';
 
 export default async function MyShopPage() {
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

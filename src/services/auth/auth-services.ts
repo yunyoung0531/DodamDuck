@@ -1,6 +1,6 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/supabase';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { uploadImage, extractStoragePath, deleteImage } from '@/libs/supabase/storage';
 import type {
   SignInRequest,
@@ -19,7 +19,7 @@ function toEmail(username: string): string {
 }
 
 export async function servSignIn(request: SignInRequest) {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { data, error } = await supabase.auth.signInWithPassword({
     email: toEmail(request.userID),
@@ -31,7 +31,7 @@ export async function servSignIn(request: SignInRequest) {
 }
 
 export async function servSignUp(request: SignUpRequest) {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { data, error } = await supabase.auth.signUp({
     email: toEmail(request.userID),
@@ -50,7 +50,7 @@ export async function servSignUp(request: SignUpRequest) {
 }
 
 export async function servSignOut() {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
   const { error } = await supabase.auth.signOut();
   if (error) throw error;
 }
@@ -58,7 +58,7 @@ export async function servSignOut() {
 export async function servCheckUsername(
   username: string
 ): Promise<CheckUsernameResponse> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { data } = await supabase
     .from('profiles')
@@ -72,7 +72,7 @@ export async function servCheckUsername(
 export async function servFetchCurrentProfile(
   client?: SupabaseClient<Database>
 ): Promise<CurrentProfile | null> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const {
     data: { user },
@@ -99,7 +99,7 @@ export async function servFetchCurrentProfile(
 export async function servUpdateProfile(
   request: Pick<UpdateProfileRequest, 'display_name' | 'location'>
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -118,7 +118,7 @@ export async function servUpdateProfile(
 }
 
 export async function servUpdateProfileImage(file: File): Promise<string> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },

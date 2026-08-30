@@ -96,7 +96,7 @@ vi.mock('@/libs/supabase/client', () => {
   };
 
   return {
-    createClient: vi.fn(() => mockSupabase),
+    createBrowserSupabase: vi.fn(() => mockSupabase),
   };
 });
 

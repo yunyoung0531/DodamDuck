@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import {
   servFetchUserLikedPostIds,
   servToggleLike,
@@ -8,7 +8,7 @@ import { createMockUser } from '../mocks/supabase';
 import { createMockSharingPost } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servFetchUserLikedPostIds', () => {
   it('인증된 사용자의 좋아요 post ID 배열을 반환한다', async () => {

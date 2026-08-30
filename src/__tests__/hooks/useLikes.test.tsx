@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { renderHook, waitFor } from '@testing-library/react';
 import { renderHookWithProviders } from '../test-utils';
@@ -10,7 +10,7 @@ import {
 } from '@/services/likes/useLikes';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 function setupAuthenticatedUser() {
   mockSupabase.auth = {
