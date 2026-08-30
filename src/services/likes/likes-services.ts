@@ -1,12 +1,12 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import type { Database } from '@/types/supabase';
 import type { SharingPost } from '@/services/sharing/sharing.types';
 
 export async function servFetchUserLikedPostIds(
   client?: SupabaseClient<Database>
 ): Promise<number[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const {
     data: { user },
@@ -23,7 +23,7 @@ export async function servFetchUserLikedPostIds(
 }
 
 export async function servToggleLike(postId: number): Promise<boolean> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { data, error } = await supabase.rpc('toggle_like', {
     target_table: 'sharing',
@@ -37,7 +37,7 @@ export async function servToggleLike(postId: number): Promise<boolean> {
 export async function servFetchUserLikedSharingPosts(
   client?: SupabaseClient<Database>
 ): Promise<SharingPost[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const {
     data: { user },

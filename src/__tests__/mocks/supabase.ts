@@ -2,7 +2,8 @@ import type { Profile } from '@/services/auth/auth.types';
 
 /**
  * Supabase 클라이언트 목 타입.
- * vi.mocked(createClient)() 대신 createClient() as unknown as MockSupabaseClient
+ * vi.mocked(createBrowserSupabase)() 대신
+ * createBrowserSupabase() as unknown as MockSupabaseClient
  * 패턴으로 사용하여 Supabase SDK의 엄격한 제네릭 타입 충돌을 우회한다.
  */
 export interface MockSupabaseAuth {

@@ -1,5 +1,5 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { uploadImage } from '@/libs/supabase/storage';
 import type { Database } from '@/types/supabase';
 import type {
@@ -13,7 +13,7 @@ import type {
 export async function servFetchBoardPosts(
   client?: SupabaseClient<Database>
 ): Promise<BoardPost[]> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data, error } = await supabase
     .from('board_posts')
@@ -28,7 +28,7 @@ export async function servFetchBoardDetail(
   postId: number,
   client?: SupabaseClient<Database>
 ): Promise<BoardDetailResponse> {
-  const supabase = client ?? createClient();
+  const supabase = client ?? createBrowserSupabase();
 
   const { data: post, error: postError } = await supabase
     .from('board_posts')
@@ -55,7 +55,7 @@ export async function servFetchBoardDetail(
 export async function servCreateBoardPost(
   request: CreateBoardPostRequest
 ): Promise<BoardPost> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -83,7 +83,7 @@ export async function servCreateBoardPost(
 }
 
 export async function servDeleteBoardPost(postId: number): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { error } = await supabase
     .from('board_posts')
@@ -96,7 +96,7 @@ export async function servDeleteBoardPost(postId: number): Promise<void> {
 export async function servIncrementBoardViewCount(
   postId: number
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
   const { error } = await supabase.rpc('increment_board_views', {
     target_post_id: postId,
   });
@@ -106,7 +106,7 @@ export async function servIncrementBoardViewCount(
 export async function servDeleteBoardComment(
   commentId: number
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },
@@ -126,7 +126,7 @@ export async function servDeleteBoardComment(
 export async function servAddBoardComment(
   request: AddBoardCommentRequest
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const {
     data: { user },

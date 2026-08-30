@@ -1,9 +1,9 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { act, renderWithProviders, screen, fireEvent } from '../test-utils';
 import SharingContents from '@/app/sharing/components/SharingContents';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 /** 컴포넌트가 쓰는 debounce 지연시간. 이 값을 기준으로 타이머를 밀어준다. */
 const DEBOUNCE_MS = 300;

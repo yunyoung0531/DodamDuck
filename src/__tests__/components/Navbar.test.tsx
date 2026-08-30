@@ -1,11 +1,11 @@
 import { renderWithProviders, screen } from '../test-utils';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { Navbar } from '@/components/common/Navbar';
 import { createMockProfile, createMockUser } from '../mocks/supabase';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('Navbar', () => {
   it('로고와 도담덕 텍스트를 표시한다', () => {

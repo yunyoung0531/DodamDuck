@@ -1,14 +1,14 @@
 import { redirect } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { chatQueries } from '@/services/chat/queries';
 import { servFetchChatList } from '@/services/chat/chat-services';
 import type { Profile } from '@/services/auth/auth.types';
 import ChatContents from './components/ChatContents';
 
 export default async function ChatPage() {
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
   const {
     data: { user },
   } = await supabase.auth.getUser();

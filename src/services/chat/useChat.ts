@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import { chatQueries } from './queries';
 import { servCreateChatRoom, servSendMessage } from './chat-services';
 import type { CreateChatRoomRequest, SendMessageRequest } from './chat.types';
@@ -23,7 +23,7 @@ export function useChatMessages(roomId: number) {
   useEffect(() => {
     if (roomId <= 0) return;
 
-    const supabase = createClient();
+    const supabase = createBrowserSupabase();
     const channel = supabase
       .channel(`chat-room-${roomId}-${++channelSeq}`)
       .on(

@@ -1,6 +1,6 @@
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
-import { createClient } from '@/libs/supabase/server';
+import { createServerSupabase } from '@/libs/supabase/server';
 import { boardQueries } from '@/services/board/queries';
 import { servFetchBoardDetail } from '@/services/board/board-services';
 import BoardDetailContents from './components/BoardDetailContents';
@@ -15,7 +15,7 @@ export default async function BoardDetailPage({
   const { id } = await params;
   const postId = Number(id);
   const queryClient = getQueryClient();
-  const supabase = await createClient();
+  const supabase = await createServerSupabase();
 
   await queryClient.prefetchQuery({
     ...boardQueries.detail(postId),

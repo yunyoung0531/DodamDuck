@@ -1,4 +1,4 @@
-import { createClient } from '@/libs/supabase/client';
+import { createBrowserSupabase } from '@/libs/supabase/client';
 import {
   servFetchChatList,
   servFetchMessages,
@@ -8,7 +8,7 @@ import { createMockChatRoom, createMockChatMessage } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
 
-const mockSupabase = createClient() as unknown as MockSupabaseClient;
+const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servFetchChatList', () => {
   it('채팅 목록을 반환한다', async () => {

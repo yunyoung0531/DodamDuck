@@ -1,4 +1,4 @@
-import { createClient } from './client';
+import { createBrowserSupabase } from './client';
 
 type BucketName = 'post-images' | 'board-images' | 'profile-images';
 
@@ -7,7 +7,7 @@ export async function uploadImage(
   path: string,
   file: File
 ): Promise<string> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { error } = await supabase.storage
     .from(bucket)
@@ -33,7 +33,7 @@ export async function deleteImage(
   bucket: BucketName,
   path: string
 ): Promise<void> {
-  const supabase = createClient();
+  const supabase = createBrowserSupabase();
 
   const { error } = await supabase.storage.from(bucket).remove([path]);
   if (error) throw error;
