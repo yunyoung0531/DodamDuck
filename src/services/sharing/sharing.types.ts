@@ -81,3 +81,8 @@ export interface PopularSearch {
  * 검색을 실행하는 최소 글자 수.
  */
 export const MIN_SEARCH_QUERY_LENGTH = 2;
+
+/**
+ * 게시글 하나에 붙일 수 있는 해시태그 최대 개수.
+ */
+export const MAX_TAG_COUNT = 5;

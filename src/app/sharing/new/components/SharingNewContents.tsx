@@ -22,6 +22,7 @@ import {
   type CreateSharingPostForm,
 } from '@/libs/validations/sharing';
 import { useCreateSharingPost } from '@/services/sharing/useSharing';
+import { MAX_TAG_COUNT } from '@/services/sharing/sharing.types';
 import { useUser } from '@/services/auth/useUser';
 
 export default function SharingNewContents() {
@@ -52,7 +53,7 @@ export default function SharingNewContents() {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       const trimmed = tagInput.trim();
-      if (trimmed && !tags.includes(trimmed) && tags.length < 5) {
+      if (trimmed && !tags.includes(trimmed) && tags.length < MAX_TAG_COUNT) {
         setTags([...tags, trimmed]);
       }
       setTagInput('');
@@ -181,7 +182,7 @@ export default function SharingNewContents() {
                   <Label htmlFor="tagInput">해시태그</Label>
                   <Input
                     id="tagInput"
-                    placeholder="태그 입력 후 스페이스바 (최대 5개)"
+                    placeholder={`태그 입력 후 스페이스바 (최대 ${MAX_TAG_COUNT}개)`}
                     value={tagInput}
                     onChange={(e) => setTagInput(e.target.value)}
                     onKeyDown={handleTagKeyDown}
