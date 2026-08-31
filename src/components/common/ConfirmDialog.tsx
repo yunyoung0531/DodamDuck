@@ -15,7 +15,11 @@ import { Button } from '@/components/ui/button';
 import { LoadingButton } from '@/components/common/LoadingButton';
 
 interface ConfirmDialogProps {
-  trigger: React.ReactNode;
+  /**
+   * 다이얼로그를 여는 요소. Base UI가 이 엘리먼트 자체에 트리거 속성을 병합한다.
+   * 감싸는 래퍼를 두면 래퍼와 버튼이 각각 포커스를 받아 Tab이 두 번 멈춘다.
+   */
+  trigger: React.ReactElement;
   title: string;
   description: string;
   confirmLabel?: string;
@@ -40,9 +44,7 @@ export function ConfirmDialog({
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<span className="inline-flex" />}>
-        {trigger}
-      </DialogTrigger>
+      <DialogTrigger render={trigger} />
       <DialogContent showCloseButton={false}>
         <DialogHeader>
           <DialogTitle>{title}</DialogTitle>

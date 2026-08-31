@@ -18,6 +18,22 @@ describe('ConfirmDialog', () => {
     expect(screen.getByText('삭제')).toBeInTheDocument();
   });
 
+  it('트리거를 감싸지 않고 버튼 자체에 다이얼로그 속성을 붙인다', () => {
+    renderWithProviders(
+      <ConfirmDialog
+        trigger={<Button>삭제</Button>}
+        title="삭제 확인"
+        description="정말 삭제하시겠습니까?"
+        onConfirm={vi.fn()}
+      />
+    );
+
+    const trigger = screen.getByRole('button', { name: '삭제' });
+
+    expect(trigger).toHaveAttribute('aria-haspopup', 'dialog');
+    expect(trigger.parentElement).not.toHaveAttribute('tabindex');
+  });
+
   it('트리거 클릭 시 다이얼로그가 열린다', async () => {
     const user = userEvent.setup();
 
