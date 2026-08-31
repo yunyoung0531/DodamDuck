@@ -1,20 +1,21 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { Badge } from '@/components/ui/badge';
 import { LikeButton } from '@/components/common/LikeButton';
 import { formatTimeSince } from '@/libs/format-date';
 import type { SharingPost } from '@/services/sharing/sharing.types';
 
 function SharingPostCard({ post }: { post: SharingPost }) {
-  const router = useRouter();
-
   return (
-    <div
-      className="cursor-pointer overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg"
-      onClick={() => router.push(`/sharing/${post.id}`)}
-    >
+    <div className="relative isolate overflow-hidden rounded-lg border bg-card transition-all hover:-translate-y-1 hover:shadow-lg">
+      <Link
+        href={`/sharing/${post.id}`}
+        aria-label={post.title}
+        className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:outline-ring focus-visible:[outline-offset:-2px]"
+      />
+
       <div className="relative h-48">
         <Image
           src={post.image_url || '/images/도담덕로고.png'}
@@ -29,11 +30,13 @@ function SharingPostCard({ post }: { post: SharingPost }) {
         <div className="flex flex-col gap-1">
           <div className="flex items-center justify-between">
             <p className="truncate text-sm font-semibold">{post.title}</p>
-            <LikeButton
-              postId={post.id}
-              likeCount={post.like_count}
-              size="sm"
-            />
+            <div className="relative z-20">
+              <LikeButton
+                postId={post.id}
+                likeCount={post.like_count}
+                size="sm"
+              />
+            </div>
           </div>
           <p className="text-xs text-muted-foreground">
             {post.location} · {formatTimeSince(post.created_at)} · 조회{' '}
