@@ -4,6 +4,7 @@ import { createOpenRouter } from '@openrouter/ai-sdk-provider';
 import { createServerSupabase } from '@/libs/supabase/server';
 import { generatedPostSchema } from '@/libs/validations/ai';
 import {
+  MAX_TAG_COUNT,
   SHARING_CATEGORY,
   SHARING_CATEGORY_VALUES,
 } from '@/services/sharing/sharing.types';
@@ -99,7 +100,9 @@ function coerceGeneratedPost(raw: unknown): unknown {
   return {
     ...record,
     tags: Array.isArray(tags)
-      ? tags.filter((tag): tag is string => typeof tag === 'string').slice(0, 5)
+      ? tags
+          .filter((tag): tag is string => typeof tag === 'string')
+          .slice(0, MAX_TAG_COUNT)
       : [],
     category: SHARING_CATEGORY_VALUES.some((value) => value === category)
       ? category
@@ -208,7 +211,7 @@ const SYSTEM_PROMPT = `당신은 유아용품 교환/나눔 플랫폼 "도담덕
 
 1. title (상품명): 브랜드 + 상품명, 30자 이내
 2. content (상품 설명): 종류, 구성품, 적합 연령대, 50~200자, 따뜻한 말투
-3. tags (해시태그): 관련 키워드 1~5개, '#' 없이
+3. tags (해시태그): 관련 키워드 1~${MAX_TAG_COUNT}개, '#' 없이
 4. category (카테고리): 아래 6종 중 하나를 글자 그대로 (임의로 바꾸지 마세요)
 ${SHARING_CATEGORY_VALUES.map((value) => `   - ${value}`).join('\n')}
 
