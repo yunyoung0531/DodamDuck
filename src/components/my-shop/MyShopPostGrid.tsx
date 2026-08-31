@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { useIncrementSharingViewCount } from '@/services/sharing/useSharing';
 import type { SharingPost } from '@/services/sharing/sharing.types';
 
@@ -13,13 +13,7 @@ interface MyShopPostGridProps {
 
 /** 내 상점의 게시글 썸네일 그리드. 상품 탭과 하트 목록 탭이 함께 쓴다. */
 export function MyShopPostGrid({ posts, renderAction }: MyShopPostGridProps) {
-  const router = useRouter();
   const incrementView = useIncrementSharingViewCount();
-
-  function handleClick(postId: number) {
-    incrementView.mutate(postId);
-    router.push(`/sharing/${postId}`);
-  }
 
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-3 md:grid-cols-4">
@@ -27,11 +21,14 @@ export function MyShopPostGrid({ posts, renderAction }: MyShopPostGridProps) {
         const action = renderAction?.(post);
 
         return (
-          <div
-            key={post.id}
-            className="flex cursor-pointer flex-col gap-2"
-            onClick={() => handleClick(post.id)}
-          >
+          <div key={post.id} className="relative isolate flex flex-col gap-2">
+            <Link
+              href={`/sharing/${post.id}`}
+              aria-label={post.title}
+              onClick={() => incrementView.mutate(post.id)}
+              className="absolute inset-0 z-10 rounded-md focus-visible:outline-2 focus-visible:outline-ring focus-visible:[outline-offset:-2px]"
+            />
+
             <div className="relative aspect-square overflow-hidden rounded-md">
               <Image
                 src={post.image_url || '/images/도담덕로고.png'}
@@ -44,7 +41,7 @@ export function MyShopPostGrid({ posts, renderAction }: MyShopPostGridProps) {
             {action ? (
               <div className="flex items-center justify-between">
                 <p className="truncate text-sm">{post.title}</p>
-                {action}
+                <div className="relative z-20">{action}</div>
               </div>
             ) : (
               <p className="truncate text-sm">{post.title}</p>

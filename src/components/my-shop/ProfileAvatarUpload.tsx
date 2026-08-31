@@ -95,26 +95,31 @@ export function ProfileAvatarUpload({
   }
 
   return (
-    <div
-      className="group relative h-30 w-30 cursor-pointer"
-      onClick={handleClick}
-    >
-      <Avatar className="h-30 w-30">
-        <AvatarImage src={displayUrl || undefined} />
-        <AvatarFallback className="text-2xl">
-          {displayName?.[0] ?? '?'}
-        </AvatarFallback>
-      </Avatar>
+    <div className="relative h-30 w-30">
+      <button
+        type="button"
+        onClick={handleClick}
+        disabled={isProcessing}
+        aria-label="프로필 사진 변경"
+        className="group relative h-30 w-30 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+      >
+        <Avatar className="h-30 w-30">
+          <AvatarImage src={displayUrl || undefined} />
+          <AvatarFallback className="text-2xl">
+            {displayName?.[0] ?? '?'}
+          </AvatarFallback>
+        </Avatar>
 
-      {isProcessing ? (
-        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
-          <Spinner size="lg" className="text-white" />
-        </div>
-      ) : (
-        <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 transition-colors group-hover:bg-black/40">
-          <Camera className="size-8 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-        </div>
-      )}
+        {isProcessing ? (
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
+            <Spinner size="lg" className="text-white" />
+          </div>
+        ) : (
+          <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 transition-colors group-hover:bg-black/40">
+            <Camera className="size-8 text-white opacity-0 transition-opacity group-hover:opacity-100" />
+          </div>
+        )}
+      </button>
 
       <input
         ref={inputRef}

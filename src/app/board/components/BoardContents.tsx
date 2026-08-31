@@ -1,7 +1,7 @@
 'use client';
 
 import Image from 'next/image';
-import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
 import { PageHeader } from '@/components/common/PageHeader';
@@ -11,7 +11,6 @@ import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
 
 export default function BoardContents() {
-  const router = useRouter();
   const { user } = useUser();
   const { data: posts, isLoading } = useBoardList();
 
@@ -28,10 +27,10 @@ export default function BoardContents() {
       {posts && posts.length > 0 && (
         <div className="flex flex-col gap-4">
           {posts.map((post) => (
-            <div
+            <Link
               key={post.id}
-              className="flex cursor-pointer items-center gap-5 rounded-md border border-gray-200 bg-white p-4 transition-all hover:-translate-y-0.5 hover:shadow-lg"
-              onClick={() => router.push(`/board/${post.id}`)}
+              href={`/board/${post.id}`}
+              className="flex cursor-pointer items-center gap-5 rounded-md border border-gray-200 bg-white p-4 no-underline transition-all hover:-translate-y-0.5 hover:shadow-lg"
             >
               <div className="relative h-32 w-44 shrink-0 overflow-hidden rounded-md">
                 <Image
@@ -54,7 +53,7 @@ export default function BoardContents() {
                   {post.content}
                 </p>
               </div>
-            </div>
+            </Link>
           ))}
         </div>
       )}

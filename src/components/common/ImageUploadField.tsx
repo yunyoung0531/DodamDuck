@@ -28,7 +28,7 @@ export function ImageUploadField({
   return (
     <div className="flex flex-col gap-2">
       <Label className="block">{label}</Label>
-      <label className="flex h-40 w-40 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 transition-colors hover:border-gray-400">
+      <label className="flex h-40 w-40 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 transition-colors hover:border-gray-400 focus-within:border-solid focus-within:border-ring">
         {preview ? (
           <Image
             src={preview}
@@ -46,7 +46,7 @@ export function ImageUploadField({
         <input
           type="file"
           accept={accept}
-          className="hidden"
+          className="sr-only"
           onChange={handleChange}
         />
       </label>

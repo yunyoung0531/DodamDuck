@@ -104,10 +104,15 @@ export default function SharingContents() {
               key={item.query}
               variant="outline"
               className="cursor-pointer"
-              onClick={() => applySearchImmediately(item.query)}
-            >
-              #{item.query}
-            </Badge>
+              render={
+                <button
+                  type="button"
+                  onClick={() => applySearchImmediately(item.query)}
+                >
+                  #{item.query}
+                </button>
+              }
+            />
           ))}
           </div>
         )}
