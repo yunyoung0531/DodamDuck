@@ -193,26 +193,31 @@ export function EditProfileDialog({ profile }: EditProfileDialogProps) {
           className="flex flex-col gap-4"
         >
           <div className="flex justify-center">
-            <div
-              className="group relative h-24 w-24 cursor-pointer"
-              onClick={handleAvatarClick}
-            >
-              <Avatar className="h-24 w-24">
-                <AvatarImage src={avatarSrc} />
-                <AvatarFallback className="text-xl">
-                  {profile.display_name?.[0] ?? '?'}
-                </AvatarFallback>
-              </Avatar>
+            <div className="relative h-24 w-24">
+              <button
+                type="button"
+                onClick={handleAvatarClick}
+                disabled={isConverting}
+                aria-label="프로필 사진 변경"
+                className="group relative h-24 w-24 cursor-pointer rounded-full focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring"
+              >
+                <Avatar className="h-24 w-24">
+                  <AvatarImage src={avatarSrc} />
+                  <AvatarFallback className="text-xl">
+                    {profile.display_name?.[0] ?? '?'}
+                  </AvatarFallback>
+                </Avatar>
 
-              {isConverting ? (
-                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
-                  <Spinner size="md" className="text-white" />
-                </div>
-              ) : (
-                <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 transition-colors group-hover:bg-black/40">
-                  <Camera className="size-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
-                </div>
-              )}
+                {isConverting ? (
+                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/50">
+                    <Spinner size="md" className="text-white" />
+                  </div>
+                ) : (
+                  <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 transition-colors group-hover:bg-black/40">
+                    <Camera className="size-6 text-white opacity-0 transition-opacity group-hover:opacity-100" />
+                  </div>
+                )}
+              </button>
 
               <input
                 ref={fileInputRef}
