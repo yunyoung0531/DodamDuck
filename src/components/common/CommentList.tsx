@@ -40,39 +40,46 @@ export function CommentList({
   return (
     <ScrollArea className="scrollbar-brand h-75">
       <div className="flex flex-col gap-3">
-        {comments.map((c) => (
-          <div key={c.id} className="flex flex-col gap-1">
-            <div className="flex items-center justify-between">
-              <div className="flex items-center gap-2">
-                <p className="text-sm font-semibold">
-                  {c.profiles.display_name}
-                </p>
-                <p className="text-xs text-muted-foreground">
-                  {formatTimeSince(c.created_at)}
-                </p>
+        {comments.map((c) => {
+          const canDelete = Boolean(
+            onDelete && currentUserId && c.user_id === currentUserId
+          );
+          const isDeleting = isDeletingId === c.id;
+
+          return (
+            <div key={c.id} className="flex flex-col gap-1">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-semibold">
+                    {c.profiles.display_name}
+                  </p>
+                  <p className="text-xs text-muted-foreground">
+                    {formatTimeSince(c.created_at)}
+                  </p>
+                </div>
+                {canDelete && (
+                  <ConfirmDialog
+                    trigger={
+                      <Button
+                        variant="ghost"
+                        size="icon-sm"
+                        className="text-destructive hover:text-destructive/80"
+                        disabled={isDeleting}
+                      >
+                        <X size={8} />
+                      </Button>
+                    }
+                    title="댓글 삭제"
+                    description="이 댓글을 삭제하시겠습니까?"
+                    onConfirm={() => onDelete?.(c.id)}
+                    isLoading={isDeleting}
+                  />
+                )}
               </div>
-              {onDelete && currentUserId && c.user_id === currentUserId && (
-                <ConfirmDialog
-                  trigger={
-                    <Button
-                      variant="ghost"
-                      size="icon-sm"
-                      className="text-destructive hover:text-destructive/80"
-                      disabled={isDeletingId === c.id}
-                    >
-                      <X size={8} />
-                    </Button>
-                  }
-                  title="댓글 삭제"
-                  description="이 댓글을 삭제하시겠습니까?"
-                  onConfirm={() => onDelete(c.id)}
-                  isLoading={isDeletingId === c.id}
-                />
-              )}
+              <p className="text-sm">{c.content}</p>
             </div>
-            <p className="text-sm">{c.content}</p>
-          </div>
-        ))}
+          );
+        })}
         <div ref={bottomRef} />
         {comments.length === 0 && (
           <EmptyState
