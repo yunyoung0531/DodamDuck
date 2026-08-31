@@ -53,7 +53,12 @@ export default function SharingNewContents() {
     if (e.key === ' ' || e.key === 'Enter') {
       e.preventDefault();
       const trimmed = tagInput.trim();
-      if (trimmed && !tags.includes(trimmed) && tags.length < MAX_TAG_COUNT) {
+      const canAddTag =
+        trimmed !== '' &&
+        !tags.includes(trimmed) &&
+        tags.length < MAX_TAG_COUNT;
+
+      if (canAddTag) {
         setTags([...tags, trimmed]);
       }
       setTagInput('');
