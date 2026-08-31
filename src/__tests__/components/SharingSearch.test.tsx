@@ -212,6 +212,15 @@ describe('SharingContents 실시간 검색', () => {
     expect(screen.getByText('전체목록 자전거')).toBeInTheDocument();
   });
 
+  // span에 onClick만 달면 키보드·스크린 리더 사용자가 누를 수 없다.
+  it('인기 검색어는 키보드로 누를 수 있는 버튼이다', async () => {
+    // Arrange & Act
+    await renderSearchPage();
+
+    // Assert
+    expect(screen.getByRole('button', { name: '#레고' })).toBeInTheDocument();
+  });
+
   it('인기 검색어를 클릭하면 지연 없이 즉시 검색한다', async () => {
     // Arrange
     await renderSearchPage();
