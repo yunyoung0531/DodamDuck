@@ -10,6 +10,9 @@
     "type-check": "tsc --noEmit",
     "test": "vitest",
     "test:run": "vitest run",
+    "check:ai-models": "tsx scripts/check-ai-models.ts",
+    "propose:ai-models": "tsx scripts/propose-model-replacement.ts",
+    "smoke:ai-models": "vitest run --config vitest.smoke.config.mts",
     "bench:bundle": "node --experimental-strip-types scripts/measure-bundle.ts",
     "bench:runtime": "vitest bench --run --config vitest.bench.config.mts",
     "bench:calls": "node --experimental-strip-types scripts/measure-debounce-calls.ts",
@@ -65,6 +68,7 @@
     "postcss": "^8.5.15",
     "shadcn": "^4.13.1",
     "tailwindcss": "^4.3.1",
+    "tsx": "^4.23.15",
     "typescript": "^6.0.3",
     "vitest": "^4.1.9"
   },
