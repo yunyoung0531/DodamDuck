@@ -1,0 +1,137 @@
+# AI 모델 체인 자동 점검 + 교체 PR.
+#
+# OpenRouter의 :free 변종은 공급자가 예고 없이 내린다. 코드를 건드리지 않아도
+# 어느 날 갑자기 /api/ai/generate-post가 죽는다. 막을 수 없으니
+# "죽으면 다음날 교체 PR이 와 있고 머지만 하면 되는" 상태를 만든다.
+#
+# 매일 09:00 KST:
+#   1. 체인이 멀쩡하면      → 실호출 스모크만 돌고 끝 (아무 알림 없음)
+#   2. 죽은 모델이 있으면   → 살아있는 후보를 실제로 호출해 검증 → 교체 PR 생성
+#   3. 쓸 만한 후보가 없으면 → 잡 실패 → 메일
+#
+# 메일이 안 오면 확인할 것:
+#   - github.com/settings/notifications → Actions → 실패한 워크플로 알림 켜기
+#   - 리포가 60일간 조용하면 GitHub가 schedule을 자동 비활성화한다
+name: AI 모델 체인 점검
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # 매일 09:00 KST (UTC 00:00)
+  pull_request:
+    paths:
+      - 'src/services/ai/**'
+      - 'src/app/api/ai/**'
+      - 'scripts/**'
+  workflow_dispatch:
+
+# `shell: bash`는 pipefail을 켠다. 기본 셸(`bash -e`)은 켜지 않아서
+# `pnpm ... | tee`가 tee의 종료 코드(0)를 반환한다 — 실패가 통과로 둔갑한다.
+defaults:
+  run:
+    shell: bash
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  # 목록 점검 — 키가 필요 없고 무료 한도를 쓰지 않는다. 모든 PR에서 돈다.
+  catalog:
+    name: 모델 목록 점검
+    runs-on: ubuntu-latest
+    outputs:
+      broken: ${{ steps.check.outputs.broken }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - id: check
+        name: 체인 생존 확인
+        run: |
+          if pnpm check:ai-models | tee -a "$GITHUB_STEP_SUMMARY"; then
+            echo "broken=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "broken=true" >> "$GITHUB_OUTPUT"
+            echo "::warning::죽은 모델이 있습니다. 교체 PR을 시도합니다."
+          fi
+
+  # 실호출 스모크 — 카탈로그에 살아있어도 403·400을 주는 모델을 잡는다.
+  # 키가 필요하므로 외부 포크 PR에서는 돌리지 않는다.
+  smoke:
+    name: 실호출 스모크
+    needs: catalog
+    if: >-
+      needs.catalog.outputs.broken == 'false' &&
+      (github.event_name != 'pull_request' ||
+       github.event.pull_request.head.repo.full_name == github.repository)
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      # 시크릿이 없으면 테스트가 조용히 스킵되어 "점검하고 있다"는 착각만 남는다.
+      # 차라리 여기서 끊고 무엇을 해야 하는지 알린다.
+      - name: 시크릿 확인
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: |
+          if [ -z "$OPENROUTER_API_KEY" ]; then
+            echo "::error::OPENROUTER_API_KEY 시크릿이 없어 스모크를 돌릴 수 없습니다."
+            {
+              echo "Settings → Secrets and variables → Actions → New repository secret"
+              echo "에서 OPENROUTER_API_KEY 를 등록하세요."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 1
+          fi
+
+      - name: 실제 이미지로 체인 호출
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: pnpm smoke:ai-models 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+  # 죽은 모델 자동 교체 — 후보를 실제로 호출해 검증한 뒤에만 PR을 연다.
+  # 검증 없이 올리면 빨간불 PR이 반복되고, 그러면 알림을 안 보게 된다.
+  propose:
+    name: 교체 PR 생성
+    needs: catalog
+    if: needs.catalog.outputs.broken == 'true' && github.event_name != 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+
+      - name: 후보 검증 후 체인 교체
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: pnpm propose:ai-models --write 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: 교체된 체인으로 스모크 재확인
+        env:
+          OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        run: pnpm smoke:ai-models 2>&1 | tee -a "$GITHUB_STEP_SUMMARY"
+
+      - name: PR 생성
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          BRANCH="chore/ai-model-chain-$(date +%Y%m%d)"
+
+          # 같은 날 두 번 돌아도 PR이 겹치지 않게 한다
+          if gh pr list --head "$BRANCH" --state open --json number | grep -q number; then
+            echo "이미 열린 PR이 있습니다: $BRANCH"
+            exit 0
+          fi
+
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add src/services/ai/model-chain.ts
+          git commit \
+            -m "chore(ai): 내려간 무료 모델을 살아있는 모델로 교체" \
+            -m "공급자가 무료 제공을 멈춘 모델을 체인에서 빼고, 실제 이미지로 호출해 게시글 생성까지 확인한 모델로 바꿉니다. 자동 생성된 PR입니다."
+          git push origin "$BRANCH"
+          gh pr create \
+            --title "chore(ai): 내려간 무료 모델 교체" \
+            --body-file .ai-model-pr-body.md \
+            --base "${{ github.event.repository.default_branch }}" \
+            --head "$BRANCH" \
+            --assignee "${{ github.repository_owner }}"

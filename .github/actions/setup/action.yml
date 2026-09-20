@@ -1,0 +1,14 @@
+# pnpm + Node 설치. 잡 3개가 같은 단계를 반복하지 않도록 묶었다.
+name: 프로젝트 설치
+description: pnpm과 Node를 설치하고 의존성을 받는다
+
+runs:
+  using: composite
+  steps:
+    - uses: pnpm/action-setup@v4
+    - uses: actions/setup-node@v4
+      with:
+        node-version: 22
+        cache: pnpm
+    - run: pnpm install --frozen-lockfile
+      shell: bash

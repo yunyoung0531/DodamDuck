@@ -66,3 +66,7 @@ _workspace/
 
 # 로컬 백업
 _backup_*/
+.ai-model-pr-body.md
+
+# 개인 정리 메모 (기술 문서는 docs/ai-generate-post.md)
+ai-generate-post-incident.md
