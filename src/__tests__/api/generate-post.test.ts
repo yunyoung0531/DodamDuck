@@ -38,6 +38,17 @@ const FENCED_RESPONSE = `\`\`\`json
 const UPSTREAM_429 =
   '[Google AI Studio] google/gemma-4-31b-it:free is temporarily rate-limited upstream. Please retry shortly';
 
+/**
+ * 무료 변종이 내려가 서빙 endpoint가 0개가 된 경우.
+ * 모델 페이지는 카탈로그에 남아 있어 눈으로는 멀쩡해 보인다.
+ * nemotron-nano-12b-v2-vl:free가 실제로 이렇게 죽어 500을 유발했다.
+ */
+const NO_ENDPOINTS_404 =
+  'No endpoints found for nvidia/nemotron-nano-12b-v2-vl:free.';
+
+/** 키가 잘못된 경우 (모델을 바꿔도 소용없음) */
+const INVALID_KEY_401 = 'No auth credentials found';
+
 /** 계정 단위 일일 한도 (모델을 바꿔도 소용없음) */
 const DAILY_QUOTA_429 =
   'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day';
@@ -190,6 +201,71 @@ describe('POST /api/ai/generate-post', () => {
 
     expect(response.status).toBe(500);
     expect(body.error).toContain('실패');
+  });
+
+  it('내려간 모델(404)은 건너뛰고 다음 모델로 폴백한다', async () => {
+    generateTextMock
+      .mockRejectedValueOnce(new Error(NO_ENDPOINTS_404))
+      .mockResolvedValueOnce({ text: FENCED_RESPONSE });
+
+    const response = await POST(buildRequest());
+    const body = await response.json();
+
+    expect(response.status).toBe(200);
+    expect(body.data.title).toBe('레고 듀플로 기차 세트');
+    expect(generateTextMock).toHaveBeenCalledTimes(2);
+  });
+
+  it('내려간 모델은 예산을 쓰지 않아 살아있는 모델의 재시도를 뺏지 않는다', async () => {
+    // 이게 500의 진짜 원인이었다. 죽은 모델이 예산 4회 중 2회를 먹어
+    // 마지막 살아있는 모델이 한 번밖에 못 돌았다.
+    generateTextMock
+      .mockRejectedValueOnce(new Error(NO_ENDPOINTS_404))
+      .mockRejectedValueOnce(new Error(NO_ENDPOINTS_404))
+      .mockResolvedValueOnce({ text: 'JSON이 아닌 응답입니다.' })
+      .mockResolvedValueOnce({ text: FENCED_RESPONSE });
+
+    const response = await POST(buildRequest());
+
+    expect(response.status).toBe(200);
+    expect(generateTextMock).toHaveBeenCalledTimes(4);
+  });
+
+  it('체인이 전부 내려갔으면 재시도가 아니라 점검 안내(503)를 준다', async () => {
+    generateTextMock.mockRejectedValue(new Error(NO_ENDPOINTS_404));
+
+    const response = await POST(buildRequest());
+    const body = await response.json();
+
+    expect(response.status).toBe(503);
+    expect(body.error).toContain('사용할 수 있는 AI 모델이 없습니다');
+    expect(generateTextMock).toHaveBeenCalledTimes(3);
+  });
+
+  it('혼잡과 내려감이 섞여도 500이 아니라 재시도 안내(429)를 준다', async () => {
+    // 섞였다는 이유로 일반 실패(500)로 떨어지면 사용자는 "다시 눌러도 되는지"를
+    // 알 수 없다. 모델에 닿지 못한 것이므로 재시도 안내가 맞다.
+    generateTextMock
+      .mockRejectedValueOnce(new Error(UPSTREAM_429))
+      .mockRejectedValueOnce(new Error(NO_ENDPOINTS_404))
+      .mockRejectedValueOnce(new Error(UPSTREAM_429));
+
+    const response = await POST(buildRequest());
+    const body = await response.json();
+
+    expect(response.status).toBe(429);
+    expect(body.error).toContain('혼잡');
+  });
+
+  it('키가 유효하지 않으면 폴백 없이 즉시 중단한다', async () => {
+    generateTextMock.mockRejectedValue(new Error(INVALID_KEY_401));
+
+    const response = await POST(buildRequest());
+    const body = await response.json();
+
+    expect(response.status).toBe(503);
+    expect(body.error).toContain('OPENROUTER_API_KEY');
+    expect(generateTextMock).toHaveBeenCalledTimes(1);
   });
 
   it('로그인하지 않았으면 401을 반환한다', async () => {
