@@ -45,7 +45,13 @@ export default defineConfig({
     globals: true,
     setupFiles: ['./src/vitest.setup.tsx'],
     css: false,
-    exclude: ['node_modules', 'dodamduck_fe', '.next'],
+    // 스모크는 실제 OpenRouter를 호출하므로 기본 런에서 뺀다 (vitest.smoke.config.mts)
+    exclude: [
+      'node_modules',
+      'dodamduck_fe',
+      '.next',
+      'src/__tests__/smoke/**',
+    ],
     coverage: {
       provider: 'v8',
       reporter: ['text', 'text-summary'],
