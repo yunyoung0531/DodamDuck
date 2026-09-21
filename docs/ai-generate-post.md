@@ -167,7 +167,7 @@ AssertionError: nvidia/nemotron-nano-12b-v2-vl:free이(가) 영구 장애 상태
 
 #### 죽으면 교체 PR이 자동으로 열린다
 
-`.github/workflows/ai-model-chain.yml`이 **매일 09:00 KST**에 돈다.
+`.github/workflows/ai-model-chain.yml`이 **매일 10:17 KST**에 돈다.
 
 | 상태 | 일어나는 일 |
 |------|------------|
