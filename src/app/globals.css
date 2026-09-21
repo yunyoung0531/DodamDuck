@@ -4,20 +4,50 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@font-face {
-  font-family: '210OmniGothic035';
-  src: url('/fonts/210 옴니고딕OTF 035.otf') format('opentype');
-}
+/* 내려받는 폰트는 여기서 선언하지 않는다. layout.tsx 의 next/font 가 맡아야
+   <link rel="preload"> 가 자동으로 붙는다. CSS 안의 @font-face 는 브라우저가
+   CSS 를 다 받아 파싱한 뒤에야 발견되어 요청이 늦어진다.
 
+   아래 스택의 순서가 곧 폰트 선택 순서다. 브라우저는 글자 하나마다 스택을
+   앞에서부터 훑어 그 글자를 가진 첫 폰트를 쓴다.
+
+     1. -omni-035      상용 2,350자. preload 되어 첫 화면을 그린다.
+     2. -omni-035-ext  나머지 8,822자. 1번에 없는 글자를 만났을 때만 받는다.
+     3. KR Fallback    1·2번이 도착하기 전 한글을 그린다. 아래 @font-face 참고.
+     4. 시스템 고딕     3번이 없는 환경(Windows·Android)과 셋 다 없는 글자용.
+
+   시스템 고딕을 2번 뒤에 두는 게 핵심이다. 앞에 오면 표외 음절이 확장 파일
+   대신 시스템 폰트로 떨어져 한 문장 안에서 서체가 섞인다. */
+
+/* 폰트가 도착하기 전 한글을 그리는 Apple SD Gothic Neo 는 210 옴니고딕보다
+   글자가 13% 좁다(0.865em vs 0.980em). 그대로 두면 교체되는 순간 줄바꿈
+   위치가 밀린다. size-adjust 로 폭을 맞추고, 그만큼 같이 커진 세로 메트릭은
+   override 로 원 폰트 값(ascent 800/1000, descent 350/1000)에 되돌린다.
+
+     size-adjust      = 0.980 / 0.865       = 113.29%
+     ascent-override  = (800/1000) / 1.1329 =  70.61%
+     descent-override = (350/1000) / 1.1329 =  30.89%
+
+   next/font 도 같은 일을 하지만 기준이 Arial 이라 한글 글리프에는 닿지 않는다.
+   그래서 여기서 직접 선언한다. 이 파일에 @font-face 를 두는 유일한 예외이며,
+   src 가 local() 뿐이라 내려받을 파일이 없어 preload 할 것도 없다.
+
+   Windows(Malgun Gothic)·Android(Noto Sans KR)는 손대지 않았다. 실측할 수
+   없는 값을 추측해 넣으면 지금보다 나빠질 수 있다. 조정 face 뒤에 원래 이름이
+   그대로 남아 있어 그 환경의 동작은 종전과 같다. */
 @font-face {
-  font-family: '210OmniGothic045';
-  src: url('/fonts/210 옴니고딕OTF 045.otf') format('opentype');
+  font-family: 'Omni Gothic KR Fallback';
+  src: local('Apple SD Gothic Neo Regular'), local('AppleSDGothicNeo-Regular');
+  size-adjust: 113.29%;
+  ascent-override: 70.61%;
+  descent-override: 30.89%;
+  line-gap-override: 0%;
 }
 
 @theme inline {
-  --font-sans: '210OmniGothic035', sans-serif;
-  --font-heading: '210OmniGothic045', sans-serif;
-  --font-gugi: var(--font-gugi-next), 'Gugi', sans-serif;
+  --font-sans: var(--font-omni-035), var(--font-omni-035-ext), 'Omni Gothic KR Fallback', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-heading: var(--font-omni-045), var(--font-omni-045-ext), 'Omni Gothic KR Fallback', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-gugi: var(--font-gugi-next), 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 
   --color-dodam-50: #fffbe4;
   --color-dodam-100: #fff5c2;
