@@ -1,0 +1,110 @@
+#!/usr/bin/env python3
+"""커밋 메시지 규약 검사 (Conventional Commits + 한국어 표기)
+
+TYPES를 고치면 .githooks/README.md와 .claude/rules/git-workflow.md의 목록도 고친다.
+
+통과시키지 않는 것만 여기에 둔다. 판단이 필요한 것(본문이 "왜"를 설명하는가 등)은
+사람이 본다. --no-verify로 우회되므로 최종 게이트가 아니라 오타 방지 장치다.
+"""
+
+import re
+import sys
+
+TYPES = [
+    "feat", "fix", "refactor", "docs", "test",
+    "chore", "perf", "style", "ci", "build", "revert",
+]
+
+SUBJECT_MAX = 50
+BODY_WRAP = 72
+
+# <type>(<scope>): <description>  — scope는 선택
+HEADER = re.compile(rf"^({'|'.join(TYPES)})(\([a-z0-9\-]+\))?: (.+)$")
+
+# 서술형 종결. 제목은 명사형으로 끝낸다.
+VERB_ENDING = re.compile(r"(다|요|죠|네)$")
+
+# 영문, 백틱, 숫자, 닫는 괄호 뒤에 조사를 띄운 자리
+PARTICLES = "을|를|이|가|은|는|와|과|로|으로|에|에서|의|도|만|까지"
+LOOSE_PARTICLE = re.compile(rf"[A-Za-z0-9`)\]] ({PARTICLES})( |$|,|\.)")
+
+# 자동 생성 메시지는 건드리지 않는다.
+SKIP_PREFIXES = ("Merge ", "Revert \"", "fixup!", "squash!")
+
+
+def main() -> int:
+    if len(sys.argv) < 2:
+        return 0
+
+    with open(sys.argv[1], encoding="utf-8") as f:
+        raw = f.read()
+
+    lines = [ln for ln in raw.split("\n") if not ln.startswith("#")]
+    while lines and not lines[0].strip():
+        lines.pop(0)
+    if not lines:
+        return 0
+
+    subject = lines[0].rstrip()
+    if not subject or subject.startswith(SKIP_PREFIXES):
+        return 0
+
+    errors: list[str] = []
+
+    matched = HEADER.match(subject)
+    if not matched:
+        errors.append(
+            "형식이 <type>(<scope>): <설명>이 아니다\n"
+            f"    쓸 수 있는 type: {', '.join(TYPES)}"
+        )
+    else:
+        description = matched.group(3).strip()
+
+        if description.endswith("."):
+            errors.append("제목을 마침표로 끝내지 않는다")
+
+        if VERB_ENDING.search(description.rstrip(".")):
+            errors.append(
+                "제목은 명사형으로 끝낸다. \"추가한다\"가 아니라 \"추가\"\n"
+                "    -다, -요, -죠, -네로 끝내지 않는다"
+            )
+
+    if len(subject) > SUBJECT_MAX:
+        errors.append(f"제목이 {len(subject)}자다. {SUBJECT_MAX}자 이내로 줄인다")
+
+    loose = LOOSE_PARTICLE.search(subject)
+    if loose:
+        errors.append(
+            f"영문과 코드 뒤의 조사를 붙여 쓴다: \"{loose.group(0).strip()}\"\n"
+            "    예) `pnpm lint` 를 -> `pnpm lint`를"
+        )
+
+    long_body = [
+        i for i, ln in enumerate(lines[1:], start=2)
+        if len(ln) > BODY_WRAP and "://" not in ln
+    ]
+
+    if errors:
+        print(f"\n[commit-msg] 커밋 메시지 규약 위반 {len(errors)}건", file=sys.stderr)
+        print(f"  제목: {subject}\n", file=sys.stderr)
+        for message in errors:
+            print(f"  - {message}", file=sys.stderr)
+        print(
+            "\n  규약: .claude/rules/git-workflow.md"
+            "\n  급하면 --no-verify로 건너뛴다\n",
+            file=sys.stderr,
+        )
+        return 1
+
+    if long_body:
+        print(
+            f"[commit-msg] 본문 {len(long_body)}줄이 {BODY_WRAP}자를 넘는다 "
+            f"(줄 {', '.join(map(str, long_body))}). 커밋은 진행한다.",
+            file=sys.stderr,
+        )
+
+    return 0
+
+
+if __name__ == "__main__":
+    sys.exit(main())
