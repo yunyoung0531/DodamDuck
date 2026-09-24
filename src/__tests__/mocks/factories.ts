@@ -120,6 +120,7 @@ export function createMockChatMessage(
       username: 'user1',
       display_name: '유저1',
     },
+    chat_message_reactions: [],
     ...overrides,
   };
 }
