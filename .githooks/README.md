@@ -1,24 +1,18 @@
 # Push 자동 PR 생성 훅 (GitHub)
 
-작업 브랜치를 push하면 열린 PR이 없을 때 **draft PR을 자동 생성**한다.
-본문은 커밋 이력과 diff를 근거로 `claude` CLI가 작성하고, 실패하면 커밋 이력
-기반 템플릿으로 폴백한다.
+작업 브랜치를 push하면 열린 PR이 없을 때 **draft PR을 자동 생성**한다. 본문은 커밋 이력과 diff를 근거로 `claude` CLI가 작성하고, 실패하면 커밋 이력 기반 템플릿으로 폴백한다.
 
 ## 왜 GitHub Actions가 아니라 git 훅인가
 
 원래 `.github/workflows/auto-pr.yml`로 같은 일을 했으나 두 가지 문제가 있었다.
 
-1. **동작하지 않았다.** `anthropics/claude-code-action`은 `push` 이벤트를 지원하지
-   않는다(`Unsupported event type: push`). 프롬프트를 읽기도 전에 종료되어,
-   모든 PR이 폴백 템플릿으로 만들어지고 있었다.
-2. **비용.** Actions에서 모델을 부르려면 `ANTHROPIC_API_KEY`가 필요하고 이는
-   **토큰당 과금**된다. 훅은 로컬에서 `claude` CLI를 쓰므로 구독으로 커버된다.
+1. **동작하지 않았다.** `anthropics/claude-code-action`은 `push` 이벤트를 지원하지 않는다(`Unsupported event type: push`). 프롬프트를 읽기도 전에 종료되어, 모든 PR이 폴백 템플릿으로 만들어지고 있었다.
+2. **비용.** Actions에서 모델을 부르려면 `ANTHROPIC_API_KEY`가 필요하고 이는 **토큰당 과금**된다. 훅은 로컬에서 `claude` CLI를 쓰므로 구독으로 커버된다.
 
 ## 구성
 
 - `pre-push`: push되는 브랜치마다 워커를 백그라운드로 실행한다. **push 자체는 막지 않는다.**
-- `github_pr.py`: remote 브랜치 반영을 기다린 뒤, 열린 PR이 없으면 diff를 근거로
-  본문을 만들어 GitHub API(`/repos/{owner}/{repo}/pulls`)로 draft PR을 생성한다.
+- `github_pr.py`: remote 브랜치 반영을 기다린 뒤, 열린 PR이 없으면 diff를 근거로 본문을 만들어 GitHub API(`/repos/{owner}/{repo}/pulls`)로 draft PR을 생성한다.
 
 ## 최초 1회 설정 (clone한 각자 필요)
 
@@ -41,7 +35,7 @@ echo "여기에_토큰" > .git/github-pr.token
 export GITHUB_TOKEN=여기에_토큰
 ```
 
-방법 2·3의 토큰은 `repo` 스코프(또는 fine-grained의 Pull requests: write)가 필요하다.
+방법 2와 3의 토큰은 `repo` 스코프(또는 fine-grained의 Pull requests: write)가 필요하다.
 
 ## 동작 조건
 
