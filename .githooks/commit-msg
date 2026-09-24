@@ -18,8 +18,9 @@ TYPES = [
 SUBJECT_MAX = 50
 BODY_WRAP = 72
 
-# <type>(<scope>): <description>  — scope는 선택
-HEADER = re.compile(rf"^({'|'.join(TYPES)})(\([a-z0-9\-]+\))?: (.+)$")
+# <type>: <description>  — scope 괄호는 쓰지 않는다
+HEADER = re.compile(rf"^({'|'.join(TYPES)}): (.+)$")
+SCOPED = re.compile(rf"^({'|'.join(TYPES)})\(([^)]*)\): (.+)$")
 
 # 서술형 종결. 제목은 명사형으로 끝낸다.
 VERB_ENDING = re.compile(r"(다|요|죠|네)$")
@@ -51,15 +52,25 @@ def main() -> int:
 
     errors: list[str] = []
 
+    scoped = SCOPED.match(subject)
     matched = HEADER.match(subject)
-    if not matched:
+
+    if scoped:
         errors.append(
-            "형식이 <type>(<scope>): <설명>이 아니다\n"
+            "scope 괄호를 쓰지 않는다\n"
+            f"    \"{scoped.group(1)}({scoped.group(2)}):\" -> \"{scoped.group(1)}:\""
+        )
+        description = scoped.group(3).strip()
+    elif matched:
+        description = matched.group(2).strip()
+    else:
+        description = ""
+        errors.append(
+            "형식이 <type>: <설명>이 아니다\n"
             f"    쓸 수 있는 type: {', '.join(TYPES)}"
         )
-    else:
-        description = matched.group(3).strip()
 
+    if description:
         if description.endswith("."):
             errors.append("제목을 마침표로 끝내지 않는다")
 

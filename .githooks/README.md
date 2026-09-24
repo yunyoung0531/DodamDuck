@@ -17,11 +17,12 @@ git config core.hooksPath .githooks
 
 Conventional Commits 형식과 한국어 표기 규약을 검사한다. `python3`만 있으면 되고 설치할 의존성은 없다.
 
-막는 것은 다음 다섯 가지다.
+막는 것은 다음 여섯 가지다.
 
 | 검사 | 예 |
 | --- | --- |
-| `<type>(<scope>): <설명>` 형식 | `wip: 작업중`은 거부 |
+| `<type>: <설명>` 형식 | `wip: 작업중`은 거부 |
+| scope 괄호 금지 | `feat(chat): 추가`는 거부. `feat: 추가`는 통과 |
 | 정해진 type | 목록은 `commit-msg`의 `TYPES`에 있다 |
 | 제목 50자 이내 | 52자면 거부 |
 | 제목은 명사형 종결 | `추가한다`, `했어요`는 거부. `추가`, `방지`는 통과 |
