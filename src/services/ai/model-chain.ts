@@ -20,7 +20,7 @@
 export const AI_MODEL_CHAIN = [
   'google/gemma-4-31b-it:free',
   'google/gemma-4-26b-a4b-it:free',
-  'inclusionai/ling-3.0-flash-vl:free',
+  'dots-studio/dots-3-note-preview:free',
 ] as const;
 
 /**
