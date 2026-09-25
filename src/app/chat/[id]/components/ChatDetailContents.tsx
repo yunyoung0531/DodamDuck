@@ -10,6 +10,7 @@ import { MessageComposer } from '@/components/chat/MessageComposer';
 import { useChatList, useChatMessages } from '@/services/chat/useChat';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
+import type { ChatRoom } from '@/services/chat/chat.types';
 
 export interface ChatDetailContentsProps {
   /** 서버에서 확인한 현재 사용자. 페이지가 인증을 마친 뒤에만 렌더됩니다. */
@@ -38,13 +39,8 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
 
   const rooms = chatList ?? [];
 
-  const currentRoom = rooms.find((r) => r.id === roomId);
-  const isUser1 = currentRoom?.user1_id === user.id;
-  const partnerProfile = currentRoom
-    ? isUser1
-      ? currentRoom.user2_profile
-      : currentRoom.user1_profile
-    : null;
+  const currentRoom = rooms.find((room) => room.id === roomId);
+  const partnerProfile = currentRoom ? getPartnerProfile(currentRoom, user.id) : null;
 
   const messageCount = messages?.length ?? 0;
 
@@ -79,10 +75,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
 
           <div className="flex flex-col gap-2">
             {rooms.map((chat) => {
-              const chatIsUser1 = chat.user1_id === user.id;
-              const pProfile = chatIsUser1
-                ? chat.user2_profile
-                : chat.user1_profile;
+              const pProfile = getPartnerProfile(chat, user.id);
               const isActive = chat.id === roomId;
 
               return (
@@ -150,4 +143,11 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
       </div>
     </div>
   );
+}
+
+/** 두 사람 중 내가 아닌 쪽의 프로필을 고릅니다. */
+function getPartnerProfile(room: ChatRoom, currentUserId: string) {
+  return room.user1_id === currentUserId
+    ? room.user2_profile
+    : room.user1_profile;
 }

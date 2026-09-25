@@ -14,6 +14,8 @@ import { Card, CardContent } from '@/components/ui/card';
 import { LoadingButton } from '@/components/common/LoadingButton';
 import { PasswordInput } from '@/components/common/PasswordInput';
 import { FormFieldError } from '@/components/common/FormFieldError';
+import { FormField } from '@/components/common/FormField';
+import { UserIdField } from '@/app/signup/components/UserIdField';
 import { signupSchema, type SignupForm } from '@/libs/validations/auth';
 import { servCheckUsername, servSignUp } from '@/services/auth/auth-services';
 
@@ -99,59 +101,38 @@ export default function SignupPage() {
 
           <form onSubmit={handleSubmit(onSubmit)} className="w-full">
             <div className="flex flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="userID">아이디</Label>
-                <div className="flex gap-2">
-                  <Input
-                    id="userID"
-                    placeholder="아이디를 입력하세요"
-                    className="flex-1"
-                    {...register('userID', {
-                      onChange: () => setIdStatus('idle'),
-                    })}
-                  />
-                  <LoadingButton
-                    type="button"
-                    variant="outline"
-                    size="sm"
-                    loading={idStatus === 'checking'}
-                    onClick={handleCheckID}
-                  >
-                    중복확인
-                  </LoadingButton>
-                </div>
-                <FormFieldError message={errors.userID?.message} />
-                {idStatus === 'available' && (
-                  <p className="text-sm text-green-600">
-                    사용 가능한 아이디입니다.
-                  </p>
-                )}
-                {idStatus === 'taken' && (
-                  <p className="text-sm text-destructive">
-                    이미 사용 중인 아이디입니다.
-                  </p>
-                )}
-              </div>
+              <UserIdField
+                status={idStatus}
+                register={register('userID', {
+                  onChange: () => setIdStatus('idle'),
+                })}
+                error={errors.userID?.message}
+                onCheck={handleCheckID}
+              />
 
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="userPassword">비밀번호</Label>
+              <FormField
+                htmlFor="userPassword"
+                label="비밀번호"
+                error={errors.userPassword?.message}
+              >
                 <PasswordInput
                   id="userPassword"
                   placeholder="8자 이상, 특수문자 포함"
                   {...register('userPassword')}
                 />
-                <FormFieldError message={errors.userPassword?.message} />
-              </div>
+              </FormField>
 
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="location">주소</Label>
+              <FormField
+                htmlFor="location"
+                label="주소"
+                error={errors.location?.message}
+              >
                 <Input
                   id="location"
                   placeholder="광주광역시 동구 필문대로 309"
                   {...register('location')}
                 />
-                <FormFieldError message={errors.location?.message} />
-              </div>
+              </FormField>
 
               <Controller
                 name="agree"
