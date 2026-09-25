@@ -4,15 +4,14 @@ import { useEffect, useRef } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
-import { Trash2 } from 'lucide-react';
+import {  } from 'lucide-react';
 import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
-import { Button } from '@/components/ui/button';
 import { LoadingState } from '@/components/common/LoadingState';
 import { CommentSection } from '@/components/common/CommentSection';
-import { ConfirmDialog } from '@/components/common/ConfirmDialog';
+import { PostAuthor } from '@/components/common/PostAuthor';
+import { DeletePostButton } from '@/components/common/DeletePostButton';
 import {
   useBoardDetail,
   useDeleteBoardPost,
@@ -21,7 +20,6 @@ import {
   useIncrementBoardViewCount,
 } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
-import { formatDateTime } from '@/libs/format-date';
 
 export default function BoardDetailContents() {
   const { id } = useParams<{ id: string }>();
@@ -93,18 +91,11 @@ export default function BoardDetailContents() {
                 />
               </div>
 
-              <div className="flex items-center gap-3">
-                <Avatar className="h-12 w-12">
-                  <AvatarImage src={post.profiles.profile_url || undefined} />
-                  <AvatarFallback>
-                    {post.profiles.display_name?.[0] ?? '?'}
-                  </AvatarFallback>
-                </Avatar>
-                <div className="flex flex-col gap-0.5">
-                  <p className="font-semibold">{post.profiles.display_name} 님</p>
-                  <p className="text-xs text-muted-foreground">{formatDateTime(post.created_at)}</p>
-                </div>
-              </div>
+              <PostAuthor
+                displayName={post.profiles.display_name}
+                profileUrl={post.profiles.profile_url}
+                createdAt={post.created_at}
+              />
             </div>
 
             <Separator orientation="vertical" className="hidden md:block" />
@@ -114,18 +105,7 @@ export default function BoardDetailContents() {
                 <div className="flex items-center justify-between">
                   <h3 className="font-heading text-xl font-bold">{post.title}</h3>
                   {isAuthor && (
-                    <ConfirmDialog
-                      trigger={
-                        <Button
-                          variant="ghost"
-                          size="icon-sm"
-                          className="text-destructive hover:text-destructive/80"
-                        >
-                          <Trash2 size={18} />
-                        </Button>
-                      }
-                      title="게시글 삭제"
-                      description="이 게시글을 삭제하시겠습니까? 삭제된 게시글은 복구할 수 없습니다."
+                    <DeletePostButton
                       onConfirm={handleDelete}
                       isLoading={deleteMutation.isPending}
                     />

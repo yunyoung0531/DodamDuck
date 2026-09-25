@@ -4,25 +4,24 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { X } from 'lucide-react';
 import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
-import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 import { LoadingButton } from '@/components/common/LoadingButton';
 import { LoadingState } from '@/components/common/LoadingState';
+import { FormField } from '@/components/common/FormField';
 import { FormFieldError } from '@/components/common/FormFieldError';
+import { Label } from '@/components/ui/label';
 import { ImageUploadField } from '@/components/common/ImageUploadField';
 import { AIGenerateButton } from '@/components/sharing/AIGenerateButton';
 import { CategoryChips } from '@/components/sharing/CategoryChips';
+import { TagInputField } from '@/components/sharing/TagInputField';
+import { ExchangeOptionField } from '@/components/sharing/ExchangeOptionField';
 import {
   createSharingPostSchema,
   type CreateSharingPostForm,
 } from '@/libs/validations/sharing';
 import { useCreateSharingPost } from '@/services/sharing/useSharing';
-import { MAX_TAG_COUNT } from '@/services/sharing/sharing.types';
 import { useUser } from '@/services/auth/useUser';
 
 export default function SharingNewContents() {
@@ -30,7 +29,6 @@ export default function SharingNewContents() {
   const { user, isLoading: isUserLoading } = useUser();
   const [image, setImage] = useState<File | null>(null);
   const [tags, setTags] = useState<string[]>([]);
-  const [tagInput, setTagInput] = useState('');
   const createPost = useCreateSharingPost();
 
   const {
@@ -48,22 +46,6 @@ export default function SharingNewContents() {
       exchangeOption: '교환',
     },
   });
-
-  function handleTagKeyDown(e: React.KeyboardEvent<HTMLInputElement>) {
-    if (e.key === ' ' || e.key === 'Enter') {
-      e.preventDefault();
-      const trimmed = tagInput.trim();
-      const canAddTag =
-        trimmed !== '' &&
-        !tags.includes(trimmed) &&
-        tags.length < MAX_TAG_COUNT;
-
-      if (canAddTag) {
-        setTags([...tags, trimmed]);
-      }
-      setTagInput('');
-    }
-  }
 
   function onSubmit(values: CreateSharingPostForm) {
     if (!image || !user) return;
@@ -108,46 +90,45 @@ export default function SharingNewContents() {
                 setTags={setTags}
               />
 
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="title">상품명</Label>
+              <FormField htmlFor="title" label="상품명" error={errors.title?.message}>
                 <Input
                   id="title"
                   placeholder="상품명을 등록해주세요"
                   {...register('title')}
                 />
-                <FormFieldError message={errors.title?.message} />
-              </div>
+              </FormField>
 
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="content">상품 설명</Label>
+              <FormField
+                htmlFor="content"
+                label="상품 설명"
+                error={errors.content?.message}
+              >
                 <Textarea
                   id="content"
                   placeholder="상품의 상태, 브랜드, 사용감 등을 입력해주세요"
                   rows={5}
                   {...register('content')}
                 />
-                <FormFieldError message={errors.content?.message} />
-              </div>
+              </FormField>
 
-              <div className="flex flex-col gap-1">
-                <Label htmlFor="location">거래 희망 장소</Label>
+              <FormField htmlFor="location" label="거래 희망 장소" error={errors.location?.message}>
                 <Input
                   id="location"
                   placeholder="거래 희망 장소를 입력해주세요"
                   {...register('location')}
                 />
-                <FormFieldError message={errors.location?.message} />
-              </div>
+              </FormField>
 
               <Controller
                 name="category"
                 control={control}
                 render={({ field }) => (
-                  <div className="flex flex-col gap-2">
-                    <Label className="block">카테고리</Label>
+                  <div className="flex flex-col gap-1.5">
+                    <Label id="category-label">카테고리</Label>
                     <CategoryChips
                       value={field.value}
                       onChange={field.onChange}
+                      aria-labelledby="category-label"
                     />
                     <FormFieldError message={errors.category?.message} />
                   </div>
@@ -158,60 +139,14 @@ export default function SharingNewContents() {
                 name="exchangeOption"
                 control={control}
                 render={({ field }) => (
-                  <div className="flex flex-col gap-2">
-                    <Label className="block">거래 방식</Label>
-                    <RadioGroup
-                      value={field.value}
-                      onValueChange={field.onChange}
-                      className="flex gap-4"
-                    >
-                      <div className="flex items-center gap-2">
-                        <RadioGroupItem value="교환" id="exchange" />
-                        <Label htmlFor="exchange" className="cursor-pointer">
-                          교환
-                        </Label>
-                      </div>
-                      <div className="flex items-center gap-2">
-                        <RadioGroupItem value="나눔" id="share" />
-                        <Label htmlFor="share" className="cursor-pointer">
-                          나눔
-                        </Label>
-                      </div>
-                    </RadioGroup>
-                  </div>
+                  <ExchangeOptionField
+                    value={field.value}
+                    onChange={field.onChange}
+                  />
                 )}
               />
 
-              <div className="flex flex-col gap-2">
-                <div>
-                  <Label htmlFor="tagInput">해시태그</Label>
-                  <Input
-                    id="tagInput"
-                    placeholder={`태그 입력 후 스페이스바 (최대 ${MAX_TAG_COUNT}개)`}
-                    value={tagInput}
-                    onChange={(e) => setTagInput(e.target.value)}
-                    onKeyDown={handleTagKeyDown}
-                  />
-                </div>
-                {tags.length > 0 && (
-                  <div className="flex flex-wrap gap-2">
-                    {tags.map((tag) => (
-                      <Badge key={tag} variant="outline" className="gap-2">
-                        #{tag}
-                        <button
-                          type="button"
-                          className="text-muted-foreground hover:text-foreground"
-                          onClick={() =>
-                            setTags(tags.filter((t) => t !== tag))
-                          }
-                        >
-                          <X size={12} />
-                        </button>
-                      </Badge>
-                    ))}
-                  </div>
-                )}
-              </div>
+              <TagInputField tags={tags} onChange={setTags} />
 
               <LoadingButton
                 type="submit"

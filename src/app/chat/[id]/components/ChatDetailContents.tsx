@@ -1,42 +1,48 @@
 'use client';
 
-import { useState, useRef, useEffect } from 'react';
+import { useRef, useEffect } from 'react';
 import { useParams } from 'next/navigation';
 import Link from 'next/link';
-import { Send, MessageCircle } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
-import { Input } from '@/components/ui/input';
-import { LoadingButton } from '@/components/common/LoadingButton';
-import { EmptyState } from '@/components/common/EmptyState';
-import { useChatList, useChatMessages, useSendMessage } from '@/services/chat/useChat';
+import { MessageList } from '@/components/chat/MessageList';
+import { MessageComposer } from '@/components/chat/MessageComposer';
+import { useChatList, useChatMessages } from '@/services/chat/useChat';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
+import type { ChatRoom } from '@/services/chat/chat.types';
 
-interface ChatDetailContentsProps {
+export interface ChatDetailContentsProps {
+  /** 서버에서 확인한 현재 사용자. 페이지가 인증을 마친 뒤에만 렌더됩니다. */
   user: User;
+  /** 현재 사용자 프로필. 왼쪽 카드에 보여줍니다. */
   profile: Profile;
 }
 
+/**
+ * @description 채팅 상세 화면. 방 목록, 대화 내용, 입력창을 함께 보여줍니다.
+ *
+ * @remarks
+ * 방 id는 `useParams`로 URL에서 읽습니다. 메시지가 늘어나면 목록을 맨 아래로 내립니다.
+ * @see docs/implementation-notes/chat.md 스크롤이 메시지 개수에만 반응하는 이유
+ * @internal
+ * @name ChatDetailContents
+ * @tag div
+ */
 export default function ChatDetailContents({ user, profile }: ChatDetailContentsProps) {
   const { id } = useParams<{ id: string }>();
   const roomId = Number(id);
-  const [message, setMessage] = useState('');
   const viewport = useRef<HTMLDivElement>(null);
 
   const { data: chatList } = useChatList();
   const { data: messages } = useChatMessages(roomId);
-  const sendMessage = useSendMessage();
 
   const rooms = chatList ?? [];
 
-  const currentRoom = rooms.find((r) => r.id === roomId);
-  const isUser1 = currentRoom?.user1_id === user.id;
-  const partnerProfile = currentRoom
-    ? isUser1
-      ? currentRoom.user2_profile
-      : currentRoom.user1_profile
-    : null;
+  const currentRoom = rooms.find((room) => room.id === roomId);
+  const partnerProfile = currentRoom ? getPartnerProfile(currentRoom, user.id) : null;
+
+  const messageCount = messages?.length ?? 0;
 
   useEffect(() => {
     if (viewport.current) {
@@ -45,15 +51,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
         behavior: 'smooth',
       });
     }
-  }, [messages]);
-
-  function handleSend() {
-    if (!message.trim() || roomId <= 0) return;
-    sendMessage.mutate(
-      { roomId, message },
-      { onSuccess: () => setMessage('') }
-    );
-  }
+  }, [messageCount]);
 
   return (
     <div className="flex justify-center px-4 py-10">
@@ -77,10 +75,7 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
 
           <div className="flex flex-col gap-2">
             {rooms.map((chat) => {
-              const chatIsUser1 = chat.user1_id === user.id;
-              const pProfile = chatIsUser1
-                ? chat.user2_profile
-                : chat.user1_profile;
+              const pProfile = getPartnerProfile(chat, user.id);
               const isActive = chat.id === roomId;
 
               return (
@@ -132,63 +127,27 @@ export default function ChatDetailContents({ user, profile }: ChatDetailContents
             ref={viewport}
             className="scrollbar-brand min-h-0 flex-1 overflow-y-auto p-4"
           >
-            <div className="flex flex-col gap-3">
-              {messages?.map((msg) => {
-                const isMe = msg.sender_id === user.id;
-                return (
-                  <div
-                    key={msg.id}
-                    className={`flex gap-2 ${isMe ? 'justify-end' : 'justify-start'}`}
-                  >
-                    {!isMe && (
-                      <Avatar className="h-8 w-8">
-                        <AvatarFallback>?</AvatarFallback>
-                      </Avatar>
-                    )}
-                    <div
-                      className={`max-w-[70%] px-4 py-2 ${
-                        isMe
-                          ? 'chat-bubble-me bg-dodam-yellow text-white'
-                          : 'chat-bubble-partner bg-gray-100 text-gray-800'
-                      }`}
-                    >
-                      <p className="text-sm">{msg.message}</p>
-                    </div>
-                  </div>
-                );
-              })}
-              {(!messages || messages.length === 0) && (
-                <EmptyState
-                  icon={MessageCircle}
-                  iconSize={40}
-                  message="대화를 시작해보세요"
-                  className="py-10"
-                />
-              )}
-            </div>
+            <MessageList
+              messages={messages ?? []}
+              roomId={roomId}
+              currentUserId={user.id}
+              partnerName={partnerProfile?.display_name ?? ''}
+              partnerProfileUrl={partnerProfile?.profile_url ?? null}
+            />
           </div>
 
-          <div className="flex shrink-0 items-center gap-2 border-t border-gray-200 p-3">
-            <Input
-              placeholder="메시지를 입력하세요"
-              value={message}
-              onChange={(e) => setMessage(e.target.value)}
-              className="flex-1"
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleSend();
-              }}
-            />
-            <LoadingButton
-              size="icon"
-              onClick={handleSend}
-              loading={sendMessage.isPending}
-            >
-              <Send size={16} />
-            </LoadingButton>
-          </div>
+          <MessageComposer roomId={roomId} />
+
         </div>
       </div>
       </div>
     </div>
   );
+}
+
+/** 두 사람 중 내가 아닌 쪽의 프로필을 고릅니다. */
+function getPartnerProfile(room: ChatRoom, currentUserId: string) {
+  return room.user1_id === currentUserId
+    ? room.user2_profile
+    : room.user1_profile;
 }

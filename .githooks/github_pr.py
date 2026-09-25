@@ -193,61 +193,6 @@ def resolve_base_ref(repo_root, target):
   return ""
 
 
-# 변경 경로에서 도메인 scope를 뽑는다. 이 레포의 디렉터리 구조에 맞춘 순서다.
-SCOPE_PATTERNS = [
-  r"^src/services/([^/]+)/",
-  r"^src/components/([^/]+)/",
-  r"^src/app/api/([^/]+)/",
-  r"^src/app/\(?([^/)]+)\)?/",
-  r"^src/libs/([^/]+)/",
-]
-# 도메인이 아닌 디렉터리는 scope로 쓰지 않는다.
-NOT_SCOPES = {
-  "ui",
-  "common",
-  "app",
-  "api",
-  "libs",
-  "lib",
-  "types",
-  "stores",
-  "providers",
-  "hooks",
-  "constants",
-  "validations",
-  "supabase",
-  "query",
-  "__tests__",
-}
-
-
-def infer_scope(changed_files):
-  """변경 파일에서 커밋 컨벤션 scope를 추론한다. 애매하면 빈 문자열.
-
-  한 도메인 작업이라도 공용 컴포넌트나 테스트를 함께 건드리는 일이 흔하다.
-  그때마다 scope를 비우면 쓸모가 없으므로, 가장 많은 scope가 과반이면 채택한다.
-  진짜로 여러 도메인에 걸친 변경만 scope를 생략한다 (커밋 컨벤션 규칙).
-  """
-  counts = {}
-  for path in changed_files:
-    if path.startswith((".github/", ".githooks/", ".claude/")) or "/" not in path:
-      candidate = "config"
-    else:
-      candidate = ""
-      for pattern in SCOPE_PATTERNS:
-        m = re.match(pattern, path)
-        if m and m.group(1) not in NOT_SCOPES:
-          candidate = m.group(1)
-          break
-    if candidate:
-      counts[candidate] = counts.get(candidate, 0) + 1
-
-  if not counts:
-    return ""
-  top, hits = max(counts.items(), key=lambda kv: kv[1])
-  return top if hits * 2 >= sum(counts.values()) else ""
-
-
 def collect_context(repo_root, base, branch):
   """PR 근거가 될 커밋 로그, 변경 파일, 변경 통계, diff를 모은다."""
   rng = f"{base}..{branch}"
@@ -271,21 +216,21 @@ def strip_conventional_prefix(subject):
   return "feat", subject
 
 
-def build_title(commit_log, scope):
+def build_title(commit_log):
   first = commit_log.splitlines()[0] if commit_log else "변경사항"
   tag, message = strip_conventional_prefix(first)
-  return f"{tag}({scope}): {message}" if scope else f"{tag}: {message}"
+  return f"{tag}: {message}"
 
 
-def generate_with_claude(repo_root, commit_log, changed_files, stat, scope, diff):
+def generate_with_claude(repo_root, commit_log, changed_files, stat, diff):
   """claude CLI로 규칙에 맞는 제목/본문을 생성한다. 실패하면 None."""
   prompt = f"""당신은 이 저장소 변경사항으로 GitHub Pull Request 초안을 작성한다.
 아래 커밋 로그와 diff를 보고 PR 제목과 본문을 만들어라.
 
 [제목 규칙]
-- `{{type}}({{scope}}): {{한글 메시지}}` 형식, 70자 이내
-- type: feat / fix / refactor / chore / perf / docs / test
-- scope 후보: {scope or "(없으면 scope 생략)"}
+- `{{type}}: {{한글 메시지}}` 형식, 70자 이내. scope 괄호는 쓰지 않는다
+- type: feat / fix / refactor / chore / perf / docs / test / style / ci / build / revert
+- 제목은 명사형으로 끝낸다. "추가한다"가 아니라 "추가"
 
 [본문 규칙]
 `## 작업 내용`, `## 변경 파일` 두 섹션을 순서대로 포함한다.
@@ -412,15 +357,14 @@ def main():
     log("변경 파일 없음, PR 생성 생략")
     return 0
 
-  scope = infer_scope(changed_files)
   generated = generate_with_claude(
-    repo_root, commit_log, changed_files, stat, scope, diff
+    repo_root, commit_log, changed_files, stat, diff
   )
   if generated:
     title, body = generated
     log("claude로 본문 생성 완료")
   else:
-    title = build_title(commit_log, scope)
+    title = build_title(commit_log)
     body = fallback_body(commit_log, changed_files)
     log("폴백 템플릿으로 본문 생성")
 

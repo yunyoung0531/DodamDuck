@@ -69,5 +69,6 @@ _backup_*/
 .ai-model-pr-body.md
 
 # 개인 정리 메모 (기술 문서는 docs/ai-generate-post.md)
-ai-generate-post-incident.md
-blog-free-ai-provider.md
+docs/ai-generate-post-incident.md
+docs/blog-free-ai-provider.md
+docs
