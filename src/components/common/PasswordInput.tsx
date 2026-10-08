@@ -25,7 +25,7 @@ export const PasswordInput = forwardRef<HTMLInputElement, PasswordInputProps>(
           type="button"
           variant="ghost"
           size="icon-xs"
-          className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+          className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
           onClick={() => setVisible((v) => !v)}
           tabIndex={-1}
         >

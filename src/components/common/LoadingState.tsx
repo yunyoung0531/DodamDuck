@@ -33,9 +33,7 @@ export function LoadingState({
     >
       <div className="flex flex-col items-center gap-3">
         <Spinner size={size} />
-        {label && (
-          <p className="text-sm text-muted-foreground">{label}</p>
-        )}
+        {label && <p className="text-sm text-muted-foreground">{label}</p>}
       </div>
     </div>
   );

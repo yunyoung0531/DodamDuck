@@ -83,7 +83,9 @@ async function countCalls(
 }
 
 async function runLibrary(library: { label: string; create: DebounceFactory }) {
-  print(`\n## ${library.label} — ${KEYSTROKE_COUNT}글자 입력 시 검색 실행 횟수\n`);
+  print(
+    `\n## ${library.label} — ${KEYSTROKE_COUNT}글자 입력 시 검색 실행 횟수\n`
+  );
 
   const header = DEBOUNCE_DELAYS_MS.map((d) =>
     (d === 0 ? 'debounce 없음' : `${d}ms`).padStart(13)
@@ -99,7 +101,9 @@ async function runLibrary(library: { label: string; create: DebounceFactory }) {
       counts.push(await countCalls(library.create, interval, delay));
     }
     const label = `한 글자당 ${interval}ms`.padEnd(18);
-    print(`| ${label} | ${counts.map((c) => `${c}회`.padStart(13)).join(' |')} |`);
+    print(
+      `| ${label} | ${counts.map((c) => `${c}회`.padStart(13)).join(' |')} |`
+    );
   }
 }
 

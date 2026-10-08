@@ -1,6 +1,6 @@
 @import 'tailwindcss';
-@import "tw-animate-css";
-@import "shadcn/tailwind.css";
+@import 'tw-animate-css';
+@import 'shadcn/tailwind.css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -45,22 +45,27 @@
 }
 
 @theme inline {
-  --font-sans: var(--font-omni-035), var(--font-omni-035-ext), 'Omni Gothic KR Fallback', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  --font-heading: var(--font-omni-045), var(--font-omni-045-ext), 'Omni Gothic KR Fallback', 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
-  --font-gugi: var(--font-gugi-next), 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-sans:
+    var(--font-omni-035), var(--font-omni-035-ext), 'Omni Gothic KR Fallback',
+    'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-heading:
+    var(--font-omni-045), var(--font-omni-045-ext), 'Omni Gothic KR Fallback',
+    'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
+  --font-gugi:
+    var(--font-gugi-next), 'Apple SD Gothic Neo', 'Malgun Gothic', sans-serif;
 
   --color-dodam-50: #fffbe4;
   --color-dodam-100: #fff5c2;
   --color-dodam-200: #ffed99;
   --color-dodam-300: #ffe566;
   --color-dodam-400: #ffdd33;
-  --color-dodam-500: #FFD600;
+  --color-dodam-500: #ffd600;
   --color-dodam-600: #e6c100;
   --color-dodam-700: #ccab00;
   --color-dodam-800: #b39600;
   --color-dodam-900: #998000;
 
-  --color-dodam-yellow: #FFD600;
+  --color-dodam-yellow: #ffd600;
   --color-dodam-light: #fffbe4;
   --color-dodam-beige: #fffdf0;
   --color-sidebar-ring: var(--sidebar-ring);
@@ -317,7 +322,9 @@
 .slide-in {
   opacity: 0;
   transform: translateY(2.5rem);
-  transition: opacity 0.8s ease-out, transform 0.8s ease-out;
+  transition:
+    opacity 0.8s ease-out,
+    transform 0.8s ease-out;
 }
 
 .slide-in.visible {

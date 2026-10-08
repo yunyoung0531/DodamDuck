@@ -98,20 +98,17 @@ describe.skipIf(!apiKey)('AI 모델 체인 스모크', () => {
     }
   });
 
-  it.each(AI_MODEL_CHAIN)(
-    '%s — 사람이 고쳐야 하는 장애가 없다',
-    (model) => {
-      const probe = probes.find((item) => item.model === model);
+  it.each(AI_MODEL_CHAIN)('%s — 사람이 고쳐야 하는 장애가 없다', (model) => {
+    const probe = probes.find((item) => item.model === model);
 
-      expect(
-        probe?.verdict,
-        `${model}이(가) 영구 장애 상태입니다.\n` +
-          `  ${probe?.detail}\n` +
-          `  → pnpm check:ai-models 로 대체 후보를 확인하고 ` +
-          `src/services/ai/model-chain.ts를 교체하세요.`
-      ).not.toBe('broken');
-    }
-  );
+    expect(
+      probe?.verdict,
+      `${model}이(가) 영구 장애 상태입니다.\n` +
+        `  ${probe?.detail}\n` +
+        `  → pnpm check:ai-models 로 대체 후보를 확인하고 ` +
+        `src/services/ai/model-chain.ts를 교체하세요.`
+    ).not.toBe('broken');
+  });
 
   it('체인이 게시글을 만들어낼 수 있다', () => {
     const succeeded = probes.some((item) => item.verdict === 'ok');

@@ -19,11 +19,7 @@ export default async function ChatPage() {
 
   const [queryClient, { data: profile }] = await Promise.all([
     Promise.resolve(getQueryClient()),
-    supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single<Profile>(),
+    supabase.from('profiles').select('*').eq('id', user.id).single<Profile>(),
   ]);
 
   await queryClient.prefetchQuery({

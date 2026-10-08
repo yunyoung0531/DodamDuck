@@ -6,9 +6,7 @@ describe('LinkButton', () => {
   // 스크린 리더가 "이동"을 "실행"으로 읽게 되므로 링크 시맨틱을 지켜야 한다.
   it('버튼처럼 보여도 링크로 노출된다', () => {
     // Arrange & Act
-    renderWithProviders(
-      <LinkButton href="/sharing">교환하러 가기</LinkButton>
-    );
+    renderWithProviders(<LinkButton href="/sharing">교환하러 가기</LinkButton>);
 
     // Assert
     const link = screen.getByRole('link', { name: '교환하러 가기' });

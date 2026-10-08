@@ -1,11 +1,7 @@
 export const MAX_FILE_SIZE = 5 * 1024 * 1024;
 
 export type ImageMime =
-  | 'image/jpeg'
-  | 'image/png'
-  | 'image/gif'
-  | 'image/webp'
-  | 'image/heic';
+  'image/jpeg' | 'image/png' | 'image/gif' | 'image/webp' | 'image/heic';
 
 export const SUPPORTED_MIMES = new Set<ImageMime>([
   'image/jpeg',

@@ -19,8 +19,6 @@ describe('HomePage', () => {
     expect(
       screen.getByText('여기에서 시작하는 작은 교환,')
     ).toBeInTheDocument();
-    expect(
-      screen.getByText('큰 행복으로 연결됩니다.')
-    ).toBeInTheDocument();
+    expect(screen.getByText('큰 행복으로 연결됩니다.')).toBeInTheDocument();
   });
 });

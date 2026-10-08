@@ -50,7 +50,9 @@ export async function servFetchSharingDetail(
 
   const { data: comments, error: commentsError } = await supabase
     .from('sharing_comments')
-    .select('id, post_id, user_id, content, created_at, profiles(username, display_name)')
+    .select(
+      'id, post_id, user_id, content, created_at, profiles(username, display_name)'
+    )
     .eq('post_id', postId)
     .order('created_at', { ascending: true });
 
@@ -168,9 +170,7 @@ export async function servSearchSharingPosts(
 
   if (error) throw error;
 
-  const ids = (data ?? []).map(
-    (row: { id: number }) => row.id
-  );
+  const ids = (data ?? []).map((row: { id: number }) => row.id);
 
   if (ids.length === 0) return [];
 

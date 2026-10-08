@@ -28,8 +28,7 @@ export function SharingSearchResults({
   const { data: results, isLoading } = useSharingSearch(searchTerm);
 
   const posts = results?.filter(
-    (post) =>
-      category === SHARING_CATEGORY.ALL || post.category === category
+    (post) => category === SHARING_CATEGORY.ALL || post.category === category
   );
 
   if (isLoading) {

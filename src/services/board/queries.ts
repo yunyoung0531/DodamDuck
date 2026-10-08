@@ -1,8 +1,5 @@
 import { queryOptions } from '@tanstack/react-query';
-import {
-  servFetchBoardPosts,
-  servFetchBoardDetail,
-} from './board-services';
+import { servFetchBoardPosts, servFetchBoardDetail } from './board-services';
 
 export const boardQueries = {
   all: () =>

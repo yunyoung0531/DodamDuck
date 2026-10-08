@@ -74,65 +74,65 @@ export default function SharingContents() {
   return (
     <div className="flex justify-center px-4 py-10">
       <div className="flex w-full max-w-6xl flex-col gap-8">
-      <PageHeader
-        subtitle="나눔을 통해 행복을 나누다"
-        title="교환 &amp; 나눔"
-      />
+        <PageHeader
+          subtitle="나눔을 통해 행복을 나누다"
+          title="교환 &amp; 나눔"
+        />
 
-      <div className="flex flex-col items-center gap-6">
-        <form onSubmit={handleSearch} className="w-full max-w-lg">
-          <div className="relative">
-            <Input
-              placeholder="어떤 제품을 찾으세요?"
-              value={inputValue}
-              onChange={(e) => setInputValue(e.target.value)}
-              className="pr-10"
-            />
-            <button
-              type="submit"
-              className="absolute right-2 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
-            >
-              <Search size={18} />
-            </button>
-          </div>
-        </form>
+        <div className="flex flex-col items-center gap-6">
+          <form onSubmit={handleSearch} className="w-full max-w-lg">
+            <div className="relative">
+              <Input
+                placeholder="어떤 제품을 찾으세요?"
+                value={inputValue}
+                onChange={(e) => setInputValue(e.target.value)}
+                className="pr-10"
+              />
+              <button
+                type="submit"
+                className="absolute top-1/2 right-2 -translate-y-1/2 text-muted-foreground hover:text-foreground"
+              >
+                <Search size={18} />
+              </button>
+            </div>
+          </form>
 
-        {popularSearches && popularSearches.length > 0 && (
-          <div className="flex flex-wrap items-center justify-center gap-2">
-          {popularSearches.slice(0, 5).map((item) => (
-            <Badge
-              key={item.query}
-              variant="outline"
-              className="cursor-pointer"
-              render={
-                <button
-                  type="button"
-                  onClick={() => applySearchImmediately(item.query)}
-                >
-                  #{item.query}
-                </button>
-              }
-            />
-          ))}
-          </div>
+          {popularSearches && popularSearches.length > 0 && (
+            <div className="flex flex-wrap items-center justify-center gap-2">
+              {popularSearches.slice(0, 5).map((item) => (
+                <Badge
+                  key={item.query}
+                  variant="outline"
+                  className="cursor-pointer"
+                  render={
+                    <button
+                      type="button"
+                      onClick={() => applySearchImmediately(item.query)}
+                    >
+                      #{item.query}
+                    </button>
+                  }
+                />
+              ))}
+            </div>
+          )}
+
+          <CategoryChips value={category} onChange={setCategory} includeAll />
+        </div>
+
+        {searchTerm ? (
+          <SharingSearchResults
+            searchTerm={searchTerm}
+            category={category}
+            emptyActions={emptyActions}
+          />
+        ) : (
+          <SharingPostList category={category} emptyActions={emptyActions} />
         )}
 
-        <CategoryChips value={category} onChange={setCategory} includeAll />
-      </div>
-
-      {searchTerm ? (
-        <SharingSearchResults
-          searchTerm={searchTerm}
-          category={category}
-          emptyActions={emptyActions}
-        />
-      ) : (
-        <SharingPostList category={category} emptyActions={emptyActions} />
-      )}
-
-      {user && (
-        <FloatingActionButton href="/sharing/new" label="교환/나눔 글쓰기" />
-      )}
+        {user && (
+          <FloatingActionButton href="/sharing/new" label="교환/나눔 글쓰기" />
+        )}
       </div>
     </div>
   );

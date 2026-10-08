@@ -48,8 +48,9 @@ function setupAuthenticated() {
         single: vi.fn(() =>
           Promise.resolve({ data: mockProfile, error: null })
         ),
-        then: vi.fn((cb: (val: { data: { post_id: number }[]; error: null }) => void) =>
-          cb({ data: [], error: null })
+        then: vi.fn(
+          (cb: (val: { data: { post_id: number }[]; error: null }) => void) =>
+            cb({ data: [], error: null })
         ),
       }),
     }),
@@ -68,9 +69,7 @@ describe('LikeButton', () => {
   it('하트 아이콘과 좋아요 카운트를 표시한다', () => {
     setupUnauthenticated();
 
-    renderWithProviders(
-      <LikeButton postId={1} likeCount={5} />
-    );
+    renderWithProviders(<LikeButton postId={1} likeCount={5} />);
 
     expect(screen.getByText('5')).toBeInTheDocument();
     expect(screen.getByRole('button', { name: '좋아요' })).toBeInTheDocument();
@@ -79,9 +78,7 @@ describe('LikeButton', () => {
   it('좋아요 카운트가 0일 때도 표시한다', () => {
     setupUnauthenticated();
 
-    renderWithProviders(
-      <LikeButton postId={1} likeCount={0} />
-    );
+    renderWithProviders(<LikeButton postId={1} likeCount={0} />);
 
     expect(screen.getByText('0')).toBeInTheDocument();
   });
@@ -90,9 +87,7 @@ describe('LikeButton', () => {
     setupUnauthenticated();
 
     const user = userEvent.setup();
-    renderWithProviders(
-      <LikeButton postId={1} likeCount={3} />
-    );
+    renderWithProviders(<LikeButton postId={1} likeCount={3} />);
 
     await user.click(screen.getByRole('button', { name: '좋아요' }));
 
@@ -103,9 +98,7 @@ describe('LikeButton', () => {
     setupAuthenticated();
 
     const user = userEvent.setup();
-    renderWithProviders(
-      <LikeButton postId={42} likeCount={3} />
-    );
+    renderWithProviders(<LikeButton postId={42} likeCount={3} />);
 
     await waitFor(() => {
       expect(screen.getByRole('button')).toBeInTheDocument();

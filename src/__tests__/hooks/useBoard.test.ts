@@ -19,7 +19,6 @@ vi.mock('@/libs/supabase/storage', () => ({
   ),
 }));
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useBoardList', () => {
@@ -31,9 +30,7 @@ describe('useBoardList', () => {
 
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
-        order: vi.fn(() =>
-          Promise.resolve({ data: mockPosts, error: null })
-        ),
+        order: vi.fn(() => Promise.resolve({ data: mockPosts, error: null })),
       }),
     })) as ReturnType<typeof vi.fn>;
 
@@ -101,9 +98,7 @@ describe('useCreateBoardPost', () => {
     mockSupabase.from = vi.fn(() => ({
       insert: vi.fn().mockReturnValue({
         select: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: mockPost, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: mockPost, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;
@@ -180,9 +175,7 @@ describe('useDeleteBoardComment', () => {
       })),
     })) as ReturnType<typeof vi.fn>;
 
-    const { result } = renderHookWithProviders(() =>
-      useDeleteBoardComment(1)
-    );
+    const { result } = renderHookWithProviders(() => useDeleteBoardComment(1));
 
     result.current.mutate(1);
 

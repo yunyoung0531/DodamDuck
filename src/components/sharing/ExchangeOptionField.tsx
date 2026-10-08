@@ -38,7 +38,10 @@ export function ExchangeOptionField({
       >
         {OPTIONS.map((option) => (
           <div key={option.key} className="flex items-center gap-2">
-            <RadioGroupItem value={option.value} id={`exchange-${option.key}`} />
+            <RadioGroupItem
+              value={option.value}
+              id={`exchange-${option.key}`}
+            />
             <Label
               htmlFor={`exchange-${option.key}`}
               className="cursor-pointer"

@@ -11,14 +11,16 @@ describe('servFetchLibraryItems', () => {
     const mockItems = {
       data: [
         createMockLibraryItem({ 순번: 1, 장난감명: '레고 블록' }),
-        createMockLibraryItem({ 순번: 2, 장난감명: '공룡 피규어', 대여료: '500' }),
+        createMockLibraryItem({
+          순번: 2,
+          장난감명: '공룡 피규어',
+          대여료: '500',
+        }),
       ],
     };
 
     server.use(
-      http.get(`${APP_URL}/api/library`, () =>
-        HttpResponse.json(mockItems)
-      )
+      http.get(`${APP_URL}/api/library`, () => HttpResponse.json(mockItems))
     );
 
     const result = await servFetchLibraryItems(1, 30);

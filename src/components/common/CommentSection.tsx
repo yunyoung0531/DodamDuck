@@ -1,9 +1,6 @@
 'use client';
 
-import {
-  CommentList,
-  type PostComment,
-} from '@/components/common/CommentList';
+import { CommentList, type PostComment } from '@/components/common/CommentList';
 import { CommentComposer } from '@/components/common/CommentComposer';
 import { cn } from '@/lib/utils';
 

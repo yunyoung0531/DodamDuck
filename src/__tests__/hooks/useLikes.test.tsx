@@ -54,9 +54,7 @@ describe('useUserLikedIds', () => {
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: null, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;
@@ -214,9 +212,7 @@ describe('useUserLikedSharingPosts', () => {
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         eq: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: null, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: null, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;

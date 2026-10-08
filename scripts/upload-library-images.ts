@@ -9,7 +9,9 @@ const SUPABASE_KEY = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 const UNSPLASH_KEY = process.env.UNSPLASH_ACCESS_KEY;
 
 if (!SUPABASE_URL || !SUPABASE_KEY) {
-  throw new Error('NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set');
+  throw new Error(
+    'NEXT_PUBLIC_SUPABASE_URL and NEXT_PUBLIC_SUPABASE_ANON_KEY must be set'
+  );
 }
 if (!UNSPLASH_KEY) {
   throw new Error('UNSPLASH_ACCESS_KEY must be set in .env.local');
@@ -19,14 +21,14 @@ const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
 const BUCKET = 'library-images';
 
 const CATEGORY_SEARCH: Record<string, string> = {
-  'blocks': 'colorful building blocks toy children',
-  'roleplay': 'dollhouse pretend play toy kids',
-  'baby': 'baby soft plush toy teddy bear',
-  'music': 'kids musical instrument xylophone toy',
-  'car': 'toy car model children play',
-  'explore': 'kids educational science toy',
-  'puzzle': 'jigsaw puzzle board game kids',
-  'default': 'yellow rubber duck toy bath',
+  blocks: 'colorful building blocks toy children',
+  roleplay: 'dollhouse pretend play toy kids',
+  baby: 'baby soft plush toy teddy bear',
+  music: 'kids musical instrument xylophone toy',
+  car: 'toy car model children play',
+  explore: 'kids educational science toy',
+  puzzle: 'jigsaw puzzle board game kids',
+  default: 'yellow rubber duck toy bath',
 };
 
 function print(message: string) {
@@ -46,7 +48,9 @@ async function searchUnsplash(query: string): Promise<UnsplashPhoto | null> {
   });
 
   if (!res.ok) {
-    process.stderr.write(`Unsplash API error: ${res.status} ${res.statusText}\n`);
+    process.stderr.write(
+      `Unsplash API error: ${res.status} ${res.statusText}\n`
+    );
     return null;
   }
 
@@ -62,9 +66,13 @@ async function downloadImage(imageUrl: string): Promise<Buffer> {
 }
 
 async function main() {
-  const { error: bucketError } = await supabase.storage.from(BUCKET).list('', { limit: 1 });
+  const { error: bucketError } = await supabase.storage
+    .from(BUCKET)
+    .list('', { limit: 1 });
   if (bucketError) {
-    throw new Error(`Bucket "${BUCKET}" not accessible: ${bucketError.message}`);
+    throw new Error(
+      `Bucket "${BUCKET}" not accessible: ${bucketError.message}`
+    );
   }
   print(`Bucket "${BUCKET}" ready\n`);
 
@@ -85,7 +93,10 @@ async function main() {
 
     const { error } = await supabase.storage
       .from(BUCKET)
-      .upload(filename, imageBuffer, { upsert: true, contentType: 'image/jpeg' });
+      .upload(filename, imageBuffer, {
+        upsert: true,
+        contentType: 'image/jpeg',
+      });
 
     if (error) {
       process.stderr.write(`  Upload failed: ${error.message}\n`);

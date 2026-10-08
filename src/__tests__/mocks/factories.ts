@@ -1,6 +1,12 @@
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
-import type { SharingPost, SharingDetailResponse } from '@/services/sharing/sharing.types';
-import type { BoardPost, BoardDetailResponse } from '@/services/board/board.types';
+import type {
+  SharingPost,
+  SharingDetailResponse,
+} from '@/services/sharing/sharing.types';
+import type {
+  BoardPost,
+  BoardDetailResponse,
+} from '@/services/board/board.types';
 import type { ChatRoom, ChatMessage } from '@/services/chat/chat.types';
 import type { LibraryItem } from '@/services/library/library.types';
 
@@ -54,9 +60,7 @@ export function createMockSharingDetail(
   };
 }
 
-export function createMockBoardPost(
-  overrides?: Partial<BoardPost>
-): BoardPost {
+export function createMockBoardPost(overrides?: Partial<BoardPost>): BoardPost {
   return {
     id: 1,
     user_id: 'test-uuid-1',
@@ -82,9 +86,7 @@ export function createMockBoardDetail(
   };
 }
 
-export function createMockChatRoom(
-  overrides?: Partial<ChatRoom>
-): ChatRoom {
+export function createMockChatRoom(overrides?: Partial<ChatRoom>): ChatRoom {
   return {
     id: 1,
     user1_id: 'test-uuid-1',

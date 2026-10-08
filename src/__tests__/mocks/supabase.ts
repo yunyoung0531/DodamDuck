@@ -25,9 +25,7 @@ export interface MockSupabaseClient {
   removeChannel: ReturnType<typeof vi.fn>;
 }
 
-export function createMockProfile(
-  overrides?: Partial<Profile>
-): Profile {
+export function createMockProfile(overrides?: Partial<Profile>): Profile {
   return {
     id: 'test-uuid-1',
     username: 'testuser',
@@ -63,9 +61,7 @@ interface MockChainResult {
   error: null;
 }
 
-export function createMockSupabaseClient(
-  overrides?: Record<string, unknown>
-) {
+export function createMockSupabaseClient(overrides?: Record<string, unknown>) {
   const defaultResult: MockChainResult = { data: null, error: null };
 
   const chainMethods = {

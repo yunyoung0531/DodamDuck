@@ -19,9 +19,7 @@ describe('ToyPhysicsHero', () => {
   it('히어로 제목과 서브 카피를 표시한다', () => {
     renderWithProviders(<ToyPhysicsHero />);
 
-    expect(
-      screen.getByText('어제의 장난감, 오늘의 행복')
-    ).toBeInTheDocument();
+    expect(screen.getByText('어제의 장난감, 오늘의 행복')).toBeInTheDocument();
     expect(
       screen.getByText('여기에서 시작하는 작은 교환,')
     ).toBeInTheDocument();
@@ -31,9 +29,10 @@ describe('ToyPhysicsHero', () => {
   it('교환하러 가기 CTA가 /sharing으로 연결된다', () => {
     renderWithProviders(<ToyPhysicsHero />);
 
-    expect(
-      screen.getByRole('link', { name: '교환하러 가기' })
-    ).toHaveAttribute('href', '/sharing');
+    expect(screen.getByRole('link', { name: '교환하러 가기' })).toHaveAttribute(
+      'href',
+      '/sharing'
+    );
   });
 
   it('물리 시뮬레이션 컨테이너를 렌더링하고 훅을 활성화한다', () => {
@@ -51,9 +50,7 @@ describe('ToyPhysicsHero', () => {
 
     const { container } = renderWithProviders(<ToyPhysicsHero />);
 
-    expect(
-      screen.queryByTestId('toy-physics-canvas')
-    ).not.toBeInTheDocument();
+    expect(screen.queryByTestId('toy-physics-canvas')).not.toBeInTheDocument();
     expect(container.querySelectorAll('img').length).toBeGreaterThan(0);
     expect(vi.mocked(useToyPhysics)).toHaveBeenCalledWith(
       expect.anything(),

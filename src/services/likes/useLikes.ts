@@ -2,7 +2,10 @@ import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { likesQueries } from './queries';
 import { servToggleLike } from './likes-services';
 import { useUser } from '@/services/auth/useUser';
-import type { SharingPost, SharingDetailResponse } from '@/services/sharing/sharing.types';
+import type {
+  SharingPost,
+  SharingDetailResponse,
+} from '@/services/sharing/sharing.types';
 
 export function useUserLikedIds() {
   const { user } = useUser();

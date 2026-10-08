@@ -7,7 +7,10 @@ import { CHAT_REACTION_EMOJIS } from '@/services/chat/chat.types';
 const ME = 'test-uuid-1';
 const EMOJI = CHAT_REACTION_EMOJIS[0];
 
-function renderBubble(isMine: boolean, reactions = [{ emoji: EMOJI, user_id: 'other' }]) {
+function renderBubble(
+  isMine: boolean,
+  reactions = [{ emoji: EMOJI, user_id: 'other' }]
+) {
   renderWithProviders(
     <MessageBubble
       message={createMockChatMessage({ chat_message_reactions: reactions })}
@@ -53,8 +56,6 @@ describe('MessageBubble 리액션 권한', () => {
     renderBubble(false);
 
     // Assert
-    expect(
-      screen.getByLabelText(`${EMOJI} 리액션 1개`)
-    ).toBeInTheDocument();
+    expect(screen.getByLabelText(`${EMOJI} 리액션 1개`)).toBeInTheDocument();
   });
 });

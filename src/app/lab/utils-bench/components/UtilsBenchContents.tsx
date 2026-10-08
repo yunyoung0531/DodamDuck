@@ -30,20 +30,20 @@ function ResultRow({ result }: { result: BenchResult }) {
       <div className="flex flex-wrap items-center justify-between gap-2">
         <p className="text-sm font-semibold">{result.label}</p>
         <Badge variant={isEsToolkitFaster ? 'default' : 'secondary'}>
-          {isEsToolkitFaster ? 'es-toolkit' : 'lodash'}이 {fasterRatio.toFixed(2)}배
-          빠름
+          {isEsToolkitFaster ? 'es-toolkit' : 'lodash'}이{' '}
+          {fasterRatio.toFixed(2)}배 빠름
         </Badge>
       </div>
 
       <div className="flex h-6 w-full overflow-hidden rounded-md bg-muted">
         <div
-          className="flex items-center justify-center bg-slate-400 text-xs text-white w-[var(--bar-width)]"
+          className="flex w-[var(--bar-width)] items-center justify-center bg-slate-400 text-xs text-white"
           style={{ '--bar-width': `${lodashPercent}%` } as React.CSSProperties}
         >
           lodash
         </div>
         <div
-          className="flex items-center justify-center bg-dodam-500 text-xs text-white w-[var(--bar-width)]"
+          className="flex w-[var(--bar-width)] items-center justify-center bg-dodam-500 text-xs text-white"
           style={
             { '--bar-width': `${esToolkitPercent}%` } as React.CSSProperties
           }
@@ -116,8 +116,9 @@ export default function UtilsBenchContents() {
 
             <p className="text-xs text-muted-foreground">
               각 함수마다 예열 60ms 후 200ms 동안 반복 실행해 초당 처리 횟수를
-              잽니다. 측정 중에는 화면이 잠시 멈춥니다. 개발 서버가 아닌 프로덕션
-              빌드(`pnpm build && pnpm start`)에서 재야 의미 있는 숫자가 나옵니다.
+              잽니다. 측정 중에는 화면이 잠시 멈춥니다. 개발 서버가 아닌
+              프로덕션 빌드(`pnpm build && pnpm start`)에서 재야 의미 있는
+              숫자가 나옵니다.
             </p>
           </CardContent>
         </Card>

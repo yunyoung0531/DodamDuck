@@ -12,7 +12,10 @@ import {
   useIncrementSharingViewCount,
 } from '@/services/sharing/useSharing';
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
-import { createMockSharingPost, createMockSharingDetail } from '../mocks/factories';
+import {
+  createMockSharingPost,
+  createMockSharingDetail,
+} from '../mocks/factories';
 import { createMockUser } from '../mocks/supabase';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
@@ -21,7 +24,6 @@ vi.mock('@/libs/supabase/storage', () => ({
     Promise.resolve('https://test.supabase.co/storage/uploaded.jpg')
   ),
 }));
-
 
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
@@ -34,9 +36,7 @@ describe('useSharingList', () => {
 
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
-        order: vi.fn(() =>
-          Promise.resolve({ data: mockPosts, error: null })
-        ),
+        order: vi.fn(() => Promise.resolve({ data: mockPosts, error: null })),
       }),
     })) as ReturnType<typeof vi.fn>;
 
@@ -135,9 +135,7 @@ describe('useCreateSharingPost', () => {
     mockSupabase.from = vi.fn(() => ({
       insert: vi.fn().mockReturnValue({
         select: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: mockPost, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: mockPost, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;

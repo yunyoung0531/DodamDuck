@@ -1,7 +1,11 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { Database } from '@/types/supabase';
 import { createBrowserSupabase } from '@/libs/supabase/client';
-import { uploadImage, extractStoragePath, deleteImage } from '@/libs/supabase/storage';
+import {
+  uploadImage,
+  extractStoragePath,
+  deleteImage,
+} from '@/libs/supabase/storage';
 import type {
   SignInRequest,
   SignUpRequest,
@@ -131,7 +135,8 @@ export async function servUpdateProfileImage(file: File): Promise<string> {
     .eq('id', user.id)
     .single<{ profile_url: string }>();
 
-  const ext = file.type.split('/')[1] === 'jpeg' ? 'jpg' : file.type.split('/')[1];
+  const ext =
+    file.type.split('/')[1] === 'jpeg' ? 'jpg' : file.type.split('/')[1];
   const imagePath = `${user.id}/${Date.now()}.${ext}`;
   const imageUrl = await uploadImage('profile-images', imagePath, file);
 
@@ -143,7 +148,10 @@ export async function servUpdateProfileImage(file: File): Promise<string> {
   if (error) throw error;
 
   if (currentProfile?.profile_url) {
-    const oldPath = extractStoragePath(currentProfile.profile_url, 'profile-images');
+    const oldPath = extractStoragePath(
+      currentProfile.profile_url,
+      'profile-images'
+    );
     if (oldPath) {
       deleteImage('profile-images', oldPath).catch(() => {});
     }

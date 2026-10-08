@@ -12,7 +12,10 @@ import {
 } from '@/services/sharing/sharing-services';
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import { createMockUser } from '../mocks/supabase';
-import { createMockSharingPost, createMockSharingDetail } from '../mocks/factories';
+import {
+  createMockSharingPost,
+  createMockSharingDetail,
+} from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
 vi.mock('@/libs/supabase/storage', () => ({
@@ -20,7 +23,6 @@ vi.mock('@/libs/supabase/storage', () => ({
     Promise.resolve('https://test.supabase.co/storage/uploaded.jpg')
   ),
 }));
-
 
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
@@ -33,9 +35,7 @@ describe('servFetchSharingPosts', () => {
 
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
-        order: vi.fn(() =>
-          Promise.resolve({ data: mockPosts, error: null })
-        ),
+        order: vi.fn(() => Promise.resolve({ data: mockPosts, error: null })),
       }),
     })) as ReturnType<typeof vi.fn>;
 
@@ -91,9 +91,7 @@ describe('servDeleteSharingComment', () => {
       ),
     } as typeof mockSupabase.auth;
 
-    const eqSecond = vi.fn(() =>
-      Promise.resolve({ error: null, count: 1 })
-    );
+    const eqSecond = vi.fn(() => Promise.resolve({ error: null, count: 1 }));
     const eqFirst = vi.fn(() => ({ eq: eqSecond }));
     mockSupabase.from = vi.fn(() => ({
       delete: vi.fn(() => ({ eq: eqFirst })),
@@ -112,9 +110,7 @@ describe('servDeleteSharingComment', () => {
       ),
     } as typeof mockSupabase.auth;
 
-    const eqSecond = vi.fn(() =>
-      Promise.resolve({ error: null, count: 0 })
-    );
+    const eqSecond = vi.fn(() => Promise.resolve({ error: null, count: 0 }));
     mockSupabase.from = vi.fn(() => ({
       delete: vi.fn(() => ({ eq: vi.fn(() => ({ eq: eqSecond })) })),
     })) as ReturnType<typeof vi.fn>;
@@ -347,9 +343,7 @@ describe('servSearchSharingPosts', () => {
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         in: vi.fn().mockReturnValue({
-          order: vi.fn(() =>
-            Promise.resolve({ data: mockPosts, error: null })
-          ),
+          order: vi.fn(() => Promise.resolve({ data: mockPosts, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;

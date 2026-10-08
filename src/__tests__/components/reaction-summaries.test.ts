@@ -48,10 +48,7 @@ describe('toReactionSummaries', () => {
     const summaries = toReactionSummaries(reactions, ME);
 
     // Assert — 나중에 눌린 것이 피커에서 앞이면 앞에 온다
-    expect(summaries.map((summary) => summary.emoji)).toEqual([
-      earlier,
-      later,
-    ]);
+    expect(summaries.map((summary) => summary.emoji)).toEqual([earlier, later]);
   });
 });
 

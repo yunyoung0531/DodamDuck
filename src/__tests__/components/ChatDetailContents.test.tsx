@@ -90,7 +90,6 @@ describe('ChatDetailContents 메시지 전송', () => {
   });
 });
 
-
 describe('ChatDetailContents 자동 스크롤', () => {
   beforeEach(() => {
     mockScrollTo.mockClear();
