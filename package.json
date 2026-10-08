@@ -13,6 +13,7 @@
     "test:run": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
+    "prepare": "git config core.hooksPath .githooks || true",
     "check:ai-models": "tsx scripts/check-ai-models.ts",
     "propose:ai-models": "tsx scripts/propose-model-replacement.ts",
     "smoke:ai-models": "vitest run --config vitest.smoke.config.mts",

@@ -1,6 +1,6 @@
 # git 훅
 
-이 레포의 git 훅 두 가지를 설명한다. 훅 경로는 clone마다 직접 지정해야 한다.
+이 레포의 git 훅 두 가지를 설명한다. 훅 경로는 `pnpm install`의 `prepare` 스크립트가 지정한다. 설치 없이 켜려면 직접 실행한다.
 
 ```bash
 git config core.hooksPath .githooks
@@ -82,6 +82,8 @@ export GITHUB_TOKEN=여기에_토큰
 ```bash
 git config --unset core.hooksPath
 ```
+
+`pnpm install`을 다시 하면 `prepare`가 경로를 되살린다.
 
 ### 문제 확인
 
