@@ -1,15 +1,33 @@
 # git 훅
 
-이 레포의 git 훅 두 가지를 설명한다. 훅 경로는 `pnpm install`의 `prepare` 스크립트가 지정한다. 설치 없이 켜려면 직접 실행한다.
+이 레포의 git 훅 세 가지를 설명한다. 훅 경로는 `pnpm install`의 `prepare` 스크립트가 지정한다. 설치 없이 켜려면 직접 실행한다.
 
 ```bash
 git config core.hooksPath .githooks
 ```
 
-| 훅           | 시점      | 하는 일                                                      |
-| ------------ | --------- | ------------------------------------------------------------ |
-| `commit-msg` | 커밋할 때 | 커밋 메시지가 규약에 맞는지 검사하고, 어긋나면 커밋을 막는다 |
-| `pre-push`   | push할 때 | 열린 PR이 없으면 draft PR을 만든다. push는 막지 않는다       |
+| 훅           | 시점      | 하는 일                                                                                   |
+| ------------ | --------- | ----------------------------------------------------------------------------------------- |
+| `pre-commit` | 커밋할 때 | 스테이징된 파일에 ESLint와 Prettier를 돌리고, 실패하면 커밋을 막는다                      |
+| `commit-msg` | 커밋할 때 | 커밋 메시지가 규약에 맞는지 검사하고, 어긋나면 커밋을 막는다                              |
+| `pre-push`   | push할 때 | 타입 검사와 테스트가 실패하면 push를 막는다. 통과하면 열린 PR이 없을 때 draft PR을 만든다 |
+
+훅은 모두 `--no-verify`로 건너뛸 수 있다. 머지 전에 반드시 통과해야 하는 검사는 `.github/workflows/ci.yml`이 PR마다 다시 돌린다.
+
+GUI(GitHub Desktop, VS Code)로 커밋하거나 push하면 셸 프로필을 읽지 않아 `pnpm`을 못 찾고 code 127로 실패할 수 있다. 터미널에서 실행하거나, GUI 앱이 nvm 경로를 보도록 PATH를 잡아준다.
+
+---
+
+## pre-commit: 스테이징된 파일 검사
+
+스테이징된 파일만 검사하고 자동으로 고치지 않는다.
+
+- ESLint: `pnpm lint`와 같은 범위(`src/`의 ts, tsx)만 본다. 경고는 막지 않는다. 기존 경고가 남아 있어서 경고까지 막으면 그 파일을 건드리는 커밋이 모두 막힌다.
+- Prettier: 스테이징된 파일 전체에 `--check`를 돌린다. 모르는 확장자와 `.prettierignore` 대상은 건너뛴다.
+
+실패하면 `pnpm format`이나 `pnpm lint --fix`로 고친 뒤 다시 add한다.
+
+검사는 스테이징된 내용이 아니라 작업 트리의 파일을 본다. 한 파일의 일부만 add했다면 add하지 않은 부분까지 검사된다.
 
 ---
 
@@ -40,7 +58,9 @@ Conventional Commits 형식과 한국어 표기 규약을 검사한다. `python3
 
 ## pre-push — 자동 PR 생성 (GitHub)
 
-작업 브랜치를 push하면 열린 PR이 없을 때 **draft PR을 자동 생성**한다. 본문은 커밋 이력과 diff를 근거로 `claude` CLI가 작성하고, 실패하면 커밋 이력 기반 템플릿으로 폴백한다.
+push 전에 `pnpm type-check`와 `pnpm test:run`을 돌려 실패하면 push를 막는다. 검사는 push되는 커밋이 아니라 작업 트리 기준이다.
+
+검사를 통과하고 작업 브랜치를 push하면 열린 PR이 없을 때 **draft PR을 자동 생성**한다. 본문은 커밋 이력과 diff를 근거로 `claude` CLI가 작성하고, 실패하면 커밋 이력 기반 템플릿으로 폴백한다.
 
 ### 왜 GitHub Actions가 아니라 git 훅인가
 
@@ -51,7 +71,7 @@ Conventional Commits 형식과 한국어 표기 규약을 검사한다. `python3
 
 ### 구성
 
-- `pre-push`: push되는 브랜치마다 워커를 백그라운드로 실행한다. **push 자체는 막지 않는다.**
+- `pre-push`: 검사를 통과하면 push되는 브랜치마다 워커를 백그라운드로 실행한다. PR 생성이 실패해도 push는 막지 않는다.
 - `github_pr.py`: remote 브랜치 반영을 기다린 뒤, 열린 PR이 없으면 diff를 근거로 본문을 만들어 GitHub API(`/repos/{owner}/{repo}/pulls`)로 draft PR을 생성한다.
 
 ### 최초 1회 설정 (clone한 각자 필요)
