@@ -32,9 +32,7 @@ describe('CategoryChips', () => {
   });
 
   it('선택된 칩만 aria-pressed가 true다', () => {
-    render(
-      <CategoryChips value={SHARING_CATEGORY.RIDE} onChange={vi.fn()} />
-    );
+    render(<CategoryChips value={SHARING_CATEGORY.RIDE} onChange={vi.fn()} />);
 
     expect(
       screen.getByRole('button', { name: SHARING_CATEGORY.RIDE })

@@ -57,7 +57,10 @@ async function tryCandidate(
 
   // 429는 그 순간 붐빈 것뿐이라 후보 자격과 무관하다. 다만 검증은 못 했으므로
   // 이번 회차에서는 넘어가고 다음 후보를 본다 (내일 다시 시도된다).
-  return { ok: false, reason: `${result.failure.kind}: ${result.failure.detail}` };
+  return {
+    ok: false,
+    reason: `${result.failure.kind}: ${result.failure.detail}`,
+  };
 }
 
 function writeChainFile(replacements: Replacement[]) {
@@ -113,7 +116,9 @@ async function main() {
   const apiKey = process.env.OPENROUTER_API_KEY;
 
   if (!apiKey) {
-    console.error('OPENROUTER_API_KEY가 필요합니다 (후보를 실제로 호출해 검증합니다).');
+    console.error(
+      'OPENROUTER_API_KEY가 필요합니다 (후보를 실제로 호출해 검증합니다).'
+    );
     process.exitCode = 1;
     return;
   }
@@ -135,7 +140,9 @@ async function main() {
   }
 
   const candidates = await findCandidates(models, AI_MODEL_CHAIN);
-  console.log(`❌ 죽은 모델 ${broken.length}개 / 후보 ${candidates.length}개\n`);
+  console.log(
+    `❌ 죽은 모델 ${broken.length}개 / 후보 ${candidates.length}개\n`
+  );
 
   const replacements: Replacement[] = [];
   const pool = candidates.slice(0, MAX_CANDIDATES_TO_TRY);

@@ -18,20 +18,15 @@ vi.mock('@/libs/supabase/storage', () => ({
   ),
 }));
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servFetchBoardPosts', () => {
   it('게시판 목록을 반환한다', async () => {
-    const mockPosts = [
-      createMockBoardPost({ id: 1, title: '육아 꿀팁 공유' }),
-    ];
+    const mockPosts = [createMockBoardPost({ id: 1, title: '육아 꿀팁 공유' })];
 
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
-        order: vi.fn(() =>
-          Promise.resolve({ data: mockPosts, error: null })
-        ),
+        order: vi.fn(() => Promise.resolve({ data: mockPosts, error: null })),
       }),
     })) as ReturnType<typeof vi.fn>;
 
@@ -119,9 +114,7 @@ describe('servCreateBoardPost', () => {
     mockSupabase.from = vi.fn(() => ({
       insert: vi.fn().mockReturnValue({
         select: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: mockPost, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: mockPost, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;
@@ -237,9 +230,7 @@ describe('servDeleteBoardComment', () => {
       ),
     } as typeof mockSupabase.auth;
 
-    const eqSecond = vi.fn(() =>
-      Promise.resolve({ error: null, count: 1 })
-    );
+    const eqSecond = vi.fn(() => Promise.resolve({ error: null, count: 1 }));
     const eqFirst = vi.fn(() => ({ eq: eqSecond }));
     mockSupabase.from = vi.fn(() => ({
       delete: vi.fn(() => ({ eq: eqFirst })),
@@ -258,9 +249,7 @@ describe('servDeleteBoardComment', () => {
       ),
     } as typeof mockSupabase.auth;
 
-    const eqSecond = vi.fn(() =>
-      Promise.resolve({ error: null, count: 0 })
-    );
+    const eqSecond = vi.fn(() => Promise.resolve({ error: null, count: 0 }));
     mockSupabase.from = vi.fn(() => ({
       delete: vi.fn(() => ({ eq: vi.fn(() => ({ eq: eqSecond })) })),
     })) as ReturnType<typeof vi.fn>;

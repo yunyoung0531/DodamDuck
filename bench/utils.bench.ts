@@ -35,8 +35,14 @@ const POSTS: BenchPost[] = Array.from({ length: SIZE }, (_unused, i) => ({
   authorId: i % 500,
 }));
 
-const NUMBERS_A: number[] = Array.from({ length: 5_000 }, (_unused, i) => i * 2);
-const NUMBERS_B: number[] = Array.from({ length: 5_000 }, (_unused, i) => i * 3);
+const NUMBERS_A: number[] = Array.from(
+  { length: 5_000 },
+  (_unused, i) => i * 2
+);
+const NUMBERS_B: number[] = Array.from(
+  { length: 5_000 },
+  (_unused, i) => i * 3
+);
 
 /** 5단계 중첩 객체 — cloneDeep 비교용. */
 const NESTED = {

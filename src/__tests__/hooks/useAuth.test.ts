@@ -19,7 +19,6 @@ vi.mock('@/libs/supabase/storage', () => ({
   deleteImage: vi.fn(() => Promise.resolve()),
 }));
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useSignIn', () => {
@@ -85,9 +84,7 @@ describe('useCheckUsername', () => {
 
 describe('useSignOut', () => {
   it('로그아웃 mutation이 성공한다', async () => {
-    mockSupabase.auth.signOut = vi.fn(() =>
-      Promise.resolve({ error: null })
-    );
+    mockSupabase.auth.signOut = vi.fn(() => Promise.resolve({ error: null }));
 
     const { result } = renderHookWithProviders(() => useSignOut());
 

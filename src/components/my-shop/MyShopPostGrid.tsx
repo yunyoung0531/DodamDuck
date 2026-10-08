@@ -26,7 +26,7 @@ export function MyShopPostGrid({ posts, renderAction }: MyShopPostGridProps) {
               href={`/sharing/${post.id}`}
               aria-label={post.title}
               onClick={() => incrementView.mutate(post.id)}
-              className="absolute inset-0 z-10 rounded-md focus-visible:outline-2 focus-visible:outline-ring focus-visible:[outline-offset:-2px]"
+              className="absolute inset-0 z-10 rounded-md focus-visible:outline-2 focus-visible:[outline-offset:-2px] focus-visible:outline-ring"
             />
 
             <div className="relative aspect-square overflow-hidden rounded-md">

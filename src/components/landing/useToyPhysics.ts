@@ -144,14 +144,17 @@ function scheduleToySpawns(params: {
     const toy = toys[i % toys.length];
     if (!toy) continue;
 
-    const timeoutId = window.setTimeout(() => {
-      const width = getWidth();
-      const x = width * 0.1 + Math.random() * width * 0.8;
-      const y = -100 - Math.random() * 300;
-      const body = createToyBody(toy, x, y, scale);
-      Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.15);
-      Matter.Composite.add(world, body);
-    }, SPAWN.START_DELAY_MS + i * SPAWN.INTERVAL_MS);
+    const timeoutId = window.setTimeout(
+      () => {
+        const width = getWidth();
+        const x = width * 0.1 + Math.random() * width * 0.8;
+        const y = -100 - Math.random() * 300;
+        const body = createToyBody(toy, x, y, scale);
+        Matter.Body.setAngularVelocity(body, (Math.random() - 0.5) * 0.15);
+        Matter.Composite.add(world, body);
+      },
+      SPAWN.START_DELAY_MS + i * SPAWN.INTERVAL_MS
+    );
 
     timeouts.push(timeoutId);
   }

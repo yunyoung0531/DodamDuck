@@ -26,11 +26,7 @@ export default async function MyShopPage() {
       ...sharingQueries.all(),
       queryFn: () => servFetchSharingPosts(undefined, supabase),
     }),
-    supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .single<Profile>(),
+    supabase.from('profiles').select('*').eq('id', user.id).single<Profile>(),
     queryClient.prefetchQuery({
       ...likesQueries.userLikedSharingPosts(),
       queryFn: () => servFetchUserLikedSharingPosts(supabase),

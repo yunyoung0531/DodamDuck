@@ -10,7 +10,8 @@ export async function servFetchLibraryItems(
   });
 
   const response = await fetch(`/api/library?${params.toString()}`);
-  if (!response.ok) throw new Error('장난감 도서관 데이터를 불러올 수 없습니다');
+  if (!response.ok)
+    throw new Error('장난감 도서관 데이터를 불러올 수 없습니다');
 
   const data: LibraryResponse = await response.json();
   return data.data;
@@ -35,10 +36,9 @@ export async function servFetchLibraryItemsServer(
     serviceKey: apiKey,
   });
 
-  const response = await fetch(
-    `${apiUrl}${datasetPath}?${params.toString()}`
-  );
-  if (!response.ok) throw new Error('장난감 도서관 데이터를 불러올 수 없습니다');
+  const response = await fetch(`${apiUrl}${datasetPath}?${params.toString()}`);
+  if (!response.ok)
+    throw new Error('장난감 도서관 데이터를 불러올 수 없습니다');
 
   const data: LibraryResponse = await response.json();
   return data.data;

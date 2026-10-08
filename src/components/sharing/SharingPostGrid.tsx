@@ -13,7 +13,7 @@ function SharingPostCard({ post }: { post: SharingPost }) {
       <Link
         href={`/sharing/${post.id}`}
         aria-label={post.title}
-        className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:outline-ring focus-visible:[outline-offset:-2px]"
+        className="absolute inset-0 z-10 focus-visible:outline-2 focus-visible:[outline-offset:-2px] focus-visible:outline-ring"
       />
 
       <div className="relative h-48">
@@ -66,7 +66,7 @@ function SharingPostCard({ post }: { post: SharingPost }) {
 /** 교환·나눔 게시글 카드 그리드. 목록 모드와 검색 모드가 함께 쓴다. */
 export function SharingPostGrid({ posts }: { posts: SharingPost[] }) {
   return (
-    <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
+    <div className="xs:grid-cols-2 grid grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-4">
       {posts.map((post) => (
         <SharingPostCard key={post.id} post={post} />
       ))}

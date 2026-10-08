@@ -7,8 +7,7 @@ import type { ComponentProps } from 'react';
 import type { VariantProps } from 'class-variance-authority';
 
 interface LinkButtonProps
-  extends ComponentProps<typeof Link>,
-    VariantProps<typeof buttonVariants> {}
+  extends ComponentProps<typeof Link>, VariantProps<typeof buttonVariants> {}
 
 /**
  * 버튼처럼 보이지만 실제로는 이동하는 링크.

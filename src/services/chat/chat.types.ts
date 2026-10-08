@@ -26,13 +26,7 @@ export interface ChatRoom extends ChatRoomRow {
  * @see docs/implementation-notes/chat.md
  * @public
  */
-export const CHAT_REACTION_EMOJIS = [
-  '🦆',
-  '💛',
-  '👍',
-  '👀',
-  '😃',
-] as const;
+export const CHAT_REACTION_EMOJIS = ['🦆', '💛', '👍', '👀', '😃'] as const;
 
 export interface ChatReaction {
   emoji: string;

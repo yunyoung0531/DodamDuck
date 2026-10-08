@@ -2,38 +2,22 @@
 
 # 유아용품 교환&나눔 플랫폼 - 도담덕 DodamDuck
 
-
-
-
 ## 🦆 소개 및 프로젝트 목적 🧸
-
-
 
 <img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0655a0e0-25c9-4087-84a9-8545c77e9d5d"  width="100" height="100"/>
 
-
-
-__도담덕__ =  ___도담도담 + Duck___
-
+**도담덕** = _**도담도담 + Duck**_
 
 어린아이가 탈 없이 잘 놀며 자라는 마음의 뜻과 아이들이 좋아하는 귀여운 오리를 합쳐 지어진 '도담덕'
 
-
 일회성으로 사용되고 버려지는 장난감들. 전세계 플라스틱 폐기물의 30%가 장난감인 실태.
 이를 해결하고자 유아용품 교환&나눔 플랫폼인 도담덕을 생각하게 되었습니다.
-
-
-
 
 ## 📆기간 (1차 - 교내 캡스톤 디자인 과목 (2학기))
 
 2023.09. ~ 2023.12.
 
-
-
-
 ## 🔍주요 기능
-
 
 <table>
   <tr>
@@ -55,8 +39,6 @@ __도담덕__ =  ___도담도담 + Duck___
 
 ---
 
-
-
 <table>
   <tr>
     <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af942687-a32a-4b72-ab7c-e8054282239b"  width="500" height="200"/></td>
@@ -66,9 +48,7 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>회원가입</b></td>
 </table>
 
-
 ---
-
 
 <table>
   <tr>
@@ -87,11 +67,7 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>교환/나눔 게시글 (상세)2</b></td>
 </table>
 
-
-
 ---
-
-
 
 <table>
   <tr>
@@ -100,9 +76,7 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>장난감 도서관</b></td>
 </table>
 
-
 ---
-
 
 <table>
   <tr>
@@ -121,9 +95,7 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>게시 게시글 (상세)2</b></td>
 </table>
 
-
 ---
-
 
 <table>
   <tr>
@@ -132,9 +104,7 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>내 상점(마이페이지)</b></td>
 </table>
 
-
 ---
-
 
 <table>
   <tr>
@@ -145,15 +115,11 @@ __도담덕__ =  ___도담도담 + Duck___
     <td align="center"><b>채팅 상세</b></td>
 </table>
 
+## 🎨디자인
 
-
-## 🎨디자인 
 ### Figma로 직접 디자인
 
-
 <img src="https://github.com/DodamDuck/DodamDuck/assets/68066598/70f3bdc7-5324-47ab-8c8b-e9535fe9ef49" width="350" height="400"/>
-
-
 
 ## 💫기술 스택
 
@@ -161,10 +127,6 @@ __도담덕__ =  ___도담도담 + Duck___
 - TypeScript
 - Context API
 
-
-
 ## 📷시연 영상
 
 https://youtu.be/TNb7-WiAxxI?si=5_l3ZsKeJe_xxM6i
-
-

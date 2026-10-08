@@ -51,9 +51,7 @@ export function ConfirmDialog({
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <DialogFooter>
-          <DialogClose render={<Button variant="outline" />}>
-            취소
-          </DialogClose>
+          <DialogClose render={<Button variant="outline" />}>취소</DialogClose>
           <LoadingButton
             variant="destructive"
             onClick={handleConfirm}

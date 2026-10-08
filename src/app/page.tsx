@@ -11,7 +11,7 @@ export default function HomePage() {
       <ToyPhysicsHero />
 
       <AnimatedSection className="snap-section main2-container bg-dodam-light">
-        <div className="hidden lg:block pl-[16.875rem]">
+        <div className="hidden pl-[16.875rem] lg:block">
           <Image
             src="/images/도담덕캐릭터.png"
             alt="도담덕 캐릭터"
@@ -22,8 +22,12 @@ export default function HomePage() {
         </div>
         <div className="text-center lg:pl-5">
           <div>
-            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">하나의 장난감,</h2>
-            <h2 className="text-[clamp(1.75rem,1rem+2.8vw,3.125rem)] font-heading">무수한 웃음</h2>
+            <h2 className="font-heading text-[clamp(1.75rem,1rem+2.8vw,3.125rem)]">
+              하나의 장난감,
+            </h2>
+            <h2 className="font-heading text-[clamp(1.75rem,1rem+2.8vw,3.125rem)]">
+              무수한 웃음
+            </h2>
           </div>
           <div className="pt-2.5">
             <h5 className="text-landing-sub">교환의 기쁨을 경험하세요.</h5>
@@ -46,7 +50,7 @@ export default function HomePage() {
       </AnimatedSection>
 
       <AnimatedSection className="snap-section main1-container app-main3 bg-dodam-light">
-        <div className="hidden lg:block pl-[10rem]">
+        <div className="hidden pl-[10rem] lg:block">
           <Image
             src="/images/도담덕캐릭터.png"
             alt="도담덕 캐릭터"
@@ -56,8 +60,10 @@ export default function HomePage() {
           />
         </div>
         <div className="z-[3] flex flex-col gap-1">
-          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-right lg:pr-16">나누면 더 커지는 행복,</h2>
-          <h2 className="text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] font-heading text-center lg:text-left lg:pl-5">
+          <h2 className="text-center font-heading text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] lg:pr-16 lg:text-right">
+            나누면 더 커지는 행복,
+          </h2>
+          <h2 className="text-center font-heading text-[clamp(1.5rem,0.8rem+2.8vw,3rem)] lg:pl-5 lg:text-left">
             장난감 교환으로 시작하세요.
           </h2>
         </div>

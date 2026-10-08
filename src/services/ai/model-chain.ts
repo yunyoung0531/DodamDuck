@@ -31,8 +31,12 @@ export const AI_MODEL_CHAIN = [
  * 교체 PR이 빨간불이면 그 모델을 여기 추가할 것.
  */
 export const AI_MODEL_DENYLIST: Record<string, string> = {
-  'thinkingmachines/inkling-small:free': '403 — agentic harness 전용 (2026-09-20)',
-  'thinkingmachines/inkling:free': '403 — agentic harness 전용 (추정, small과 동일 계열)',
-  'nex-agi/nex-n2.5-mini:free': '400 — 이미지 요청 형식을 받지 않음 (2026-09-20)',
-  'nvidia/nemotron-3.5-content-safety:free': '안전성 분류 전용 모델 — 글쓰기 용도 아님',
+  'thinkingmachines/inkling-small:free':
+    '403 — agentic harness 전용 (2026-09-20)',
+  'thinkingmachines/inkling:free':
+    '403 — agentic harness 전용 (추정, small과 동일 계열)',
+  'nex-agi/nex-n2.5-mini:free':
+    '400 — 이미지 요청 형식을 받지 않음 (2026-09-20)',
+  'nvidia/nemotron-3.5-content-safety:free':
+    '안전성 분류 전용 모델 — 글쓰기 용도 아님',
 };

@@ -9,7 +9,6 @@ import {
 import { createMockChatRoom, createMockChatMessage } from '../mocks/factories';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('useChatList', () => {
@@ -26,9 +25,7 @@ describe('useChatList', () => {
     mockSupabase.from = vi.fn(() => ({
       select: vi.fn().mockReturnValue({
         or: vi.fn().mockReturnValue({
-          order: vi.fn(() =>
-            Promise.resolve({ data: mockRooms, error: null })
-          ),
+          order: vi.fn(() => Promise.resolve({ data: mockRooms, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;
@@ -92,9 +89,7 @@ describe('useSendMessage', () => {
     );
 
     mockSupabase.from = vi.fn(() => ({
-      insert: vi.fn(() =>
-        Promise.resolve({ data: null, error: null })
-      ),
+      insert: vi.fn(() => Promise.resolve({ data: null, error: null })),
     })) as ReturnType<typeof vi.fn>;
 
     const { result } = renderHookWithProviders(() => useSendMessage());
@@ -130,9 +125,7 @@ describe('useCreateChatRoom', () => {
       }),
       insert: vi.fn().mockReturnValue({
         select: vi.fn().mockReturnValue({
-          single: vi.fn(() =>
-            Promise.resolve({ data: mockRoom, error: null })
-          ),
+          single: vi.fn(() => Promise.resolve({ data: mockRoom, error: null })),
         }),
       }),
     })) as ReturnType<typeof vi.fn>;

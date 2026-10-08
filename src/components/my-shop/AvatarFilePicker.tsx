@@ -80,7 +80,9 @@ export function AvatarFilePicker({
           </div>
         ) : (
           <div className="absolute inset-0 flex items-center justify-center rounded-full bg-black/0 transition-colors group-hover:bg-black/40">
-            <Camera className={`${style.camera} text-white opacity-0 transition-opacity group-hover:opacity-100`} />
+            <Camera
+              className={`${style.camera} text-white opacity-0 transition-opacity group-hover:opacity-100`}
+            />
           </div>
         )}
       </button>

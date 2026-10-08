@@ -36,8 +36,7 @@ export function EditProfileDialog({ profile }: EditProfileDialogProps) {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger render={<Button variant="outline" size="sm" />}>
-        <Pencil className="size-4" />
-        내 정보 수정
+        <Pencil className="size-4" />내 정보 수정
       </DialogTrigger>
 
       <DialogContent className="sm:max-w-md">

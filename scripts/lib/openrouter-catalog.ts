@@ -14,8 +14,7 @@ export interface CatalogModel {
 }
 
 export type Verdict =
-  | { ok: true; endpoints: number }
-  | { ok: false; reason: string };
+  { ok: true; endpoints: number } | { ok: false; reason: string };
 
 async function fetchJson(url: string): Promise<unknown> {
   const response = await fetch(url);

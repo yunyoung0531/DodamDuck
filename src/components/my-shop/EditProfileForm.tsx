@@ -101,7 +101,11 @@ export function EditProfileForm({ profile, onDone }: EditProfileFormProps) {
         />
       </FormField>
 
-      <FormField htmlFor="location" label="위치" error={errors.location?.message}>
+      <FormField
+        htmlFor="location"
+        label="위치"
+        error={errors.location?.message}
+      >
         <Input
           id="location"
           placeholder="위치를 입력하세요"

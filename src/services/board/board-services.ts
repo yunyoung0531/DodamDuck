@@ -103,9 +103,7 @@ export async function servIncrementBoardViewCount(
   if (error) throw error;
 }
 
-export async function servDeleteBoardComment(
-  commentId: number
-): Promise<void> {
+export async function servDeleteBoardComment(commentId: number): Promise<void> {
   const supabase = createBrowserSupabase();
 
   const {

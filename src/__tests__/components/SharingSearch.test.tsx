@@ -257,7 +257,9 @@ describe('SharingContents 실시간 검색', () => {
     await flushPromises();
 
     // Assert — 왜 0건인지 알려주고 되돌릴 방법을 준다
-    expect(screen.getByText('"곰돌"에 대한 결과가 없습니다')).toBeInTheDocument();
+    expect(
+      screen.getByText('"곰돌"에 대한 결과가 없습니다')
+    ).toBeInTheDocument();
 
     // Act — 지우기 버튼으로 복귀
     fireEvent.click(screen.getByRole('button', { name: '검색어 지우기' }));
@@ -318,9 +320,7 @@ describe('SharingContents 실시간 검색', () => {
     await renderSearchPage();
 
     // Assert — 조건 해제 버튼이 아니라 글쓰기를 제안한다
-    expect(
-      screen.getByText('아직 등록된 물건이 없습니다')
-    ).toBeInTheDocument();
+    expect(screen.getByText('아직 등록된 물건이 없습니다')).toBeInTheDocument();
     expect(screen.getByText('첫 번째 나눔을 시작해보세요')).toBeInTheDocument();
     expect(
       screen.queryByRole('button', { name: '검색어 지우기' })

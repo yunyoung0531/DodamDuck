@@ -19,7 +19,6 @@ vi.mock('@/libs/supabase/storage', () => ({
   deleteImage: vi.fn(() => Promise.resolve()),
 }));
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('servSignIn', () => {
@@ -116,9 +115,7 @@ describe('servCheckUsername', () => {
 
 describe('servSignOut', () => {
   it('로그아웃에 성공한다', async () => {
-    mockSupabase.auth.signOut = vi.fn(() =>
-      Promise.resolve({ error: null })
-    );
+    mockSupabase.auth.signOut = vi.fn(() => Promise.resolve({ error: null }));
 
     await expect(servSignOut()).resolves.toBeUndefined();
     expect(mockSupabase.auth.signOut).toHaveBeenCalled();
@@ -229,9 +226,7 @@ describe('servUpdateProfileImage', () => {
       ),
     });
 
-    const eqForUpdate = vi.fn(() =>
-      Promise.resolve({ error: null })
-    );
+    const eqForUpdate = vi.fn(() => Promise.resolve({ error: null }));
 
     let callCount = 0;
     mockSupabase.from = vi.fn(() => {
@@ -271,7 +266,10 @@ describe('servUpdateProfileImage', () => {
             eq: vi.fn().mockReturnValue({
               single: vi.fn(() =>
                 Promise.resolve({
-                  data: { profile_url: 'https://test.supabase.co/object/public/profile-images/old.jpg' },
+                  data: {
+                    profile_url:
+                      'https://test.supabase.co/object/public/profile-images/old.jpg',
+                  },
                   error: null,
                 })
               ),

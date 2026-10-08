@@ -5,9 +5,12 @@ import { NAV_LINKS } from './nav-links';
 
 export function NavbarSkeleton() {
   return (
-    <header className="fixed top-0 left-0 right-0 z-50 flex h-14 justify-center border-b border-gray-200 bg-white">
+    <header className="fixed top-0 right-0 left-0 z-50 flex h-14 justify-center border-b border-gray-200 bg-white">
       <div className="relative flex h-full w-full items-center justify-between px-4 sm:px-8 lg:px-20">
-        <Link href="/" className="flex shrink-0 items-center gap-2 no-underline">
+        <Link
+          href="/"
+          className="flex shrink-0 items-center gap-2 no-underline"
+        >
           <Image
             src="/images/도담덕로고.png"
             alt="도담덕 로고"

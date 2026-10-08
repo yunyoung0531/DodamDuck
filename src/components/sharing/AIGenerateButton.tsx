@@ -91,13 +91,19 @@ function StatusProgress() {
   return (
     <div className="flex flex-col gap-1.5">
       <div className="flex items-center justify-between">
-        <p className="text-xs text-muted-foreground">{STATUS_MESSAGES[messageIndex]}</p>
-        <span className="text-xs tabular-nums text-muted-foreground">{rounded}%</span>
+        <p className="text-xs text-muted-foreground">
+          {STATUS_MESSAGES[messageIndex]}
+        </p>
+        <span className="text-xs text-muted-foreground tabular-nums">
+          {rounded}%
+        </span>
       </div>
       <div className="h-1.5 w-full overflow-hidden rounded-full bg-gray-100">
         <div
-          className="h-full rounded-full bg-dodam-400 transition-[width] duration-300 ease-out w-[var(--progress)]"
-          ref={(el) => { el?.style.setProperty('--progress', `${progress}%`); }}
+          className="h-full w-[var(--progress)] rounded-full bg-dodam-400 transition-[width] duration-300 ease-out"
+          ref={(el) => {
+            el?.style.setProperty('--progress', `${progress}%`);
+          }}
         />
       </div>
     </div>

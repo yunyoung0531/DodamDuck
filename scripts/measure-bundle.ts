@@ -19,7 +19,9 @@ interface Source {
 
 /** 트리셰이킹에 지워지지 않도록 각 유틸을 감싸 export 한다. */
 function reexport(utils: readonly string[]) {
-  return utils.map((u) => `export const ${u}_ = (...a) => ${u}(...a);`).join('\n');
+  return utils
+    .map((u) => `export const ${u}_ = (...a) => ${u}(...a);`)
+    .join('\n');
 }
 
 const SOURCES: Source[] = [
@@ -28,7 +30,9 @@ const SOURCES: Source[] = [
     label: "import _ from 'lodash'",
     entry: (utils) =>
       `import _ from 'lodash';\n` +
-      utils.map((u) => `export const ${u}_ = (...a) => _.${u}(...a);`).join('\n'),
+      utils
+        .map((u) => `export const ${u}_ = (...a) => _.${u}(...a);`)
+        .join('\n'),
   },
   {
     id: 'lodash-deep',
@@ -117,7 +121,10 @@ function formatRatio(value: number, base: number) {
   return `${(value / base).toFixed(2)}x`.padStart(7);
 }
 
-async function runScenario(scenario: { title: string; utils: readonly string[] }) {
+async function runScenario(scenario: {
+  title: string;
+  utils: readonly string[];
+}) {
   print(`\n## ${scenario.title}\n`);
   print(
     '| 임포트 방식                             |       raw |  minified |  min+gzip | es-toolkit 대비 |'

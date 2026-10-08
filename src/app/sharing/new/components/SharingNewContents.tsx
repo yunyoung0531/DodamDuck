@@ -71,94 +71,99 @@ export default function SharingNewContents() {
   return (
     <div className="flex justify-center px-4 py-10">
       <div className="flex w-full max-w-3xl flex-col gap-8">
-      <h2 className="font-heading text-2xl font-bold">
-        교환 &amp; 나눔 글 올리기
-      </h2>
+        <h2 className="font-heading text-2xl font-bold">
+          교환 &amp; 나눔 글 올리기
+        </h2>
 
-      <Card>
-        <CardContent className="p-8">
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <div className="flex flex-col gap-6">
-              <ImageUploadField
-                label="상품 이미지"
-                onFileSelect={setImage}
-              />
+        <Card>
+          <CardContent className="p-8">
+            <form onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-col gap-6">
+                <ImageUploadField label="상품 이미지" onFileSelect={setImage} />
 
-              <AIGenerateButton
-                image={image}
-                setValue={setValue}
-                setTags={setTags}
-              />
-
-              <FormField htmlFor="title" label="상품명" error={errors.title?.message}>
-                <Input
-                  id="title"
-                  placeholder="상품명을 등록해주세요"
-                  {...register('title')}
+                <AIGenerateButton
+                  image={image}
+                  setValue={setValue}
+                  setTags={setTags}
                 />
-              </FormField>
 
-              <FormField
-                htmlFor="content"
-                label="상품 설명"
-                error={errors.content?.message}
-              >
-                <Textarea
-                  id="content"
-                  placeholder="상품의 상태, 브랜드, 사용감 등을 입력해주세요"
-                  rows={5}
-                  {...register('content')}
+                <FormField
+                  htmlFor="title"
+                  label="상품명"
+                  error={errors.title?.message}
+                >
+                  <Input
+                    id="title"
+                    placeholder="상품명을 등록해주세요"
+                    {...register('title')}
+                  />
+                </FormField>
+
+                <FormField
+                  htmlFor="content"
+                  label="상품 설명"
+                  error={errors.content?.message}
+                >
+                  <Textarea
+                    id="content"
+                    placeholder="상품의 상태, 브랜드, 사용감 등을 입력해주세요"
+                    rows={5}
+                    {...register('content')}
+                  />
+                </FormField>
+
+                <FormField
+                  htmlFor="location"
+                  label="거래 희망 장소"
+                  error={errors.location?.message}
+                >
+                  <Input
+                    id="location"
+                    placeholder="거래 희망 장소를 입력해주세요"
+                    {...register('location')}
+                  />
+                </FormField>
+
+                <Controller
+                  name="category"
+                  control={control}
+                  render={({ field }) => (
+                    <div className="flex flex-col gap-1.5">
+                      <Label id="category-label">카테고리</Label>
+                      <CategoryChips
+                        value={field.value}
+                        onChange={field.onChange}
+                        aria-labelledby="category-label"
+                      />
+                      <FormFieldError message={errors.category?.message} />
+                    </div>
+                  )}
                 />
-              </FormField>
 
-              <FormField htmlFor="location" label="거래 희망 장소" error={errors.location?.message}>
-                <Input
-                  id="location"
-                  placeholder="거래 희망 장소를 입력해주세요"
-                  {...register('location')}
-                />
-              </FormField>
-
-              <Controller
-                name="category"
-                control={control}
-                render={({ field }) => (
-                  <div className="flex flex-col gap-1.5">
-                    <Label id="category-label">카테고리</Label>
-                    <CategoryChips
+                <Controller
+                  name="exchangeOption"
+                  control={control}
+                  render={({ field }) => (
+                    <ExchangeOptionField
                       value={field.value}
                       onChange={field.onChange}
-                      aria-labelledby="category-label"
                     />
-                    <FormFieldError message={errors.category?.message} />
-                  </div>
-                )}
-              />
+                  )}
+                />
 
-              <Controller
-                name="exchangeOption"
-                control={control}
-                render={({ field }) => (
-                  <ExchangeOptionField
-                    value={field.value}
-                    onChange={field.onChange}
-                  />
-                )}
-              />
+                <TagInputField tags={tags} onChange={setTags} />
 
-              <TagInputField tags={tags} onChange={setTags} />
-
-              <LoadingButton
-                type="submit"
-                loading={createPost.isPending}
-                disabled={!image}
-              >
-                등록
-              </LoadingButton>
-            </div>
-          </form>
-        </CardContent>
-      </Card>
+                <LoadingButton
+                  type="submit"
+                  loading={createPost.isPending}
+                  disabled={!image}
+                >
+                  등록
+                </LoadingButton>
+              </div>
+            </form>
+          </CardContent>
+        </Card>
       </div>
     </div>
   );

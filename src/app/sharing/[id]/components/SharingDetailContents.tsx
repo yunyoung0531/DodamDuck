@@ -6,7 +6,12 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { MessageCircle } from 'lucide-react';
 import { LikeButton } from '@/components/common/LikeButton';
-import { Card, CardContent, CardHeader, CardFooter } from '@/components/ui/card';
+import {
+  Card,
+  CardContent,
+  CardHeader,
+  CardFooter,
+} from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -53,9 +58,9 @@ export default function SharingDetailContents() {
   if (!data) {
     return (
       <div className="flex justify-center pt-10">
-      <Alert variant="destructive" className="max-w-md">
-        <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
-      </Alert>
+        <Alert variant="destructive" className="max-w-md">
+          <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
+        </Alert>
       </div>
     );
   }
@@ -86,102 +91,103 @@ export default function SharingDetailContents() {
   return (
     <div className="flex justify-center px-4 py-10">
       <div className="w-full max-w-4xl">
-      <Card>
-        <CardHeader className="border-b border-gray-200 p-4">
-          <p className="font-semibold">교환 &amp; 나눔 게시판</p>
-        </CardHeader>
+        <Card>
+          <CardHeader className="border-b border-gray-200 p-4">
+            <p className="font-semibold">교환 &amp; 나눔 게시판</p>
+          </CardHeader>
 
-        <CardContent className="p-6">
-          <div className="flex flex-col gap-6 md:flex-row">
-            <div className="flex flex-col gap-4 md:w-1/2">
-              <div className="relative aspect-square overflow-hidden rounded-md">
-                <Image
-                  src={post.image_url || '/images/도담덕로고.png'}
-                  alt={post.title}
-                  fill
-                  className="object-cover"
-                  unoptimized
-                />
-              </div>
-
-              <PostAuthor
-                displayName={post.profiles.display_name}
-                profileUrl={post.profiles.profile_url}
-                createdAt={post.created_at}
-                detail={post.location}
-              />
-
-              {user && !isAuthor && (
-                <LoadingButton
-                  onClick={handleChat}
-                  loading={createChatRoom.isPending}
-                >
-                  <MessageCircle size={16} />
-                  채팅하기
-                </LoadingButton>
-              )}
-            </div>
-
-            <Separator orientation="vertical" className="hidden md:block" />
-
-            <div className="flex flex-1 flex-col gap-4">
-              <div className="flex flex-col gap-1">
-                <div className="flex items-center justify-between">
-                  <h3 className="font-heading text-xl font-bold">{post.title}</h3>
-                  {isAuthor && (
-                    <DeletePostButton
-                      onConfirm={handleDelete}
-                      isLoading={deleteMutation.isPending}
-                    />
-                  )}
-                </div>
-                <div className="flex items-center gap-2">
-                  <p className="text-xs text-muted-foreground">
-                    조회 {post.views}
-                  </p>
-                  <LikeButton
-                    postId={post.id}
-                    likeCount={post.like_count}
+          <CardContent className="p-6">
+            <div className="flex flex-col gap-6 md:flex-row">
+              <div className="flex flex-col gap-4 md:w-1/2">
+                <div className="relative aspect-square overflow-hidden rounded-md">
+                  <Image
+                    src={post.image_url || '/images/도담덕로고.png'}
+                    alt={post.title}
+                    fill
+                    className="object-cover"
+                    unoptimized
                   />
                 </div>
-                <div className="flex flex-wrap gap-2">
-                  <Badge variant="secondary">{post.exchange_option}</Badge>
-                  <Badge variant="outline">{post.category}</Badge>
+
+                <PostAuthor
+                  displayName={post.profiles.display_name}
+                  profileUrl={post.profiles.profile_url}
+                  createdAt={post.created_at}
+                  detail={post.location}
+                />
+
+                {user && !isAuthor && (
+                  <LoadingButton
+                    onClick={handleChat}
+                    loading={createChatRoom.isPending}
+                  >
+                    <MessageCircle size={16} />
+                    채팅하기
+                  </LoadingButton>
+                )}
+              </div>
+
+              <Separator orientation="vertical" className="hidden md:block" />
+
+              <div className="flex flex-1 flex-col gap-4">
+                <div className="flex flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <h3 className="font-heading text-xl font-bold">
+                      {post.title}
+                    </h3>
+                    {isAuthor && (
+                      <DeletePostButton
+                        onConfirm={handleDelete}
+                        isLoading={deleteMutation.isPending}
+                      />
+                    )}
+                  </div>
+                  <div className="flex items-center gap-2">
+                    <p className="text-xs text-muted-foreground">
+                      조회 {post.views}
+                    </p>
+                    <LikeButton postId={post.id} likeCount={post.like_count} />
+                  </div>
+                  <div className="flex flex-wrap gap-2">
+                    <Badge variant="secondary">{post.exchange_option}</Badge>
+                    <Badge variant="outline">{post.category}</Badge>
+                  </div>
                 </div>
+
+                <p className="whitespace-pre-wrap">{post.content}</p>
+
+                <div className="py-2">
+                  <Separator />
+                </div>
+
+                <CommentSection
+                  comments={comments}
+                  isLoggedIn={!!user}
+                  onSubmit={handleComment}
+                  isSubmitting={commentMutation.isPending}
+                  onDelete={(commentId) =>
+                    deleteCommentMutation.mutate(commentId)
+                  }
+                  currentUserId={user?.id}
+                  isDeletingId={
+                    deleteCommentMutation.isPending
+                      ? (deleteCommentMutation.variables ?? null)
+                      : null
+                  }
+                />
               </div>
-
-              <p className="whitespace-pre-wrap">{post.content}</p>
-
-              <div className="py-2">
-                <Separator />
-              </div>
-
-              <CommentSection
-                comments={comments}
-                isLoggedIn={!!user}
-                onSubmit={handleComment}
-                isSubmitting={commentMutation.isPending}
-                onDelete={(commentId) => deleteCommentMutation.mutate(commentId)}
-                currentUserId={user?.id}
-                isDeletingId={
-                  deleteCommentMutation.isPending
-                    ? (deleteCommentMutation.variables ?? null)
-                    : null
-                }
-              />
             </div>
-          </div>
-        </CardContent>
+          </CardContent>
 
-        <CardFooter className="border-t border-gray-200 p-4">
-          <Link
-            href="/sharing"
-            className="text-sm text-muted-foreground hover:underline"
-          >
-            교환/나눔 게시글 목록보기
-          </Link>
-        </CardFooter>
-      </Card>
+          <CardFooter className="border-t border-gray-200 p-4">
+            <Link
+              href="/sharing"
+              className="text-sm text-muted-foreground hover:underline"
+            >
+              교환/나눔 게시글 목록보기
+            </Link>
+          </CardFooter>
+        </Card>
       </div>
     </div>
   );

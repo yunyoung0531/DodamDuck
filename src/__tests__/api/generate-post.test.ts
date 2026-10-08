@@ -53,10 +53,12 @@ const INVALID_KEY_401 = 'No auth credentials found';
 const DAILY_QUOTA_429 =
   'Rate limit exceeded: free-models-per-day. Add 10 credits to unlock 1000 free model requests per day';
 
-function buildRequest(body: unknown = {
-  imageBase64: 'aGVsbG8=',
-  mimeType: 'image/png',
-}) {
+function buildRequest(
+  body: unknown = {
+    imageBase64: 'aGVsbG8=',
+    mimeType: 'image/png',
+  }
+) {
   return new Request('http://localhost/api/ai/generate-post', {
     method: 'POST',
     headers: { 'content-type': 'application/json' },

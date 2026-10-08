@@ -38,7 +38,7 @@ export default defineConfig({
     include: ['src/__tests__/smoke/**/*.smoke.test.ts'],
     // 모델 응답이 10초를 넘기도 한다. 체인 전체를 병렬로 두드리므로 넉넉히.
     testTimeout: 120_000,
-    hookTimeout: 120_000,
+    hookTimeout: 240_000,
     env: loadDotEnv(),
     // 기본 리포터는 console 출력을 삼킨다. CI 실패 메일에서 어느 모델이 왜
     // 깨졌는지 바로 보여야 하므로 그대로 stdout에 흘린다.

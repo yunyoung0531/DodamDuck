@@ -2,7 +2,11 @@ import { buildMessageRows } from '@/components/chat/message-rows';
 import { createMockChatMessage } from '../mocks/factories';
 
 function message(id: number, senderId: string, createdAt: string) {
-  return createMockChatMessage({ id, sender_id: senderId, created_at: createdAt });
+  return createMockChatMessage({
+    id,
+    sender_id: senderId,
+    created_at: createdAt,
+  });
 }
 
 describe('buildMessageRows', () => {

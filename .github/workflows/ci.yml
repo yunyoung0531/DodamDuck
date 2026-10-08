@@ -1,0 +1,31 @@
+# PR과 main push마다 타입, 린트, 테스트, 포맷을 검사한다.
+#
+# git 훅(.githooks/)은 --no-verify로 건너뛸 수 있어 오타 방지 장치일 뿐이다.
+# 머지 전에 반드시 통과해야 하는 게이트는 이 워크플로다.
+# 빌드는 Vercel이 PR마다 돌리므로 여기서 하지 않는다.
+name: CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+# 같은 브랜치에 새로 push하면 이전 실행은 결과가 의미 없으므로 취소한다.
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    name: 검사
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm type-check
+      - run: pnpm lint
+      - run: pnpm test:run
+      - run: pnpm format:check

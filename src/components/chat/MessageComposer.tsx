@@ -27,7 +27,10 @@ export function MessageComposer({ roomId }: MessageComposerProps) {
 
   function handleSend() {
     if (!message.trim() || roomId <= 0 || sendMessage.isPending) return;
-    sendMessage.mutate({ roomId, message }, { onSuccess: () => setMessage('') });
+    sendMessage.mutate(
+      { roomId, message },
+      { onSuccess: () => setMessage('') }
+    );
   }
 
   return (

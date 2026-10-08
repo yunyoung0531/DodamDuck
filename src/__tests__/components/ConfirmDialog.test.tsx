@@ -68,8 +68,8 @@ describe('ConfirmDialog', () => {
     await user.click(screen.getByText('삭제'));
 
     const confirmButtons = screen.getAllByText('삭제');
-    const dialogConfirmButton = confirmButtons.find(
-      (btn) => btn.closest('[data-slot="dialog-content"]')
+    const dialogConfirmButton = confirmButtons.find((btn) =>
+      btn.closest('[data-slot="dialog-content"]')
     );
     if (dialogConfirmButton) {
       await user.click(dialogConfirmButton);

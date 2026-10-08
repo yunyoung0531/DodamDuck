@@ -30,6 +30,12 @@ const TRANSIENT_KINDS: readonly FailureKind[] = [
   FAILURE_KIND.DAILY_QUOTA,
 ];
 
+/** 한 번 더 시도한다. 두 번 연속이면 사람이 고쳐야 하는 장애로 본다. */
+const RETRYABLE_KINDS: readonly FailureKind[] = [
+  FAILURE_KIND.FORMAT,
+  FAILURE_KIND.API_ERROR,
+];
+
 type Verdict = 'ok' | 'transient' | 'broken';
 
 interface Probe {
@@ -45,6 +51,10 @@ interface Probe {
  * 형식 오류(FORMAT)는 한 번 더 시도한다. 무료 모델은 스키마를 강제할 수 없어
  * 가끔 형태가 어긋나는데, 운영 코드도 같은 모델을 한 번 더 부르기 때문이다.
  * 두 번 연속 어긋나면 프롬프트나 스키마가 깨진 것으로 본다.
+ *
+ * API_ERROR도 한 번 더 시도한다.
+ * 분류되지 않은 실패가 모두 여기로 오므로 상류가 응답 도중 한 번 끊긴 경우(`JSON error injected into SSE stream`)와 요청 형식을 아예 받지 않는 400이 섞여 있다.
+ * 앞의 것은 재시도에서 풀리고 뒤의 것은 두 번 다 실패하므로, 재시도로 둘을 가른다.
  */
 async function probe(model: string): Promise<Probe> {
   const image = {
@@ -66,7 +76,7 @@ async function probe(model: string): Promise<Probe> {
     if (TRANSIENT_KINDS.includes(kind)) {
       return { model, verdict: 'transient', detail: `${kind}: ${detail}`, ms };
     }
-    if (kind !== FAILURE_KIND.FORMAT || attempt === 2) {
+    if (!RETRYABLE_KINDS.includes(kind) || attempt === 2) {
       return { model, verdict: 'broken', detail: `${kind}: ${detail}`, ms };
     }
   }
@@ -88,20 +98,17 @@ describe.skipIf(!apiKey)('AI 모델 체인 스모크', () => {
     }
   });
 
-  it.each(AI_MODEL_CHAIN)(
-    '%s — 사람이 고쳐야 하는 장애가 없다',
-    (model) => {
-      const probe = probes.find((item) => item.model === model);
+  it.each(AI_MODEL_CHAIN)('%s — 사람이 고쳐야 하는 장애가 없다', (model) => {
+    const probe = probes.find((item) => item.model === model);
 
-      expect(
-        probe?.verdict,
-        `${model}이(가) 영구 장애 상태입니다.\n` +
-          `  ${probe?.detail}\n` +
-          `  → pnpm check:ai-models 로 대체 후보를 확인하고 ` +
-          `src/services/ai/model-chain.ts를 교체하세요.`
-      ).not.toBe('broken');
-    }
-  );
+    expect(
+      probe?.verdict,
+      `${model}이(가) 영구 장애 상태입니다.\n` +
+        `  ${probe?.detail}\n` +
+        `  → pnpm check:ai-models 로 대체 후보를 확인하고 ` +
+        `src/services/ai/model-chain.ts를 교체하세요.`
+    ).not.toBe('broken');
+  });
 
   it('체인이 게시글을 만들어낼 수 있다', () => {
     const succeeded = probes.some((item) => item.verdict === 'ok');

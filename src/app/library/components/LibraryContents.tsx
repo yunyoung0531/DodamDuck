@@ -35,9 +35,7 @@ function ToyCard({ item }: { item: LibraryItem }) {
           <p className="text-sm text-muted-foreground">
             사용연령: {item.사용연령}
           </p>
-          <p className="text-sm text-muted-foreground">
-            대여료: {item.대여료}
-          </p>
+          <p className="text-sm text-muted-foreground">대여료: {item.대여료}</p>
           {item.제조사 && (
             <p className="text-sm text-muted-foreground">
               제조사: {item.제조사}
@@ -72,30 +70,30 @@ export default function LibraryContents() {
   return (
     <div className="flex justify-center px-4 py-10">
       <div className="flex w-full max-w-6xl flex-col gap-10">
-      <PageHeader
-        subtitle="원하는 장난감을 빌릴 수 있는"
-        title="장난감 도서관"
-      />
+        <PageHeader
+          subtitle="원하는 장난감을 빌릴 수 있는"
+          title="장난감 도서관"
+        />
 
-      {isLoading && <LoadingState />}
+        {isLoading && <LoadingState />}
 
-      {error && (
-        <div className="flex justify-center">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertDescription>
-            장난감 목록을 불러오는 데 실패했습니다.
-          </AlertDescription>
-        </Alert>
-        </div>
-      )}
+        {error && (
+          <div className="flex justify-center">
+            <Alert variant="destructive" className="max-w-md">
+              <AlertDescription>
+                장난감 목록을 불러오는 데 실패했습니다.
+              </AlertDescription>
+            </Alert>
+          </div>
+        )}
 
-      {items && (
-        <div className="grid grid-cols-1 gap-6 xs:grid-cols-2 sm:grid-cols-3 md:grid-cols-4">
-          {items.map((item) => (
-            <ToyCard key={item.순번} item={item} />
-          ))}
-        </div>
-      )}
+        {items && (
+          <div className="xs:grid-cols-2 grid grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-4">
+            {items.map((item) => (
+              <ToyCard key={item.순번} item={item} />
+            ))}
+          </div>
+        )}
       </div>
     </div>
   );

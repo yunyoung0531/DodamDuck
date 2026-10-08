@@ -27,8 +27,7 @@ const MAX_BASE64_SIZE = 7 * 1024 * 1024; // ~5MB 원본 이미지 → ~6.7MB bas
 const MAX_REQUEST_SIZE = 8 * 1024 * 1024; // base64 + mimeType 등 여유 포함
 
 type ImagePayload =
-  | { imageBase64: string; mimeType: string }
-  | { error: string; status: number };
+  { imageBase64: string; mimeType: string } | { error: string; status: number };
 
 /** 요청 본문에서 이미지를 꺼내 크기·형식을 검증한다. */
 async function readImagePayload(request: Request): Promise<ImagePayload> {

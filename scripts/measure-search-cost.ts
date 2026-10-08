@@ -164,7 +164,9 @@ function printSummary(typical: Timing) {
   print(`\n검색 1회 비용(중앙값): ${typical.totalMs.toFixed(1)} ms`);
   print(`  ├─ 1번째 왕복 (ILIKE 검색): ${typical.rpcMs.toFixed(1)} ms`);
   print(`  └─ 2번째 왕복 (프로필 조인): ${typical.refetchMs.toFixed(1)} ms`);
-  print(`     → 왕복 1회로 합치면 약 ${typical.rpcMs.toFixed(1)} ms로 줄어든다`);
+  print(
+    `     → 왕복 1회로 합치면 약 ${typical.rpcMs.toFixed(1)} ms로 줄어든다`
+  );
   print(`\ndebounce로 요청 10회 → 1회, 절약한 시간: ${saved.toFixed(1)} ms`);
   print(
     `라이브러리 런타임 이득 ${LIBRARY_GAIN_MS} ms 대비 ` +

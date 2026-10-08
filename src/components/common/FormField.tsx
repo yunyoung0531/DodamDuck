@@ -21,12 +21,7 @@ export interface FormFieldProps {
  * @name FormField
  * @tag div
  */
-export function FormField({
-  htmlFor,
-  label,
-  error,
-  children,
-}: FormFieldProps) {
+export function FormField({ htmlFor, label, error, children }: FormFieldProps) {
   return (
     <div className="flex flex-col gap-1.5">
       <Label htmlFor={htmlFor}>{label}</Label>

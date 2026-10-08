@@ -16,9 +16,7 @@ describe('useLibraryItems', () => {
     };
 
     server.use(
-      http.get(`${APP_URL}/api/library`, () =>
-        HttpResponse.json(mockItems)
-      )
+      http.get(`${APP_URL}/api/library`, () => HttpResponse.json(mockItems))
     );
 
     const { result } = renderHookWithProviders(() => useLibraryItems(1, 30));

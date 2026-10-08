@@ -183,8 +183,7 @@ export interface ImageInput {
 export type AttemptResult = { data: GeneratedPost } | { failure: Failure };
 
 export type GenerateOutcome =
-  | { ok: true; data: GeneratedPost }
-  | { ok: false; failures: Failure[] };
+  { ok: true; data: GeneratedPost } | { ok: false; failures: Failure[] };
 
 /** 모델 한 번 호출 → 파싱·검증까지. 성공하면 data, 아니면 분류된 실패. */
 export async function runModelAttempt(

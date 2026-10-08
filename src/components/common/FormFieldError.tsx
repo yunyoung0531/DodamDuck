@@ -8,7 +8,5 @@ interface FormFieldErrorProps {
 export function FormFieldError({ message, className }: FormFieldErrorProps) {
   if (!message) return null;
 
-  return (
-    <p className={cn('text-sm text-destructive', className)}>{message}</p>
-  );
+  return <p className={cn('text-sm text-destructive', className)}>{message}</p>;
 }

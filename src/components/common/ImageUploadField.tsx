@@ -28,7 +28,7 @@ export function ImageUploadField({
   return (
     <div className="flex flex-col gap-2">
       <Label className="block">{label}</Label>
-      <label className="flex h-40 w-40 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 transition-colors hover:border-gray-400 focus-within:border-solid focus-within:border-ring">
+      <label className="flex h-40 w-40 cursor-pointer flex-col items-center justify-center rounded-md border-2 border-dashed border-gray-300 transition-colors focus-within:border-solid focus-within:border-ring hover:border-gray-400">
         {preview ? (
           <Image
             src={preview}

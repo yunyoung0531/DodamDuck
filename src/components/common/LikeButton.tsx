@@ -45,17 +45,11 @@ export function LikeButton({
     <Button
       variant="ghost"
       size={size === 'sm' ? 'icon-sm' : 'sm'}
-      className={cn(
-        'gap-1',
-        isLiked && 'text-red-500 hover:text-red-600'
-      )}
+      className={cn('gap-1', isLiked && 'text-red-500 hover:text-red-600')}
       onClick={handleClick}
       aria-label={isLiked ? '좋아요 취소' : '좋아요'}
     >
-      <Heart
-        size={iconSize}
-        className={cn(isLiked && 'fill-current')}
-      />
+      <Heart size={iconSize} className={cn(isLiked && 'fill-current')} />
       <span className="text-xs">{likeCount}</span>
     </Button>
   );

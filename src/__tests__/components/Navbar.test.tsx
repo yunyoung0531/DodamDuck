@@ -4,7 +4,6 @@ import { Navbar } from '@/components/common/Navbar';
 import { createMockProfile, createMockUser } from '../mocks/supabase';
 import type { MockSupabaseClient } from '../mocks/supabase';
 
-
 const mockSupabase = createBrowserSupabase() as unknown as MockSupabaseClient;
 
 describe('Navbar', () => {

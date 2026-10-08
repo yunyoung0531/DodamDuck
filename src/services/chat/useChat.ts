@@ -98,8 +98,7 @@ export function useCreateChatRoom() {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationFn: (request: CreateChatRoomRequest) =>
-      servCreateChatRoom(request),
+    mutationFn: (request: CreateChatRoomRequest) => servCreateChatRoom(request),
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chat'] });
     },
