@@ -43,7 +43,8 @@ export function EditProfileDialog({ profile }: EditProfileDialogProps) {
         <DialogHeader>
           <DialogTitle>내 정보 수정</DialogTitle>
           <DialogDescription>
-            프로필 사진, 닉네임, 위치를 수정할 수 있습니다.
+            프로필 사진과 닉네임을 수정할 수 있습니다. 동네는 동네 인증으로
+            바뀌었어요.
           </DialogDescription>
         </DialogHeader>
 

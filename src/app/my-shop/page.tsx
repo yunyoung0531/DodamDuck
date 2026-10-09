@@ -6,7 +6,7 @@ import { sharingQueries } from '@/services/sharing/queries';
 import { servFetchSharingPosts } from '@/services/sharing/sharing-services';
 import { likesQueries } from '@/services/likes/queries';
 import { servFetchUserLikedSharingPosts } from '@/services/likes/likes-services';
-import type { Profile } from '@/services/auth/auth.types';
+import type { ProfileWithRegion } from '@/services/auth/auth.types';
 import MyShopContents from './components/MyShopContents';
 
 export default async function MyShopPage() {
@@ -26,7 +26,11 @@ export default async function MyShopPage() {
       ...sharingQueries.all(),
       queryFn: () => servFetchSharingPosts(undefined, supabase),
     }),
-    supabase.from('profiles').select('*').eq('id', user.id).single<Profile>(),
+    supabase
+      .from('profiles')
+      .select('*, regions(name)')
+      .eq('id', user.id)
+      .single<ProfileWithRegion>(),
     queryClient.prefetchQuery({
       ...likesQueries.userLikedSharingPosts(),
       queryFn: () => servFetchUserLikedSharingPosts(supabase),

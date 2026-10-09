@@ -10,6 +10,8 @@ export interface Database {
           profile_url: string;
           level: number;
           verification_count: number;
+          verified_region_code: string | null;
+          verified_at: string | null;
           created_at: string;
           updated_at: string;
         };
@@ -21,6 +23,8 @@ export interface Database {
           profile_url?: string;
           level?: number;
           verification_count?: number;
+          verified_region_code?: string | null;
+          verified_at?: string | null;
           created_at?: string;
           updated_at?: string;
         };
@@ -32,7 +36,32 @@ export interface Database {
           profile_url?: string;
           level?: number;
           verification_count?: number;
+          verified_region_code?: string | null;
+          verified_at?: string | null;
           updated_at?: string;
+        };
+        Relationships: [
+          {
+            foreignKeyName: 'profiles_verified_region_code_fkey';
+            columns: ['verified_region_code'];
+            isOneToOne: false;
+            referencedRelation: 'regions';
+            referencedColumns: ['code'];
+          },
+        ];
+      };
+      regions: {
+        Row: {
+          code: string;
+          name: string;
+        };
+        Insert: {
+          code: string;
+          name: string;
+        };
+        Update: {
+          code?: string;
+          name?: string;
         };
         Relationships: [];
       };
@@ -381,6 +410,14 @@ export interface Database {
       toggle_like: {
         Args: { target_table: string; target_post_id: number };
         Returns: boolean;
+      };
+      is_neighborhood_verified: {
+        Args: { target_user_id: string };
+        Returns: boolean;
+      };
+      verify_neighborhood: {
+        Args: { region_code: string };
+        Returns: undefined;
       };
     };
     Enums: Record<string, never>;

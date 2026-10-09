@@ -5,14 +5,16 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { EditProfileDialog } from '@/components/my-shop/EditProfileDialog';
+import { NeighborhoodStatus } from '@/components/neighborhood/NeighborhoodStatus';
+import { NeighborhoodVerifyDialog } from '@/components/neighborhood/NeighborhoodVerifyDialog';
 import { MyProductsTab } from './MyProductsTab';
 import { MyWishlistTab } from './MyWishlistTab';
 import type { User } from '@supabase/supabase-js';
-import type { Profile } from '@/services/auth/auth.types';
+import type { ProfileWithRegion } from '@/services/auth/auth.types';
 
 interface MyShopContentsProps {
   user: User;
-  profile: Profile;
+  profile: ProfileWithRegion;
 }
 
 export default function MyShopContents({ user, profile }: MyShopContentsProps) {
@@ -34,15 +36,15 @@ export default function MyShopContents({ user, profile }: MyShopContentsProps) {
               <Badge variant="secondary" className="w-fit">
                 level.{profile.level}
               </Badge>
-              <p className="text-sm text-muted-foreground">
-                인증 횟수: {profile.verification_count}
-              </p>
-              <p className="text-sm text-muted-foreground">
-                위치: {profile.location}
-              </p>
+              <NeighborhoodStatus
+                regionName={profile.regions?.name ?? null}
+                verificationCount={profile.verification_count}
+                verifiedAt={profile.verified_at}
+              />
             </div>
-            <div className="flex items-start">
+            <div className="flex flex-col items-end gap-2">
               <EditProfileDialog profile={profile} />
+              <NeighborhoodVerifyDialog />
             </div>
           </CardContent>
         </Card>

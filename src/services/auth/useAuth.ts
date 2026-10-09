@@ -74,7 +74,6 @@ export function useUpdateProfile() {
       }
       await servUpdateProfile({
         display_name: request.display_name,
-        location: request.location,
       });
     },
     onSuccess: () => {

@@ -15,7 +15,6 @@ export const signupSchema = z.object({
     .string()
     .min(8, '비밀번호는 8자 이상이어야 합니다')
     .regex(SPECIAL_CHAR_REGEX, '특수문자를 포함해야 합니다'),
-  location: z.string().min(1, '주소를 입력해주세요'),
   agree: z.boolean().refine((v) => v, '약관에 동의해주세요'),
 });
 
@@ -26,10 +25,6 @@ export const editProfileSchema = z.object({
     .string()
     .min(1, '닉네임을 입력해주세요')
     .max(20, '닉네임은 20자 이내로 입력해주세요'),
-  location: z
-    .string()
-    .min(1, '위치를 입력해주세요')
-    .max(50, '위치는 50자 이내로 입력해주세요'),
 });
 
 export type EditProfileForm = z.infer<typeof editProfileSchema>;
