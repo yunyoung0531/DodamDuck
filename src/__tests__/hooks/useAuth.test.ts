@@ -63,7 +63,6 @@ describe('useSignUp', () => {
     result.current.mutate({
       userID: 'newuser',
       userPassword: 'password123!',
-      location: '광주광역시',
     });
 
     await waitFor(() => {
@@ -115,7 +114,6 @@ describe('useUpdateProfile', () => {
 
     result.current.mutate({
       display_name: '새이름',
-      location: '서울특별시',
     });
 
     await waitFor(() => {

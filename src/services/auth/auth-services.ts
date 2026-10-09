@@ -44,7 +44,6 @@ export async function servSignUp(request: SignUpRequest) {
       data: {
         username: request.userID,
         display_name: request.userID,
-        location: request.location,
       },
     },
   });
@@ -101,7 +100,7 @@ export async function servFetchCurrentProfile(
 }
 
 export async function servUpdateProfile(
-  request: Pick<UpdateProfileRequest, 'display_name' | 'location'>
+  request: Pick<UpdateProfileRequest, 'display_name'>
 ): Promise<void> {
   const supabase = createBrowserSupabase();
 
@@ -114,7 +113,6 @@ export async function servUpdateProfile(
     .from('profiles')
     .update({
       display_name: request.display_name,
-      location: request.location,
     })
     .eq('id', user.id);
 

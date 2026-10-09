@@ -6,7 +6,6 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Alert, AlertDescription } from '@/components/ui/alert';
@@ -38,7 +37,6 @@ export default function SignupPage() {
     defaultValues: {
       userID: '',
       userPassword: '',
-      location: '',
       agree: false,
     },
   });
@@ -70,7 +68,6 @@ export default function SignupPage() {
       await servSignUp({
         userID: values.userID,
         userPassword: values.userPassword,
-        location: values.location,
       });
 
       router.push('/signin');
@@ -119,18 +116,6 @@ export default function SignupPage() {
                   id="userPassword"
                   placeholder="8자 이상, 특수문자 포함"
                   {...register('userPassword')}
-                />
-              </FormField>
-
-              <FormField
-                htmlFor="location"
-                label="주소"
-                error={errors.location?.message}
-              >
-                <Input
-                  id="location"
-                  placeholder="광주광역시 동구 필문대로 309"
-                  {...register('location')}
                 />
               </FormField>
 

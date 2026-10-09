@@ -40,7 +40,6 @@ describe('signupSchema', () => {
     const result = signupSchema.safeParse({
       userID: 'newuser',
       userPassword: 'password123!',
-      location: '광주광역시',
       agree: true,
     });
 
@@ -51,7 +50,6 @@ describe('signupSchema', () => {
     const result = signupSchema.safeParse({
       userID: 'newuser',
       userPassword: 'short!',
-      location: '광주광역시',
       agree: true,
     });
 
@@ -66,7 +64,6 @@ describe('signupSchema', () => {
     const result = signupSchema.safeParse({
       userID: 'newuser',
       userPassword: 'password1234',
-      location: '광주광역시',
       agree: true,
     });
 
@@ -77,26 +74,10 @@ describe('signupSchema', () => {
     }
   });
 
-  it('빈 주소를 거부한다', () => {
-    const result = signupSchema.safeParse({
-      userID: 'newuser',
-      userPassword: 'password123!',
-      location: '',
-      agree: true,
-    });
-
-    expect(result.success).toBe(false);
-    if (!result.success) {
-      const messages = result.error.issues.map((i) => i.message);
-      expect(messages).toContain('주소를 입력해주세요');
-    }
-  });
-
   it('약관 미동의를 거부한다', () => {
     const result = signupSchema.safeParse({
       userID: 'newuser',
       userPassword: 'password123!',
-      location: '광주광역시',
       agree: false,
     });
 

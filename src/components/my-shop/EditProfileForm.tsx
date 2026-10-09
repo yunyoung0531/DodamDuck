@@ -29,7 +29,7 @@ export interface EditProfileFormProps {
 }
 
 /**
- * @description 프로필 사진, 닉네임, 위치를 고치는 폼입니다.
+ * @description 프로필 사진과 닉네임을 고치는 폼입니다.
  *
  * @remarks
  * 저장에 성공하면 `onDone`을 부르고 서버 컴포넌트를 새로 고칩니다.
@@ -51,7 +51,6 @@ export function EditProfileForm({ profile, onDone }: EditProfileFormProps) {
     resolver: zodResolver(editProfileSchema),
     defaultValues: {
       display_name: profile.display_name,
-      location: profile.location,
     },
   });
 
@@ -98,18 +97,6 @@ export function EditProfileForm({ profile, onDone }: EditProfileFormProps) {
           id="display_name"
           placeholder="닉네임을 입력하세요"
           {...register('display_name')}
-        />
-      </FormField>
-
-      <FormField
-        htmlFor="location"
-        label="위치"
-        error={errors.location?.message}
-      >
-        <Input
-          id="location"
-          placeholder="위치를 입력하세요"
-          {...register('location')}
         />
       </FormField>
 

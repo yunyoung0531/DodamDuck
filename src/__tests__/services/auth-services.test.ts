@@ -72,7 +72,6 @@ describe('servSignUp', () => {
     const result = await servSignUp({
       userID: 'newuser',
       userPassword: 'password123!',
-      location: '광주광역시',
     });
 
     expect(result.user?.email).toBe('newuser@example.com');
@@ -189,7 +188,6 @@ describe('servUpdateProfile', () => {
     await expect(
       servUpdateProfile({
         display_name: '새이름',
-        location: '서울특별시',
       })
     ).resolves.toBeUndefined();
   });
@@ -204,7 +202,6 @@ describe('servUpdateProfile', () => {
     await expect(
       servUpdateProfile({
         display_name: '새이름',
-        location: '서울',
       })
     ).rejects.toThrow('인증이 필요합니다');
   });
