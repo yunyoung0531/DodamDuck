@@ -2,3 +2,6 @@ node_modules
 .next
 pnpm-lock.yaml
 next-env.d.ts
+
+# scripts/build-neighborhood-boundaries.sh가 생성한다. 포맷하면 공백만큼 전송 크기가 커진다.
+public/data/hangjeongdong.json
