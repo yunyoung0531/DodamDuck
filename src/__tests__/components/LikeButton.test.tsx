@@ -94,6 +94,22 @@ describe('LikeButton', () => {
     expect(mockPush).toHaveBeenCalledWith('/signin');
   });
 
+  it('비인증 사용자를 로그인 뒤 현재 화면으로 돌아오게 보낸다', async () => {
+    setupUnauthenticated();
+    const { usePathname } = vi.mocked(await import('next/navigation'));
+    usePathname.mockReturnValue('/sharing/3');
+    onTestFinished(() => {
+      usePathname.mockReturnValue('/');
+    });
+
+    const user = userEvent.setup();
+    renderWithProviders(<LikeButton postId={1} likeCount={3} />);
+
+    await user.click(screen.getByRole('button', { name: '좋아요' }));
+
+    expect(mockPush).toHaveBeenCalledWith('/signin?callbackUrl=%2Fsharing%2F3');
+  });
+
   it('인증된 사용자가 클릭하면 /signin으로 이동하지 않는다', async () => {
     setupAuthenticated();
 

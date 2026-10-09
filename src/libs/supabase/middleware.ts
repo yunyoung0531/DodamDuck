@@ -1,5 +1,6 @@
 import { createServerClient } from '@supabase/ssr';
 import { NextResponse, type NextRequest } from 'next/server';
+import { isAuthPage, toSafeCallbackUrl } from '@/libs/auth-redirect';
 
 const PROTECTED_PATHS = ['/my-shop', '/chat', '/sharing/new', '/board/new'];
 
@@ -34,6 +35,13 @@ export async function updateSession(request: NextRequest) {
   const {
     data: { user },
   } = await supabase.auth.getUser();
+
+  if (user && isAuthPage(request.nextUrl.pathname)) {
+    const callbackUrl = toSafeCallbackUrl(
+      request.nextUrl.searchParams.get('callbackUrl')
+    );
+    return NextResponse.redirect(new URL(callbackUrl, request.url));
+  }
 
   const isProtected = PROTECTED_PATHS.some((path) =>
     request.nextUrl.pathname.startsWith(path)

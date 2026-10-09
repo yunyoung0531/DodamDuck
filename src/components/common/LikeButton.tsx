@@ -1,10 +1,11 @@
 'use client';
 
-import { useRouter } from 'next/navigation';
+import { usePathname, useRouter } from 'next/navigation';
 import { Heart } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { useIsLiked, useToggleLike } from '@/services/likes/useLikes';
 import { useUser } from '@/services/auth/useUser';
+import { buildAuthHref } from '@/libs/auth-redirect';
 import { cn } from '@/lib/utils';
 
 interface LikeButtonProps {
@@ -19,6 +20,7 @@ export function LikeButton({
   size = 'default',
 }: LikeButtonProps) {
   const router = useRouter();
+  const pathname = usePathname();
   const { user } = useUser();
   const { isLiked, isLoading } = useIsLiked(postId);
   const toggleLike = useToggleLike();
@@ -28,7 +30,7 @@ export function LikeButton({
     e.preventDefault();
 
     if (!user) {
-      router.push('/signin');
+      router.push(buildAuthHref('/signin', pathname));
       return;
     }
 

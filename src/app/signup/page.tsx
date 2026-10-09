@@ -1,7 +1,7 @@
 'use client';
 
-import { useState } from 'react';
-import { useRouter } from 'next/navigation';
+import { Suspense, useState } from 'react';
+import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { useForm, Controller } from 'react-hook-form';
@@ -14,12 +14,24 @@ import { LoadingButton } from '@/components/common/LoadingButton';
 import { PasswordInput } from '@/components/common/PasswordInput';
 import { FormFieldError } from '@/components/common/FormFieldError';
 import { FormField } from '@/components/common/FormField';
+import { LoadingState } from '@/components/common/LoadingState';
 import { UserIdField } from '@/app/signup/components/UserIdField';
 import { signupSchema, type SignupForm } from '@/libs/validations/auth';
+import { buildAuthHref, toSafeCallbackUrl } from '@/libs/auth-redirect';
 import { servCheckUsername, servSignUp } from '@/services/auth/auth-services';
 
 export default function SignupPage() {
+  return (
+    <Suspense fallback={<LoadingState height="full" />}>
+      <SignupContent />
+    </Suspense>
+  );
+}
+
+function SignupContent() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const callbackUrl = toSafeCallbackUrl(searchParams.get('callbackUrl'));
   const [error, setError] = useState('');
   const [idStatus, setIdStatus] = useState<
     'idle' | 'checking' | 'available' | 'taken'
@@ -65,12 +77,17 @@ export default function SignupPage() {
     setIsLoading(true);
 
     try {
-      await servSignUp({
+      const { session } = await servSignUp({
         userID: values.userID,
         userPassword: values.userPassword,
       });
 
-      router.push('/signin');
+      if (session) {
+        router.push(callbackUrl);
+        router.refresh();
+      } else {
+        router.push(buildAuthHref('/signin', callbackUrl));
+      }
     } catch {
       setError('회원가입 중 오류가 발생했습니다.');
     } finally {
@@ -149,7 +166,10 @@ export default function SignupPage() {
 
           <p className="text-sm text-muted-foreground">
             이미 계정이 있으신가요?{' '}
-            <Link href="/signin" className="font-semibold text-dodam-500">
+            <Link
+              href={buildAuthHref('/signin', callbackUrl)}
+              className="font-semibold text-dodam-500"
+            >
               로그인
             </Link>
           </p>

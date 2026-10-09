@@ -16,6 +16,7 @@ import { PasswordInput } from '@/components/common/PasswordInput';
 import { LoadingState } from '@/components/common/LoadingState';
 import { FormFieldError } from '@/components/common/FormFieldError';
 import { loginSchema, type LoginForm } from '@/libs/validations/auth';
+import { buildAuthHref, toSafeCallbackUrl } from '@/libs/auth-redirect';
 import { servSignIn } from '@/services/auth/auth-services';
 
 export default function LoginPage() {
@@ -29,7 +30,7 @@ export default function LoginPage() {
 function LoginContent() {
   const router = useRouter();
   const searchParams = useSearchParams();
-  const callbackUrl = searchParams.get('callbackUrl') ?? '/';
+  const callbackUrl = toSafeCallbackUrl(searchParams.get('callbackUrl'));
   const [error, setError] = useState('');
   const [isLoading, setIsLoading] = useState(false);
 
@@ -115,7 +116,10 @@ function LoginContent() {
 
           <p className="text-sm text-muted-foreground">
             계정이 아직 없으신가요?{' '}
-            <Link href="/signup" className="font-semibold text-dodam-500">
+            <Link
+              href={buildAuthHref('/signup', callbackUrl)}
+              className="font-semibold text-dodam-500"
+            >
               회원가입
             </Link>
           </p>
