@@ -4,7 +4,7 @@ import { Inbox, Search } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
 import { EmptyState } from '@/components/common/EmptyState';
-import { LinkButton } from '@/components/common/LinkButton';
+import { SharingWriteButton } from '@/components/sharing/SharingWriteButton';
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 
@@ -119,9 +119,7 @@ export function SharingEmptyState({
             <Button variant="outline" size="sm" onClick={onResetCategory}>
               전체 보기
             </Button>
-            <LinkButton href="/sharing/new" size="sm">
-              첫 글 올리기
-            </LinkButton>
+            <SharingWriteButton size="sm">첫 글 올리기</SharingWriteButton>
           </div>
         }
       />
@@ -138,9 +136,7 @@ export function SharingEmptyState({
           <p className="text-sm text-muted-foreground">
             첫 번째 나눔을 시작해보세요
           </p>
-          <LinkButton href="/sharing/new" size="sm">
-            글쓰기
-          </LinkButton>
+          <SharingWriteButton size="sm">글쓰기</SharingWriteButton>
         </div>
       }
     />

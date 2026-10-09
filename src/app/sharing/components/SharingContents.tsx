@@ -5,8 +5,12 @@ import { Search } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
 import { PageHeader } from '@/components/common/PageHeader';
-import { FloatingActionButton } from '@/components/common/FloatingActionButton';
+import {
+  FloatingActionSlot,
+  fabButtonProps,
+} from '@/components/common/FloatingActionButton';
 import { CategoryChips } from '@/components/sharing/CategoryChips';
+import { SharingWriteButton } from '@/components/sharing/SharingWriteButton';
 import { SharingPostList } from './SharingPostList';
 import { SharingSearchResults } from './SharingSearchResults';
 import { usePopularSearches } from '@/services/sharing/useSharing';
@@ -131,7 +135,9 @@ export default function SharingContents() {
         )}
 
         {user && (
-          <FloatingActionButton href="/sharing/new" label="교환/나눔 글쓰기" />
+          <FloatingActionSlot>
+            <SharingWriteButton {...fabButtonProps('교환/나눔 글쓰기')} />
+          </FloatingActionSlot>
         )}
       </div>
     </div>
