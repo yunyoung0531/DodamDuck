@@ -96,6 +96,7 @@ API 키는 유효했고(`/api/v1/key` → `is_free_tier: true`), 일일 사용�
 **조치**
 
 - 죽은 `nemotron-nano-12b-v2-vl:free`를 체인에서 제거하고 `inclusionai/ling-3.0-flash-vl:free`로 교체 (실호출로 한국어 품질과 카테고리 준수 확인)
+  - (정정 2026-09-26) `ling-3.0-flash-vl:free`도 이후 공급자가 내려서, 매일 점검 워크플로가 올린 PR #47로 `dots-studio/dots-3-note-preview:free`로 자동 교체됨. 현재 체인은 `src/services/ai/model-chain.ts`가 기준.
 - `unavailable`을 별도 분류로 만들어 즉시 다음 모델로 넘기고 예산에서 제외
 - `invalid-key`도 즉시 중단 (이전에는 4회를 헛되이 썼다)
 - 모델에 닿지 못한 실패는 500이 아니라 429/503으로 안내
@@ -178,7 +179,7 @@ pnpm smoke:ai-models             # 바뀐 체인으로 실제 생성 확인
 |------|------|--------|------|
 | `google/gemma-4-31b-it:free` | ~4초 | 최상 | 429가 가장 잦음 |
 | `google/gemma-4-26b-a4b-it:free` | ~6초 | 좋음 | 31b가 막혔을 때 대체로 살아있음 |
-| `inclusionai/ling-3.0-flash-vl:free` | ~12초 | 좋음 | 느리지만 카테고리를 잘 지킴 |
+| `inclusionai/ling-3.0-flash-vl:free` | ~12초 | 좋음 | 느리지만 카테고리를 잘 지킴. **2026-09-26 공급자가 내려 `dots-studio/dots-3-note-preview:free`로 자동 교체됨(PR #47)** |
 
 확인했으나 쓰지 않은 모델:
 
