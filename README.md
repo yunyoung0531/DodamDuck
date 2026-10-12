@@ -1,132 +1,63 @@
-# 리팩토링 진행 중 (26.06.23.~)
+# 도담덕 DodamDuck
 
-# 유아용품 교환&나눔 플랫폼 - 도담덕 DodamDuck
+<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0655a0e0-25c9-4087-84a9-8545c77e9d5d" alt="도담덕 로고" width="100" height="100"/>
 
-## 🦆 소개 및 프로젝트 목적 🧸
+유아용품 교환 & 나눔 플랫폼
 
-<img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0655a0e0-25c9-4087-84a9-8545c77e9d5d"  width="100" height="100"/>
+**도담덕** = 도담도담(아이가 탈 없이 잘 자라는 모양) + Duck(오리)
 
-**도담덕** = _**도담도담 + Duck**_
+짧게 쓰이고 버려지는 장난감을 다른 부모와 교환하고 나누어 플라스틱 폐기물을 줄이기 위한 서비스
 
-어린아이가 탈 없이 잘 놀며 자라는 마음의 뜻과 아이들이 좋아하는 귀여운 오리를 합쳐 지어진 '도담덕'
+## 주요 기능
 
-일회성으로 사용되고 버려지는 장난감들. 전세계 플라스틱 폐기물의 30%가 장난감인 실태.
-이를 해결하고자 유아용품 교환&나눔 플랫폼인 도담덕을 생각하게 되었습니다.
+- **교환/나눔 게시판**: 쓰지 않는 장난감 교환과 무료 나눔, 사진 한 장으로 AI 게시글 초안 작성
+- **장난감 도서관**: 광주광역시 공공데이터 기반 장난감 대여 목록
+- **자유게시판**: 육아 정보를 나누는 커뮤니티
+- **1:1 채팅**: 교환/나눔 상대와 실시간 대화
+- **내 상점**: 내 게시글, 프로필, 레벨과 인증 횟수
 
-## 📆기간 (1차 - 교내 캡스톤 디자인 과목 (2학기))
+## 기술 스택
 
-2023.09. ~ 2023.12.
+| 영역       | 기술                                               |
+| ---------- | -------------------------------------------------- |
+| 프레임워크 | Next.js (App Router), React 19, TypeScript         |
+| 서버 상태  | TanStack Query v5                                  |
+| 폼         | React Hook Form + Zod                              |
+| UI         | shadcn/ui (Base UI), Tailwind CSS v4, lucide-react |
+| 백엔드     | Supabase (Auth, Postgres, Storage, Realtime)       |
+| 테스트     | Vitest, React Testing Library, MSW                 |
 
-## 🔍주요 기능
+## 시작하기
 
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/0844442d-6142-408a-8291-5a67aa0ad964"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/dadf1134-1f68-44aa-8981-9c24e8c2cbcb"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>메인 화면1</b></td>
-    <td align="center"><b>메인 화면2</b></td>
-</table>
+필요 환경: Node.js, pnpm
 
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d9020c2-8e4f-44b3-bec0-921ed2d486a0"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c9341507-bd39-437d-a134-1cbe482f747d"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>메인 화면3</b></td>
-    <td align="center"><b>메인 화면4</b></td>
-</table>
+```bash
+pnpm install
+pnpm dev
+```
 
----
+환경변수: 루트의 `.env.local`
 
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/af942687-a32a-4b72-ab7c-e8054282239b"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/8412f24a-78eb-4ce5-b135-33f74e1bee76"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>로그인</b></td>
-    <td align="center"><b>회원가입</b></td>
-</table>
+```bash
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_KAKAO_MAP_JS_KEY=
+OPENROUTER_API_KEY=            # AI 게시글 생성
+ODCLOUD_API_KEY=               # 장난감 도서관 공공데이터
+ODCLOUD_API_URL=https://api.odcloud.kr
+ODCLOUD_LIBRARY_DATASET_PATH=
+```
 
----
+| 명령어            | 설명                  |
+| ----------------- | --------------------- |
+| `pnpm dev`        | 개발 서버 (Turbopack) |
+| `pnpm build`      | 프로덕션 빌드         |
+| `pnpm lint`       | ESLint                |
+| `pnpm type-check` | 타입 검사             |
+| `pnpm test:run`   | 테스트                |
 
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/f0d4a542-0040-4363-a02b-3dc97a632c6b"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/99ce8578-6a87-4e57-8088-c9e915760037"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>교환/나눔 게시판</b></td>
-    <td align="center"><b>교환/나눔 글 올리기</b></td>
-</table>
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/be27f163-dc5d-4a53-9eaf-2135ea5455a4"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/c32d04af-cc64-4f10-a730-c2fcd44ec382"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>교환/나눔 게시글 (상세)</b></td>
-    <td align="center"><b>교환/나눔 게시글 (상세)2</b></td>
-</table>
+## 연혁
 
----
-
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/26e6faf9-7e29-4ea1-9eed-3c3ccdf434c8"  width="400" height="200"/></td>
-  </tr>
-    <td align="center"><b>장난감 도서관</b></td>
-</table>
-
----
-
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/b9c4e298-a3f6-425a-a9b0-cfb5bf6b1ccb"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6bfa3116-709e-4556-ab88-be9dea9c6997"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>도담덕 게시판</b></td>
-    <td align="center"><b>게시판 글 올리기</b></td>
-</table>
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/27b4ed48-70de-498c-8dfe-465f65d08bb4"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/851bdb78-deb6-4ef3-a858-16f30bea5977"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>게시판 게시글 (상세)</b></td>
-    <td align="center"><b>게시 게시글 (상세)2</b></td>
-</table>
-
----
-
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/6d09e269-7dc8-4121-8bd7-0973b9783d77"  width="400" height="200"/></td>
-  </tr>
-    <td align="center"><b>내 상점(마이페이지)</b></td>
-</table>
-
----
-
-<table>
-  <tr>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/769d688d-7afc-45c6-abe6-2fccad94a487"  width="500" height="200"/></td>
-    <td><img src="https://github.com/yunyoung0531/DodamDuck_FE/assets/68066598/30985172-26f2-4eaa-86fa-cebb43d3c17e"  width="500" height="200"/></td>
-  </tr>
-    <td align="center"><b>채팅</b></td>
-    <td align="center"><b>채팅 상세</b></td>
-</table>
-
-## 🎨디자인
-
-### Figma로 직접 디자인
-
-<img src="https://github.com/DodamDuck/DodamDuck/assets/68066598/70f3bdc7-5324-47ab-8c8b-e9535fe9ef49" width="350" height="400"/>
-
-## 💫기술 스택
-
-- React
-- TypeScript
-- Context API
-
-## 📷시연 영상
-
-https://youtu.be/TNb7-WiAxxI?si=5_l3ZsKeJe_xxM6i
+- **2023.09 ~ 2023.12**: 교내 캡스톤 디자인 과목에서 React(CRA), Context API, PHP 백엔드로 1차 개발 ([시연 영상](https://youtu.be/TNb7-WiAxxI?si=5_l3ZsKeJe_xxM6i))
+- **2026.06 ~**: Next.js와 Supabase로 전면 리팩토링
