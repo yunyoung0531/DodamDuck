@@ -11,51 +11,22 @@
 ## 주요 기능
 
 - **교환/나눔 게시판**: 쓰지 않는 장난감 교환과 무료 나눔, 사진 한 장으로 AI 게시글 초안 작성
-- **장난감 도서관**: 광주광역시 공공데이터 기반 장난감 대여 목록
+- **장난감 도서관**: 서울 성북구도시관리공단 장난감도서관 대여 목록 ([공공데이터포털](https://www.data.go.kr/data/15044146/fileData.do))
 - **자유게시판**: 육아 정보를 나누는 커뮤니티
 - **1:1 채팅**: 교환/나눔 상대와 실시간 대화
 - **내 상점**: 내 게시글, 프로필, 레벨과 인증 횟수
 
 ## 기술 스택
 
-| 영역       | 기술                                               |
-| ---------- | -------------------------------------------------- |
-| 프레임워크 | Next.js (App Router), React 19, TypeScript         |
-| 서버 상태  | TanStack Query v5                                  |
-| 폼         | React Hook Form + Zod                              |
-| UI         | shadcn/ui (Base UI), Tailwind CSS v4, lucide-react |
-| 백엔드     | Supabase (Auth, Postgres, Storage, Realtime)       |
-| 테스트     | Vitest, React Testing Library, MSW                 |
-
-## 시작하기
-
-필요 환경: Node.js, pnpm
-
-```bash
-pnpm install
-pnpm dev
-```
-
-환경변수: 루트의 `.env.local`
-
-```bash
-NEXT_PUBLIC_SUPABASE_URL=
-NEXT_PUBLIC_SUPABASE_ANON_KEY=
-NEXT_PUBLIC_APP_URL=http://localhost:3000
-NEXT_PUBLIC_KAKAO_MAP_JS_KEY=
-OPENROUTER_API_KEY=            # AI 게시글 생성
-ODCLOUD_API_KEY=               # 장난감 도서관 공공데이터
-ODCLOUD_API_URL=https://api.odcloud.kr
-ODCLOUD_LIBRARY_DATASET_PATH=
-```
-
-| 명령어            | 설명                  |
-| ----------------- | --------------------- |
-| `pnpm dev`        | 개발 서버 (Turbopack) |
-| `pnpm build`      | 프로덕션 빌드         |
-| `pnpm lint`       | ESLint                |
-| `pnpm type-check` | 타입 검사             |
-| `pnpm test:run`   | 테스트                |
+| 영역       | 기술                                                                              |
+| ---------- | --------------------------------------------------------------------------------- |
+| 프레임워크 | Next.js (App Router), React 19, TypeScript                                        |
+| 서버 상태  | TanStack Query v5                                                                 |
+| 폼         | React Hook Form + Zod                                                             |
+| UI         | shadcn/ui (Base UI), Tailwind CSS v4, lucide-react                                |
+| 백엔드     | Supabase (Auth, Postgres, Storage, Realtime)                                      |
+| 테스트     | Vitest, React Testing Library, MSW                                                |
+| 외부 API   | OpenRouter (AI 게시글 초안), 공공데이터포털 (장난감 도서관), 카카오맵 (동네 인증) |
 
 ## 연혁
 
