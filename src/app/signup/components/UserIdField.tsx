@@ -5,7 +5,6 @@ import { Input } from '@/components/ui/input';
 import { LoadingButton } from '@/components/common/LoadingButton';
 import { FormField } from '@/components/common/FormField';
 
-/** 아이디 중복 확인의 진행 상태 */
 export type UserIdStatus = 'idle' | 'checking' | 'available' | 'taken';
 
 export interface UserIdFieldProps {
@@ -13,7 +12,6 @@ export interface UserIdFieldProps {
   status: UserIdStatus;
   /** `register('userID', ...)`의 반환값을 그대로 넘깁니다. */
   register: UseFormRegisterReturn;
-  /** 검증 실패 메시지 */
   error?: string;
   /** 중복확인 버튼을 누르면 호출됩니다. */
   onCheck: () => void;

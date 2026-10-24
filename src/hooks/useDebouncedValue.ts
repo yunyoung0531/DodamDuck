@@ -22,13 +22,9 @@ export function useDebouncedValue<T>(value: T, delayMs = DEFAULT_DELAY_MS) {
     scheduleUpdate(value);
   }, [value, scheduleUpdate]);
 
-  // 언마운트 또는 지연시간 변경 시에만 대기 중인 호출을 취소한다.
-  // 위 효과의 정리 함수로 합쳐도 동작은 같다. React가 정리 → 새 효과 순서로
-  // 실행하고 debounce도 호출 시 이전 타이머를 지우므로 마지막 예약은 살아남는다.
-  // "값 변경 시 예약" / "언마운트 시 정리"라는 의도를 드러내려고 효과를 나눴다.
   useEffect(() => () => scheduleUpdate.cancel(), [scheduleUpdate]);
 
-  /** 지연을 건너뛰고 즉시 반영한다 (엔터 입력, 인기 검색어 클릭 등). */
+  /** 지연을 건너뛰고 즉시 반영합니다 (엔터 입력, 인기 검색어 클릭 등). */
   function commitNow(next: T) {
     scheduleUpdate.cancel();
     setDebouncedValue(next);

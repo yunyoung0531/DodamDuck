@@ -4,7 +4,6 @@ import { formatDateTime } from '@/libs/format-date';
 export interface PostAuthorProps {
   /** 작성자 표시 이름. 없으면 물음표를 보여줍니다. */
   displayName: string | null;
-  /** 작성자 프로필 이미지 주소 */
   profileUrl: string | null;
   /** 작성 시각. 절대 시각으로 보여줍니다. */
   createdAt: string;

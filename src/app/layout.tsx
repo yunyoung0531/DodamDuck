@@ -8,16 +8,10 @@ import { NavbarSkeleton } from '@/components/common/NavbarSkeleton';
 import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
-// 폰트는 굵기당 두 벌로 나뉘어 있다. 상용(KS X 1001 2,350자)은 preload 하고,
-// 확장(나머지 8,822자)은 하지 않는다. 브라우저는 상용 파일에 없는 글자를
-// 실제로 그려야 할 때만 확장 파일을 받으므로, "뾱" 같은 표외 음절을 버리지
-// 않으면서 첫 화면 비용은 상용분(굵기당 약 90KB)만 낸다.
-// 재생성은 scripts/subset-fonts.sh 참고.
-//
-// 대체 폰트 목록은 여기 두지 않고 globals.css의 --font-sans에서 이어붙인다.
-// next/font는 굵기와 분할별로 변수를 따로 내주는데, 각 변수에 fallback을 주면
-// 시스템 고딕이 확장 파일보다 앞에 끼어들어 표외 음절이 시스템 폰트로 떨어진다.
-// 스택 전체가 한 줄에 보이는 편이 순서를 확인하기도 쉽다.
+/**
+ * 굵기마다 상용(preload)과 확장 두 벌입니다. 대체 폰트는 globals.css의 `--font-sans`에서 확장 파일 뒤에 이어 붙이므로, 여기서 `fallback`을 주면 표외 음절이 시스템 폰트로 떨어집니다.
+ * @see docs/font-loading.md
+ */
 const omniGothic = localFont({
   src: '../fonts/omni-gothic-035.woff2',
   weight: '400',

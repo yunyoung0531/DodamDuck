@@ -123,7 +123,7 @@ ${SHARING_CATEGORY_VALUES.map((value) => `   - ${value}`).join('\n')}
 
 /**
  * 모델이 흔히 덧붙이는 마크다운 펜스와 설명 문장을 걷어내고
- * 본문에서 첫 JSON 객체만 추출한다. 파싱 불가 시 null.
+ * 본문에서 첫 JSON 객체만 추출합니다. 파싱할 수 없으면 null을 돌려줍니다.
  */
 function extractJsonObject(text: string): unknown {
   const fenced = text.match(/```(?:json)?\s*([\s\S]*?)```/);
@@ -261,13 +261,10 @@ export async function generateWithFallback(
       const { kind, detail } = result.failure;
       failures.push({ kind, detail: `[${model} #${attempt}] ${detail}` });
 
-      // 모델이 내려가 생성 자체가 없었던 호출은 예산을 쓰지 않은 것으로 본다.
       if (kind !== FAILURE_KIND.UNAVAILABLE) spent += 1;
 
-      // 일일 한도와 키 문제는 다른 모델로 바꿔도 똑같이 막힌다. 즉시 중단.
       if (FATAL_KINDS.includes(kind)) return { ok: false, failures };
 
-      // 형식 오류만 같은 모델 재시도가 의미 있다. 나머지는 다음 모델로.
       if (kind !== FAILURE_KIND.FORMAT) break;
     }
   }

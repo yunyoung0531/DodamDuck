@@ -11,7 +11,7 @@ import { MessageBubble } from './MessageBubble';
 import { buildMessageRows } from './message-rows';
 import type { ChatMessage } from '@/services/chat/chat.types';
 
-/** 상대 시간 라벨을 다시 계산하는 주기 */
+/** "방금 전", "3분 전" 같은 상대 시각이 분 단위라 1분보다 자주 다시 그릴 이유가 없습니다. */
 const TIME_LABEL_REFRESH_MS = 60 * 1000;
 
 export interface MessageListProps {

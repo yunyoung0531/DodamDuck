@@ -45,7 +45,6 @@ export function SharingEmptyState({
   const hasSearch = searchTerm !== '';
   const hasCategory = category !== SHARING_CATEGORY.ALL;
 
-  // 검색어와 카테고리가 둘 다 걸린 경우. 어느 쪽을 풀지 사용자가 고르게 한다.
   if (hasSearch && hasCategory) {
     return (
       <EmptyState
@@ -68,7 +67,6 @@ export function SharingEmptyState({
     );
   }
 
-  // 검색어만 걸린 경우. 다른 검색어를 제안한다.
   if (hasSearch) {
     return (
       <EmptyState
@@ -109,7 +107,6 @@ export function SharingEmptyState({
     );
   }
 
-  // 카테고리만 걸린 경우. 이 카테고리가 비어있다는 사실을 명시한다.
   if (hasCategory) {
     return (
       <EmptyState
@@ -126,7 +123,6 @@ export function SharingEmptyState({
     );
   }
 
-  // 조건이 없는데도 0건이면 실제로 등록된 물건이 없다.
   return (
     <EmptyState
       icon={Inbox}
