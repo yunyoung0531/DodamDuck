@@ -34,25 +34,7 @@ function fileToBase64(file: File): Promise<string> {
 }
 
 function extractMessage(error: unknown): string {
-  if (error instanceof Error) {
-    const raw = error.message;
-    try {
-      const parsed = JSON.parse(raw) as Record<string, unknown>;
-      if (typeof parsed.error === 'string') {
-        return parsed.error;
-      }
-    } catch {}
-    return raw;
-  }
-  if (typeof error === 'string') {
-    try {
-      const parsed = JSON.parse(error) as Record<string, unknown>;
-      if (typeof parsed.error === 'string') {
-        return parsed.error;
-      }
-    } catch {}
-    return error;
-  }
+  if (error instanceof Error) return error.message;
   return '게시글 생성에 실패했습니다';
 }
 

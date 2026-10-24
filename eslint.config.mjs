@@ -10,6 +10,7 @@ const eslintConfig = defineConfig([
     rules: {
       'no-console': ['error', { allow: ['warn', 'error'] }],
       'no-nested-ternary': 'error',
+      'no-empty': 'error',
       'max-depth': ['error', 3],
       'max-params': ['error', 4],
       'max-lines': [
