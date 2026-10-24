@@ -17,9 +17,7 @@ export async function servGeneratePostFromImage(
       if (typeof body.error === 'string') {
         message = body.error;
       }
-    } catch {
-      // JSON 파싱 실패 시 기본 메시지 사용
-    }
+    } catch {}
     throw new Error(message);
   }
 

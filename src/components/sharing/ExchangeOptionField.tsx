@@ -3,7 +3,7 @@
 import { Label } from '@/components/ui/label';
 import { RadioGroup, RadioGroupItem } from '@/components/ui/radio-group';
 
-/** 저장되는 값은 한글이고, id에는 영문 키를 쓴다. */
+/** 저장되는 값은 한글이고, id에는 영문 키를 씁니다. */
 const OPTIONS = [
   { value: '교환', key: 'trade' },
   { value: '나눔', key: 'share' },

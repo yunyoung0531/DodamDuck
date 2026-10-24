@@ -2,9 +2,8 @@ import { Label } from '@/components/ui/label';
 import { FormFieldError } from '@/components/common/FormFieldError';
 
 export interface FormFieldProps {
-  /** 라벨이 가리킬 입력 요소의 id. 자식 입력에 같은 id를 준다. */
+  /** 라벨이 가리킬 입력 요소의 id. 자식 입력에도 같은 id를 줘야 합니다. */
   htmlFor: string;
-  /** 필드 라벨 */
   label: string;
   /** 검증 실패 메시지. 없으면 자리만 차지하지 않습니다. */
   error?: string;

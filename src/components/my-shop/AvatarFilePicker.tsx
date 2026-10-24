@@ -5,11 +5,11 @@ import { Camera } from 'lucide-react';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Spinner } from '@/components/common/Spinner';
 
-/** 실제 MIME까지 검사하므로 확장자는 넉넉히 받는다. */
+/** 실제 MIME까지 검사하므로 확장자는 넉넉히 받습니다. */
 const ACCEPT =
   'image/jpeg,image/png,image/gif,image/webp,image/heic,.heic,.heif';
 
-/** 지름 하나가 바뀌면 글자와 아이콘도 같이 바뀐다. 따로 받지 않고 묶어 둔다. */
+/** 지름 하나가 바뀌면 글자와 아이콘도 같이 바뀝니다. 따로 받지 않고 묶어 둡니다. */
 const SIZES = {
   md: { root: 'h-24 w-24', fallback: 'text-xl', camera: 'size-6' },
   lg: { root: 'h-30 w-30', fallback: 'text-2xl', camera: 'size-8' },

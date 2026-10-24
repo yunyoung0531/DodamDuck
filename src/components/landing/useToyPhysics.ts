@@ -173,12 +173,12 @@ function attachMouse(engine: Matter.Engine, render: Matter.Render) {
 
 /**
  * matter.js Mouse.setElement()은 canvas에 wheel/touch 리스너를 등록하며,
- * 핸들러 내부에서 preventDefault()를 호출해 페이지 스크롤을 막는다.
+ * 핸들러 내부에서 preventDefault()를 호출해 페이지 스크롤을 막습니다.
  *
  * 내부 핸들러 참조를 꺼내 removeEventListener하는 대신,
- * 캔버스의 부모(container)에서 캡처링 페이즈로 해당 이벤트의 전파를 차단한다.
+ * 캔버스의 부모(container)에서 캡처링 페이즈로 해당 이벤트의 전파를 차단합니다.
  * 이벤트가 canvas에 도달하지 않으므로 matter.js 핸들러가 실행되지 않고,
- * 브라우저의 기본 스크롤은 정상 동작한다.
+ * 브라우저의 기본 스크롤은 정상 동작합니다.
  *
  * - 공개 API만 사용하므로 matter-js 버전에 의존하지 않음
  * - 마우스 이벤트(mousemove/mousedown/mouseup)는 차단하지 않아 데스크톱 드래그 유지

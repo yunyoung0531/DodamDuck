@@ -37,8 +37,8 @@ export function useSignOut() {
 }
 
 /**
- * 로그아웃 후 홈으로 이동하고 서버 컴포넌트를 다시 그린다.
- * `refresh()`가 없으면 세션이 남아있는 상태로 렌더된 서버 컴포넌트가 그대로 보인다.
+ * 로그아웃 후 홈으로 이동하고 서버 컴포넌트를 다시 그립니다.
+ * `refresh()`가 없으면 세션이 남아있는 상태로 렌더된 서버 컴포넌트가 그대로 보입니다.
  */
 export function useLogout() {
   const router = useRouter();

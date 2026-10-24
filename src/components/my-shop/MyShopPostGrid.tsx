@@ -7,11 +7,11 @@ import type { SharingPost } from '@/services/sharing/sharing.types';
 
 interface MyShopPostGridProps {
   posts: SharingPost[];
-  /** 제목 옆에 붙일 요소. 하트 목록 탭만 좋아요 버튼을 붙인다. */
+  /** 제목 옆에 붙일 요소. 하트 목록 탭만 좋아요 버튼을 붙입니다. */
   renderAction?: (post: SharingPost) => React.ReactNode;
 }
 
-/** 내 상점의 게시글 썸네일 그리드. 상품 탭과 하트 목록 탭이 함께 쓴다. */
+/** 내 상점의 게시글 썸네일 그리드. 상품 탭과 하트 목록 탭이 함께 씁니다. */
 export function MyShopPostGrid({ posts, renderAction }: MyShopPostGridProps) {
   const incrementView = useIncrementSharingViewCount();
 

@@ -6,7 +6,7 @@ import { LikeButton } from '@/components/common/LikeButton';
 import { MyShopPostGrid } from '@/components/my-shop/MyShopPostGrid';
 import { useUserLikedSharingPosts } from '@/services/likes/useLikes';
 
-/** 내가 좋아요한 교환·나눔 게시글. */
+/** 내가 좋아요한 교환/나눔 게시글 */
 export function MyWishlistTab() {
   const { data: likedPosts, isLoading } = useUserLikedSharingPosts();
 

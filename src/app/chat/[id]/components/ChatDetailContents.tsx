@@ -151,7 +151,6 @@ export default function ChatDetailContents({
   );
 }
 
-/** 두 사람 중 내가 아닌 쪽의 프로필을 고릅니다. */
 function getPartnerProfile(room: ChatRoom, currentUserId: string) {
   return room.user1_id === currentUserId
     ? room.user2_profile

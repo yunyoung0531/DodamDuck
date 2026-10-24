@@ -10,9 +10,9 @@ export const DATA_SIZES = [1_000, 10_000, 100_000] as const;
 export type DataSize = (typeof DATA_SIZES)[number];
 
 const CATEGORY_COUNT = 8;
-/** JIT 예열에 쓰는 시간(ms). 이 구간의 실행 횟수는 결과에 넣지 않는다. */
+/** JIT 예열에 쓰는 시간(ms). 이 구간의 실행 횟수는 결과에 넣지 않습니다. */
 const WARMUP_MS = 60;
-/** 실제 측정 시간(ms). 길수록 안정적이지만 화면이 그만큼 멈춘다. */
+/** 실제 측정 시간(ms). 길수록 안정적이지만 화면이 그만큼 멈춥니다. */
 const MEASURE_MS = 200;
 
 export interface BenchPost {
@@ -29,7 +29,7 @@ export interface BenchDataset {
   nested: Record<string, unknown>;
 }
 
-/** 실행할 때마다 같은 데이터가 나오도록 인덱스 기반으로 만든다. */
+/** 실행할 때마다 같은 데이터가 나오도록 인덱스 기반으로 만듭니다. */
 export function createDataset(size: number): BenchDataset {
   const posts: BenchPost[] = Array.from({ length: size }, (_unused, i) => ({
     id: i,
@@ -123,7 +123,7 @@ function runFor(fn: () => void, budgetMs: number) {
   return count;
 }
 
-/** 초당 실행 횟수를 잰다. 측정 전 예열 구간을 반드시 거친다. */
+/** 초당 실행 횟수를 잽니다. 측정 전 예열 구간을 반드시 거칩니다. */
 export function measureOpsPerSec(fn: () => void) {
   runFor(fn, WARMUP_MS);
 
@@ -139,7 +139,7 @@ export interface BenchResult {
   label: string;
   lodashOps: number;
   esToolkitOps: number;
-  /** 1보다 크면 es-toolkit이 빠르다. */
+  /** 1보다 크면 es-toolkit이 빠릅니다. */
   ratio: number;
 }
 

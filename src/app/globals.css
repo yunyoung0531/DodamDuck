@@ -108,7 +108,6 @@
   --radius-4xl: calc(var(--radius) * 2.6);
 }
 
-/* Custom scrollbar */
 ::-webkit-scrollbar {
   width: 8px;
 }
@@ -130,7 +129,6 @@
   background: #fffdf0;
 }
 
-/* Chat bubbles */
 .chat-bubble-partner {
   border-radius: 5px 20px 20px 20px;
 }
@@ -139,7 +137,6 @@
   border-radius: 20px 5px 20px 20px;
 }
 
-/* Scroll-snap for landing */
 .snap-container {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
@@ -151,7 +148,6 @@
   min-height: calc(100vh - 3.5rem);
 }
 
-/* Landing page layout */
 .main-dodamduck-img {
   transform: scaleX(-1);
   max-height: 80%;
@@ -272,7 +268,6 @@
   top: 32.5rem;
 }
 
-/* ─── Landing page responsive: Tablet (768–1023px) ─── */
 @media (max-width: 1023px) {
   .main2-container {
     padding-right: 0;
@@ -289,7 +284,6 @@
   }
 }
 
-/* ─── Landing page responsive: Mobile (≤767px) ─── */
 @media (max-width: 767px) {
   .main1-container,
   .main2-container {
@@ -313,12 +307,10 @@
   }
 }
 
-/* Landing fluid typography */
 .text-landing-sub {
   font-size: clamp(0.875rem, 0.6rem + 0.8vw, 1.25rem);
 }
 
-/* Slide-in animation */
 .slide-in {
   opacity: 0;
   transform: translateY(2.5rem);
@@ -332,7 +324,6 @@
   transform: translateY(0);
 }
 
-/* Fade-in animation */
 .fade-in {
   opacity: 0;
   transition: opacity 1s ease-out;

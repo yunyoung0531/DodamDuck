@@ -10,7 +10,7 @@ import { buildAuthHref } from '@/libs/auth-redirect';
 
 /**
  * 데스크톱 헤더 우측의 인증 영역.
- * 모바일 드로어(`NavbarDrawer`)는 배치·버튼 스타일이 전부 달라 따로 그린다.
+ * 모바일 드로어(`NavbarDrawer`)는 배치와 버튼 스타일이 전부 달라 따로 그립니다.
  */
 export function NavbarAuthActions() {
   const pathname = usePathname();

@@ -16,7 +16,7 @@ interface SharingPostListProps {
 }
 
 /**
- * 검색 중이 아닐 때의 목록. 카테고리 필터는 서버에서 적용한다.
+ * 검색 중이 아닐 때의 목록. 카테고리 필터는 서버에서 적용합니다.
  */
 export function SharingPostList({
   category,

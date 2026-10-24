@@ -41,9 +41,7 @@ function extractMessage(error: unknown): string {
       if (typeof parsed.error === 'string') {
         return parsed.error;
       }
-    } catch {
-      // not JSON
-    }
+    } catch {}
     return raw;
   }
   if (typeof error === 'string') {
@@ -52,9 +50,7 @@ function extractMessage(error: unknown): string {
       if (typeof parsed.error === 'string') {
         return parsed.error;
       }
-    } catch {
-      // not JSON
-    }
+    } catch {}
     return error;
   }
   return '게시글 생성에 실패했습니다';

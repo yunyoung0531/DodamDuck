@@ -63,7 +63,7 @@ function SharingPostCard({ post }: { post: SharingPost }) {
   );
 }
 
-/** 교환·나눔 게시글 카드 그리드. 목록 모드와 검색 모드가 함께 쓴다. */
+/** 교환/나눔 게시글 카드 그리드. 목록 모드와 검색 모드가 함께 씁니다. */
 export function SharingPostGrid({ posts }: { posts: SharingPost[] }) {
   return (
     <div className="xs:grid-cols-2 grid grid-cols-1 gap-6 sm:grid-cols-3 md:grid-cols-4">

@@ -14,11 +14,9 @@ export const SUPPORTED_MIMES = new Set<ImageMime>([
 export function detectMimeType(buffer: ArrayBuffer): ImageMime | null {
   const bytes = new Uint8Array(buffer);
 
-  // JPEG: FF D8 FF
   if (bytes[0] === 0xff && bytes[1] === 0xd8 && bytes[2] === 0xff) {
     return 'image/jpeg';
   }
-  // PNG: 89 50 4E 47
   if (
     bytes[0] === 0x89 &&
     bytes[1] === 0x50 &&
@@ -27,7 +25,6 @@ export function detectMimeType(buffer: ArrayBuffer): ImageMime | null {
   ) {
     return 'image/png';
   }
-  // GIF: 47 49 46 38
   if (
     bytes[0] === 0x47 &&
     bytes[1] === 0x49 &&
@@ -36,7 +33,6 @@ export function detectMimeType(buffer: ArrayBuffer): ImageMime | null {
   ) {
     return 'image/gif';
   }
-  // WebP: 52 49 46 46 ... 57 45 42 50
   if (
     bytes[0] === 0x52 &&
     bytes[1] === 0x49 &&
