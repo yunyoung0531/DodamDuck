@@ -10,10 +10,9 @@ import type { Failure } from '@/services/ai/generate-post-core';
 /**
  * 사진 → 게시글 자동 생성.
  *
- * 여기서는 HTTP만 다룬다 — 인증, 페이로드 검증, 실패 종류에 맞는 상태 코드.
- * 모델을 어떻게 두드리는지는 `@/services/ai/generate-post-core`에 있다.
+ * 여기서는 HTTP(인증, 페이로드 검증, 실패 종류에 맞는 상태 코드)만 다룹니다.
  *
- * 문서: docs/ai-generate-post.md
+ * @see docs/ai-generate-post.md
  */
 
 const ALLOWED_MIME_TYPES = [
@@ -29,7 +28,7 @@ const MAX_REQUEST_SIZE = 8 * 1024 * 1024; // base64 + mimeType 등 여유 포함
 type ImagePayload =
   { imageBase64: string; mimeType: string } | { error: string; status: number };
 
-/** 요청 본문에서 이미지를 꺼내 크기·형식을 검증한다. */
+/** 요청 본문에서 이미지를 꺼내 크기와 형식을 검증합니다. */
 async function readImagePayload(request: Request): Promise<ImagePayload> {
   const contentLength = Number(request.headers.get('content-length') ?? '0');
   if (contentLength > MAX_REQUEST_SIZE) {
@@ -65,11 +64,11 @@ async function readImagePayload(request: Request): Promise<ImagePayload> {
 }
 
 /**
- * 체인이 전부 실패했을 때의 응답. 실패 목록 전체를 보고 판단한다.
+ * 체인이 전부 실패했을 때의 응답. 실패 목록 전체를 보고 판단합니다.
  *
  * 가르는 기준은 "모델에 닿았는데 결과가 나빴는가(500)" vs
- * "모델에 닿지도 못했는가(429/503)"다. 전자는 다시 눌러도 비슷하고
- * 후자는 다시 누르면 될 수도 있어서, 사용자가 할 일이 다르다.
+ * "모델에 닿지도 못했는가(429/503)"입니다. 전자는 다시 눌러도 비슷하고
+ * 후자는 다시 누르면 될 수도 있어서, 사용자가 할 일이 다릅니다.
  */
 function toFailureResponse(failures: Failure[]) {
   // 체인의 모든 실패를 종류와 함께 남긴다. 한 줄만 남기면 진짜 원인이 가려진다.

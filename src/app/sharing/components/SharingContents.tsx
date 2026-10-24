@@ -36,7 +36,7 @@ export default function SharingContents() {
 
   /**
    * 검색 모드와 목록 모드를 가르는 단 하나의 조건.
-   * 지운 직후 이전 검색어로 잠깐 검색되는 것을 막으려 현재 입력값도 함께 본다.
+   * 지운 직후 이전 검색어로 잠깐 검색되는 것을 막으려 현재 입력값도 함께 봅니다.
    */
   const searchTerm =
     inputValue.trim().length >= MIN_SEARCH_QUERY_LENGTH &&

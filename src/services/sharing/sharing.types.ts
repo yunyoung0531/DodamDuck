@@ -15,8 +15,8 @@ export type SharingCategory =
 
 /**
  * DB CHECK 제약에 있는 값만 (ALL 제외).
- * ALL은 필터 해제를 뜻하는 UI 전용 값이라 저장 대상이 아니다.
- * zod 스키마·칩 목록·AI 스키마 모두 이 배열에서 파생시킨다.
+ * ALL은 필터 해제를 뜻하는 UI 전용 값이라 저장 대상이 아닙니다.
+ * zod 스키마, 칩 목록, AI 스키마 모두 이 배열에서 파생시킵니다.
  */
 export const SHARING_CATEGORY_VALUES = [
   SHARING_CATEGORY.ROLEPLAY,

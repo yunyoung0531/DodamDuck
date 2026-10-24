@@ -13,8 +13,8 @@ interface LinkButtonProps
  * 버튼처럼 보이지만 실제로는 이동하는 링크.
  *
  * `<Button render={<Link />}>`를 쓰면 Base UI가 `role="button"`을 덮어써서
- * 스크린 리더가 "이동"이 아니라 "실행"으로 읽는다. 링크는 링크로 남기고
- * 버튼 스타일만 입힌다.
+ * 스크린 리더가 "이동"이 아니라 "실행"으로 읽습니다. 링크는 링크로 남기고
+ * 버튼 스타일만 입힙니다.
  */
 export function LinkButton({
   variant,

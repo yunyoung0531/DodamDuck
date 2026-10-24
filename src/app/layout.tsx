@@ -14,8 +14,8 @@ import './globals.css';
 // 않으면서 첫 화면 비용은 상용분(굵기당 약 90KB)만 낸다.
 // 재생성은 scripts/subset-fonts.sh 참고.
 //
-// 대체 폰트 목록은 여기 두지 않고 globals.css 의 --font-sans 에서 이어붙인다.
-// next/font 는 굵기·분할별로 변수를 따로 내주는데, 각 변수에 fallback 을 주면
+// 대체 폰트 목록은 여기 두지 않고 globals.css의 --font-sans에서 이어붙인다.
+// next/font는 굵기와 분할별로 변수를 따로 내주는데, 각 변수에 fallback을 주면
 // 시스템 고딕이 확장 파일보다 앞에 끼어들어 표외 음절이 시스템 폰트로 떨어진다.
 // 스택 전체가 한 줄에 보이는 편이 순서를 확인하기도 쉽다.
 const omniGothic = localFont({
@@ -50,11 +50,11 @@ const omniGothicHeadingExt = localFont({
   adjustFontFallback: false,
 });
 
-// Gugi 는 랜딩 하단의 "도담덕" 세 글자에만 쓰인다.
-// subsets 에 'latin' 만 적었지만 Google 은 Gugi 를 unicode-range 로 쪼갠 87개
-// @font-face 로 내려주고 subset 파라미터를 무시한다. 그래서 한글 글리프도 함께
+// Gugi는 랜딩 하단의 "도담덕" 세 글자에만 쓰인다.
+// subsets에 'latin'만 적었지만 Google은 Gugi를 unicode-range로 쪼갠 87개
+// @font-face로 내려주고 subset 파라미터를 무시한다. 그래서 한글 글리프도 함께
 // 들어오고, 브라우저는 실제로 필요한 조각만 받는다.
-// 그 세 글자 때문에 첫 화면 대역폭을 쓸 이유는 없으므로 preload 는 끈다.
+// 그 세 글자 때문에 첫 화면 대역폭을 쓸 이유는 없으므로 preload는 끈다.
 const gugi = Gugi({
   weight: '400',
   subsets: ['latin'],

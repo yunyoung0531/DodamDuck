@@ -6,20 +6,20 @@ export interface ToyAsset {
 }
 
 export const TOY_ASSETS: readonly ToyAsset[] = [
-  /* 인형·동물 */
+  /* 인형/동물 */
   { id: 'teddy-bear', src: '/images/toys/teddy-bear.svg', radius: 110 },
   { id: 'duck', src: '/images/toys/duck.svg', radius: 100 },
   { id: 'sauropod', src: '/images/toys/sauropod.svg', radius: 95 },
-  /* 공·스포츠 */
+  /* 공/스포츠 */
   { id: 'soccer-ball', src: '/images/toys/soccer-ball.svg', radius: 95 },
   { id: 'basketball', src: '/images/toys/basketball.svg', radius: 100 },
-  /* 탈것·로봇 */
+  /* 탈것/로봇 */
   { id: 'racing-car', src: '/images/toys/racing-car.svg', radius: 90 },
   { id: 'robot', src: '/images/toys/robot.svg', radius: 105 },
-  /* 보드게임·퍼즐 */
+  /* 보드게임/퍼즐 */
   { id: 'game-die', src: '/images/toys/game-die.svg', radius: 80 },
   { id: 'puzzle-piece', src: '/images/toys/puzzle-piece.svg', radius: 75 },
-  /* 놀이·악기 */
+  /* 놀이/악기 */
   { id: 'kite', src: '/images/toys/kite.svg', radius: 95 },
   { id: 'guitar', src: '/images/toys/guitar.svg', radius: 85 },
   /* 장식 */

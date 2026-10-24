@@ -9,7 +9,7 @@ interface MyProductsTabProps {
   userId: string;
 }
 
-/** 내가 등록한 교환·나눔 게시글. */
+/** 내가 등록한 교환/나눔 게시글 */
 export function MyProductsTab({ userId }: MyProductsTabProps) {
   const { data: allPosts, isLoading } = useSharingList();
   const myPosts = allPosts?.filter((post) => post.user_id === userId);

@@ -9,8 +9,8 @@ import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 
 /**
- * 0건일 때 조건을 되돌리는 수단들. 목록·검색 컴포넌트가 그대로 전달만 하므로
- * 하나로 묶어 중간 단계의 props 배관을 줄인다.
+ * 0건일 때 조건을 되돌리는 수단들. 목록과 검색 컴포넌트가 그대로 전달만 하므로
+ * 하나로 묶어 중간 단계의 props 배관을 줄입니다.
  */
 export interface SharingEmptyStateActions {
   onResetSearch: () => void;
@@ -28,10 +28,10 @@ interface SharingEmptyStateProps extends SharingEmptyStateActions {
 }
 
 /**
- * 결과가 0건일 때, 왜 0건인지와 무엇을 하면 되는지를 함께 보여준다.
+ * 결과가 0건일 때, 왜 0건인지와 무엇을 하면 되는지를 함께 보여줍니다.
  *
  * 조건을 좁혀서 0건인 경우와 등록된 물건이 없는 경우를 구분하지 않으면
- * 사용자는 "이 서비스에 물건이 없다"로 해석한다.
+ * 사용자는 "이 서비스에 물건이 없다"로 해석합니다.
  */
 export function SharingEmptyState({
   searchTerm,
@@ -45,7 +45,7 @@ export function SharingEmptyState({
   const hasSearch = searchTerm !== '';
   const hasCategory = category !== SHARING_CATEGORY.ALL;
 
-  // 검색어 + 카테고리 둘 다 걸린 경우 — 어느 쪽을 풀지 사용자가 고르게 한다.
+  // 검색어와 카테고리가 둘 다 걸린 경우. 어느 쪽을 풀지 사용자가 고르게 한다.
   if (hasSearch && hasCategory) {
     return (
       <EmptyState
@@ -68,7 +68,7 @@ export function SharingEmptyState({
     );
   }
 
-  // 검색어만 걸린 경우 — 다른 검색어를 제안한다.
+  // 검색어만 걸린 경우. 다른 검색어를 제안한다.
   if (hasSearch) {
     return (
       <EmptyState
@@ -109,7 +109,7 @@ export function SharingEmptyState({
     );
   }
 
-  // 카테고리만 걸린 경우 — 이 카테고리가 비어있다는 사실을 명시한다.
+  // 카테고리만 걸린 경우. 이 카테고리가 비어있다는 사실을 명시한다.
   if (hasCategory) {
     return (
       <EmptyState
@@ -126,7 +126,7 @@ export function SharingEmptyState({
     );
   }
 
-  // 조건이 없는데도 0건 — 실제로 등록된 물건이 없다.
+  // 조건이 없는데도 0건이면 실제로 등록된 물건이 없다.
   return (
     <EmptyState
       icon={Inbox}

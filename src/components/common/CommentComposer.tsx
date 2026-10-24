@@ -10,7 +10,7 @@ interface CommentComposerProps {
   isSubmitting: boolean;
 }
 
-/** 댓글 입력. 로그인한 사용자에게만 마운트되므로 인증 분기를 알 필요가 없다. */
+/** 댓글 입력. 로그인한 사용자에게만 마운트되므로 인증 분기를 알 필요가 없습니다. */
 export function CommentComposer({
   onSubmit,
   isSubmitting,

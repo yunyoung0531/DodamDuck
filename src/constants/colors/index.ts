@@ -3,7 +3,7 @@
  *
  * Tailwind → className="bg-dodam-light", "text-gray-300" 등 Tailwind 클래스 사용.
  *
- * 이 파일은 Tailwind가 적용되지 않는 경우에만 사용한다.
+ * 이 파일은 Tailwind가 적용되지 않는 경우에만 사용합니다.
  * 예: <SomeIcon color={ICON_COLORS.PLACEHOLDER} />
  */
 

@@ -4,10 +4,10 @@ import { debounce } from 'es-toolkit';
 const DEFAULT_DELAY_MS = 300;
 
 /**
- * 값이 안정될 때까지 지연시킨 사본을 돌려준다.
+ * 값이 안정될 때까지 지연시킨 사본을 돌려줍니다.
  *
- * lodash / es-toolkit 비교 실험의 대상 파일이다.
- * 두 라이브러리 간 차이는 위 import 한 줄뿐이어야 한다.
+ * lodash / es-toolkit 비교 실험의 대상 파일입니다.
+ * 두 라이브러리 간 차이는 위 import 한 줄뿐이어야 합니다.
  * (실험 계획: debounce-benchmark-plan.md)
  */
 export function useDebouncedValue<T>(value: T, delayMs = DEFAULT_DELAY_MS) {

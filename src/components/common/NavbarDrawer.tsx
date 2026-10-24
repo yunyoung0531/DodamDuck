@@ -18,7 +18,7 @@ import { useLogout } from '@/services/auth/useAuth';
 import { buildAuthHref } from '@/libs/auth-redirect';
 import { NAV_LINKS, isActivePath } from './nav-links';
 
-/** 모바일(lg 미만) 햄버거 메뉴. 열림 상태를 스스로 관리한다. */
+/** 모바일(lg 미만) 햄버거 메뉴. 열림 상태를 스스로 관리합니다. */
 export function NavbarDrawer() {
   const [drawerOpened, setDrawerOpened] = useState(false);
   const pathname = usePathname();

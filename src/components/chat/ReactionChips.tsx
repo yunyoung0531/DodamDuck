@@ -3,7 +3,7 @@
 import { Button } from '@/components/ui/button';
 import type { ReactionSummary } from '@/services/chat/chat.types';
 
-/** 칩 하나의 모양. 누를 수 있든 없든 같게 보여야 한다. */
+/** 칩 하나의 모양. 누를 수 있든 없든 같게 보여야 합니다. */
 const CHIP_SHAPE = 'flex h-6 items-center gap-1 rounded-full px-2 text-xs';
 
 export interface ReactionChipsProps {
