@@ -13,7 +13,9 @@
     "test:run": "vitest run",
     "format": "prettier --write .",
     "format:check": "prettier --check .",
-    "prepare": "git config core.hooksPath .githooks || true",
+    "prepare": "husky",
+    "pr": "node scripts/open-pr.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
     "check:ai-models": "tsx scripts/check-ai-models.ts",
     "propose:ai-models": "tsx scripts/propose-model-replacement.ts",
     "smoke:ai-models": "vitest run --config vitest.smoke.config.mts",
@@ -49,6 +51,8 @@
     "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@commitlint/cli": "^21.2.4",
+    "@commitlint/config-conventional": "^21.2.4",
     "@tailwindcss/postcss": "^4.3.1",
     "@testing-library/dom": "^10.4.1",
     "@testing-library/jest-dom": "^6.9.1",
@@ -66,6 +70,7 @@
     "esbuild": "^0.28.2",
     "eslint": "^9.39.4",
     "eslint-config-next": "^16.2.9",
+    "husky": "^9.1.7",
     "jsdom": "^29.1.1",
     "kakao.maps.d.ts": "^0.1.40",
     "lodash-es": "^4.18.1",
