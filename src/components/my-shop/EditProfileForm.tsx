@@ -68,11 +68,6 @@ export function EditProfileForm({ profile, onDone }: EditProfileFormProps) {
           onDone();
           router.refresh();
         },
-        onError: () => {
-          toast.error('프로필 수정 실패', {
-            description: '프로필 수정에 실패했습니다. 다시 시도해주세요.',
-          });
-        },
       }
     );
   }

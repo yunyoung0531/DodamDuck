@@ -6,7 +6,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
+import { ErrorState } from '@/components/common/ErrorState';
 import { useChatList } from '@/services/chat/useChat';
+import { getErrorMessage } from '@/libs/error-message';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
 
@@ -16,7 +18,8 @@ interface ChatContentsProps {
 }
 
 export default function ChatContents({ user, profile }: ChatContentsProps) {
-  const { data: chatList, isLoading } = useChatList();
+  const { data: chatList, isLoading, isError, error, refetch } = useChatList();
+  const hasLoadError = isError && !chatList;
 
   const rooms = chatList ?? [];
 
@@ -41,6 +44,14 @@ export default function ChatContents({ user, profile }: ChatContentsProps) {
             <p className="text-sm font-semibold">채팅 중인 이웃</p>
 
             {isLoading && <LoadingState height="sm" size="sm" />}
+
+            {hasLoadError && (
+              <ErrorState
+                message={getErrorMessage(error)}
+                onRetry={() => refetch()}
+                className="py-6"
+              />
+            )}
 
             <div className="flex flex-col gap-2">
               {rooms.map((chat) => {
@@ -77,7 +88,7 @@ export default function ChatContents({ user, profile }: ChatContentsProps) {
                 );
               })}
 
-              {!isLoading && rooms.length === 0 && (
+              {!isLoading && !hasLoadError && rooms.length === 0 && (
                 <EmptyState
                   icon={MessageCircle}
                   message="채팅 목록이 없습니다."

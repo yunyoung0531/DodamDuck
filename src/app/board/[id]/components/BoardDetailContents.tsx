@@ -12,8 +12,9 @@ import {
   CardFooter,
 } from '@/components/ui/card';
 import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LoadingState } from '@/components/common/LoadingState';
+import { ErrorState } from '@/components/common/ErrorState';
+import { getErrorMessage, isNotFoundError } from '@/libs/error-message';
 import { CommentSection } from '@/components/common/CommentSection';
 import { PostAuthor } from '@/components/common/PostAuthor';
 import { DeletePostButton } from '@/components/common/DeletePostButton';
@@ -33,7 +34,7 @@ export default function BoardDetailContents() {
   const { user } = useUser();
   const hasIncremented = useRef(false);
 
-  const { data, isLoading } = useBoardDetail(postId);
+  const { data, isLoading, isError, error, refetch } = useBoardDetail(postId);
   const deleteMutation = useDeleteBoardPost();
   const deleteCommentMutation = useDeleteBoardComment(postId);
   const commentMutation = useAddBoardComment();
@@ -50,13 +51,12 @@ export default function BoardDetailContents() {
     return <LoadingState height="lg" />;
   }
 
-  if (!data) {
+  if (isError || !data) {
     return (
-      <div className="flex justify-center pt-10">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
-        </Alert>
-      </div>
+      <ErrorState
+        message={getErrorMessage(error)}
+        onRetry={isNotFoundError(error) ? undefined : () => refetch()}
+      />
     );
   }
 

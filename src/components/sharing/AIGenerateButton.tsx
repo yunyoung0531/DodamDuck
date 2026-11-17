@@ -33,11 +33,6 @@ function fileToBase64(file: File): Promise<string> {
   });
 }
 
-function extractMessage(error: unknown): string {
-  if (error instanceof Error) return error.message;
-  return '게시글 생성에 실패했습니다';
-}
-
 function StatusProgress() {
   const [progress, setProgress] = useState(0);
   const [messageIndex, setMessageIndex] = useState(0);
@@ -100,21 +95,20 @@ export function AIGenerateButton({
 
     const imageBase64 = await fileToBase64(image);
 
-    try {
-      const response = await generatePost.mutateAsync({
-        imageBase64,
-        mimeType: image.type,
-      });
-      setValue('title', response.data.title);
-      setValue('content', response.data.content);
-      setValue('category', response.data.category);
-      setTags(response.data.tags);
-      toast.success(
-        'AI가 게시글을 작성했습니다. 내용과 카테고리를 확인해주세요!'
-      );
-    } catch (error) {
-      toast.error(extractMessage(error));
-    }
+    generatePost.mutate(
+      { imageBase64, mimeType: image.type },
+      {
+        onSuccess: (response) => {
+          setValue('title', response.data.title);
+          setValue('content', response.data.content);
+          setValue('category', response.data.category);
+          setTags(response.data.tags);
+          toast.success(
+            'AI가 게시글을 작성했습니다. 내용과 카테고리를 확인해주세요!'
+          );
+        },
+      }
+    );
   }
 
   return (

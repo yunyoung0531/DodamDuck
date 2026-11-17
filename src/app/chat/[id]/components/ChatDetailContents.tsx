@@ -7,7 +7,9 @@ import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Badge } from '@/components/ui/badge';
 import { MessageList } from '@/components/chat/MessageList';
 import { MessageComposer } from '@/components/chat/MessageComposer';
+import { ErrorState } from '@/components/common/ErrorState';
 import { useChatList, useChatMessages } from '@/services/chat/useChat';
+import { getErrorMessage } from '@/libs/error-message';
 import type { User } from '@supabase/supabase-js';
 import type { Profile } from '@/services/auth/auth.types';
 import type { ChatRoom } from '@/services/chat/chat.types';
@@ -38,7 +40,12 @@ export default function ChatDetailContents({
   const viewport = useRef<HTMLDivElement>(null);
 
   const { data: chatList } = useChatList();
-  const { data: messages } = useChatMessages(roomId);
+  const {
+    data: messages,
+    isError: isMessagesError,
+    error: messagesError,
+    refetch: refetchMessages,
+  } = useChatMessages(roomId);
 
   const rooms = chatList ?? [];
 
@@ -134,13 +141,20 @@ export default function ChatDetailContents({
               ref={viewport}
               className="scrollbar-brand min-h-0 flex-1 overflow-y-auto p-4"
             >
-              <MessageList
-                messages={messages ?? []}
-                roomId={roomId}
-                currentUserId={user.id}
-                partnerName={partnerProfile?.display_name ?? ''}
-                partnerProfileUrl={partnerProfile?.profile_url ?? null}
-              />
+              {isMessagesError && !messages ? (
+                <ErrorState
+                  message={getErrorMessage(messagesError)}
+                  onRetry={() => refetchMessages()}
+                />
+              ) : (
+                <MessageList
+                  messages={messages ?? []}
+                  roomId={roomId}
+                  currentUserId={user.id}
+                  partnerName={partnerProfile?.display_name ?? ''}
+                  partnerProfileUrl={partnerProfile?.profile_url ?? null}
+                />
+              )}
             </div>
 
             <MessageComposer roomId={roomId} />

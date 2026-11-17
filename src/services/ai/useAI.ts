@@ -8,5 +8,6 @@ export function useGeneratePost() {
     mutationKey: AI_MUTATION_KEYS.generatePost,
     mutationFn: (request: GeneratePostRequest) =>
       servGeneratePostFromImage(request),
+    meta: { errorTitle: 'AI 작성 실패' },
   });
 }

@@ -31,11 +31,6 @@ export function ProfileAvatarUpload({
         toast.success('프로필 사진이 변경되었습니다.');
         router.refresh();
       },
-      onError: () => {
-        toast.error('업로드 실패', {
-          description: '프로필 사진 업로드에 실패했습니다. 다시 시도해주세요.',
-        });
-      },
     });
   }
 

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { dehydrate, HydrationBoundary } from '@tanstack/react-query';
 import getQueryClient from '@/libs/query/query-client';
 import { createServerSupabase } from '@/libs/supabase/server';
@@ -14,6 +15,8 @@ export default async function BoardDetailPage({
 }: BoardDetailPageProps) {
   const { id } = await params;
   const postId = Number(id);
+  if (!Number.isInteger(postId) || postId <= 0) notFound();
+
   const queryClient = getQueryClient();
   const supabase = await createServerSupabase();
 

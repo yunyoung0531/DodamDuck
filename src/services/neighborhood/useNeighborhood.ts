@@ -13,6 +13,7 @@ import type { LocateNeighborhoodResult } from './neighborhood.types';
  *
  * @remarks
  * `mutate()`를 부를 때 위치 권한을 요청하고 경계 파일을 받습니다. 결과에는 좌표가 없습니다.
+ * 실패를 토스트로 알리지 않으므로 화면이 `error`로 사유를 보여 줘야 합니다.
  * @returns React Query mutation. 실패하면 `error`가 `LocationError`이거나 경계 파일 에러입니다
  */
 export function useLocateNeighborhood() {
@@ -30,6 +31,7 @@ export function useLocateNeighborhood() {
         accuracy: position.accuracy,
       };
     },
+    meta: { silent: true },
   });
 }
 
@@ -43,6 +45,7 @@ export function useVerifyNeighborhood() {
 
   return useMutation({
     mutationFn: (regionCode: string) => servVerifyNeighborhood(regionCode),
+    meta: { errorTitle: '동네 인증 실패' },
     onSuccess: () =>
       queryClient.invalidateQueries({
         queryKey: authQueries.currentProfile().queryKey,
