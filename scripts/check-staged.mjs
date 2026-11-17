@@ -35,11 +35,18 @@ const steps = [
     args: ['exec', 'prettier', '--check', '--ignore-unknown'],
     files: staged,
   },
+  // 문서와 코드의 관계를 보는 검사라 스테이징된 파일만이 아니라 레포 전체를 본다
+  {
+    name: 'check-docs',
+    args: ['check:docs'],
+    files: [],
+    isWholeRepo: true,
+  },
 ];
 
 let hasFailure = false;
-for (const { name, args, files } of steps) {
-  if (files.length === 0) continue;
+for (const { name, args, files, isWholeRepo = false } of steps) {
+  if (files.length === 0 && !isWholeRepo) continue;
   const result = spawnSync('pnpm', [...args, ...files], { stdio: 'inherit' });
   if (result.status !== 0) {
     process.stderr.write(`[pre-commit] ${name} 실패\n`);

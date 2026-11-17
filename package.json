@@ -15,6 +15,7 @@
     "format:check": "prettier --check .",
     "prepare": "husky",
     "pr": "node scripts/open-pr.mjs",
+    "check:docs": "node scripts/check-docs.mjs",
     "check:ai-models": "tsx scripts/check-ai-models.ts",
     "propose:ai-models": "tsx scripts/propose-model-replacement.ts",
     "smoke:ai-models": "vitest run --config vitest.smoke.config.mts",
