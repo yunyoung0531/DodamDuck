@@ -1,12 +1,14 @@
 'use client';
 
 import { LoadingState } from '@/components/common/LoadingState';
+import { ErrorState } from '@/components/common/ErrorState';
 import { SharingPostGrid } from '@/components/sharing/SharingPostGrid';
 import {
   SharingEmptyState,
   type SharingEmptyStateActions,
 } from '@/components/sharing/SharingEmptyState';
 import { useSharingSearch } from '@/services/sharing/useSharing';
+import { getErrorMessage } from '@/libs/error-message';
 import { SHARING_CATEGORY } from '@/services/sharing/sharing.types';
 import type { SharingCategory } from '@/services/sharing/sharing.types';
 
@@ -25,7 +27,13 @@ export function SharingSearchResults({
   category,
   emptyActions,
 }: SharingSearchResultsProps) {
-  const { data: results, isLoading } = useSharingSearch(searchTerm);
+  const {
+    data: results,
+    isLoading,
+    isError,
+    error,
+    refetch,
+  } = useSharingSearch(searchTerm);
 
   const posts = results?.filter(
     (post) => category === SHARING_CATEGORY.ALL || post.category === category
@@ -33,6 +41,12 @@ export function SharingSearchResults({
 
   if (isLoading) {
     return <LoadingState />;
+  }
+
+  if (isError && !posts) {
+    return (
+      <ErrorState message={getErrorMessage(error)} onRetry={() => refetch()} />
+    );
   }
 
   if (!posts) {

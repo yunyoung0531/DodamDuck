@@ -4,15 +4,17 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { LoadingState } from '@/components/common/LoadingState';
 import { EmptyState } from '@/components/common/EmptyState';
+import { ErrorState } from '@/components/common/ErrorState';
 import { PageHeader } from '@/components/common/PageHeader';
 import { FloatingActionButton } from '@/components/common/FloatingActionButton';
 import { useBoardList } from '@/services/board/useBoard';
 import { useUser } from '@/services/auth/useUser';
 import { formatTimeSince } from '@/libs/format-date';
+import { getErrorMessage } from '@/libs/error-message';
 
 export default function BoardContents() {
   const { user } = useUser();
-  const { data: posts, isLoading } = useBoardList();
+  const { data: posts, isLoading, isError, error, refetch } = useBoardList();
 
   return (
     <div className="flex justify-center px-4 py-10">
@@ -23,6 +25,13 @@ export default function BoardContents() {
         />
 
         {isLoading && <LoadingState />}
+
+        {isError && !posts && (
+          <ErrorState
+            message={getErrorMessage(error)}
+            onRetry={() => refetch()}
+          />
+        )}
 
         {posts && posts.length > 0 && (
           <div className="flex flex-col gap-4">

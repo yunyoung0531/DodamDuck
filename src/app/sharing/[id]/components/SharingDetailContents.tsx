@@ -14,9 +14,10 @@ import {
 } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
 import { Separator } from '@/components/ui/separator';
-import { Alert, AlertDescription } from '@/components/ui/alert';
 import { LoadingButton } from '@/components/common/LoadingButton';
 import { LoadingState } from '@/components/common/LoadingState';
+import { ErrorState } from '@/components/common/ErrorState';
+import { getErrorMessage, isNotFoundError } from '@/libs/error-message';
 import { CommentSection } from '@/components/common/CommentSection';
 import { PostAuthor } from '@/components/common/PostAuthor';
 import { DeletePostButton } from '@/components/common/DeletePostButton';
@@ -37,7 +38,7 @@ export default function SharingDetailContents() {
   const { user } = useUser();
   const hasIncremented = useRef(false);
 
-  const { data, isLoading } = useSharingDetail(postId);
+  const { data, isLoading, isError, error, refetch } = useSharingDetail(postId);
   const deleteMutation = useDeleteSharingPost();
   const deleteCommentMutation = useDeleteSharingComment(postId);
   const commentMutation = useAddSharingComment();
@@ -55,13 +56,12 @@ export default function SharingDetailContents() {
     return <LoadingState height="lg" />;
   }
 
-  if (!data) {
+  if (isError || !data) {
     return (
-      <div className="flex justify-center pt-10">
-        <Alert variant="destructive" className="max-w-md">
-          <AlertDescription>게시글을 찾을 수 없습니다.</AlertDescription>
-        </Alert>
-      </div>
+      <ErrorState
+        message={getErrorMessage(error)}
+        onRetry={isNotFoundError(error) ? undefined : () => refetch()}
+      />
     );
   }
 
