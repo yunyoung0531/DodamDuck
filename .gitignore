@@ -56,6 +56,9 @@ coverage
 # legacy CRA project
 dodamduck_fe/
 
+# pnpm pr이 만드는 PR 본문 (브랜치마다 다르다)
+.pr-body.md
+
 # 블로그 글 작업물 (humanize-korean 스킬 산출물 포함)
 tistory*.md
 series-map.md
