@@ -27,6 +27,7 @@ export function useCreateBoardPost() {
   return useMutation({
     mutationFn: (request: CreateBoardPostRequest) =>
       servCreateBoardPost(request),
+    meta: { errorTitle: '글 등록 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['board'] });
     },
@@ -38,6 +39,7 @@ export function useDeleteBoardPost() {
 
   return useMutation({
     mutationFn: (postId: number) => servDeleteBoardPost(postId),
+    meta: { errorTitle: '글 삭제 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['board'] });
     },
@@ -49,6 +51,7 @@ export function useIncrementBoardViewCount() {
 
   return useMutation({
     mutationFn: (postId: number) => servIncrementBoardViewCount(postId),
+    meta: { silent: true },
     onSuccess: (_data, postId) => {
       queryClient.invalidateQueries({ queryKey: ['board', 'list'] });
       queryClient.invalidateQueries({
@@ -63,14 +66,12 @@ export function useDeleteBoardComment(postId: number) {
 
   return useMutation({
     mutationFn: (commentId: number) => servDeleteBoardComment(commentId),
+    meta: { errorTitle: '댓글 삭제 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['board', 'detail', postId],
       });
       toast.success('댓글이 삭제되었습니다.');
-    },
-    onError: (error) => {
-      toast.error(`댓글 삭제 실패: ${error.message}`);
     },
   });
 }
@@ -81,6 +82,7 @@ export function useAddBoardComment() {
   return useMutation({
     mutationFn: (request: AddBoardCommentRequest) =>
       servAddBoardComment(request),
+    meta: { errorTitle: '댓글 등록 실패' },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['board', 'detail', variables.postId],

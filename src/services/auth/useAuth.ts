@@ -33,6 +33,7 @@ export function useSignUp() {
 export function useSignOut() {
   return useMutation({
     mutationFn: () => servSignOut(),
+    meta: { errorTitle: '로그아웃 실패' },
   });
 }
 
@@ -56,6 +57,7 @@ export function useUpdateProfileImage() {
 
   return useMutation({
     mutationFn: (file: File) => servUpdateProfileImage(file),
+    meta: { errorTitle: '프로필 사진 업로드 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: authQueries.currentProfile().queryKey,
@@ -76,6 +78,7 @@ export function useUpdateProfile() {
         display_name: request.display_name,
       });
     },
+    meta: { errorTitle: '프로필 수정 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: authQueries.currentProfile().queryKey,

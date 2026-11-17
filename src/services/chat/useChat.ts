@@ -99,6 +99,7 @@ export function useCreateChatRoom() {
 
   return useMutation({
     mutationFn: (request: CreateChatRoomRequest) => servCreateChatRoom(request),
+    meta: { errorTitle: '채팅방을 열지 못했습니다' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['chat'] });
     },
@@ -122,6 +123,7 @@ export function useToggleReaction(roomId: number, currentUserId: string) {
 
   return useMutation({
     mutationFn: (request: ToggleReactionRequest) => servToggleReaction(request),
+    meta: { errorTitle: '리액션 실패' },
 
     onMutate: async (request) => {
       await queryClient.cancelQueries({ queryKey: messagesKey });
@@ -185,6 +187,7 @@ export function useSendMessage() {
 
   return useMutation({
     mutationFn: (request: SendMessageRequest) => servSendMessage(request),
+    meta: { errorTitle: '메시지 전송 실패' },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: chatQueries.messages(variables.roomId).queryKey,

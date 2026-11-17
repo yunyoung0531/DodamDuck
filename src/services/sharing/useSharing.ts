@@ -36,6 +36,7 @@ export function useCreateSharingPost() {
   return useMutation({
     mutationFn: (request: CreateSharingPostRequest) =>
       servCreateSharingPost(request),
+    meta: { errorTitle: '글 등록 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharing'] });
     },
@@ -47,6 +48,7 @@ export function useDeleteSharingPost() {
 
   return useMutation({
     mutationFn: (postId: number) => servDeleteSharingPost(postId),
+    meta: { errorTitle: '글 삭제 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['sharing'] });
     },
@@ -58,6 +60,7 @@ export function useIncrementSharingViewCount() {
 
   return useMutation({
     mutationFn: (postId: number) => servIncrementSharingViewCount(postId),
+    meta: { silent: true },
     onSuccess: (_data, postId) => {
       queryClient.invalidateQueries({ queryKey: ['sharing', 'list'] });
       queryClient.invalidateQueries({
@@ -72,14 +75,12 @@ export function useDeleteSharingComment(postId: number) {
 
   return useMutation({
     mutationFn: (commentId: number) => servDeleteSharingComment(commentId),
+    meta: { errorTitle: '댓글 삭제 실패' },
     onSuccess: () => {
       queryClient.invalidateQueries({
         queryKey: ['sharing', 'detail', postId],
       });
       toast.success('댓글이 삭제되었습니다.');
-    },
-    onError: (error) => {
-      toast.error(`댓글 삭제 실패: ${error.message}`);
     },
   });
 }
@@ -90,6 +91,7 @@ export function useAddSharingComment() {
   return useMutation({
     mutationFn: (request: AddSharingCommentRequest) =>
       servAddSharingComment(request),
+    meta: { errorTitle: '댓글 등록 실패' },
     onSuccess: (_data, variables) => {
       queryClient.invalidateQueries({
         queryKey: ['sharing', 'detail', variables.postId],

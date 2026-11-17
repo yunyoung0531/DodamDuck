@@ -30,6 +30,7 @@ export function useToggleLike() {
 
   return useMutation({
     mutationFn: (postId: number) => servToggleLike(postId),
+    meta: { errorTitle: '좋아요 실패' },
     onMutate: async (postId) => {
       await queryClient.cancelQueries({
         queryKey: likesQueries.userLikedIds().queryKey,
