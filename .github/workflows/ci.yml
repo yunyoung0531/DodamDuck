@@ -3,6 +3,9 @@
 # git 훅(.husky/)은 --no-verify로 건너뛸 수 있어 오타 방지 장치일 뿐이다.
 # 머지 전에 반드시 통과해야 하는 게이트는 이 워크플로다.
 # 빌드는 Vercel이 PR마다 돌리므로 여기서 하지 않는다.
+#
+# 빨리 끝나는 정적 검사와 오래 걸리는 테스트를 다른 작업으로 나눠 동시에 돌린다.
+# 정적 검사가 실패하면 테스트를 기다리지 않고 바로 알 수 있다.
 name: CI
 
 on:
@@ -18,14 +21,15 @@ concurrency:
 permissions:
   contents: read
 
+env:
+  # 커밋 훅은 CI에서 필요 없다
+  HUSKY: '0'
+
 jobs:
-  verify:
-    name: 검사
+  static:
+    name: 정적 검사
     runs-on: ubuntu-latest
     timeout-minutes: 10
-    env:
-      # 커밋 훅은 CI에서 필요 없다
-      HUSKY: '0'
     steps:
       - uses: actions/checkout@v4
         with:
@@ -34,9 +38,32 @@ jobs:
       - uses: ./.github/actions/setup
       - run: pnpm type-check
       - run: pnpm lint
-      - run: pnpm test:run
       - run: pnpm format:check
       - run: pnpm check:docs
       - name: 커밋 제목 검사
         if: github.event_name == 'pull_request'
         run: pnpm exec commitlint --from "origin/${{ github.base_ref }}" --to "${{ github.event.pull_request.head.sha }}"
+
+  test:
+    name: 테스트
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - uses: ./.github/actions/setup
+      - run: pnpm test:run
+
+  # main 보호 규칙이 "검사"라는 이름의 체크를 필수로 요구한다. 두 작업의 결과를 이 이름으로 모아 보고한다.
+  # 이름을 바꾸거나 이 작업을 지우면 규칙이 기다리는 체크가 오지 않아 PR을 머지할 수 없다.
+  verify:
+    name: 검사
+    needs: [static, test]
+    if: ${{ !cancelled() }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - name: 정적 검사와 테스트 결과 확인
+        if: needs.static.result != 'success' || needs.test.result != 'success'
+        run: |
+          echo "정적 검사: ${{ needs.static.result }}, 테스트: ${{ needs.test.result }}"
+          exit 1
