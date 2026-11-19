@@ -22,6 +22,7 @@ jobs:
   verify:
     name: 검사
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     env:
       # 커밋 훅은 CI에서 필요 없다
       HUSKY: '0'
