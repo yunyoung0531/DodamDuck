@@ -4,7 +4,7 @@ import { Suspense, useState } from 'react';
 import { useRouter, useSearchParams } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { useForm, Controller } from 'react-hook-form';
+import { useForm, useWatch, Controller } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { Label } from '@/components/ui/label';
 import { Checkbox } from '@/components/ui/checkbox';
@@ -42,7 +42,6 @@ function SignupContent() {
     register,
     handleSubmit,
     control,
-    watch,
     formState: { errors },
   } = useForm<SignupForm>({
     resolver: zodResolver(signupSchema),
@@ -53,7 +52,7 @@ function SignupContent() {
     },
   });
 
-  const userIDValue = watch('userID');
+  const userIDValue = useWatch({ control, name: 'userID' });
 
   async function handleCheckID() {
     if (!userIDValue) return;
