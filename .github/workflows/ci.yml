@@ -37,7 +37,8 @@ jobs:
           fetch-depth: 0
       - uses: ./.github/actions/setup
       - run: pnpm type-check
-      - run: pnpm lint
+      # 새 경고가 생기지 않게 지금 경고 개수를 상한으로 둔다. 경고가 줄면 이 숫자도 낮춘다. 그대로 두면 줄어든 만큼 다시 늘어날 수 있다.
+      - run: pnpm lint --max-warnings 23
       - run: pnpm format:check
       - run: pnpm check:docs
       - name: 커밋 제목 검사
