@@ -38,14 +38,14 @@ export default function BoardDetailContents() {
   const deleteMutation = useDeleteBoardPost();
   const deleteCommentMutation = useDeleteBoardComment(postId);
   const commentMutation = useAddBoardComment();
-  const incrementView = useIncrementBoardViewCount();
+  const { mutate: incrementView } = useIncrementBoardViewCount();
 
   useEffect(() => {
     if (!hasIncremented.current) {
       hasIncremented.current = true;
-      incrementView.mutate(postId);
+      incrementView(postId);
     }
-  }, [postId]);
+  }, [postId, incrementView]);
 
   if (isLoading) {
     return <LoadingState height="lg" />;
