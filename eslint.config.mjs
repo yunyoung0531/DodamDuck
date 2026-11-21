@@ -53,12 +53,18 @@ const eslintConfig = defineConfig([
   },
   {
     // 테스트는 describe 블록이 길고 픽스처에서 상대 경로를 쓴다.
-    files: ['src/__tests__/**/*.{ts,tsx}', 'src/**/*.test.{ts,tsx}'],
+    files: [
+      'src/__tests__/**/*.{ts,tsx}',
+      'src/**/*.test.{ts,tsx}',
+      'src/vitest.setup.tsx',
+    ],
     rules: {
       'no-console': 'off',
       'no-restricted-imports': 'off',
       'max-lines': 'off',
       'max-lines-per-function': 'off',
+      // next/image를 테스트에서 <img>로 바꿔치는 가짜 컴포넌트가 있다
+      '@next/next/no-img-element': 'off',
     },
   },
   globalIgnores(['.next/**', 'out/**', 'build/**', 'next-env.d.ts']),
