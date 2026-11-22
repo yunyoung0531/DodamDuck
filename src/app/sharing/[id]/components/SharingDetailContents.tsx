@@ -43,14 +43,14 @@ export default function SharingDetailContents() {
   const deleteCommentMutation = useDeleteSharingComment(postId);
   const commentMutation = useAddSharingComment();
   const createChatRoom = useCreateChatRoom();
-  const incrementView = useIncrementSharingViewCount();
+  const { mutate: incrementView } = useIncrementSharingViewCount();
 
   useEffect(() => {
     if (!hasIncremented.current) {
       hasIncremented.current = true;
-      incrementView.mutate(postId);
+      incrementView(postId);
     }
-  }, [postId]);
+  }, [postId, incrementView]);
 
   if (isLoading) {
     return <LoadingState height="lg" />;
