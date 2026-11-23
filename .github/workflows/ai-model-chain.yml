@@ -128,12 +128,10 @@ jobs:
           git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
           git checkout -b "$BRANCH"
           git add src/services/ai/model-chain.ts
-          git commit \
-            -m "chore(ai): 내려간 무료 모델을 살아있는 모델로 교체" \
-            -m "공급자가 무료 제공을 멈춘 모델을 체인에서 빼고, 실제 이미지로 호출해 게시글 생성까지 확인한 모델로 바꿉니다. 자동 생성된 PR입니다."
+          git commit -m "chore: 내려간 무료 AI 모델 교체"
           git push origin "$BRANCH"
           gh pr create \
-            --title "chore(ai): 내려간 무료 모델 교체" \
+            --title "chore: 내려간 무료 AI 모델 교체" \
             --body-file .ai-model-pr-body.md \
             --base "${{ github.event.repository.default_branch }}" \
             --head "$BRANCH" \
